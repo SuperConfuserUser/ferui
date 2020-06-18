@@ -3,7 +3,7 @@
   "version": "0.0.32",
   "requiredAngularVersion": ">=7.1.0 <8.0.0",
   "author": "iLand cloud",
-  "bugs": "https://github.com/ilanddev/ferui/issues",
+  "bugs": "http://issues.iland.test/projects/FER/issues",
   "keywords": [
     "angular",
     "javascript",
@@ -30,7 +30,7 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ilanddev/ferui.git"
+    "url": "http://git.iland.test/scm/fer/ferui.git"
   },
   "scripts": {
     "clean": "del ./dist",
@@ -129,7 +129,7 @@
     "jasmine-expect": "^3.8.4",
     "jasmine-spec-reporter": "^4.2.1",
     "js-beautify": "^1.10.0",
-    "karma": "^4.4.1",
+    "karma": "^5.1.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage-istanbul-reporter": "^2.0.4",
     "karma-htmlfile-reporter": "^0.3.7",
@@ -140,7 +140,7 @@
     "karma-notify-reporter": "^1.0.1",
     "karma-scss-preprocessor": "^3.0.0",
     "lite-server": "^2.4.0",
-    "netlify-cli": "^2.19.5",
+    "netlify-cli": "^2.54.0",
     "ng-dynamic": "^3.0.2",
     "ng-dynamic-component": "^4.0.0",
     "ng-packagr": "^4.4.5",
