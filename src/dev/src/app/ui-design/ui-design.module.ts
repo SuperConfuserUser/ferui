@@ -8,10 +8,17 @@ import { UiDesignGetStartedComponent } from './get-started/get-started.component
 import { UiDesignLandingComponent } from './ui-design-landing.component';
 import { UiDesignSpacingsComponent } from './spacings/spacings.component';
 import { UiDesignGridComponent } from './grid/grid.component';
+import { UiDesignButtonsComponent } from './buttons/buttons.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, UiDesignRoutingModule, ClrIconModule, FeruiModule, HighlightModule],
-  declarations: [UiDesignGetStartedComponent, UiDesignSpacingsComponent, UiDesignGridComponent, UiDesignLandingComponent],
-  exports: [UiDesignGetStartedComponent, UiDesignSpacingsComponent, UiDesignGridComponent]
+  declarations: [
+    UiDesignGetStartedComponent,
+    UiDesignSpacingsComponent,
+    UiDesignGridComponent,
+    UiDesignLandingComponent,
+    UiDesignButtonsComponent
+  ],
+  exports: [UiDesignGetStartedComponent, UiDesignSpacingsComponent, UiDesignGridComponent, UiDesignButtonsComponent]
 })
 export class UiDesignModule {}

@@ -289,8 +289,8 @@
 
           &:first-of-type {
             .ng-select-container {
-              border-top-left-radius: $default-radius-value;
-              border-bottom-left-radius: $default-radius-value;
+              border-top-left-radius: $border-radius;
+              border-bottom-left-radius: $border-radius;
             }
 
             &.ng-select-focused,
@@ -312,8 +312,8 @@
           &:last-of-type {
             .ng-select-container {
               border-right: 1px solid $gray-300;
-              border-top-right-radius: $default-radius-value;
-              border-bottom-right-radius: $default-radius-value;
+              border-top-right-radius: $border-radius;
+              border-bottom-right-radius: $border-radius;
             }
 
             &.ng-select-focused,

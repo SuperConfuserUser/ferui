@@ -10,7 +10,7 @@
   //Other Props
   color: inherit;
   border: none;
-  border-radius: $fui-default-borderradius;
+  border-radius: $border-radius;
   background: none;
   cursor: pointer;
   line-height: $fui-calendar-click-target;
@@ -75,7 +75,7 @@
     //Other Props
     background: $fui-calendar-background-color;
     border: 1px solid $fui-calendar-border-color;
-    border-radius: $fui-default-borderradius;
+    border-radius: $border-radius;
     box-shadow: 0 4px 6px 0 rgba(54, 71, 82, 0.12);
     overflow: hidden;
     z-index: $zindex-popover;
@@ -225,7 +225,7 @@
 
     &:hover {
       color: $blue !important;
-      border-radius: $default-radius-value;
+      border-radius: $border-radius;
       background-color: $gray-200;
     }
   }
