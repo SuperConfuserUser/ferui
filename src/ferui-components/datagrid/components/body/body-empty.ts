@@ -13,7 +13,7 @@ import { Component, Input, TemplateRef } from '@angular/core';
       <clr-icon class="fui-body-empty-icon-ico" shape="fui-empty"></clr-icon>
     </ng-template>
     <ng-template #defaultEmptyMessageTplt>
-      <span>No results founds</span>
+      <span>No results found</span>
     </ng-template>
   `,
   host: {
