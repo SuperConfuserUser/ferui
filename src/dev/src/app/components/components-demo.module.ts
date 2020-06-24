@@ -16,6 +16,7 @@ import { TreeViewDemoModule } from './tree-view/tree-view.module';
 import { WidgetDemoModule } from './widget/widget.module';
 import { TabsDemoModule } from './tabs/tabs.module';
 import { VirtualScrollerModule } from './virtual-scroller/virtual-scroller.module';
+import { ToastNotificationDemoModule } from './toast-notification/toast-notification-module';
 
 export const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [ComponentsDashboardComponent, ComponentsLandingComponent];
 
@@ -33,7 +34,8 @@ export const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [ComponentsDashboardC
     TreeViewDemoModule,
     WidgetDemoModule,
     TabsDemoModule,
-    VirtualScrollerModule
+    VirtualScrollerModule,
+    ToastNotificationDemoModule
   ],
   declarations: [FUI_DEMO_COMPONENTS_DIRECTIVES],
   exports: [FUI_DEMO_COMPONENTS_DIRECTIVES]
