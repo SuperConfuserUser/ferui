@@ -526,8 +526,4 @@ $container-max-widths: (
   md: 720px,
   lg: 960px
 );`);
-  exampleCode36: string = jsBeautify.html(``);
-  exampleCode37: string = jsBeautify.html(``);
-  exampleCode38: string = jsBeautify.html(``);
-  exampleCode39: string = jsBeautify.html(``);
 }

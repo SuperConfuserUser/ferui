@@ -4,6 +4,7 @@ import { UiDesignLandingComponent } from './ui-design-landing.component';
 import { UiDesignGetStartedComponent } from './get-started/get-started.component';
 import { UiDesignSpacingsComponent } from './spacings/spacings.component';
 import { UiDesignGridComponent } from './grid/grid.component';
+import { UiDesignButtonsComponent } from './buttons/buttons.component';
 
 export const UI_DESIGN_ROUTES: Routes = [
   {
@@ -13,6 +14,7 @@ export const UI_DESIGN_ROUTES: Routes = [
       { path: '', redirectTo: 'get-started', pathMatch: 'full' },
       { path: 'get-started', component: UiDesignGetStartedComponent },
       { path: 'grid', component: UiDesignGridComponent },
+      { path: 'buttons', component: UiDesignButtonsComponent },
       { path: 'spacings', component: UiDesignSpacingsComponent }
     ]
   }

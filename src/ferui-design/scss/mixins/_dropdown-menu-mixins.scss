@@ -11,8 +11,8 @@
 
   //Other
   background: $fui-dropdown-bg-color;
-  border: $fui-default-borderwidth solid $fui-dropdown-border-color;
-  border-radius: $default-radius-value;
+  border: $border-width solid $fui-dropdown-border-color;
+  border-radius: $border-radius;
   box-shadow: 0 4px 6px 0 $fui-dropdown-box-shadow;
 
   margin-top: 0.083333rem; // 1.333328px

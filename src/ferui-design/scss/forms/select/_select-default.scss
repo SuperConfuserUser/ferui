@@ -189,7 +189,7 @@
 
         .ng-select-container {
           background-color: $white;
-          border-radius: $default-radius-value;
+          border-radius: $border-radius;
           border: 1px solid $gray-300;
           min-height: $default-control-height;
           align-items: center;
@@ -419,16 +419,16 @@
 
     &.ng-select-bottom {
       top: 100%;
-      border-bottom-right-radius: $default-radius-value;
-      border-bottom-left-radius: $default-radius-value;
+      border-bottom-right-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
       border-top-color: $gray-300;
       margin-top: -1px;
 
       .ng-dropdown-panel-items {
         .ng-option {
           &:last-child {
-            border-bottom-right-radius: $default-radius-value;
-            border-bottom-left-radius: $default-radius-value;
+            border-bottom-right-radius: $border-radius;
+            border-bottom-left-radius: $border-radius;
           }
         }
       }
@@ -436,16 +436,16 @@
 
     &.ng-select-top {
       bottom: 100%;
-      border-top-right-radius: $default-radius-value;
-      border-top-left-radius: $default-radius-value;
+      border-top-right-radius: $border-radius;
+      border-top-left-radius: $border-radius;
       border-bottom-color: $gray-300;
       margin-bottom: -1px;
 
       .ng-dropdown-panel-items {
         .ng-option {
           &:first-child {
-            border-top-right-radius: $default-radius-value;
-            border-top-left-radius: $default-radius-value;
+            border-top-right-radius: $border-radius;
+            border-top-left-radius: $border-radius;
           }
         }
       }
@@ -502,13 +502,13 @@
         color: $gray-900;
         padding: 2px 0.625rem;
         margin: 0 10px;
-        border-radius: $default-radius-value;
+        border-radius: $border-radius;
 
         .ng-option-label {
           padding: 3px 0;
           display: inline-block;
           width: 100%;
-          border-radius: $default-radius-value;
+          border-radius: $border-radius;
           color: $gray-900;
         }
 
