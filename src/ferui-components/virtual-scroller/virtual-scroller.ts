@@ -603,11 +603,11 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
 
   protected debounce(func: Function, wait: number): CancelableFunction {
     const throttled = this.throttleTrailing(func, wait);
-    const result = function() {
+    const result = function () {
       throttled.cancel();
       throttled.apply(this, arguments);
     };
-    result.cancel = function() {
+    result.cancel = function () {
       throttled.cancel();
     };
 
@@ -617,7 +617,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   protected throttleTrailing(func: Function, wait: number): CancelableFunction {
     let timeout;
     let _arguments = arguments;
-    const result = function() {
+    const result = function () {
       _arguments = arguments;
 
       if (timeout) {
@@ -627,13 +627,13 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       if (wait <= 0) {
         func.apply(this, _arguments);
       } else {
-        timeout = setTimeout(function() {
+        timeout = setTimeout(function () {
           timeout = undefined;
           func.apply(this, _arguments);
         }, wait);
       }
     };
-    result.cancel = function() {
+    result.cancel = function () {
       if (timeout) {
         clearTimeout(timeout);
         timeout = undefined;

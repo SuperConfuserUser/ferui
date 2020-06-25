@@ -493,9 +493,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
     let rejectFn;
     const wrappedPromise: WrappedPromise<any> = new Promise<any>((resolve, reject) => {
       rejectFn = reject;
-      Promise.resolve(promise)
-        .then(resolve)
-        .catch(reject);
+      Promise.resolve(promise).then(resolve).catch(reject);
     }) as WrappedPromise<any>;
     wrappedPromise.cancel = () => {
       rejectFn({ canceled: true });

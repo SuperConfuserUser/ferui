@@ -40,7 +40,7 @@ import { isArray } from 'util';
         </div>
       </div>
     </div>
-  `,
+  `
 })
 export class DefaultTemplateContent {
   @Input() disabled: boolean;
@@ -58,13 +58,13 @@ export class DefaultTemplateContent {
         for (const n of name) {
           results.push({
             'field-name': n,
-            value: models[n],
+            value: models[n]
           });
         }
       } else {
         results.push({
           'field-name': name,
-          value: models[name],
+          value: models[name]
         });
       }
     }

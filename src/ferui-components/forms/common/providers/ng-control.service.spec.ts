@@ -1,8 +1,8 @@
 import { FormControl } from '@angular/forms';
 import { NgControlService } from './ng-control.service';
 
-export default function(): void {
-  describe('NgControlService', function() {
+export default function (): void {
+  describe('NgControlService', function () {
     let service, testControl;
 
     beforeEach(() => {

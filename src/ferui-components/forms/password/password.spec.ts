@@ -12,9 +12,7 @@ import { FuiPassword } from './password';
 import { FuiPasswordContainer } from './password-container';
 
 @Component({
-  template: `
-    <input type="password" fuiPassword />
-  `
+  template: ` <input type="password" fuiPassword /> `
 })
 class InvalidUseTest {}
 
@@ -42,7 +40,7 @@ class ReactiveTest {
   });
 }
 
-export default function(): void {
+export default function (): void {
   describe('FuiPassword', () => {
     describe('invalid use', () => {
       it('should throw an error when used without a password container', () => {

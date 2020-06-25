@@ -66,10 +66,9 @@ const date4: Date = new Date('2019-03-11 17:07:00');
         >
           <h5 #title>Default date input. Returning a string.</h5>
           <p #description>
-            Note that the component will format the chosen date using Angular locale. <br />For instance : <br />if the
-            locale is <code>en</code>, then the string will be formatted like
-            <span class="font-weight-bold">'MM/DD/YYYY'</span>, <br />if the locale is <code>fr</code> the string will
-            looks like <span class="font-weight-bold">'DD/MM/YYYY'</span>
+            Note that the component will format the chosen date using Angular locale. <br />For instance : <br />if the locale is
+            <code>en</code>, then the string will be formatted like <span class="font-weight-bold">'MM/DD/YYYY'</span>, <br />if
+            the locale is <code>fr</code> the string will looks like <span class="font-weight-bold">'DD/MM/YYYY'</span>
           </p>
           <fui-date-container>
             <label>Date</label>
@@ -121,9 +120,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
           [idx]="4"
           [resultModelNames]="'ten'"
         >
-          <h5 #title>
-            Default date input. <code>Without container nor wrapper</code>. This control has no ngControl bounding.
-          </h5>
+          <h5 #title>Default date input. <code>Without container nor wrapper</code>. This control has no ngControl bounding.</h5>
           <input name="ten" type="date" (fuiDateChange)="dateChange($event, 'ten')" [fuiDate]="modelTypeDate" />
         </default-template-content>
 
@@ -165,8 +162,8 @@ const date4: Date = new Date('2019-03-11 17:07:00');
         >
           <h5 #title>Default time input. Returning a string</h5>
           <p #description>
-            The time input has the same behaviour than the date input. Both can return a string or Date object depending on
-            the return value chosen. By default the input return a locale dependent formatted string.
+            The time input has the same behaviour than the date input. Both can return a string or Date object depending on the
+            return value chosen. By default the input return a locale dependent formatted string.
           </p>
           <fui-time-container>
             <input type="time" step="1" name="three" fuiTime [(ngModel)]="model.three" />
@@ -283,8 +280,8 @@ const date4: Date = new Date('2019-03-11 17:07:00');
         >
           <h5 #title>Default datetime input filled with date object. Returning a Date object.</h5>
           <p #description>
-            This component is a combination of the two above. It works the same and you also can decide which kind of
-            returning type you want (Date or string).
+            This component is a combination of the two above. It works the same and you also can decide which kind of returning
+            type you want (Date or string).
           </p>
           <fui-datetime-container>
             <input type="datetime-local" name="seven" [fuiDatetime]="modelTypeDate" [(ngModel)]="model.seven" />
@@ -374,7 +371,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
         <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
       </div>
     </form>
-  `,
+  `
 })
 export class DatetimeComponent extends AbstractControlDemoComponent implements OnInit {
   fuiFormLayoutEnum = FuiFormLayoutEnum;
@@ -396,7 +393,7 @@ export class DatetimeComponent extends AbstractControlDemoComponent implements O
     thirteen: null,
     fourteen: null,
     fifteen: null,
-    sixteen: null,
+    sixteen: null
   };
 
   modelTypeDate = FuiDatetimeModelTypes.DATE;
@@ -461,7 +458,7 @@ export class DatetimeComponent extends AbstractControlDemoComponent implements O
   <label>My date input</label>
   <input [layout]="fuiFormLayoutEnum.SMALL" type="date" placeholder="Small layout" name="sixteen" 
          [fuiDatetime]="modelTypeDate" [(ngModel)]="model.sixteen"/>
-</fui-date-container>`,
+</fui-date-container>`
   ];
 
   constructor(@Inject(LOCALE_ID) public locale: string) {

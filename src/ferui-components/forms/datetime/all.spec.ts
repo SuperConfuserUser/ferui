@@ -3,15 +3,15 @@ import DatetimeFormControlServiceSpecs from './providers/datetime-form-control.s
 import DatetimeContainerSpecs from './datetime-container.spec';
 import { addHelpers } from '../tests/helpers.spec';
 
-describe('Datetime Input', function() {
+describe('Datetime Input', function () {
   addHelpers();
 
-  describe('Providers', function() {
+  describe('Providers', function () {
     DatetimeIOServiceSpecs();
     DatetimeFormControlServiceSpecs();
   });
 
-  describe('Components', function() {
+  describe('Components', function () {
     DatetimeContainerSpecs();
   });
 });

@@ -3,7 +3,7 @@ import { ItemsList } from './items-list';
 import { NgSelectComponent } from './ng-select.component';
 import { DefaultSelectionModel } from './selection-model';
 
-export default function(): void {
+export default function (): void {
   describe('ItemsList', () => {
     describe('select', () => {
       describe('single', () => {

@@ -32,7 +32,7 @@ export class FeruiUtils {
       // taken from https://github.com/ag-grid/ag-grid/issues/550
       this.isSafari =
         Object.prototype.toString.call(anyWindow.HTMLElement).indexOf('Constructor') > 0 ||
-        (function(p) {
+        (function (p) {
           return p ? p.toString() === '[object SafariRemoteNotification]' : false;
         })(!anyWindow.safari || anyWindow.safari.pushNotification);
     }
@@ -49,7 +49,7 @@ export class FeruiUtils {
     let timeout: any;
 
     // Calling debounce returns a new anonymous function
-    return function(...args: any[]) {
+    return function (...args: any[]) {
       // reference the context and args for the setTimeout function
       // tslint:disable-next-line
       const context = this;
@@ -65,7 +65,7 @@ export class FeruiUtils {
       window.clearTimeout(timeout);
 
       // Set the new timeout
-      timeout = window.setTimeout(function() {
+      timeout = window.setTimeout(function () {
         // Inside the timeout function, clear the timeout variable
         // which will let the next execution run when in 'immediate' mode
         timeout = null;
@@ -162,13 +162,7 @@ export class FeruiUtils {
     // Math.random should be unique because of its seeding algorithm.
     // Convert it to base 36 (numbers + letters), and grab the first 9 characters
     // after the decimal.
-    return (
-      prefix +
-      '-' +
-      Math.random()
-        .toString(36)
-        .substr(2, 9)
-    );
+    return prefix + '-' + Math.random().toString(36).substr(2, 9);
   }
 
   static iterateObject<T>(object: { [p: string]: T } | T[] | undefined, callback: (key: string, value: T) => void) {
@@ -192,7 +186,7 @@ export class FeruiUtils {
   static assign(object: any, ...sources: any[]): any {
     sources.forEach(source => {
       if (this.exists(source)) {
-        this.iterateObject(source, function(key: string, value: any) {
+        this.iterateObject(source, function (key: string, value: any) {
           object[key] = value;
         });
       }

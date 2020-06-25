@@ -26,7 +26,7 @@ import { IfErrorService } from '../common/if-error/if-error.service';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
-export default function() {
+export default function () {
   describe('Date Input Component', () => {
     let context: TestContext<FuiDate, TestComponent>;
     let enabledService: MockDatepickerEnabledService;
@@ -44,7 +44,7 @@ export default function() {
     }
 
     describe('Basics', () => {
-      beforeEach(function() {
+      beforeEach(function () {
         TestBed.overrideComponent(FuiDateContainer, {
           set: {
             providers: [{ provide: DatepickerEnabledService, useClass: MockDatepickerEnabledService }]
@@ -226,7 +226,7 @@ export default function() {
       let dateContainerDebugElement: DebugElement;
       let dateInputDebugElement: DebugElement;
 
-      beforeEach(function() {
+      beforeEach(function () {
         TestBed.configureTestingModule({
           imports: [FormsModule, FuiDateModule, FuiDatepickerModule],
           declarations: [TestComponentWithNgModel]
@@ -313,7 +313,7 @@ export default function() {
       let dateContainerDebugElement: DebugElement;
       let dateInputDebugElement: DebugElement;
 
-      beforeEach(function() {
+      beforeEach(function () {
         TestBed.configureTestingModule({
           imports: [ReactiveFormsModule, FuiDateModule, FuiDatepickerModule],
           declarations: [TestComponentWithReactiveForms]
@@ -392,7 +392,7 @@ export default function() {
       let fixture: ComponentFixture<TestComponentWithTemplateDrivenForms>;
       let dateContainerDebugElement: DebugElement;
 
-      beforeEach(function() {
+      beforeEach(function () {
         TestBed.configureTestingModule({
           imports: [FormsModule, FuiDateModule, FuiDatepickerModule],
           declarations: [TestComponentWithTemplateDrivenForms]
@@ -458,9 +458,7 @@ export default function() {
 }
 
 @Component({
-  template: `
-    <input type="date" fuiDate (fuiDateChange)="dateChanged($event)" class="test-class" />
-  `
+  template: ` <input type="date" fuiDate (fuiDateChange)="dateChanged($event)" class="test-class" /> `
 })
 class TestComponent {
   date: Date;

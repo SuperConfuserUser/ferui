@@ -3,7 +3,7 @@ import { DATEPICKER_ENABLE_BREAKPOINT } from '../../../utils/breakpoints/breakpo
 
 import { DatepickerEnabledService } from './datepicker-enabled.service';
 
-export default function() {
+export default function () {
   // IE doesn't handle userAgent spies
   // @TODO Investigate if we care about IE here
   describeIgnore(['ie'], 'Datepicker Enabled Service', () => {

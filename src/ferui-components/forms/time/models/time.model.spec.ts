@@ -2,8 +2,8 @@ import { assertEqualDates, assertEqualTimes } from '../../datepicker/utils/test-
 
 import { TimeModel } from './time.model';
 
-export default function(): void {
-  describe('TimeModel', function() {
+export default function (): void {
+  describe('TimeModel', function () {
     const timeModel1: TimeModel = new TimeModel(10, 0, 0);
     const timeModel2: TimeModel = new TimeModel(20, 10, 0);
     const timeModel3: TimeModel = new TimeModel(5, 30, 20);

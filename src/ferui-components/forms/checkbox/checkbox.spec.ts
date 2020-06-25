@@ -6,16 +6,12 @@ import { FuiCheckbox } from './checkbox';
 import { FuiCheckboxWrapper } from './checkbox-wrapper';
 
 @Component({
-  template: `
-    <input type="checkbox" fuiCheckbox />
-  `
+  template: ` <input type="checkbox" fuiCheckbox /> `
 })
 class StandaloneUseTest {}
 
 @Component({
-  template: `
-    <input type="checkbox" fuiCheckbox name="model" class="test-class" [(ngModel)]="model" />
-  `
+  template: ` <input type="checkbox" fuiCheckbox name="model" class="test-class" [(ngModel)]="model" /> `
 })
 class TemplateDrivenTest {}
 
@@ -32,7 +28,7 @@ class ReactiveTest {
   });
 }
 
-export default function(): void {
+export default function (): void {
   describe('FuiCheckbox directive', () => {
     ControlStandaloneSpec(StandaloneUseTest);
     TemplateDrivenSpec(FuiCheckboxWrapper, FuiCheckbox, TemplateDrivenTest, 'fui-checkbox');

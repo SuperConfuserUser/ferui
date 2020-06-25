@@ -11,7 +11,7 @@ import {
   ComponentFactory,
   OnInit,
   ViewChildren,
-  QueryList,
+  QueryList
 } from '@angular/core';
 import { FeruiModule } from '@ferui/components';
 import { FormsModule, NgControl, NgForm, NgModel } from '@angular/forms';
@@ -110,7 +110,7 @@ import { WINDOW_PROVIDERS } from '../services/window.service';
         <pre *ngIf="!codeHidden"><code [languages]="['xml']" [highlight]="codeBlock"></code></pre>
       </div>
     </div>
-  `,
+  `
 })
 export class DemoComponent implements OnInit {
   @Input() componentData: DemoComponentData;
@@ -190,7 +190,7 @@ export class DemoComponent implements OnInit {
       if (modelName) {
         results.push({
           'field-name': modelName,
-          value: models[modelName],
+          value: models[modelName]
         });
       }
     }
@@ -214,7 +214,7 @@ export class DemoComponent implements OnInit {
   private compileTemplate(template, componentClass?: any) {
     const metadata = {
       selector: `runtime-component-sample`,
-      template: template,
+      template: template
     };
     const factory = this.createComponentFactorySync(this._compiler, metadata, componentClass);
     if (this._componentRef) {
@@ -231,7 +231,7 @@ export class DemoComponent implements OnInit {
     @NgModule({
       imports: [BrowserAnimationsModule, CommonModule, FormsModule, IconsModule, FeruiModule],
       declarations: [decoratedCmp],
-      providers: [WINDOW_PROVIDERS],
+      providers: [WINDOW_PROVIDERS]
     })
     class RuntimeComponentModule {}
 

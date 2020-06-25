@@ -7,9 +7,7 @@ import { FuiRadioWrapper } from './radio-wrapper';
 import { FuiRadio } from './radio';
 
 @Component({
-  template: `
-    <fui-radio-container></fui-radio-container>
-  `
+  template: ` <fui-radio-container></fui-radio-container> `
 })
 class NoLabelTest {}
 
@@ -60,7 +58,7 @@ class ReactiveTest {
   });
 }
 
-export default function(): void {
+export default function (): void {
   describe('FuiRadioContainer', () => {
     ContainerNoLabelSpec(FuiRadioContainer, [FuiRadio, FuiRadioWrapper], NoLabelTest);
     TemplateDrivenSpec(FuiRadioContainer, [FuiRadio, FuiRadioWrapper], TemplateDrivenTest, '.fui-radio-wrapper [fuiRadio]');

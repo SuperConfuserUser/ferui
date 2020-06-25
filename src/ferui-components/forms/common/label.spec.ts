@@ -8,61 +8,47 @@ import { RequiredControlService } from './providers/required-control.service';
 import { PlaceholderService } from './providers/placeholder.service';
 
 @Component({
-  template: `
-    <label></label>
-  `
+  template: ` <label></label> `
 })
 class NoForTest {}
 
 @Component({
-  template: `
-    <label for="hello"></label>
-  `
+  template: ` <label for="hello"></label> `
 })
 class ExplicitForTest {}
 
 @Component({
-  template: `
-    <div><label for="hello"></label></div>
-  `,
+  template: ` <div><label for="hello"></label></div> `,
   providers: [ControlIdService]
 })
 class ContainerizedTest {}
 
 @Component({
-  template: `
-    <div><label for="hello"></label></div>
-  `,
+  template: ` <div><label for="hello"></label></div> `,
   providers: [NgControlService]
 })
 class WrapperTest {}
 
 @Component({
-  template: `
-    <label for="hello" class="existing-class"></label>
-  `
+  template: ` <label for="hello" class="existing-class"></label> `
 })
 class ExistingGridTest {}
 
 @Component({
-  template: `
-    <div><label for="hello"></label></div>
-  `,
+  template: ` <div><label for="hello"></label></div> `,
   providers: [NgControlService]
 })
 class RequiredTest {}
 
 @Component({
-  template: `
-    <div><label></label></div>
-  `,
+  template: ` <div><label></label></div> `,
   providers: [NgControlService]
 })
 class PlaceholderTest {}
 
-export default function(): void {
+export default function (): void {
   describe('FuiLabel', () => {
-    it("doesn't crash if it is not used in an Angular form", function() {
+    it("doesn't crash if it is not used in an Angular form", function () {
       TestBed.configureTestingModule({ declarations: [FuiLabel, NoForTest] });
       expect(() => {
         const fixture = TestBed.createComponent(NoForTest);
@@ -70,14 +56,14 @@ export default function(): void {
       }).not.toThrow();
     });
 
-    it("doesn't set the class unless its inside of a container", function() {
+    it("doesn't set the class unless its inside of a container", function () {
       TestBed.configureTestingModule({ declarations: [FuiLabel, NoForTest] });
       const fixture = TestBed.createComponent(NoForTest);
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('fui-control-label')).toBeFalse();
     });
 
-    it('does set the the class when its inside of a container', function() {
+    it('does set the the class when its inside of a container', function () {
       TestBed.configureTestingModule({
         declarations: [FuiLabel, ContainerizedTest]
       });
@@ -86,7 +72,7 @@ export default function(): void {
       expect(fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('fui-control-label')).toBeTrue();
     });
 
-    it('does set the class when its inside of a wrapper', function() {
+    it('does set the class when its inside of a wrapper', function () {
       TestBed.configureTestingModule({
         declarations: [FuiLabel, WrapperTest]
       });
@@ -95,7 +81,7 @@ export default function(): void {
       expect(fixture.debugElement.query(By.css('label')).nativeElement.classList.contains('fui-control-label')).toBeTrue();
     });
 
-    it('does set the required star when control is set required.', function() {
+    it('does set the required star when control is set required.', function () {
       TestBed.configureTestingModule({
         declarations: [FuiLabel, RequiredTest],
         providers: [ControlIdService, RequiredControlService]
@@ -111,7 +97,7 @@ export default function(): void {
       expect(requiredStar).not.toBeNull();
     });
 
-    it('does set the placeholder within the label.', function() {
+    it('does set the placeholder within the label.', function () {
       TestBed.configureTestingModule({
         declarations: [FuiLabel, PlaceholderTest],
         providers: [ControlIdService, PlaceholderService]
@@ -127,7 +113,7 @@ export default function(): void {
       expect(placeholder).not.toBeNull();
     });
 
-    it('sets the for attribute to the id given by the service', function() {
+    it('sets the for attribute to the id given by the service', function () {
       TestBed.configureTestingModule({ declarations: [FuiLabel, NoForTest], providers: [ControlIdService] });
       const fixture = TestBed.createComponent(NoForTest);
       fixture.detectChanges();
@@ -139,7 +125,7 @@ export default function(): void {
       expect(label.getAttribute('for')).toBe('test');
     });
 
-    it('leaves the grid classes untouched if they exist', function() {
+    it('leaves the grid classes untouched if they exist', function () {
       TestBed.configureTestingModule({ declarations: [FuiLabel, ExistingGridTest], providers: [ControlIdService] });
       const fixture = TestBed.createComponent(ExistingGridTest);
       fixture.detectChanges();
@@ -147,7 +133,7 @@ export default function(): void {
       expect(label.className).toContain('existing-class');
     });
 
-    it('leaves the for attribute untouched if it exists', function() {
+    it('leaves the for attribute untouched if it exists', function () {
       TestBed.configureTestingModule({ declarations: [FuiLabel, ExplicitForTest], providers: [ControlIdService] });
       const fixture = TestBed.createComponent(ExplicitForTest);
       fixture.detectChanges();

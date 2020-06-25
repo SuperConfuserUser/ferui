@@ -6,19 +6,19 @@ import TimeInputSpecs from '../time/time.spec';
 
 import { addHelpers } from '../tests/helpers.spec';
 
-describe('Time Input', function() {
+describe('Time Input', function () {
   addHelpers();
 
-  describe('Model', function() {
+  describe('Model', function () {
     TimeModelSpecs();
   });
 
-  describe('Providers', function() {
+  describe('Providers', function () {
     TimeIOServiceSpecs();
     TimeSelectionSpecs();
   });
 
-  describe('Components', function() {
+  describe('Components', function () {
     TimeContainerSpecs();
     TimeInputSpecs();
   });

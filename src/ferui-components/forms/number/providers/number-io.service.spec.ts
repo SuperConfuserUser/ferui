@@ -1,6 +1,6 @@
 import { NumberIoService } from './number-io.service';
 
-export default function() {
+export default function () {
   describe('Number IO Service', () => {
     let numberIOService: NumberIoService;
 

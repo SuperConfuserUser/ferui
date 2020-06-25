@@ -66,7 +66,7 @@ class WidgetWithComponents {
   };
 }
 
-export default function(): void {
+export default function (): void {
   describe('FuiWidget component', () => {
     let fixture: ComponentFixture<any>;
 

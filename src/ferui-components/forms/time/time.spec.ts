@@ -20,7 +20,7 @@ import { FuiTime } from './time';
 import { TimeModel } from './models/time.model';
 import { FuiTimeModule } from './time.module';
 
-export default function() {
+export default function () {
   describe('Time Input Component', () => {
     let context: TestContext<FuiTime, TestComponent>;
     let timeIOService: TimeIOService;
@@ -36,7 +36,7 @@ export default function() {
     }
 
     describe('Basics', () => {
-      beforeEach(function() {
+      beforeEach(function () {
         context = this.create(FuiTime, TestComponent, [
           ControlClassService,
           { provide: NgControlService, useClass: MockNgControlService },
@@ -118,7 +118,7 @@ export default function() {
       let timeContainerDebugElement: DebugElement;
       let timeInputDebugElement: DebugElement;
 
-      beforeEach(function() {
+      beforeEach(function () {
         TestBed.configureTestingModule({
           imports: [FormsModule, FuiTimeModule],
           declarations: [TestComponentWithNgModel]
@@ -206,7 +206,7 @@ export default function() {
       let timeContainerDebugElement: DebugElement;
       let timeInputDebugElement: DebugElement;
 
-      beforeEach(function() {
+      beforeEach(function () {
         TestBed.configureTestingModule({
           imports: [ReactiveFormsModule, FuiTimeModule],
           declarations: [TestComponentWithReactiveForms]
@@ -285,7 +285,7 @@ export default function() {
       let fixture: ComponentFixture<TestComponentWithTemplateDrivenForms>;
       let timeContainerDebugElement: DebugElement;
 
-      beforeEach(function() {
+      beforeEach(function () {
         TestBed.configureTestingModule({
           imports: [FormsModule, FuiTimeModule],
           declarations: [TestComponentWithTemplateDrivenForms]
@@ -351,9 +351,7 @@ export default function() {
 }
 
 @Component({
-  template: `
-    <input type="time" step="1" fuiTime (fuiDateChange)="dateChanged($event)" class="test-class" />
-  `
+  template: ` <input type="time" step="1" fuiTime (fuiDateChange)="dateChanged($event)" class="test-class" /> `
 })
 class TestComponent {
   time: Date;

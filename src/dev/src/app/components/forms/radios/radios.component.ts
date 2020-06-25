@@ -29,7 +29,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
         <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
       </div>
     </form>
-  `,
+  `
 })
 export class RadiosComponent extends AbstractControlDemoComponent implements OnInit {
   model = {
@@ -37,7 +37,7 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
     two: true,
     twobis: '',
     three: 'option2',
-    four: 'yes',
+    four: 'yes'
   };
 
   inputOne: DemoComponentData;
@@ -53,17 +53,17 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
     this.inputOne = new DemoComponentData({
       title: `<h5>No label, no wrapper :</h5>`,
       models: {
-        one: this.model.one,
+        one: this.model.one
       },
       canDisable: false,
-      source: `<input #code type="radio" value="yes" fuiRadio name="one" [(ngModel)]="models.one" />`,
+      source: `<input #code type="radio" value="yes" fuiRadio name="one" [(ngModel)]="models.one" />`
     });
 
     this.inputTwo = new DemoComponentData({
       title: `<h5>Radio with label :</h5>`,
       models: {
         two: this.model.two,
-        twobis: this.model.twobis,
+        twobis: this.model.twobis
       },
       canDisable: false,
       source: `
@@ -74,13 +74,13 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
         <fui-radio-wrapper class="code">
           <input type="radio" fuiRadio name="twobis" value="yes" [(ngModel)]="models.twobis" />
           <label>Option 2</label>
-        </fui-radio-wrapper>`,
+        </fui-radio-wrapper>`
     });
 
     this.inputThree = new DemoComponentData({
       title: `<h5>Label, wrapper and <span class="text-danger">required</span> validator :</h5>`,
       models: {
-        three: this.model.three,
+        three: this.model.three
       },
       canDisable: false,
       source: `
@@ -94,13 +94,13 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
             <label>Option 2</label>
           </fui-radio-wrapper>
           <fui-control-error>This field is required!</fui-control-error>
-        </fui-radio-container>`,
+        </fui-radio-container>`
     });
 
     this.inputFour = new DemoComponentData({
       title: `<h5>Radio with label (disabled) :</h5>`,
       models: {
-        four: this.model.four,
+        four: this.model.four
       },
       params: { disabled: this.disabled },
       canDisable: true,
@@ -112,7 +112,7 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
       <fui-radio-wrapper class="code">
         <input type="radio" [disabled]="params.disabled" fuiRadio name="four" value="no" [(ngModel)]="models.four" />
         <label>Option 2</label>
-      </fui-radio-wrapper>`,
+      </fui-radio-wrapper>`
     });
   }
 }

@@ -14,16 +14,12 @@ const errorMessage = 'ERROR_MESSAGE';
 const minLengthMessage = 'MIN_LENGTH_MESSAGE';
 
 @Component({
-  template: `
-    <div *fuiIfError></div>
-  `
+  template: ` <div *fuiIfError></div> `
 })
 class InvalidUseTest {}
 
 @Component({
-  template: `
-    <fui-control-error *fuiIfError>${errorMessage}</fui-control-error>
-  `,
+  template: ` <fui-control-error *fuiIfError>${errorMessage}</fui-control-error> `,
   providers: [IfErrorService, NgControlService]
 })
 class GeneralErrorTest {}
@@ -37,7 +33,7 @@ class GeneralErrorTest {}
 })
 class SpecificErrorTest {}
 
-export default function(): void {
+export default function (): void {
   describe('FuiIfError', () => {
     describe('invalid use', () => {
       it('throws error when used outside of a control container', () => {

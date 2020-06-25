@@ -3,16 +3,16 @@ import { Subscription } from 'rxjs';
 
 import { IfOpenService } from './if-open.service';
 
-export default function(): void {
-  describe('IfOpenService provider', function() {
+export default function (): void {
+  describe('IfOpenService provider', function () {
     let ifOpenService: IfOpenService;
 
-    beforeEach(function() {
+    beforeEach(function () {
       ifOpenService = new IfOpenService();
     });
 
-    describe('Typescript API', function() {
-      it('provides an observable for changes', function() {
+    describe('Typescript API', function () {
+      it('provides an observable for changes', function () {
         let nbChanges: number = 0;
         let currentChange: boolean;
 
@@ -40,14 +40,14 @@ export default function(): void {
         sub.unsubscribe();
       });
 
-      it('sets the current open value in the service', function() {
+      it('sets the current open value in the service', function () {
         expect(ifOpenService.open).not.toBeDefined();
         const test: boolean = false;
         ifOpenService.open = test;
         expect(ifOpenService.open).toEqual(test);
       });
 
-      it('gets the current open value of the service', function() {
+      it('gets the current open value of the service', function () {
         const init: boolean = false;
         let test: boolean;
         ifOpenService.open = init;

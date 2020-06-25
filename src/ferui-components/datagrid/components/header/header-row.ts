@@ -5,9 +5,7 @@ import { HeaderRendererService } from '../../services/rendering/header-renderer.
 
 @Component({
   selector: 'fui-datagrid-header-row',
-  template: `
-    <ng-content select="fui-datagrid-header-cell"></ng-content>
-  `,
+  template: ` <ng-content select="fui-datagrid-header-cell"></ng-content> `,
   host: {
     '[class.fui-datagrid-header-row]': 'true',
     '[style.top.px]': '0'

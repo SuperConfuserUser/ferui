@@ -1,8 +1,8 @@
 import { DatetimeFormControlService } from './datetime-form-control.service';
 import { FuiDatetimeModelTypes } from '../../common/datetime-model-types.enum';
 
-export default function(): void {
-  describe('DatetimeFormControlService', function() {
+export default function (): void {
+  describe('DatetimeFormControlService', function () {
     let service: DatetimeFormControlService;
 
     beforeEach(() => {

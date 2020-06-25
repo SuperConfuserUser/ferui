@@ -74,7 +74,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
       </fui-tab>
       <fui-tab [title]="'Documentation'">...</fui-tab>
     </fui-tabs>
-  `,
+  `
 })
 export class DropdownExample implements OnInit {
   dropdown1: DemoComponentData;
@@ -111,7 +111,7 @@ export class DropdownExample implements OnInit {
               </fui-dropdown>
               <div fuiDropdownItem>Link 2</div>
             </fui-dropdown-menu>
-          </fui-dropdown>`,
+          </fui-dropdown>`
     });
 
     this.dropdown2 = new DemoComponentData({
@@ -140,7 +140,7 @@ export class DropdownExample implements OnInit {
               </fui-dropdown>
               <div fuiDropdownItem>Link 2</div>
             </fui-dropdown-menu>
-          </fui-dropdown>`,
+          </fui-dropdown>`
     });
 
     this.dropdown3 = new DemoComponentData({
@@ -175,7 +175,7 @@ export class DropdownExample implements OnInit {
                 <div fuiDropdownItem>Link 2</div>
               </fui-dropdown-menu>
             </fui-dropdown>
-          </div>`,
+          </div>`
     });
 
     this.dropdown4 = new DemoComponentData({
@@ -211,7 +211,7 @@ export class DropdownExample implements OnInit {
                   <div fuiDropdownItem>Link 2</div>
                 </fui-dropdown-menu>
               </fui-dropdown>
-            </div>`,
+            </div>`
     });
     this.dropdown5 = new DemoComponentData({
       title: ``,
@@ -246,7 +246,7 @@ export class DropdownExample implements OnInit {
                   <div fuiDropdownItem>Link 2</div>
                 </fui-dropdown-menu>
               </fui-dropdown>
-            </div>`,
+            </div>`
     });
 
     this.dropdown6 = new DemoComponentData({
@@ -275,7 +275,7 @@ export class DropdownExample implements OnInit {
               </fui-dropdown>
               <div fuiDropdownItem>Link 2</div>
             </fui-dropdown-menu>
-          </fui-dropdown>`,
+          </fui-dropdown>`
     });
   }
 }

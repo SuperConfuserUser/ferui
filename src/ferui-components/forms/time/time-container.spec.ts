@@ -17,12 +17,12 @@ import { PlaceholderService } from '../common/providers/placeholder.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
 import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
-export default function() {
+export default function () {
   describe('Time Container Component', () => {
     let context: TestContext<FuiTimeContainer, TestComponent>;
     let dateFormControlService: DateFormControlService;
 
-    beforeEach(function() {
+    beforeEach(function () {
       TestBed.configureTestingModule({
         imports: [FormsModule]
       });

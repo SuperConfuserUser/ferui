@@ -1,7 +1,7 @@
 import { Popover } from './popover';
 import { Point } from './popover-options.interface';
 
-describe('Popover', function() {
+describe('Popover', function () {
   let container: HTMLElement;
   let anchor: HTMLElement;
   let popover: HTMLElement;
@@ -39,18 +39,18 @@ describe('Popover', function() {
     popoverInstance = new Popover(popover);
   });
 
-  it('adds a scroll event handler to its first positioned container', function() {
+  it('adds a scroll event handler to its first positioned container', function () {
     popoverInstance.anchor(anchor, null, null);
     expect(container.onscroll).toBeDefined();
   });
 
-  it('removes scroll event handler of its first positioned container when released', function() {
+  it('removes scroll event handler of its first positioned container when released', function () {
     popoverInstance.anchor(anchor, null, null);
     popoverInstance.release();
     expect(container.onscroll).toBeNull();
   });
 
-  it('positions the popover according to align points specified', function() {
+  it('positions the popover according to align points specified', function () {
     let x: number;
     let y: number;
 
@@ -199,7 +199,7 @@ describe('Popover', function() {
   afterEach(() => {
     /* tslint:disable:no-unused-expression */
     // Polyfill for IE11 `.remove()`
-    (function() {
+    (function () {
       function remove() {
         this.parentNode && this.parentNode.removeChild(this);
       }

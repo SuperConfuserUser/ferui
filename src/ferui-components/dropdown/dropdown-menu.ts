@@ -16,9 +16,7 @@ import { Point } from '../popover/common/popover-options.interface';
 
 @Component({
   selector: 'fui-dropdown-menu',
-  template: `
-    <ng-content></ng-content>
-  `,
+  template: ` <ng-content></ng-content> `,
   host: {
     '[class.fui-dropdown-menu]': 'true',
     '[class.visible]': 'isOpen()'

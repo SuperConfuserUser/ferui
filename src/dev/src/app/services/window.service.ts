@@ -44,7 +44,4 @@ const windowProvider: FactoryProvider = {
 };
 
 /* Create an array of providers. */
-export const WINDOW_PROVIDERS = [
-  browserWindowProvider,
-  windowProvider
-];
+export const WINDOW_PROVIDERS = [browserWindowProvider, windowProvider];

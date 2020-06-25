@@ -49,16 +49,12 @@ class CommonFormsTestModule {}
  * Actual test components, one for each case we support
  */
 @Component({
-  template: `
-    <input genericControl />
-  `
+  template: ` <input genericControl /> `
 })
 class NoWrapperNoId {}
 
 @Component({
-  template: `
-    <input genericControl id="hello" />
-  `
+  template: ` <input genericControl id="hello" /> `
 })
 class NoWrapperWithId {}
 
@@ -84,10 +80,10 @@ class WithWrapperNoId {}
 })
 class WithWrapperWithId {}
 
-export default function(): void {
+export default function (): void {
   describe('Common forms integration', () => {
     function assertMatching<T>(testComponent: Type<T>, projectedLabels: boolean, expectedId?: string) {
-      return function() {
+      return function () {
         TestBed.configureTestingModule({ imports: [CommonFormsTestModule], declarations: [testComponent] });
         const fixture = TestBed.createComponent(testComponent);
         fixture.detectChanges();

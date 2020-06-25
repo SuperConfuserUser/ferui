@@ -9,7 +9,7 @@ interface Window {
 
 @Component({
   templateUrl: './icons.component.html',
-  styleUrls: ['./icons.component.scss'],
+  styleUrls: ['./icons.component.scss']
 })
 export class IconsComponent implements OnInit {
   icons: {} = {};
@@ -109,7 +109,7 @@ export class IconsComponent implements OnInit {
     const list: Array<any> = Object.keys(icons).map(i => {
       return {
         name: i,
-        group: i.match(/fui/g) ? 'ferui' : 'clarity',
+        group: i.match(/fui/g) ? 'ferui' : 'clarity'
       };
     });
     const grouppedList = this.groupBy(list, icon => {
@@ -118,7 +118,7 @@ export class IconsComponent implements OnInit {
     return grouppedList.map(value => {
       return {
         gName: value[0].group,
-        rows: this.generateRows(value, 6),
+        rows: this.generateRows(value, 6)
       };
     });
   }

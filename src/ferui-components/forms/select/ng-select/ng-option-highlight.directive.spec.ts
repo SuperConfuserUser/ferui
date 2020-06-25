@@ -15,7 +15,7 @@ class TestComponent {
   showNew = false;
 }
 
-export default function(): void {
+export default function (): void {
   describe('NgOptionHighlightDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
 

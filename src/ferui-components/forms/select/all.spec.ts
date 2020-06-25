@@ -1,5 +1,5 @@
 import NgSelectSpecs from './ng-select/all.spec';
 
-describe('Select component', function() {
+describe('Select component', function () {
   NgSelectSpecs();
 });

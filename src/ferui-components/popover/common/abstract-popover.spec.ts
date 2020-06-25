@@ -10,7 +10,7 @@ import { AbstractPopover } from './abstract-popover';
 import { POPOVER_HOST_ANCHOR } from './popover-host-anchor.token';
 import { FuiConditionalModule } from '../../utils/conditional/conditional.module';
 
-describe('Abstract Popover', function() {
+describe('Abstract Popover', function () {
   let fixture: ComponentFixture<any>;
   let ifOpenService: IfOpenService;
 
@@ -81,9 +81,7 @@ describe('Abstract Popover', function() {
 
 @Component({
   selector: 'test-popover',
-  template: `
-    <div class="test-popover">Popover</div>
-  `
+  template: ` <div class="test-popover">Popover</div> `
 })
 class TestPopover extends AbstractPopover {
   constructor(injector: Injector, @Optional() parent: ElementRef) {
@@ -92,9 +90,7 @@ class TestPopover extends AbstractPopover {
 }
 
 @Component({
-  template: `
-    <test-popover *fuiIfOpen></test-popover>
-  `
+  template: ` <test-popover *fuiIfOpen></test-popover> `
 })
 class TestPopoverWithIfOpenDirective {
   @ViewChild(TestPopover) testPopover: TestPopover;
@@ -121,9 +117,7 @@ class InputFocusPopover {
 
 @Component({
   selector: 'test-popover-ignore',
-  template: `
-    <div class="test-popover">Popover</div>
-  `
+  template: ` <div class="test-popover">Popover</div> `
 })
 class TestPopoverIgnoreElement extends AbstractPopover {
   constructor(injector: Injector, @Optional() parent: ElementRef, parentHost: InputFocusPopover) {

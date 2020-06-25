@@ -1,6 +1,8 @@
 {
-  "rulesDirectory": ["./node_modules/tslint-defocus/dist", "./tests/tslint/dist"],
+  "extends": ["tslint-config-prettier"],
+  "rulesDirectory": ["./node_modules/tslint-defocus/dist", "./tests/tslint/dist", "tslint-plugin-prettier"],
   "rules": {
+    "prettier": true,
     "class-name": true,
     "curly": true,
     "defocus": true,
@@ -34,7 +36,6 @@
     "prefer-for-of": true,
     "quotemark": false,
     "radix": true,
-    "semicolon": [true, "always", "ignore-bound-class-methods"],
     "switch-default": true,
     "triple-equals": [true, "allow-null-check"],
     "variable-name": [true, "check-format", "allow-leading-underscore", "ban-keywords"],

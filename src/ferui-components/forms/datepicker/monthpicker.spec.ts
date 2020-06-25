@@ -15,7 +15,7 @@ import { FuiMonthpicker } from './monthpicker';
 import { DateNavigationService } from '../date/providers/date-navigation.service';
 import { DateIOService } from '../date/providers/date-io.service';
 
-export default function() {
+export default function () {
   describe('Monthpicker Component', () => {
     let context: TestContext<FuiMonthpicker, TestComponent>;
     let localeHelperService: LocaleHelperService;
@@ -30,7 +30,7 @@ export default function() {
     }
 
     describe('View Basics', () => {
-      beforeEach(function() {
+      beforeEach(function () {
         initializeCalendar(new DayModel(2015, selectedMonth, 1));
 
         context = this.create(FuiMonthpicker, TestComponent, [
@@ -127,7 +127,7 @@ export default function() {
     });
 
     describe('Typescript API', () => {
-      beforeEach(function() {
+      beforeEach(function () {
         initializeCalendar(new DayModel(2015, selectedMonth, 1));
 
         context = this.create(FuiMonthpicker, TestComponent, [
@@ -211,7 +211,7 @@ export default function() {
       }
 
       // IE doesn't handle KeyboardEvent constructor
-      itIgnore(['ie'], 'handles the up arrow', function() {
+      itIgnore(['ie'], 'handles the up arrow', function () {
         createMonthPicker(this, new DayModel(2015, 11, 1));
 
         expect(context.feruiDirective.getTabIndex(11)).toBe(0, "Month 11 doesn't have tabindex 0");
@@ -229,7 +229,7 @@ export default function() {
       });
 
       // IE doesn't handle KeyboardEvent constructor
-      itIgnore(['ie'], 'handles the down arrow', function() {
+      itIgnore(['ie'], 'handles the down arrow', function () {
         createMonthPicker(this, new DayModel(2015, 0, 1));
 
         expect(context.feruiDirective.getTabIndex(0)).toBe(0, "Month 0 doesn't have tabindex 0");
@@ -247,7 +247,7 @@ export default function() {
       });
 
       // IE doesn't handle KeyboardEvent constructor
-      itIgnore(['ie'], 'handles the right arrow', function() {
+      itIgnore(['ie'], 'handles the right arrow', function () {
         createMonthPicker(this, new DayModel(2015, 0, 1));
         expect(context.feruiDirective.getTabIndex(0)).toBe(0, "Month 0 doesn't have tabindex 0");
 
@@ -273,7 +273,7 @@ export default function() {
       });
 
       // IE doesn't handle KeyboardEvent constructor
-      itIgnore(['ie'], 'handles the left arrow', function() {
+      itIgnore(['ie'], 'handles the left arrow', function () {
         createMonthPicker(this, new DayModel(2015, 6, 1));
         expect(context.feruiDirective.getTabIndex(6)).toBe(0, "Month 6 doesn't have tabindex 0");
 
@@ -302,8 +302,6 @@ export default function() {
 }
 
 @Component({
-  template: `
-    <fui-monthpicker></fui-monthpicker>
-  `
+  template: ` <fui-monthpicker></fui-monthpicker> `
 })
 class TestComponent {}
