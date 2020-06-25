@@ -48,19 +48,19 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
         </fui-tab>
       </fui-tabs>
     </form>
-  `,
+  `
 })
 export class SelectsComponent extends AbstractControlDemoComponent implements OnInit {
   defaultBindingsList = [
     { value: 1, label: 'Vilnius' },
     { value: 2, label: 'Kaunas' },
-    { value: 3, label: 'Pavilnys', disabled: true },
+    { value: 3, label: 'Pavilnys', disabled: true }
   ];
 
   countries = [
     { id: 1, nested: { countryId: 'L', name: 'Lithuania' } },
     { id: 2, nested: { countryId: 'U', name: 'USA' } },
-    { id: 3, nested: { countryId: 'A', name: 'Australia' } },
+    { id: 3, nested: { countryId: 'A', name: 'Australia' } }
   ];
 
   model = {
@@ -71,7 +71,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
     selectedMultipleCountry: null,
     selectedCountries: null,
     smallLayoutCountries: null,
-    smallLayoutCountry: null,
+    smallLayoutCountry: null
   };
 
   fuiFormLayoutEnum = FuiFormLayoutEnum;
@@ -94,7 +94,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       models: { selectedCity: this.model.selectedCity },
       params: { defaultBindingsList: this.defaultBindingsList },
       canDisable: false,
-      source: `<fui-select #code fuiSelect name="city" [items]="params.defaultBindingsList" [(ngModel)]="models.selectedCity"></fui-select>`,
+      source: `<fui-select #code fuiSelect name="city" [items]="params.defaultBindingsList" [(ngModel)]="models.selectedCity"></fui-select>`
     });
 
     this.inputTwo = new DemoComponentData({
@@ -114,7 +114,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
               [(ngModel)]="models.selectedCountryId"
               required>
             </fui-select>
-          </fui-select-container>`,
+          </fui-select-container>`
     });
 
     this.inputThree = new DemoComponentData({
@@ -136,7 +136,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
               [(ngModel)]="models.selectedCountries"
               required>
             </fui-select>
-          </fui-select-container>`,
+          </fui-select-container>`
     });
 
     this.inputFour = new DemoComponentData({
@@ -157,7 +157,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
               [closeOnSelect]="false"
               [(ngModel)]="models.selectedMultipleCountry">
             </fui-select>
-          </fui-select-container>`,
+          </fui-select-container>`
     });
 
     this.inputFive = new DemoComponentData({
@@ -165,7 +165,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       models: { smallLayoutCountry: this.model.smallLayoutCountry },
       params: {
         countries: this.countries,
-        fuiFormLayoutEnum: this.fuiFormLayoutEnum,
+        fuiFormLayoutEnum: this.fuiFormLayoutEnum
       },
       canDisable: false,
       source: `
@@ -181,7 +181,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
               [layout]="params.fuiFormLayoutEnum.SMALL"
               [(ngModel)]="models.smallLayoutCountry">
             </fui-select>
-          </fui-select-container>`,
+          </fui-select-container>`
     });
 
     this.inputSix = new DemoComponentData({
@@ -189,7 +189,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       models: { smallLayoutCountries: this.model.smallLayoutCountries },
       params: {
         countries: this.countries,
-        fuiFormLayoutEnum: this.fuiFormLayoutEnum,
+        fuiFormLayoutEnum: this.fuiFormLayoutEnum
       },
       canDisable: false,
       source: `
@@ -205,7 +205,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
               [multiple]="true"
               [(ngModel)]="models.smallLayoutCountries">
             </fui-select>
-          </fui-select-container>`,
+          </fui-select-container>`
     });
 
     this.inputSeven = new DemoComponentData({
@@ -227,7 +227,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
               [(ngModel)]="models.selectedCityNative">
               <option *ngFor="let city of params.defaultBindingsList" [disabled]="city.disabled" [ngValue]="city">{{city.label}}</option>
             </select>
-          </fui-select-container>`,
+          </fui-select-container>`
     });
   }
 }

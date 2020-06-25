@@ -12,11 +12,11 @@ import { DateNavigationService } from '../date/providers/date-navigation.service
 import { DateIOService } from '../date/providers/date-io.service';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
 
-export default function() {
+export default function () {
   describe('Day Component', () => {
     let context: TestContext<FuiDay, TestComponent>;
 
-    beforeEach(function() {
+    beforeEach(function () {
       context = this.create(FuiDay, TestComponent, [
         LocaleHelperService,
         DateNavigationService,
@@ -26,8 +26,8 @@ export default function() {
       ]);
     });
 
-    describe('View Basics', function() {
-      it('renders the content based on the input provided', function() {
+    describe('View Basics', function () {
+      it('renders the content based on the input provided', function () {
         expect(context.feruiElement.textContent.trim()).toMatch('1');
 
         context.testComponent.dayView = new DayViewModel(new DayModel(2018, 0, 25), false, false, false, false);
@@ -35,12 +35,12 @@ export default function() {
         expect(context.feruiElement.textContent.trim()).toMatch('25');
       });
 
-      it('renders one button based on the input provided', function() {
+      it('renders one button based on the input provided', function () {
         expect(context.feruiElement.children.length).toBe(1);
         expect(context.feruiElement.children[0].tagName).toBe('BUTTON');
       });
 
-      it("adds the .is-today class to the button when the input provided is today's day view", function() {
+      it("adds the .is-today class to the button when the input provided is today's day view", function () {
         const button: HTMLButtonElement = context.feruiElement.children[0];
         expect(button.classList.contains('is-today')).toBe(false);
         context.testComponent.dayView.isTodaysDate = true;
@@ -52,7 +52,7 @@ export default function() {
         expect(button.classList.contains('is-today')).toBe(false);
       });
 
-      it('adds the .is-selected class to the button when the input day view is selected', function() {
+      it('adds the .is-selected class to the button when the input day view is selected', function () {
         const button: HTMLButtonElement = context.feruiElement.children[0];
         expect(button.classList.contains('is-selected')).toBe(false);
         context.testComponent.dayView.isSelected = true;
@@ -64,7 +64,7 @@ export default function() {
         expect(button.classList.contains('is-selected')).toBe(false);
       });
 
-      it('adds the .is-disabled class to the button when the input day view is selected', function() {
+      it('adds the .is-disabled class to the button when the input day view is selected', function () {
         const button: HTMLButtonElement = context.feruiElement.children[0];
         expect(button.classList.contains('is-disabled')).toBe(false);
         context.testComponent.dayView.isDisabled = true;
@@ -76,7 +76,7 @@ export default function() {
         expect(button.classList.contains('is-disabled')).toBe(false);
       });
 
-      it('sets the right tabindex if the day is focusable', function() {
+      it('sets the right tabindex if the day is focusable', function () {
         const button: HTMLButtonElement = context.feruiElement.children[0];
         expect(button.tabIndex).toBe(-1);
 
@@ -111,7 +111,7 @@ export default function() {
       });
     });
 
-    describe('Template API', function() {
+    describe('Template API', function () {
       it('supports an Input for DayViewModel', () => {
         expect(context.feruiDirective.dayView).not.toBeUndefined();
         expect(context.feruiDirective.dayView.dayModel.date).toBe(1);
@@ -124,7 +124,7 @@ export default function() {
       });
     });
 
-    describe('Typescript API', function() {
+    describe('Typescript API', function () {
       it('updates the selected day when a Date is selected', () => {
         const dateNavigationService: DateNavigationService = context.getFeruiProvider(DateNavigationService);
         const testDayView: DayViewModel = new DayViewModel(new DayModel(2018, 0, 1), false, false, false, false);
@@ -191,9 +191,7 @@ export default function() {
 }
 
 @Component({
-  template: `
-    <fui-day [fuiDayView]="dayView"></fui-day>
-  `
+  template: ` <fui-day [fuiDayView]="dayView"></fui-day> `
 })
 class TestComponent {
   isToday: boolean = false;

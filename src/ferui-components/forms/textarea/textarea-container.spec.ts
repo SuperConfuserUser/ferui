@@ -47,7 +47,7 @@ class ReactiveTest {
   });
 }
 
-export default function(): void {
+export default function (): void {
   describe('FuiTextareaContainer', () => {
     ContainerNoLabelSpec(FuiTextareaContainer, FuiTextarea, NoLabelTest);
     TemplateDrivenSpec(FuiTextareaContainer, FuiTextarea, SimpleTest, '.fui-textarea-wrapper [fuiTextarea]');

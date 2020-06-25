@@ -11,6 +11,6 @@ import { IconsRoutingModule } from './icons.routing';
 @NgModule({
   imports: [CommonModule, FormsModule, IconsRoutingModule, ClrIconModule, FeruiModule, HighlightModule],
   declarations: [IconsComponent, GetStartedComponent, IconsLandingComponent],
-  exports: [IconsComponent, GetStartedComponent],
+  exports: [IconsComponent, GetStartedComponent]
 })
 export class IconsModule {}

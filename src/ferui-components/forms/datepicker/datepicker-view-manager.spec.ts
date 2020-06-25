@@ -11,12 +11,12 @@ import { DateNavigationService } from '../date/providers/date-navigation.service
 import { DateIOService } from '../date/providers/date-io.service';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
 
-export default function() {
+export default function () {
   describe('Datepicker View Manager Component', () => {
     let context: TestContext<FuiDatepickerViewManager, TestComponent>;
     let viewManagerService: ViewManagerService;
 
-    beforeEach(function() {
+    beforeEach(function () {
       context = this.create(FuiDatepickerViewManager, TestComponent, [
         ViewManagerService,
         DatepickerFocusService,
@@ -60,9 +60,7 @@ export default function() {
 }
 
 @Component({
-  template: `
-    <fui-datepicker-view-manager></fui-datepicker-view-manager>
-  `
+  template: ` <fui-datepicker-view-manager></fui-datepicker-view-manager> `
 })
 class TestComponent {
   constructor(private dateNavigationService: DateNavigationService) {

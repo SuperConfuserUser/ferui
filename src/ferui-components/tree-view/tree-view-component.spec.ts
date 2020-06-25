@@ -10,7 +10,7 @@ import {
   TreeViewConfiguration
 } from './interfaces';
 
-export default function() {
+export default function () {
   describe('Client Side Tree View', () => {
     let testComponent: ComponentFixture<ClientSideTestComponent>;
     let compiled: any;

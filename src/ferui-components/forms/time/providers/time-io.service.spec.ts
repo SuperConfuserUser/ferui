@@ -11,12 +11,12 @@ registerLocaleData(localeAk);
 registerLocaleData(localeHr);
 registerLocaleData(localeKkj);
 
-export default function() {
+export default function () {
   describe('Time IO Service', () => {
     let timeIOService: TimeIOService;
     let localeHelperService: LocaleHelperService;
 
-    describe('Locale Formatting', function() {
+    describe('Locale Formatting', function () {
       it('updates the cldrLocaleTimeFormat based on the locale helper service', () => {
         const localeHelperServ: LocaleHelperService = new LocaleHelperService('en-US');
         const timeIOServ: TimeIOService = new TimeIOService(localeHelperServ);

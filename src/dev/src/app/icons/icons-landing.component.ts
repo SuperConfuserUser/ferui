@@ -5,6 +5,6 @@ import { Component } from '@angular/core';
     <h1 class="mt-4">FerUI Icons</h1>
     <hr />
     <router-outlet></router-outlet>
-  `,
+  `
 })
 export class IconsLandingComponent {}

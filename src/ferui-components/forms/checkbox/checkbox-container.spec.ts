@@ -7,9 +7,7 @@ import { FuiCheckbox } from './checkbox';
 import { FuiCheckboxContainer } from './checkbox-container';
 
 @Component({
-  template: `
-    <fui-checkbox-container></fui-checkbox-container>
-  `
+  template: ` <fui-checkbox-container></fui-checkbox-container> `
 })
 class NoLabelTest {}
 
@@ -60,7 +58,7 @@ class ReactiveTest {
   });
 }
 
-export default function(): void {
+export default function (): void {
   describe('FuiCheckboxContainer', () => {
     ContainerNoLabelSpec(FuiCheckboxContainer, [FuiCheckboxWrapper, FuiCheckbox], NoLabelTest);
     TemplateDrivenSpec(

@@ -16,12 +16,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
             <demo-component [form]="demoForm" [componentData]="inputSix"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputSeven"></demo-component>
             <div class="footer">
-              <button
-                class="btn btn-primary"
-                [disabled]="!demoForm.form.valid"
-                (click)="promptSubmitInfos()"
-                type="submit"
-              >
+              <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
                 Submit
               </button>
               <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
@@ -36,7 +31,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
         </fui-tab>
       </fui-tabs>
     </form>
-  `,
+  `
 })
 export class InputsComponent extends AbstractControlDemoComponent implements OnInit {
   model = {
@@ -46,7 +41,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
     four: '',
     five: 'Disabled with value',
     six: '',
-    seven: '',
+    seven: ''
   };
 
   inputOne: DemoComponentData;
@@ -66,7 +61,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
       title: `<h5>No label, no wrapper :</h5>`,
       models: { one: this.model.one },
       canDisable: false,
-      source: `<input #code fuiInput name="one" [(ngModel)]="models.one"/>`,
+      source: `<input #code fuiInput name="one" [(ngModel)]="models.one"/>`
     });
 
     this.inputTwo = new DemoComponentData({
@@ -76,7 +71,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
       source: `
         <fui-input-container #code>
           <input fuiInput name="two" [(ngModel)]="models.two"/>
-        </fui-input-container>`,
+        </fui-input-container>`
     });
 
     this.inputThree = new DemoComponentData({
@@ -88,7 +83,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
           <label>Full example</label>
           <input placeholder="With placeholder" fuiInput name="three" [(ngModel)]="models.three" required/>
           <fui-control-error>This field is required (this message overwrite any other ones)</fui-control-error>
-        </fui-input-container>`,
+        </fui-input-container>`
     });
 
     this.inputFour = new DemoComponentData({
@@ -101,7 +96,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
           <label>Full example (disabled)</label>
           <input fuiInput name="four" [(ngModel)]="models.four" required [disabled]="params.disabled"/>
           <fui-control-error *fuiIfError="'required'">This field is required (this message overwrite any other ones)</fui-control-error>
-        </fui-input-container>`,
+        </fui-input-container>`
     });
 
     this.inputFive = new DemoComponentData({
@@ -114,7 +109,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
           <label>Full example (disabled, filled)</label>
           <input fuiInput name="five" [(ngModel)]="models.five" required [disabled]="params.disabled"/>
           <!-- All the validator messages are default ones -->
-        </fui-input-container>`,
+        </fui-input-container>`
     });
 
     this.inputSix = new DemoComponentData({
@@ -126,7 +121,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
           <label>Full example (multiple validators)</label>
           <input fuiInput name="six" [(ngModel)]="models.six" required email/>
           <!-- All the validator messages are default ones -->
-        </fui-input-container>`,
+        </fui-input-container>`
     });
 
     this.inputSeven = new DemoComponentData({
@@ -140,7 +135,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
           <fui-control-error *fuiIfError="'required'">
             This field is required (this message overwrite default require message)
           </fui-control-error>
-        </fui-input-container>`,
+        </fui-input-container>`
     });
   }
 }

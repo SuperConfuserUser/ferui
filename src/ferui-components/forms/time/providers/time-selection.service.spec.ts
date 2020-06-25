@@ -1,8 +1,8 @@
 import { TimeSelectionService } from './time-selection.service';
 import { TimeModel } from '../models/time.model';
 
-export default function(): void {
-  describe('TimeSelectionService', function() {
+export default function (): void {
+  describe('TimeSelectionService', function () {
     let service: TimeSelectionService, testModel: TimeModel;
 
     beforeEach(() => {

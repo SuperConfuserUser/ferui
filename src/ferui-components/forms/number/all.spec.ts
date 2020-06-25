@@ -4,14 +4,14 @@ import NumberIOServiceSpecs from './providers/number-io.service.spec';
 
 import { addHelpers } from '../tests/helpers.spec';
 
-describe('Number Input', function() {
+describe('Number Input', function () {
   addHelpers();
 
-  describe('Providers', function() {
+  describe('Providers', function () {
     NumberIOServiceSpecs();
   });
 
-  describe('Components', function() {
+  describe('Components', function () {
     NumberInputContainerSpecs();
     NumberInputSpecs();
   });

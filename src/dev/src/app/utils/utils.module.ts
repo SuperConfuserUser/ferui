@@ -9,6 +9,6 @@ import { HighlightModule } from 'ngx-highlightjs';
 @NgModule({
   imports: [CommonModule, FormsModule, FeruiModule, HighlightModule],
   declarations: [DemoComponent, DemoPageComponent],
-  exports: [DemoComponent, DemoPageComponent],
+  exports: [DemoComponent, DemoPageComponent]
 })
 export class UtilsModule {}

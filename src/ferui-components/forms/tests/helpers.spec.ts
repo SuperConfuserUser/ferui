@@ -41,7 +41,7 @@ export class TestContext<D, C> {
 }
 
 export function addHelpers(): void {
-  beforeEach(function() {
+  beforeEach(function () {
     this.create = <D, C>(
       feruiDirective: Type<D>,
       testComponent: Type<C>,
@@ -88,7 +88,7 @@ export function addHelpers(): void {
       return (this._context = new TestContext<D, C>(feruiDirective, testComponent));
     };
   });
-  afterEach(function() {
+  afterEach(function () {
     if (this._context) {
       this._context.fixture.destroy();
     }

@@ -7,16 +7,12 @@ import { FuiTextareaContainer } from './textarea-container';
 import { TemplateDrivenSpec, ControlStandaloneSpec, ReactiveSpec } from '../tests/control.spec';
 
 @Component({
-  template: `
-    <textarea fuiTextarea></textarea>
-  `
+  template: ` <textarea fuiTextarea></textarea> `
 })
 class StandaloneUseTest {}
 
 @Component({
-  template: `
-    <textarea fuiTextarea name="model" class="test-class" [(ngModel)]="model"></textarea>
-  `
+  template: ` <textarea fuiTextarea name="model" class="test-class" [(ngModel)]="model"></textarea> `
 })
 class TemplateDrivenTest {}
 
@@ -33,7 +29,7 @@ class ReactiveTest {
   });
 }
 
-export default function(): void {
+export default function (): void {
   describe('Textarea directive', () => {
     ControlStandaloneSpec(StandaloneUseTest);
     TemplateDrivenSpec(FuiTextareaContainer, FuiTextarea, TemplateDrivenTest, 'fui-textarea');

@@ -20,14 +20,14 @@ import { PlaceholderService } from '../common/providers/placeholder.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
 import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
-export default function() {
+export default function () {
   describe('Date Container Component', () => {
     let context: TestContext<FuiDateContainer, TestComponent>;
     let enabledService: MockDatepickerEnabledService;
     let dateFormControlService: DateFormControlService;
     let ifOpenService: IfOpenService;
 
-    beforeEach(function() {
+    beforeEach(function () {
       TestBed.configureTestingModule({
         imports: [FormsModule]
       });

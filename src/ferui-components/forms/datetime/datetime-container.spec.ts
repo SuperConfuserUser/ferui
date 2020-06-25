@@ -17,12 +17,12 @@ import { DatetimeFormControlService } from './providers/datetime-form-control.se
 import { DateFormControlService } from '../common/providers/date-form-control.service';
 import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
-export default function() {
+export default function () {
   describe('Datetime Container Component', () => {
     let context: TestContext<FuiDatetimeContainer, TestComponent>;
     let dateFormControlService: DatetimeFormControlService;
 
-    beforeEach(function() {
+    beforeEach(function () {
       TestBed.configureTestingModule({
         imports: [FormsModule]
       });

@@ -29,7 +29,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
         </fui-tab>
       </fui-tabs>
     </form>
-  `,
+  `
 })
 export class CheckboxComponent extends AbstractControlDemoComponent implements OnInit {
   model = {
@@ -39,7 +39,7 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
     three: false,
     threebis: null,
     four: '',
-    fourbis: true,
+    fourbis: true
   };
 
   inputOne: DemoComponentData;
@@ -56,14 +56,14 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
       title: `<h5>No label, no wrapper :</h5>`,
       models: { one: this.model.one },
       canDisable: false,
-      source: `<input #code type="checkbox" fuiCheckbox name="one" [(ngModel)]="models.one" />`,
+      source: `<input #code type="checkbox" fuiCheckbox name="one" [(ngModel)]="models.one" />`
     });
 
     this.inputTwo = new DemoComponentData({
       title: `<h5>Checkbox with label :</h5>`,
       models: {
         two: this.model.two,
-        twobis: this.model.twobis,
+        twobis: this.model.twobis
       },
       canDisable: false,
       source: `
@@ -74,14 +74,14 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
         <fui-checkbox-wrapper class="code">
           <input type="checkbox" fuiCheckbox name="twobis" [(ngModel)]="models.twobis" />
           <label>Option 2</label>
-        </fui-checkbox-wrapper>`,
+        </fui-checkbox-wrapper>`
     });
 
     this.inputThree = new DemoComponentData({
       title: `<h5>Label, wrapper and <span class="text-danger">required</span> validator :</h5>`,
       models: {
         three: this.model.three,
-        threebis: this.model.threebis,
+        threebis: this.model.threebis
       },
       canDisable: false,
       source: `
@@ -95,14 +95,14 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
             <label>Option 2</label>
           </fui-checkbox-wrapper>
           <fui-control-error>This field is required!</fui-control-error>
-        </fui-checkbox-container>`,
+        </fui-checkbox-container>`
     });
 
     this.inputFour = new DemoComponentData({
       title: `<h5>Checkboxes disabled</h5>`,
       models: {
         four: this.model.four,
-        fourbis: this.model.fourbis,
+        fourbis: this.model.fourbis
       },
       params: { disabled: this.disabled },
       canDisable: true,
@@ -116,7 +116,7 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
             <input type="checkbox" [disabled]="params.disabled" fuiCheckbox name="fourbis" [(ngModel)]="models.fourbis"/>
             <label>Option 2</label>
           </fui-checkbox-wrapper>
-        </fui-checkbox-container>`,
+        </fui-checkbox-container>`
     });
   }
 }

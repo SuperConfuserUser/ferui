@@ -14,7 +14,7 @@ import { DateNavigationService } from '../date/providers/date-navigation.service
 import { FuiYearpicker } from './yearpicker';
 import { DateIOService } from '../date/providers/date-io.service';
 
-export default function() {
+export default function () {
   describe('Yearpicker Component', () => {
     let context: TestContext<FuiYearpicker, TestComponent>;
     let dateNavigationService: DateNavigationService;
@@ -28,7 +28,7 @@ export default function() {
     }
 
     describe('View Basics', () => {
-      beforeEach(function() {
+      beforeEach(function () {
         initializeCalendar(selectedYear);
 
         context = this.create(FuiYearpicker, TestComponent, [
@@ -151,7 +151,7 @@ export default function() {
     });
 
     describe('Typescript API', () => {
-      beforeEach(function() {
+      beforeEach(function () {
         initializeCalendar(selectedYear);
 
         context = this.create(FuiYearpicker, TestComponent, [
@@ -291,7 +291,7 @@ export default function() {
       }
 
       // IE doesn't handle KeyboardEvent constructor
-      itIgnore(['ie'], 'handles up arrow', function() {
+      itIgnore(['ie'], 'handles up arrow', function () {
         createYearPicker(this, 2016);
 
         // Boundary
@@ -307,7 +307,7 @@ export default function() {
       });
 
       // IE doesn't handle KeyboardEvent constructor
-      itIgnore(['ie'], 'handles down arrow', function() {
+      itIgnore(['ie'], 'handles down arrow', function () {
         createYearPicker(this, 2015);
 
         // Boundary
@@ -323,7 +323,7 @@ export default function() {
       });
 
       // IE doesn't handle KeyboardEvent constructor
-      itIgnore(['ie'], 'handles right arrow', function() {
+      itIgnore(['ie'], 'handles right arrow', function () {
         createYearPicker(this, 2001);
         expect(context.feruiDirective.getTabIndex(2001)).toBe(0);
         context.feruiDirective.onKeyDown(createKeyboardEvent(RIGHT_ARROW, 'keydown'));
@@ -339,7 +339,7 @@ export default function() {
       });
 
       // IE doesn't handle KeyboardEvent constructor
-      itIgnore(['ie'], 'handles left arrow', function() {
+      itIgnore(['ie'], 'handles left arrow', function () {
         createYearPicker(this, 2005);
         expect(context.feruiDirective.getTabIndex(2005)).toBe(0);
         context.feruiDirective.onKeyDown(createKeyboardEvent(LEFT_ARROW, 'keydown'));
@@ -356,8 +356,6 @@ export default function() {
 }
 
 @Component({
-  template: `
-    <fui-yearpicker></fui-yearpicker>
-  `
+  template: ` <fui-yearpicker></fui-yearpicker> `
 })
 class TestComponent {}

@@ -3,9 +3,7 @@ import { FuiDatagridService } from '../../services/datagrid.service';
 
 @Component({
   selector: 'fui-datagrid-header',
-  template: `
-    <ng-content select="fui-datagrid-header-viewport"></ng-content>
-  `,
+  template: ` <ng-content select="fui-datagrid-header-viewport"></ng-content> `,
   host: {
     '[class.fui-datagrid-header]': 'true'
   },

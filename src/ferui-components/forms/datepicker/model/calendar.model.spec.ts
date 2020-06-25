@@ -1,8 +1,8 @@
 import { CalendarModel } from './calendar.model';
 import { DayModel } from './day.model';
 
-export default function(): void {
-  describe('Calendar Model', function() {
+export default function (): void {
+  describe('Calendar Model', function () {
     const calendarModel1: CalendarModel = new CalendarModel(2018, 5);
     const calendarModel2: CalendarModel = new CalendarModel(2017, 1);
     const calendarModel3: CalendarModel = new CalendarModel(2018, 5);

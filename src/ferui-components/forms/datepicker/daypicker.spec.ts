@@ -12,14 +12,14 @@ import { DateNavigationService } from '../date/providers/date-navigation.service
 import { DateIOService } from '../date/providers/date-io.service';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
 
-export default function() {
+export default function () {
   describe('Daypicker Component', () => {
     let context: TestContext<FuiDaypicker, TestComponent>;
     let viewManagerService: ViewManagerService;
     let localeHelperService: LocaleHelperService;
     let dateNavigationService: DateNavigationService;
 
-    beforeEach(function() {
+    beforeEach(function () {
       dateNavigationService = new DateNavigationService();
       // Initializing selected day just to make sure that previous and next month tests become easier
       dateNavigationService.selectedDay = new DayModel(2015, 1, 1);
@@ -158,8 +158,6 @@ export default function() {
 }
 
 @Component({
-  template: `
-    <fui-daypicker></fui-daypicker>
-  `
+  template: ` <fui-daypicker></fui-daypicker> `
 })
 class TestComponent {}

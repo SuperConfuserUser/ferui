@@ -6,16 +6,12 @@ import { FuiRadio } from './radio';
 import { FuiRadioWrapper } from './radio-wrapper';
 
 @Component({
-  template: `
-    <input type="radio" fuiRadio />
-  `
+  template: ` <input type="radio" fuiRadio /> `
 })
 class StandaloneUseTest {}
 
 @Component({
-  template: `
-    <input type="radio" fuiRadio name="model" class="test-class" [(ngModel)]="model" />
-  `
+  template: ` <input type="radio" fuiRadio name="model" class="test-class" [(ngModel)]="model" /> `
 })
 class TemplateDrivenTest {}
 
@@ -32,7 +28,7 @@ class ReactiveTest {
   });
 }
 
-export default function(): void {
+export default function (): void {
   describe('FuiRadio directive', () => {
     ControlStandaloneSpec(StandaloneUseTest);
     TemplateDrivenSpec(FuiRadioWrapper, FuiRadio, TemplateDrivenTest, 'fui-radio');

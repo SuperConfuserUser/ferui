@@ -1,6 +1,6 @@
 import { ViewManagerService } from './view-manager.service';
 
-export default function() {
+export default function () {
   describe('View Manager Service', () => {
     let viewManagerService: ViewManagerService;
 

@@ -5,7 +5,7 @@ import { FuiDropdownModule } from './dropdown.module';
 import { FuiDropdown } from './dropdown';
 import { IfOpenService } from '../utils/conditional/if-open.service';
 
-export default function(): void {
+export default function (): void {
   describe('Dropdown', () => {
     let fixture: ComponentFixture<any>;
     let compiled: any;
@@ -169,7 +169,7 @@ export default function(): void {
       expect(compiled.querySelector('.fui-dropdown-item')).toBeNull();
     });
 
-    it("doesn't close before custom click events have triggered", function() {
+    it("doesn't close before custom click events have triggered", function () {
       const ifOpenService = fixture.debugElement.query(By.directive(FuiDropdown)).injector.get(IfOpenService);
 
       const dropdownToggle: HTMLElement = compiled.querySelector('.fui-dropdown-trigger');

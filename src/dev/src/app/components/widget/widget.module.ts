@@ -11,6 +11,6 @@ const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [WidgetDemo];
 @NgModule({
   imports: [CommonModule, FormsModule, FeruiModule, HighlightModule, UtilsModule],
   declarations: [FUI_DEMO_COMPONENTS_DIRECTIVES],
-  exports: [FUI_DEMO_COMPONENTS_DIRECTIVES],
+  exports: [FUI_DEMO_COMPONENTS_DIRECTIVES]
 })
 export class WidgetDemoModule {}

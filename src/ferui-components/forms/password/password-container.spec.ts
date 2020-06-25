@@ -54,7 +54,7 @@ class ReactiveTest {
   });
 }
 
-export default function(): void {
+export default function (): void {
   describe('FuiPasswordContainer', () => {
     ContainerNoLabelSpec(FuiPasswordContainer, FuiPassword, NoLabelTest);
     TemplateDrivenSpec(FuiPasswordContainer, FuiPassword, TemplateDrivenTest, '.fui-input-wrapper [fuiPassword]');

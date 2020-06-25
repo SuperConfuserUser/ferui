@@ -7,7 +7,7 @@ import { LocaleHelperService } from './locale-helper.service';
 registerLocaleData(localeFr);
 registerLocaleData(localePl);
 
-export default function() {
+export default function () {
   describe('Locale Helper Service', () => {
     let localeHelperServiceUS: LocaleHelperService;
     let localeHelperServiceFr: LocaleHelperService;

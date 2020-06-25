@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { NgDropdownPanelService } from './ng-dropdown-panel.service';
 
-export default function(): void {
+export default function (): void {
   describe('NgDropdownPanelService', () => {
     let service: NgDropdownPanelService;
 

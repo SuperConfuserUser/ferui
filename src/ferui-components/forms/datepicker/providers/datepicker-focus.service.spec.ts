@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, NgZone, PLATFORM_ID } from '@angul
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { DatepickerFocusService } from './datepicker-focus.service';
 
-export default function() {
+export default function () {
   describe('Calendar View Service', () => {
     let fixture: ComponentFixture<any>;
     let mockNgZone: MockNgZone;
@@ -60,9 +60,7 @@ class MockNgZone extends NgZone {
 }
 
 @Component({
-  template: `
-    <button id="1" [attr.tabindex]="tabIndex">Test Button</button>
-  `
+  template: ` <button id="1" [attr.tabindex]="tabIndex">Test Button</button> `
 })
 class TestComponent {
   tabIndex: string = '0';

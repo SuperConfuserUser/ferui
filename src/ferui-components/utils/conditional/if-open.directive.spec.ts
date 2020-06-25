@@ -4,10 +4,10 @@ import { TestBed } from '@angular/core/testing';
 import { FuiIfOpen } from './if-open.directive';
 import { IfOpenService } from './if-open.service';
 
-export default function(): void {
-  describe('IfOpen Directive', function() {
-    describe('Typescript API', function() {
-      beforeEach(function() {
+export default function (): void {
+  describe('IfOpen Directive', function () {
+    describe('Typescript API', function () {
+      beforeEach(function () {
         TestBed.configureTestingModule({ declarations: [FuiIfOpen, IfOpenTest], providers: [IfOpenService] });
         this.fixture = TestBed.createComponent(IfOpenTest);
         this.fixture.detectChanges();
@@ -17,24 +17,24 @@ export default function(): void {
         this.ifOpenService = TestBed.get(IfOpenService);
       });
 
-      afterEach(function() {
+      afterEach(function () {
         this.fixture.destroy();
       });
 
-      it('sets the open state of the directive', function() {
+      it('sets the open state of the directive', function () {
         this.testComponent.openState = true;
         this.fixture.detectChanges();
         expect(this.clarityDirective.open).toEqual(true);
       });
 
-      it('gets the current value of the open state', function() {
+      it('gets the current value of the open state', function () {
         this.ifOpenService.open = true;
         expect(this.testComponent.openState).toEqual(true);
         this.ifOpenService.open = false;
         expect(this.testComponent.openState).toEqual(false);
       });
 
-      it('provides a function to update the view', function() {
+      it('provides a function to update the view', function () {
         expect(this.clarityDirective.updateView).toBeDefined();
 
         // when openState is false there should be no embedded views
@@ -45,7 +45,7 @@ export default function(): void {
         expect(this.clarityDirective.container._embeddedViews.length).toEqual(1);
       });
 
-      it('emits an openChange event', function() {
+      it('emits an openChange event', function () {
         let nbChanges: number = 0;
         let currentChange: boolean;
         this.testComponent.directive.openChange.subscribe((change: boolean) => {
@@ -61,8 +61,8 @@ export default function(): void {
       });
     });
 
-    describe('View', function() {
-      beforeEach(function() {
+    describe('View', function () {
+      beforeEach(function () {
         TestBed.configureTestingModule({ declarations: [FuiIfOpen, IfOpenTest], providers: [IfOpenService] });
         this.fixture = TestBed.createComponent(IfOpenTest);
         this.fixture.detectChanges();
@@ -72,16 +72,16 @@ export default function(): void {
         this.ifOpenService = TestBed.get(IfOpenService);
       });
 
-      afterEach(function() {
+      afterEach(function () {
         this.fixture.destroy();
       });
 
       // More for view tests.
-      it('should not display anything when false', function() {
+      it('should not display anything when false', function () {
         expect(this.testElement.textContent.trim()).toBe('');
       });
 
-      it('projects content when true', function() {
+      it('projects content when true', function () {
         this.ifOpenService.open = true;
         this.fixture.detectChanges();
         expect(this.testElement.textContent.trim()).toBe('Hello Template!');

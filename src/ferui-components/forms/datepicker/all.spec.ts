@@ -15,17 +15,17 @@ import ViewManagerServiceSpecs from './providers/view-manager.service.spec';
 import YearpickerSpecs from './yearpicker.spec';
 import { addHelpers } from '../tests/helpers.spec';
 
-describe('Datepicker', function() {
+describe('Datepicker', function () {
   addHelpers();
 
-  describe('Model', function() {
+  describe('Model', function () {
     DayModelSpecs();
     CalendarModelSpecs();
     YearRangeModelSpecs();
     CalendarViewModelSpecs();
   });
 
-  describe('Providers', function() {
+  describe('Providers', function () {
     ViewManagerServiceSpecs();
     LocaleHelperServiceSpecs();
     DatepickerFocusServiceSpecs();
@@ -33,7 +33,7 @@ describe('Datepicker', function() {
     DateFormControlServiceSpecs();
   });
 
-  describe('Components', function() {
+  describe('Components', function () {
     DayComponentSpecs();
     DatepickerViewManagerSpecs();
     DaypickerSpecs();

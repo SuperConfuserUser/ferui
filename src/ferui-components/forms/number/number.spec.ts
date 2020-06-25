@@ -6,16 +6,12 @@ import { FuiNumber } from './number';
 import { FuiNumberContainer } from './number-container';
 
 @Component({
-  template: `
-    <input type="number" fuiNumber />
-  `
+  template: ` <input type="number" fuiNumber /> `
 })
 class StandaloneUseTest {}
 
 @Component({
-  template: `
-    <input fuiNumber name="model" class="test-class" [(ngModel)]="model" />
-  `
+  template: ` <input fuiNumber name="model" class="test-class" [(ngModel)]="model" /> `
 })
 class TemplateDrivenTest {}
 
@@ -32,7 +28,7 @@ class ReactiveTest {
   });
 }
 
-export default function(): void {
+export default function (): void {
   describe('Input Number directive', () => {
     ControlStandaloneSpec(StandaloneUseTest);
     TemplateDrivenSpec(FuiNumberContainer, FuiNumber, TemplateDrivenTest, 'fui-number');

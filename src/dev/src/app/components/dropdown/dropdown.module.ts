@@ -13,6 +13,6 @@ const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [DropdownDemo, DropdownExamp
 @NgModule({
   imports: [CommonModule, FormsModule, UtilsModule, FeruiModule, RouterModule, HighlightModule],
   declarations: [FUI_DEMO_COMPONENTS_DIRECTIVES],
-  exports: [FUI_DEMO_COMPONENTS_DIRECTIVES, RouterModule],
+  exports: [FUI_DEMO_COMPONENTS_DIRECTIVES, RouterModule]
 })
 export class DropdownDemoModule {}

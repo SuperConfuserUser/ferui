@@ -10,14 +10,12 @@ import { EventEmitter } from '@angular/core';
     <h2 class="mt-2 mb-2">{{ pageTitle }}</h2>
     <p class="mt-4">
       Filters :
-      <button class="btn btn-sm btn-info" (click)="setDisable()">
-        Toggle Disabled ({{ disabled ? 'true' : 'false' }})
-      </button>
+      <button class="btn btn-sm btn-info" (click)="setDisable()">Toggle Disabled ({{ disabled ? 'true' : 'false' }})</button>
       <button class="btn btn-sm btn-info ml-2" (click)="toggleAllCodes()">Toggle all code</button>
       <button class="btn btn-sm btn-info ml-2" (click)="toggleAllResults()">Toggle all results</button>
     </p>
     <ng-content></ng-content>
-  `,
+  `
 })
 export class DefaultTemplateWrapper {
   @Input() pageTitle: string = 'Control Page';

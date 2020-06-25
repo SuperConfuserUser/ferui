@@ -41,7 +41,7 @@ class ContainerTest {
   model = '';
 }
 
-export default function(): void {
+export default function (): void {
   describe('FuiRadioWrapper', () => {
     WrapperNoLabelSpec(FuiRadioWrapper, FuiRadio, NoLabelTest);
     WrapperFullSpec(FuiRadioWrapper, FuiRadio, FullTest, 'fui-radio-wrapper');

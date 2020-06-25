@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { DateNavigationService } from './date-navigation.service';
 import { DayModel } from '../../datepicker/model/day.model';
 
-export default function() {
+export default function () {
   describe('Date Navigation Service', () => {
     let dateNavigationService: DateNavigationService;
 

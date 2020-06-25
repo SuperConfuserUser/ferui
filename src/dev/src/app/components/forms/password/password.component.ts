@@ -29,14 +29,14 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
         <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
       </div>
     </form>
-  `,
+  `
 })
 export class PasswordComponent extends AbstractControlDemoComponent implements OnInit {
   model = {
     one: '',
     two: '',
     three: '',
-    four: 'Disabled with value',
+    four: 'Disabled with value'
   };
 
   inputOne: DemoComponentData;
@@ -56,7 +56,7 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
       source: `
         <fui-password-container #code>
           <input fuiPassword name="one" [(ngModel)]="models.one" />
-        </fui-password-container>`,
+        </fui-password-container>`
     });
 
     this.inputTwo = new DemoComponentData({
@@ -68,7 +68,7 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
           <label>Full example</label>
           <input placeholder="With placeholder" fuiPassword name="two" [(ngModel)]="models.two" required />
           <fui-control-error>This field is required (this message overwrite any other ones)</fui-control-error>
-        </fui-password-container>`,
+        </fui-password-container>`
     });
 
     this.inputThree = new DemoComponentData({
@@ -83,7 +83,7 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
           <fui-control-error *fuiIfError="'required'">
             This field is required (this message overwrite any other ones)
           </fui-control-error>
-        </fui-password-container>`,
+        </fui-password-container>`
     });
 
     this.inputFour = new DemoComponentData({
@@ -96,7 +96,7 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
           <label>Full example (disabled, filled)</label>
           <input fuiPassword name="four" [(ngModel)]="models.four" required [disabled]="params.disabled"/>
           <!-- All the validator messages are default ones -->
-        </fui-password-container>`,
+        </fui-password-container>`
     });
   }
 }

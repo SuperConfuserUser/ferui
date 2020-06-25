@@ -16,7 +16,7 @@ import { NgSelectComponent } from './ng-select.component';
 import { NgSelectModule } from './ng-select.module';
 import { Subject } from 'rxjs';
 
-export default function(): void {
+export default function (): void {
   describe('NgSelectComponent', () => {
     describe('Data source', () => {
       it('should set items from primitive numbers array', fakeAsync(() => {

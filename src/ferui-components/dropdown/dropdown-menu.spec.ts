@@ -4,17 +4,17 @@ import { IfOpenService } from '../utils/conditional/if-open.service';
 import { FuiDropdownMenu } from './dropdown-menu';
 import { Point } from '../popover/common/popover-options.interface';
 
-export default function(): void {
-  describe('DropdownMenu component', function() {
+export default function (): void {
+  describe('DropdownMenu component', function () {
     let context: TestContext<FuiDropdownMenu, SimpleTest>;
 
-    beforeEach(function() {
+    beforeEach(function () {
       context = this.create(FuiDropdownMenu, SimpleTest, [IfOpenService]);
       context.getFeruiProvider(IfOpenService).open = true;
       context.detectChanges();
     });
 
-    it('projects content', function() {
+    it('projects content', function () {
       expect(context.feruiElement.textContent.trim()).toMatch('Hello world');
     });
 

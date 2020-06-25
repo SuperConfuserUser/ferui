@@ -41,7 +41,7 @@ class ContainerTest {
   model = '';
 }
 
-export default function(): void {
+export default function (): void {
   describe('FuiCheckboxWrapper', () => {
     WrapperNoLabelSpec(FuiCheckboxWrapper, FuiCheckbox, NoLabelTest);
     WrapperFullSpec(FuiCheckboxWrapper, FuiCheckbox, FullTest, 'fui-checkbox-wrapper');

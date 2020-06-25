@@ -36,7 +36,7 @@ import { FuiDatagrid, FuiRowModel, FuiDatagridApiService, FuiDatagridColumnApiSe
         </div>
       </div>
     </div>
-  `,
+  `
 })
 export class DefaultDatagridOptionsMenu {
   @Output() bandwidthSpeedChange: EventEmitter<number> = new EventEmitter<number>();

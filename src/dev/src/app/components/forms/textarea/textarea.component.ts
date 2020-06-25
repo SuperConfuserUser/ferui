@@ -31,7 +31,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
         </fui-tab>
       </fui-tabs>
     </form>
-  `,
+  `
 })
 export class TextareaComponent extends AbstractControlDemoComponent implements OnInit {
   model = {
@@ -41,7 +41,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
     four:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet feugiat tristique. Nulla facilisi. Mauris id mauris hendrerit, rutrum arcu sit amet, porttitor nunc. Pellentesque volutpat porttitor ultrices. Nullam lorem felis, aliquet sit amet dui luctus, rutrum sollicitudin nisl. Etiam ligula felis, pellentesque a vulputate ut, fringilla nec tellus. Vivamus vitae dapibus massa, sed viverra arcu. Aenean semper mi a est molestie mattis. Phasellus fringilla nunc et metus aliquet, ac egestas eros pretium. Cras sed dapibus eros. Proin ultrices pellentesque ligula, et ornare sem auctor sed. Aliquam erat volutpat. Pellentesque volutpat scelerisque nunc, in mollis nunc ullamcorper et.',
     five: 'Disabled with value',
-    six: '',
+    six: ''
   };
 
   inputOne: DemoComponentData;
@@ -60,7 +60,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
       title: `<h5>No label, no wrapper :</h5>`,
       models: { one: this.model.one },
       canDisable: false,
-      source: `<textarea #code fuiTextarea name="one" [(ngModel)]="models.one"></textarea>`,
+      source: `<textarea #code fuiTextarea name="one" [(ngModel)]="models.one"></textarea>`
     });
     this.inputTwo = new DemoComponentData({
       title: `<h5>No label, wrapper :</h5>`,
@@ -69,7 +69,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
       source: `
         <fui-textarea-container #code>
           <textarea fuiTextarea name="two" [(ngModel)]="models.two"></textarea>
-        </fui-textarea-container>`,
+        </fui-textarea-container>`
     });
     this.inputThree = new DemoComponentData({
       title: `<h5>Label, wrapper and <span class="text-danger">required</span> validator :</h5>`,
@@ -79,7 +79,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
         <fui-textarea-container #code>
           <label for="three">Full example</label>
           <textarea placeholder="With placeholder" fuiTextarea id="three" name="three" [(ngModel)]="models.three" required></textarea>
-        </fui-textarea-container>`,
+        </fui-textarea-container>`
     });
     this.inputFour = new DemoComponentData({
       title: `<h5>Label, wrapper, <span class="text-danger">required</span> validator but <span class="text-danger">disabled</span> :</h5>`,
@@ -91,7 +91,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
           <label for="four">Full example (disabled)</label>
           <textarea fuiTextarea id="four" name="four" [(ngModel)]="models.four" required [disabled]="params.disabled"></textarea>
           <fui-control-error>This field is required</fui-control-error>
-        </fui-textarea-container>`,
+        </fui-textarea-container>`
     });
     this.inputFive = new DemoComponentData({
       title: `<h5>Label, wrapper, <span class="text-danger">required</span> validator, disabled and filled :</h5>`,
@@ -103,7 +103,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
           <label for="five">Full example (disabled, filled)</label>
           <textarea fuiTextarea id="five" name="five" [(ngModel)]="models.five" required [disabled]="disabled"></textarea>
           <fui-control-error>This field is required</fui-control-error>
-        </fui-textarea-container>`,
+        </fui-textarea-container>`
     });
     this.inputSix = new DemoComponentData({
       title: `<h5>Multiple validators</h5>`,
@@ -115,7 +115,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
           <textarea fuiTextarea id="six" name="six" [(ngModel)]="models.six" required email></textarea>
           <fui-control-error *fuiIfError="'required'">This field is required</fui-control-error>
           <fui-control-error *fuiIfError="'email'">You didn't type an email address</fui-control-error>
-        </fui-textarea-container>`,
+        </fui-textarea-container>`
     });
   }
 }

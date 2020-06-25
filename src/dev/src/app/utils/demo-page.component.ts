@@ -32,7 +32,7 @@ import { DemoComponent } from './demo.component';
       </button>
     </p>
     <ng-content></ng-content>
-  `,
+  `
 })
 export class DemoPageComponent implements AfterContentInit {
   @ContentChildren(DemoComponent) demoComponents: QueryList<DemoComponent>;
