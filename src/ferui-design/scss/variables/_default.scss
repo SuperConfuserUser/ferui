@@ -63,8 +63,6 @@ $colors: map-merge(
     'purple': $purple,
     'pink': $pink,
     'red': $red,
-    'lite-red': $light-red,
-    'heavy-red': $red-heavy,
     'orange': $orange,
     'yellow': $yellow,
     'green': $green,
@@ -79,15 +77,12 @@ $colors: map-merge(
 
 $primary: $blue !default;
 $secondary: $gray-500 !default;
-$dark: $gray-900 !default;
+$dark: $black !default;
 $light: $gray-300 !default;
 $success: $green !default;
 $info: $gray-900 !default;
-$info-lite: $gray-300 !default;
 $warning: $orange !default;
-$warning-lite: #fef4e7 !default;
 $danger: $red !default;
-$danger-lite: #fdeded !default;
 
 $theme-colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
@@ -100,16 +95,13 @@ $theme-colors: map-merge(
     'warning': $warning,
     'danger': $danger,
     'light': $light,
-    'info-lite': $info-lite,
-    'warning-lite': $warning-lite,
-    'danger-lite': $danger-lite,
     'dark': $dark
   ),
   $theme-colors
 );
 
 // Set a specific jump point for requesting color jumps
-$theme-color-interval: 8% !default;
+$theme-color-interval: 8.95% !default;
 
 // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
 $yiq-contrasted-threshold: 165 !default;
@@ -989,16 +981,17 @@ $modal-scale-transform: scale(1.02) !default;
 //
 // Define alert colors, border radius, and padding.
 
-$alert-padding-y: 0.75rem !default;
-$alert-padding-x: 1.25rem !default;
+$alert-padding-y: 0.625rem !default; // 10px
+$alert-padding-x: 0.625rem !default; // 10px
 $alert-margin-bottom: 1rem !default;
 $alert-border-radius: $border-radius !default;
 $alert-link-font-weight: $font-weight-bold !default;
 $alert-border-width: $border-width !default;
+$alert-icon-margin-x: 0.625rem; // 10px
 
 $alert-bg-level: -10 !default;
-$alert-border-level: -9 !default;
-$alert-color-level: 6 !default;
+$alert-border-level: -10 !default; // Bootstrap: -9
+$alert-color-level: -7 !default;
 
 // Progress bars
 

@@ -1,0 +1,324 @@
+<main class="col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content" role="main">
+  <h1 class="bd-title" id="content">Alerts</h1>
+  <p class="bd-lead">
+    Provide contextual feedback messages for typical user actions with a handful of available and flexible alert messages.
+  </p>
+
+  <h2 id="examples">
+    <span class="bd-content-title"
+      >Examples<a
+        class="anchorjs-link"
+        aria-label="Anchor"
+        data-anchorjs-icon="#"
+        href="#examples"
+        style="padding-left: 0.375em;"
+      ></a
+    ></span>
+  </h2>
+
+  <p>
+    Alerts are available for any length of text, as well as an optional dismiss button. For proper styling, use one of the eight
+    <strong>required</strong> contextual classes (e.g., <code>.alert-success</code>). You can also use custom icons.
+  </p>
+
+  <div class="bd-example">
+    <div class="alert alert-primary" role="alert">
+      A simple primary alert—check it out!
+    </div>
+    <div class="alert alert-secondary" role="alert">
+      A simple secondary alert—check it out!
+    </div>
+    <div class="alert alert-success" role="alert">
+      A simple success alert—check it out!
+    </div>
+    <div class="alert alert-danger" role="alert">
+      A simple danger alert—check it out!
+    </div>
+    <div class="alert alert-warning" role="alert">
+      A simple warning alert—check it out!
+    </div>
+    <div class="alert alert-info" role="alert">
+      A simple info alert—check it out!
+    </div>
+    <div class="alert alert-light" role="alert">
+      A simple light alert—check it out!
+    </div>
+    <div class="alert alert-dark" role="alert">
+      A simple dark alert—check it out!
+    </div>
+  </div>
+  <br />
+  <pre><code [languages]="['html']" [highlight]="exampleCode1"></code></pre>
+
+  <div class="bd-callout bd-callout-warning">
+    <h5 id="conveying-meaning-to-assistive-technologies">Conveying meaning to assistive technologies</h5>
+
+    <p>
+      Using color to add meaning only provides a visual indication, which will not be conveyed to users of assistive technologies
+      – such as screen readers. Ensure that information denoted by the color is either obvious from the content itself (e.g. the
+      visible text), or is included through alternative means, such as additional text hidden with the
+      <code>.sr-only</code> class.
+    </p>
+  </div>
+
+  <h3 id="link-color">
+    <span class="bd-content-title"
+      >Link color<a
+        class="anchorjs-link"
+        aria-label="Anchor"
+        data-anchorjs-icon="#"
+        href="#link-color"
+        style="padding-left: 0.375em;"
+      ></a
+    ></span>
+  </h3>
+
+  <p>
+    Use the <code>.alert-link</code> utility class to quickly provide appropriate links style (bolder font + underline on hover)
+    within any alert.
+  </p>
+
+  <div class="bd-example">
+    <div class="alert alert-primary" role="alert">
+      A simple primary alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you like.
+    </div>
+    <div class="alert alert-secondary" role="alert">
+      A simple secondary alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you
+      like.
+    </div>
+    <div class="alert alert-success" role="alert">
+      A simple success alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you like.
+    </div>
+    <div class="alert alert-danger" role="alert">
+      A simple danger alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you like.
+    </div>
+    <div class="alert alert-warning" role="alert">
+      A simple warning alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you like.
+    </div>
+    <div class="alert alert-info" role="alert">
+      A simple info alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you like.
+    </div>
+    <div class="alert alert-light" role="alert">
+      A simple light alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you like.
+    </div>
+    <div class="alert alert-dark" role="alert">
+      A simple dark alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you like.
+    </div>
+  </div>
+  <br />
+  <pre><code [languages]="['html']" [highlight]="exampleCode2"></code></pre>
+
+  <h3 id="additional-content">
+    <span class="bd-content-title"
+      >Additional content<a
+        class="anchorjs-link"
+        aria-label="Anchor"
+        data-anchorjs-icon="#"
+        href="#additional-content"
+        style="padding-left: 0.375em;"
+      ></a
+    ></span>
+  </h3>
+
+  <p>Alerts can also contain additional HTML elements like headings, paragraphs and dividers.</p>
+
+  <div class="bd-example">
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">Well done!</h4>
+      <p>
+        Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you
+        can see how spacing within an alert works with this kind of content.
+      </p>
+      <hr />
+      <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+    </div>
+  </div>
+  <br />
+  <pre><code [languages]="['html']" [highlight]="exampleCode3"></code></pre>
+
+  <h3 id="alertFlex">
+    <span class="bd-content-title"
+      >Alert Flex positioning<a
+        class="anchorjs-link"
+        aria-label="Anchor"
+        data-anchorjs-icon="#"
+        href="#alertFlex"
+        style="padding-left: 0.375em;"
+      ></a
+    ></span>
+  </h3>
+
+  <p>
+    We've also added a <code>.alert-flex</code> class along with different wrappers classes to display an alert into three
+    separated parts:
+  </p>
+  <ul>
+    <li><code>.fui-alert-icon-wrapper</code>: This is the left wrapper that usually contains the icons.</li>
+    <li><code>.fui-alert-body-wrapper</code>: This is the center wrapper that usually contains the message.</li>
+    <li><code>.fui-alert-close-wrapper</code>: This is the right wrapper that usually contains the close button.</li>
+  </ul>
+
+  <p>
+    As the name suggests, the <code>.alert-flex</code> class transforms the alert into a FlexBox. Here you can see it in action:
+  </p>
+
+  <div class="bd-example">
+    <div class="alert alert-info alert-dismissible alert-flex" role="alert">
+      <div class="fui-alert-icon-wrapper">
+        <clr-icon class="fui-alert-icon" shape="fui-help"></clr-icon>
+      </div>
+      <div class="fui-alert-body-wrapper">
+        A simple info alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you like.
+      </div>
+      <div class="fui-alert-close-wrapper">
+        <button type="button" class="close" aria-label="Close">
+          <clr-icon class="fui-alert-close-icon" shape="fui-close"></clr-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="alert alert-danger alert-flex" role="alert">
+      <div class="fui-alert-icon-wrapper">
+        <clr-icon class="fui-alert-icon" shape="fui-error"></clr-icon>
+      </div>
+      <div class="fui-alert-body-wrapper">
+        A simple success alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you
+        like.
+      </div>
+    </div>
+
+    <div class="alert alert-warning alert-flex" role="alert">
+      <div class="fui-alert-body-wrapper">
+        A simple warning alert with <a href="#" target="_blank" class="alert-link">an example link</a>. Give it a click if you
+        like.
+      </div>
+    </div>
+
+    <div class="alert alert-danger alert-dismissible alert-flex" role="alert">
+      <div class="fui-alert-icon-wrapper">
+        <clr-icon class="fui-alert-icon" shape="fui-tick"></clr-icon>
+      </div>
+      <div class="fui-alert-body-wrapper">
+        <h4 class="alert-heading">Well done!</h4>
+        <p>
+          Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you
+          can see how spacing within an alert works with this kind of content.
+        </p>
+        <hr />
+        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+      </div>
+      <div class="fui-alert-close-wrapper">
+        <button type="button" class="close" aria-label="Close">
+          <clr-icon class="fui-alert-close-icon" shape="fui-close"></clr-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <br />
+  <pre><code [languages]="['html']" [highlight]="exampleCode5"></code></pre>
+
+  <h3 id="alertAngular">
+    <span class="bd-content-title"
+      >Angular Component<a
+        class="anchorjs-link"
+        aria-label="Anchor"
+        data-anchorjs-icon="#"
+        href="#alertAngular"
+        style="padding-left: 0.375em;"
+      ></a
+    ></span>
+  </h3>
+
+  <p>
+    With FerUI, we have created a special Angular component to handle alerts more easily. It automatically creates a Flex alert
+    and positions the content appropriately. The closing of an alert is directly handled by this component so the developer
+    doesn't have to take care of it manually. Also, regarding the alert type (success, info, error, warning... etc) we've created
+    a TypeScript interface for you to easily choose what kind of alerts that you want. You can see the whole interface bellow:
+  </p>
+  <br />
+  <pre><code [languages]="['typescript']" [highlight]="exampleCode6"></code></pre>
+
+  <p>You can see this in action with a live demo:</p>
+
+  <div class="bd-example">
+    <fui-alert [closable]="false" [alertType]="fuiAlertsPrimary">
+      <clr-icon fuiAlertsIcon shape="fui-active-task"></clr-icon>
+      A simple primary alert—check it out!
+    </fui-alert>
+
+    <fui-alert [closable]="true" [alertType]="fuiAlertsSecondary">
+      <clr-icon fuiAlertsIcon shape="fui-burgermenu"></clr-icon>
+      A simple secondary alert—check it out!
+    </fui-alert>
+
+    <fui-alert [closable]="false" [alertType]="fuiAlertsSuccess">
+      <clr-icon fuiAlertsIcon shape="fui-tick"></clr-icon>
+      A simple success alert—check it out!
+    </fui-alert>
+
+    <fui-alert [closable]="true"> <strong>No icon needed!</strong> You can close the alert if you wish. </fui-alert>
+
+    <fui-alert [closable]="true" [alertType]="fuiAlertsWarning">
+      <clr-icon fuiAlertsIcon shape="fui-error"></clr-icon>
+      <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+    </fui-alert>
+
+    <fui-alert [closable]="true" [alertType]="fuiAlertsDanger">
+      <clr-icon fuiAlertsIcon shape="fui-error"></clr-icon>
+      <strong>Lorem ipsum</strong> dolor sit amet, consectetur adipiscing elit. Fusce et ex arcu. Aenean dapibus pellentesque
+      placerat. Sed quis rutrum lectus, vitae tincidunt orci. Proin ut urna non justo hendrerit hendrerit. Donec sollicitudin erat
+      sit amet sapien mollis, sed efficitur nibh scelerisque. Suspendisse ullamcorper varius lacus quis dapibus. Praesent ut sem
+      non ipsum tincidunt eleifend at nec nulla. Maecenas fermentum sollicitudin nisi in mollis. Ut et ligula at risus elementum
+      semper euismod vitae nisi. Morbi at orci in nulla semper viverra.
+    </fui-alert>
+  </div>
+  <br />
+  <pre><code [languages]="['html']" [highlight]="exampleCode4"></code></pre>
+
+  <h4 id="alerts-api" class="mt-4">FuiAlert API</h4>
+
+  <p>Here is the list of all <code>fui-alert</code> attributes and what they do.</p>
+
+  <table class="fui-table">
+    <thead>
+      <tr>
+        <th width="200">Property</th>
+        <th width="295">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>[closable]</code></td>
+        <td>boolean</td>
+        <td>Whether or not you want to dismiss the alert.</td>
+      </tr>
+      <tr>
+        <td><code>[alertType]</code></td>
+        <td><code>FuiAlertsTypes</code></td>
+        <td>The type of alert you want to display. Refer to the enum interface bellow.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 id="alert-outputs" class="mt-4">FuiAlert Outputs</h4>
+
+  <p>Here is the list of all <code>fui-alert</code> outputs and what they do.</p>
+
+  <table class="fui-table">
+    <thead>
+      <tr>
+        <th width="200">Property</th>
+        <th width="295">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>(onClose)</code></td>
+        <td><code>EventEmitter&lt;MouseEvent&gt;</code></td>
+        <td>This event is triggered each time you close (dismiss) the alert.</td>
+      </tr>
+    </tbody>
+  </table>
+</main>
