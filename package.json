@@ -54,6 +54,7 @@
     "build": "npm-run-all clean build:ui build:icons build:angular",
     "build:dev": "npm run clean:dev; ng build dev --prod=true --extractCss=true --baseHref=/",
     "build:dev:circleci": "npm run clean:dev; ng build dev --prod=true --extractCss=true --baseHref=/0/ferui/",
+    "build:dev:bamboo": "npm run clean:dev; ng build dev --prod=true --extractCss=true --baseHref=$CI_PATH",
     "deploy:gh-pages": "gh-pages -d dist/dev",
     "build:deploy:dev": "npm-run-all build:dev deploy:gh-pages",
     "ng": "ng",
