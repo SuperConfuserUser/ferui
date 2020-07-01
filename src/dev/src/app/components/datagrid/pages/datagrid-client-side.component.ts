@@ -419,7 +419,7 @@ export class DatagridClientSideComponent {
     this.withHeader2 = false;
     this.withFooter2 = false;
 
-    this.http.get('/datagrid-10k-data.min.json').subscribe((results: IDatagridRowData[]) => {
+    this.http.get(document.baseURI + '/datagrid-10k-data.min.json').subscribe((results: IDatagridRowData[]) => {
       setTimeout(() => {
         this.rowData = results;
         // Test empty values.

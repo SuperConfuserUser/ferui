@@ -53,7 +53,7 @@ export interface IDatagridRowData {
   providedIn: 'root'
 })
 export class RowDataApiService {
-  SERVER_URL: string = '/datagrid-10k-data.min.json';
+  SERVER_URL: string = document.baseURI + '/datagrid-10k-data.min.json';
 
   constructor(private httpClient: HttpClient, private dateIOService: DateIOService) {}
 
