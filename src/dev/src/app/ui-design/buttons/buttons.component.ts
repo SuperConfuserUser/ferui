@@ -3,8 +3,7 @@ import * as jsBeautify from 'js-beautify';
 
 @Component({
   selector: 'ui-buttons',
-  templateUrl: './buttons.component.html',
-  styleUrls: ['./buttons.component.scss']
+  templateUrl: './buttons.component.html'
 })
 export class UiDesignButtonsComponent {
   exampleCode1: string = jsBeautify.html(`

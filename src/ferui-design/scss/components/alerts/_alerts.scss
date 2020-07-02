@@ -1,0 +1,110 @@
+@import '../../variables';
+@import '../../mixins';
+@import '../../functions';
+
+@include exports('components.alerts') {
+  //
+  // Base styles
+  //
+
+  .alert {
+    display: block;
+    position: relative;
+    padding: $alert-padding-y $alert-padding-x;
+    margin-bottom: $alert-margin-bottom;
+    border: $alert-border-width solid transparent;
+    @include border-radius($alert-border-radius);
+
+    &.alert-flex {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-content: center;
+      align-items: center;
+
+      .fui-alert-icon-wrapper {
+        flex: 0 0 max-content;
+      }
+      .fui-alert-body-wrapper {
+        flex: 1 1 auto;
+      }
+      .fui-alert-close-wrapper {
+        flex: 0 0 max-content;
+        padding-left: $alert-padding-x;
+      }
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  // Headings for larger alerts
+  .alert-heading {
+    // Specified to prevent conflicts of changing $headings-color
+    color: inherit;
+  }
+
+  // Provide class for links within alerts
+  .alert-link {
+    font-weight: $alert-link-font-weight;
+  }
+
+  .fui-alert-icon {
+    width: 1rem; // 16px
+    height: 1rem; // 16px
+    margin: 0 $alert-icon-margin-x 0 0; // 0 10px 0 0
+  }
+
+  // Dismissible alerts
+  //
+  // Expand the right padding and account for the close button's positioning.
+
+  .alert-dismissible {
+    &:not(.alert-flex) {
+      padding-right: $close-font-size + $alert-padding-x * 2;
+    }
+
+    // Adjust close link position
+    .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: $alert-padding-y $alert-padding-x;
+      color: inherit;
+
+      .fui-alert-close-icon {
+        width: 0.625rem; // 10px
+        height: 0.625rem; // 10px
+      }
+    }
+
+    &.alert-flex {
+      .close {
+        position: relative;
+        top: auto;
+        right: auto;
+        padding: 0;
+      }
+    }
+  }
+
+  // Alternate styles
+  //
+  // Generate contextual modifier classes for colorizing the alert.
+
+  @each $color, $value in $theme-colors {
+    .alert-#{$color} {
+      @include alert-variant(
+        theme-color-level($color, $alert-bg-level),
+        theme-color-level($color, $alert-border-level),
+        theme-color-level($color, $alert-color-level)
+      );
+
+      .fui-alert-icon {
+        color: theme-color($color);
+        fill: theme-color($color);
+      }
+    }
+  }
+}

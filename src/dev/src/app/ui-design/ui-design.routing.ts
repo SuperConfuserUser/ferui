@@ -5,6 +5,7 @@ import { UiDesignGetStartedComponent } from './get-started/get-started.component
 import { UiDesignSpacingsComponent } from './spacings/spacings.component';
 import { UiDesignGridComponent } from './grid/grid.component';
 import { UiDesignButtonsComponent } from './buttons/buttons.component';
+import { UiDesignAlertsComponent } from './alerts/alerts.component';
 
 export const UI_DESIGN_ROUTES: Routes = [
   {
@@ -15,6 +16,7 @@ export const UI_DESIGN_ROUTES: Routes = [
       { path: 'get-started', component: UiDesignGetStartedComponent },
       { path: 'grid', component: UiDesignGridComponent },
       { path: 'buttons', component: UiDesignButtonsComponent },
+      { path: 'alerts', component: UiDesignAlertsComponent },
       { path: 'spacings', component: UiDesignSpacingsComponent }
     ]
   }

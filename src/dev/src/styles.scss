@@ -169,3 +169,19 @@ pre {
     }
   }
 }
+
+.bd-example {
+  padding: 20px;
+  border: 1px solid $gray-300;
+  border-radius: $border-radius;
+
+  .btn {
+    margin: 0.3125rem 0.3125rem 0.3125rem 0;
+  }
+
+  .btn-group {
+    .btn {
+      margin: 0.25rem 0;
+    }
+  }
+}

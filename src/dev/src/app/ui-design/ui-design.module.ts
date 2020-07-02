@@ -9,6 +9,7 @@ import { UiDesignLandingComponent } from './ui-design-landing.component';
 import { UiDesignSpacingsComponent } from './spacings/spacings.component';
 import { UiDesignGridComponent } from './grid/grid.component';
 import { UiDesignButtonsComponent } from './buttons/buttons.component';
+import { UiDesignAlertsComponent } from './alerts/alerts.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, UiDesignRoutingModule, ClrIconModule, FeruiModule, HighlightModule],
@@ -17,8 +18,15 @@ import { UiDesignButtonsComponent } from './buttons/buttons.component';
     UiDesignSpacingsComponent,
     UiDesignGridComponent,
     UiDesignLandingComponent,
-    UiDesignButtonsComponent
+    UiDesignButtonsComponent,
+    UiDesignAlertsComponent
   ],
-  exports: [UiDesignGetStartedComponent, UiDesignSpacingsComponent, UiDesignGridComponent, UiDesignButtonsComponent]
+  exports: [
+    UiDesignGetStartedComponent,
+    UiDesignSpacingsComponent,
+    UiDesignGridComponent,
+    UiDesignButtonsComponent,
+    UiDesignAlertsComponent
+  ]
 })
 export class UiDesignModule {}
