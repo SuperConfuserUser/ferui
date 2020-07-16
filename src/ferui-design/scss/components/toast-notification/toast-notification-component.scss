@@ -1,0 +1,147 @@
+@import '../../variables';
+@import '../../mixins';
+
+@include exports('components.toast-notification') {
+  #fui-toast-notification {
+    position: fixed;
+    display: block;
+    left: 50vw;
+    top: 0;
+    transform: translateY(-100px);
+    z-index: map-get($fui-layers, draggable-ghost);
+    visibility: hidden;
+    opacity: 0;
+
+    &:not(.hide-notification):hover {
+      // Needed another wrapper to have the on hover scale effect.
+      // Otherwise it was conflicting with the #fui-toast-notification slide-in and fade-in animations.
+      .content-wrapper {
+        transform: perspective(100px) translateZ(2px);
+        backface-visibility: hidden;
+      }
+    }
+
+    &.on-screen {
+      animation-delay: 0s;
+      animation-name: fade-in, slide-in;
+      animation-duration: 0.7s;
+      animation-iteration-count: 1;
+      animation-fill-mode: forwards;
+      visibility: visible;
+      opacity: 1;
+      &.hide-notification {
+        animation-name: fade-out, slide-out;
+        animation-duration: 0.4s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+      }
+    }
+
+    .content-wrapper {
+      display: flex;
+      align-items: center;
+      align-content: center;
+      box-sizing: border-box;
+      box-shadow: 0 4px 6px 0 rgba(54, 71, 82, 0.12);
+      border: 1px solid $gray-900;
+      border-radius: 5px;
+      background-color: $gray-900;
+      color: $white;
+      max-width: 500px;
+      min-width: 100px;
+      width: auto;
+      min-height: 42px;
+      height: auto;
+      cursor: pointer;
+      transform: perspective(100px);
+      transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      .toast-notification-icon {
+        flex: 0 0 28px;
+        padding: 0 0 0 10px;
+      }
+      .toast-notification-content {
+        flex: 1 0 auto;
+        max-width: inherit;
+        padding: 12px 10px;
+        line-height: 18px;
+        .toast-notification-message {
+          font-size: $font-size-base;
+          font-weight: $font-weight-normal;
+          color: $white;
+          filter: blur(0);
+          backface-visibility: hidden;
+        }
+        .toast-notification-action {
+          font-weight: $font-weight-bold;
+          &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+          a {
+            color: $white;
+            &:hover {
+              text-decoration: none;
+            }
+          }
+        }
+      }
+      &.has-icon {
+        .toast-notification-content {
+          max-width: 470px;
+        }
+      }
+    }
+  }
+
+  /**
+   * ----------------------------------------
+   * animations keyframes
+   * ----------------------------------------
+   */
+  @keyframes slide-in {
+    0% {
+      transform: translateY(-100px);
+      animation-timing-function: ease-in;
+    }
+    60% {
+      transform: translateY(25px);
+      animation-timing-function: ease-out;
+    }
+    100% {
+      transform: translateY(20px);
+      animation-timing-function: ease-in;
+    }
+  }
+
+  @keyframes slide-out {
+    0% {
+      transform: translateY(25px);
+      animation-timing-function: ease-out;
+    }
+    100% {
+      transform: translateY(-100px);
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+      visibility: visible;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+}

@@ -29,6 +29,8 @@ import { TreeViewServerSideDemo } from './tree-view/tree-view-server-side-demo';
 import { TreeViewOverviewDemo } from './tree-view/tree-view-overview-demo';
 import { TreeViewDashboardDemo } from './tree-view/tree-view-dashboard-demo';
 import { VirtualScrollerDemo } from './virtual-scroller/virtual-scroller.demo';
+import { ToastNotificationOverviewDemo } from './toast-notification/toast-notification-overview';
+import { ToastNotificationDashboardDemo } from './toast-notification/toast-notification-dashboard-demo';
 
 export const COMPONENTS_ROUTES: Routes = [
   {
@@ -86,6 +88,14 @@ export const COMPONENTS_ROUTES: Routes = [
       {
         path: 'widget',
         component: WidgetDemo
+      },
+      {
+        path: 'toast-notification',
+        component: ToastNotificationOverviewDemo,
+        children: [
+          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+          { path: 'dashboard', component: ToastNotificationDashboardDemo }
+        ]
       },
       {
         path: 'tabs',

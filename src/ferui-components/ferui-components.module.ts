@@ -9,6 +9,7 @@ import { FuiDropdownModule } from './dropdown/dropdown.module';
 import { TreeViewModule } from './tree-view/tree-view.module';
 import { FuiWidgetModule } from './widget/widget.module';
 import { FuiAlertsModule } from './alerts/alerts.module';
+import { FuiToastNotificationModule } from './toast-notification/toast-notification.module';
 
 @NgModule({
   exports: [
@@ -21,7 +22,8 @@ import { FuiAlertsModule } from './alerts/alerts.module';
     FuiDropdownModule,
     TreeViewModule,
     FuiWidgetModule,
-    FuiAlertsModule
+    FuiAlertsModule,
+    FuiToastNotificationModule
   ]
 })
 export class FeruiModule {}
