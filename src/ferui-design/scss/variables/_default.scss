@@ -7,9 +7,10 @@
 
 $white: #ffffff !default;
 $gray-100: #f5f8f9 !default;
-$gray-200: #f1f4f6 !default;
+$gray-200: #f1f7fb !default;
 $gray-300: #e5eaee !default;
 $gray-400: #ced6dd !default;
+$gray-450: #bfe8ff !default;
 $gray-500: #87a1b5 !default;
 $gray-600: #353f4e !default;
 $gray-700: #343b4e !default;
@@ -26,6 +27,7 @@ $grays: map-merge(
     '200': $gray-200,
     '300': $gray-300,
     '400': $gray-400,
+    '450': $gray-450,
     '500': $gray-500,
     '600': $gray-600,
     '700': $gray-700,
@@ -1148,3 +1150,4 @@ $fui-popover-box-shadow-color: rgba($gray-900, 0.25);
 $fui-button-horizontal-padding: 0.5rem !default;
 $fui-rem-1px: 0.0625rem;
 $fui-default-padding: 1.25rem; // 20px
+$fui-default-form-controls-margin-bottom: map_get($spacers, 2); // 10px;

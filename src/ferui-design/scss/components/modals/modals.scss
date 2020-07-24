@@ -1,0 +1,303 @@
+@import '../../variables';
+@import '../../mixins';
+
+.fui-modal-anchor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: $zindex-modal-backdrop;
+  background-color: rgba(29, 34, 47, 0.8);
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: none;
+
+  .fui-loader-animation {
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    fill: $gray-500;
+  }
+
+  &.fui-modal-open {
+    display: block;
+  }
+
+  .fui-modal-container {
+    display: flex;
+    flex-flow: column nowrap;
+    position: absolute;
+    width: 600px;
+    max-width: 100%;
+    height: auto;
+    z-index: $zindex-modal;
+    left: 50%;
+    top: 60px;
+    margin-bottom: 60px;
+    // This allow us to center the modal horizontally
+    transform: translate3d(-50%, 0, 0);
+    @include border-radius(3px);
+    background: $white;
+    box-shadow: 0 6px 36px 0 rgba(0, 0, 0, 0.5);
+
+    &.fui-modal-wizard-window {
+      width: 770px;
+
+      > .fui-modal-body {
+        display: flex;
+        padding: 0;
+        flex-flow: row nowrap;
+        align-items: stretch;
+        align-content: flex-start;
+
+        .fui-modal-wizard-steps {
+          display: block;
+          min-width: 1px;
+
+          flex-grow: 1;
+          flex-shrink: 1;
+
+          background: $gray-200;
+          box-shadow: inset -1px 0 0 0 $gray-300;
+
+          ul {
+            list-style: none;
+            padding: 20px;
+            margin: 0;
+
+            li {
+              height: 28px;
+              line-height: 28px;
+              font-size: $font-size-base;
+              color: $gray-500;
+
+              &.clickable {
+                cursor: pointer;
+                &:hover {
+                  color: $gray-900;
+                  &::before {
+                    color: $blue;
+                  }
+                }
+              }
+
+              &::before {
+                display: inline-block;
+                vertical-align: middle;
+                padding-right: 2px;
+                margin-left: -1px;
+                content: '\2022';
+                font-size: 30px;
+                height: 28px;
+                line-height: 28px;
+              }
+
+              &.selected {
+                color: $gray-900;
+                &::before {
+                  color: $blue;
+                }
+              }
+            }
+          }
+        }
+
+        .fui-modal-wizard-body {
+          min-width: 1px;
+          display: block;
+
+          flex-grow: 2;
+          flex-shrink: 1;
+          flex-basis: auto;
+
+          padding: 20px;
+        }
+      }
+    }
+
+    &.fui-modal-loading-window {
+      height: 180px;
+      align-content: center;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &.fui-modal-error-window {
+      padding: map-get($spacers, 4);
+
+      .alert {
+        margin-bottom: 0;
+      }
+    }
+
+    .fui-modal-close-btn {
+      position: absolute;
+      right: -30px;
+      top: -3px;
+      appearance: none;
+      background: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+      box-shadow: none;
+      border: none;
+      text-shadow: none;
+
+      .fui-modal-close-icon {
+        width: 14px;
+        height: 14px;
+        fill: $gray-500;
+
+        &:hover {
+          fill: $white;
+        }
+      }
+    }
+
+    .fui-modal-close-confirm-wrapper {
+      position: absolute;
+      right: -155px;
+      top: 40px;
+      background: $white;
+      z-index: $zindex-modal-backdrop;
+
+      width: 250px;
+      max-width: 250px;
+      min-width: 250px;
+      padding: map-get($spacers, 4);
+      @include border-radius($border-radius);
+      box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.16);
+
+      &::before {
+        position: absolute;
+        top: -10px;
+        left: 108px;
+        display: block;
+        content: ' ';
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid $white;
+      }
+
+      .fui-modal-close-confirm-message {
+        padding: 0;
+        margin: 0;
+        line-height: normal;
+        text-align: center;
+      }
+
+      .fui-modal-close-confirm-actions {
+        padding-top: 15px;
+        display: flex;
+        justify-content: space-between;
+
+        .btn {
+          min-width: 100px;
+        }
+      }
+    }
+
+    .fui-modal-header {
+      position: relative;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      flex: 1 1 60px;
+      height: 60px;
+      min-height: 60px;
+      width: 100%;
+      text-align: center;
+      background: $blue;
+      color: $white;
+      @include border-top-radius(3px);
+
+      .fui-modal-header-title {
+        line-height: 20px;
+        color: inherit;
+        font-weight: $font-weight-bold;
+        font-size: $font-size-lg;
+      }
+      .fui-modal-header-subtitle {
+        line-height: 14px;
+        color: $gray-450;
+        font-size: $font-size-base;
+      }
+    }
+
+    .fui-modal-body {
+      position: relative;
+      display: block;
+      width: 100%;
+      text-align: left;
+      height: auto;
+      flex: 1 1 auto;
+      padding: 20px;
+    }
+
+    .fui-modal-footer {
+      position: relative;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      align-content: center;
+      justify-content: flex-end;
+      padding: 0 20px;
+      @include border-bottom-radius(3px);
+      height: 60px;
+      flex: 1 1 60px;
+      width: 100%;
+      border-top: 1px solid $gray-300;
+
+      .btn {
+        position: relative;
+        .fui-button-loading {
+          opacity: 0;
+        }
+
+        .fui-loader-animation {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-top: -6px;
+          margin-left: -6px;
+          width: 12px;
+          height: 12px;
+          fill: $white;
+        }
+      }
+    }
+
+    .fui-modal-child-window-container {
+      position: absolute;
+      display: block;
+      top: 50px;
+
+      .fui-modal-container {
+        top: 0;
+        position: relative;
+      }
+    }
+
+    &.fui-modal-has-child-window-open {
+      &::before {
+        display: block;
+        content: ' ';
+        position: absolute;
+        box-sizing: border-box;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: $zindex-modal-backdrop;
+        background-color: rgba(29, 34, 47, 0.8);
+        @include border-radius(0.1625rem);
+      }
+    }
+  }
+}

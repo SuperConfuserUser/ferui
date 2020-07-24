@@ -2,7 +2,7 @@ import { Directive, ElementRef, Injector, Optional, Renderer2, Self, ViewContain
 import { NgControl } from '@angular/forms';
 
 import { WrappedFormControl } from '../common/wrapped-control';
-import { FuiRadioWrapper } from '../radio/radio-wrapper';
+import { FuiRadioWrapper } from './radio-wrapper';
 
 @Directive({ selector: '[fuiRadio]' })
 export class FuiRadio extends WrappedFormControl<FuiRadioWrapper> {

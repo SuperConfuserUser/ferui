@@ -158,11 +158,11 @@ export class FeruiUtils {
     return value >= min && value <= max;
   }
 
-  static generateUniqueId(prefix: string = 'fui'): string {
+  static generateUniqueId(prefix: string = 'fui', separator: string = '-'): string {
     // Math.random should be unique because of its seeding algorithm.
     // Convert it to base 36 (numbers + letters), and grab the first 9 characters
     // after the decimal.
-    return prefix + '-' + Math.random().toString(36).substr(2, 9);
+    return prefix + separator + Math.random().toString(36).substr(2, 9);
   }
 
   static iterateObject<T>(object: { [p: string]: T } | T[] | undefined, callback: (key: string, value: T) => void) {
@@ -283,5 +283,53 @@ export class FeruiUtils {
     } else {
       return domElement;
     }
+  }
+
+  // this is the trick: we create a dummy container and clone all the cells
+  // into the dummy, then check the dummy's width. then destroy the dummy
+  // as we don't need it any more.
+  static getPreferredWidthForItem(htmlElement: HTMLElement, bodyContainer: HTMLElement, extraSize: number = 0): number {
+    function cloneItemIntoDummy(element: HTMLElement, dummyContainer: HTMLElement): void {
+      // make a deep clone of the cell
+      const eItemClone: HTMLElement = element.cloneNode(true) as HTMLElement;
+      // the original has a fixed width, we remove this to allow the natural width based on content
+      eItemClone.style.width = '';
+      // the original has position = absolute, we need to remove this so it's positioned normally
+      eItemClone.style.position = 'static';
+      eItemClone.style.left = '';
+      // we put the cell into a containing div, as otherwise the cells would just line up
+      // on the same line, standard flow layout, by putting them into divs, they are laid
+      // out one per line
+      const eCloneParent = document.createElement('div');
+      // table-row, so that each cell is on a row. i also tried display='block', but this
+      // didn't work in IE
+      eCloneParent.style.display = 'table-row';
+
+      // the twig on the branch, the branch on the tree, the tree in the hole,
+      // the hole in the bog, the bog in the clone, the clone in the parent,
+      // the parent in the dummy, and the dummy down in the vall-e-ooo, OOOOOOOOO! Oh row the rattling bog....
+      eCloneParent.appendChild(eItemClone);
+      dummyContainer.appendChild(eCloneParent);
+    }
+
+    const eDummyContainer = document.createElement('span');
+    // position fixed, so it isn't restricted to the boundaries of the parent
+    eDummyContainer.style.position = 'fixed';
+
+    // we put the dummy into the body container, so it will inherit all the
+    // css styles that the real items are inheriting
+    bodyContainer.appendChild(eDummyContainer);
+
+    // get all the items that are currently displayed
+    cloneItemIntoDummy(htmlElement, eDummyContainer);
+
+    // at this point, all the clones are lined up vertically with natural widths. the dummy
+    // container will have a width wide enough just to fit the largest.
+    const dummyContainerWidth: number = eDummyContainer.offsetWidth;
+
+    // we are finished with the dummy container, so get rid of it
+    bodyContainer.removeChild(eDummyContainer);
+
+    return dummyContainerWidth + extraSize;
   }
 }

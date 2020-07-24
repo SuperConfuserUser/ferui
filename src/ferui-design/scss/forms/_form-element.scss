@@ -1,0 +1,8 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+.fui-form {
+  .fui-form-control:not(:last-child) {
+    margin-bottom: $fui-default-form-controls-margin-bottom !important;
+  }
+}
