@@ -103,7 +103,7 @@ export class FuiToastNotificationComponent implements OnDestroy {
 
   /**
    * Close the notification
-   * @params {Event} event
+   * @params event
    */
   closeNotification(event: Event): void {
     if (this.slideOutDelayTimer) {
@@ -120,7 +120,7 @@ export class FuiToastNotificationComponent implements OnDestroy {
   /**
    * Initialize and display the notification on screen
    * Decode any actions user wants to show and register its automatic closure after default time or chosen time
-   * @params {FuiToastNotificationInterface} notification object
+   * @params notification object
    */
   init(notificationObject: FuiToastNotificationInterface): void {
     this.message = notificationObject.message || this.defaultMessage;

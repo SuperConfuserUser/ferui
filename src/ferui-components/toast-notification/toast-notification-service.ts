@@ -20,7 +20,7 @@ export class FuiToastNotificationService {
 
   /**
    * Handles Fui Toast Notification delay if any is needed and call on to create the Fui Toast Notification component
-   * @param {FuiToastNotificationInterface} toast - object with component properties to show
+   * @param toast - object with component properties to show
    */
   createFuiToastNotification(toast: FuiToastNotificationInterface): void {
     if (toast.delay) {
@@ -34,7 +34,7 @@ export class FuiToastNotificationService {
 
   /**
    * Create and initialize FuiToastNotificationComponent Ref and append it to the DOM
-   * @param {FuiToastNotificationInterface} toast - object with component properties to show
+   * @param toast - object with component properties to show
    */
   private initFuiToastNotificationComponent(toast: FuiToastNotificationInterface): void {
     if (this.toastNotificationComRef) {
