@@ -34,6 +34,7 @@
     // Disabled comes first so active can properly restyle
     &.disabled,
     &:disabled {
+      cursor: default;
       opacity: $btn-disabled-opacity;
     }
 
@@ -70,26 +71,24 @@
 
   // Make a button look and behave like a link
   .btn-link {
-    font-weight: $font-weight-normal;
-    color: $link-color;
-    text-decoration: $link-decoration;
+    font-weight: $font-weight-bold;
+    color: $gray-500;
+    text-decoration: none;
 
     @include hover() {
-      color: $link-hover-color;
-      text-decoration: $link-hover-decoration;
+      color: $gray-900;
     }
 
     &:focus,
     &.focus {
-      text-decoration: $link-hover-decoration;
+      color: $gray-900;
     }
 
     &:disabled,
     &.disabled {
-      color: $btn-link-disabled-color;
+      color: $gray-300;
       pointer-events: none;
     }
-
     // No need for an active state here
   }
 

@@ -29,8 +29,13 @@ import { TreeViewServerSideDemo } from './tree-view/tree-view-server-side-demo';
 import { TreeViewOverviewDemo } from './tree-view/tree-view-overview-demo';
 import { TreeViewDashboardDemo } from './tree-view/tree-view-dashboard-demo';
 import { VirtualScrollerDemo } from './virtual-scroller/virtual-scroller.demo';
+import { ModalSimpleComponent } from './modals/pages/modal-simple.component';
+import { ModalWizardComponent } from './modals/pages/modal-wizard.component';
+import { ModalDemo } from './modals/modal.demo';
+import { ModalOverviewComponent } from './modals/pages/modal-overview.component';
 import { ToastNotificationOverviewDemo } from './toast-notification/toast-notification-overview';
 import { ToastNotificationDashboardDemo } from './toast-notification/toast-notification-dashboard-demo';
+import { ModalHeadlessComponent } from './modals/pages/modal-headless.component';
 
 export const COMPONENTS_ROUTES: Routes = [
   {
@@ -83,6 +88,17 @@ export const COMPONENTS_ROUTES: Routes = [
           { path: 'dashboard', component: TreeViewDashboardDemo },
           { path: 'client-side', component: TreeViewClientSideDemo },
           { path: 'server-side', component: TreeViewServerSideDemo }
+        ]
+      },
+      {
+        path: 'modals',
+        component: ModalDemo,
+        children: [
+          { path: '', redirectTo: 'overview', pathMatch: 'full' },
+          { path: 'overview', component: ModalOverviewComponent },
+          { path: 'standard', component: ModalSimpleComponent },
+          { path: 'headless', component: ModalHeadlessComponent },
+          { path: 'wizard', component: ModalWizardComponent }
         ]
       },
       {

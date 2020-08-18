@@ -3,10 +3,13 @@ import { FuiTab } from './tab';
 
 @Component({
   selector: 'fui-tabs',
+  host: {
+    '[class.fui-tabs]': 'true'
+  },
   template: `
     <ul class="nav nav-pills mb-3" role="tablist">
-      <li class="nav-item" role="tab" *ngFor="let tab of tabs; let i = index" (click)="selectTab(tab)">
-        <span class="nav-link" [class.active]="tab.active">
+      <li class="nav-item" role="tab" *ngFor="let tab of tabs; let i = index">
+        <button (click)="selectTab(tab)" class="btn" [class.btn-link]="!tab.active" [class.btn-primary]="tab.active">
           <ng-container
             *ngIf="tab.titleTemplateOutletRef"
             [ngTemplateOutlet]="tab.titleTemplateOutletRef"
@@ -14,7 +17,7 @@ import { FuiTab } from './tab';
           ></ng-container>
           <span *ngIf="!tab.titleTemplateOutletRef && tab.title">{{ tab.title }}</span>
           <span *ngIf="!tab.titleTemplateOutletRef && !tab.title">Tab {{ i }}</span>
-        </span>
+        </button>
       </li>
     </ul>
     <div class="tab-content">

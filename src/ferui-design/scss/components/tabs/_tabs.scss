@@ -1,0 +1,9 @@
+@import '../../variables';
+@import '../../mixins';
+
+@include exports('components.fui-tabs') {
+  .fui-tabs {
+    display: block;
+    margin: map-get($spacers, 4) 0;
+  }
+}

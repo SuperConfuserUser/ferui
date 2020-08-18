@@ -12,10 +12,12 @@ import { IpAddressValidatorDirective } from './validators/ip-address-validator.d
 import { EmailValidatorDirective } from './validators/email-validator';
 import { MaxValidatorDirective } from './validators/max-validator.directive';
 import { MinValidatorDirective } from './validators/min-validator.directive';
+import { ValuesEqualValidatorDirective } from './validators/values-equal-validator.directive';
 
 @NgModule({
   imports: [CommonModule, FuiHostWrappingModule],
   declarations: [
+    ValuesEqualValidatorDirective,
     EmailValidatorDirective,
     IpAddressValidatorDirective,
     Ipv4AddressValidatorDirective,
@@ -29,6 +31,7 @@ import { MinValidatorDirective } from './validators/min-validator.directive';
     FuiForm
   ],
   exports: [
+    ValuesEqualValidatorDirective,
     EmailValidatorDirective,
     IpAddressValidatorDirective,
     Ipv4AddressValidatorDirective,
