@@ -12,4 +12,5 @@ export * from './virtual-scroller/index';
 export * from './widget/index';
 export * from './datagrid/index';
 export * from './toast-notification/index';
+export * from './alerts/index';
 export * from './modals/index';

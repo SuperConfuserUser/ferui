@@ -4,11 +4,11 @@ import { ClrIconModule } from '../icon/icon.module';
 import { FuiAlertsComponent } from './alerts.component';
 import { FuiAlertsIcon } from './alerts-icon.directive';
 
-export const FUI_DROPDOWN_DIRECTIVES: Type<any>[] = [FuiAlertsComponent, FuiAlertsIcon];
+export const FUI_ALERTS_DIRECTIVES: Type<any>[] = [FuiAlertsComponent, FuiAlertsIcon];
 
 @NgModule({
   imports: [CommonModule, ClrIconModule],
-  declarations: [FUI_DROPDOWN_DIRECTIVES],
-  exports: [FUI_DROPDOWN_DIRECTIVES]
+  declarations: [FUI_ALERTS_DIRECTIVES],
+  exports: [FUI_ALERTS_DIRECTIVES]
 })
 export class FuiAlertsModule {}
