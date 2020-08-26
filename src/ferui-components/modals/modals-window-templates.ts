@@ -87,11 +87,3 @@ export const FUI_MODAL_LOADING_WINDOW_TPLT = `
 <div class="fui-modal-container fui-modal-loading-window" [ngClass]="windowConfiguration.cssClass">
   <clr-icon shape="fui-spinner" class="fui-loader-animation"></clr-icon>
 </div>`;
-
-export const FUI_MODAL_ERROR_WINDOW_TPLT = `
-<div class="fui-modal-container fui-modal-error-window" [ngClass]="windowConfiguration.cssClass">
-  <button class="fui-modal-close-btn" >
-    <clr-icon class="fui-modal-close-icon" (click)="windowCtrl.$close($event)" shape="fui-close"></clr-icon>
-  </button>
-  ${FUI_MODAL_WINDOW_ERROR_MSG}
-</div>`;

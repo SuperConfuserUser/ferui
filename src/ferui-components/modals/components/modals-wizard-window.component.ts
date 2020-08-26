@@ -27,9 +27,13 @@ import { FeruiUtils } from '../../utils/ferui-utils';
     [style.width.px]="windowCtrl.width"
     [ngClass]="windowCtrl.cssClass"
   >
-    ${FUI_MODAL_CLOSE_TPLT}
     <div class="fui-modal-header" *ngIf="windowCtrl.title || windowCtrl.subtitle || windowCtrl.titleTemplate">
-      ${FUI_MODAL_WINDOW_TITLE_TPLT}
+      <div class="fui-modal-header-title-wrapper">
+        ${FUI_MODAL_WINDOW_TITLE_TPLT}
+      </div>
+      <div class="fui-modal-header-close">
+        ${FUI_MODAL_CLOSE_TPLT}
+      </div>
     </div>
     <div class="fui-modal-body">
       <div #wizardStepsContainer class="fui-modal-wizard-steps" [style.max-width.px]="wizardStepsWidth">

@@ -23,7 +23,6 @@ export class FuiModalCtrlImpl implements FuiModalCtrl {
   mainWindow: FuiModalWindowCtrl<FuiModalWindowScreen>;
   childWindows: { [id: string]: FuiModalWindowCtrl<FuiModalWindowScreen> };
   modalWindowLoadingTplt: TemplateRef<FuiModalWindowTemplateContext>;
-  modalWindowErrorTplt: TemplateRef<FuiModalWindowTemplateContext>;
   interactionSubjects: { [key: string]: Subject<ModalWindowInteractionInterface<any>> } = {};
   data: any;
 

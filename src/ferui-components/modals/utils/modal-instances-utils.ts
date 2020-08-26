@@ -1,14 +1,15 @@
 import {
   FuiModalCtrl,
   FuiModalWindowConfiguration,
-  FuiModalWindowEnum,
   FuiModalWindowCtrl,
+  FuiModalWindowEnum,
   FuiModalWindowScreen
 } from '../interfaces/modals-interfaces';
 import { FuiModalStandardWindowCtrlImpl } from '../models/windows/fui-modal-standard-window-ctrl';
 import { FuiModalWizardWindowCtrlImpl } from '../models/windows/fui-modal-wizard-window-ctrl';
 import { FuiModalHeadlessWindowCtrlImpl } from '../models/windows/fui-modal-headless-window-ctrl';
 import { FuiModalUtils } from './modal-utils';
+import { FuiModalErrorWindowCtrlImpl } from '../models/windows/fui-modal-error-window-ctrl';
 
 /**
  * FerUI modals instance utils class
@@ -20,13 +21,18 @@ export class FuiModalInstancesUtils {
    * Get the instantiated window class depending on the window type.
    * @param modalCtrl The modal controller to pass in to the window.
    * @param windowConfiguration The window configuration.
+   * @param error Whether or not we want to get the error component.
+   * @returns Return the appropriate window controller.
    */
   static getWindowInstance(
     modalCtrl: FuiModalCtrl,
-    windowConfiguration?: FuiModalWindowConfiguration
+    windowConfiguration?: FuiModalWindowConfiguration,
+    error?: boolean
   ): FuiModalWindowCtrl<FuiModalWindowScreen> {
     windowConfiguration = windowConfiguration || modalCtrl.mainWindowConfiguration;
-    switch (FuiModalUtils.getWindowTypeFromConfig(windowConfiguration)) {
+    switch (FuiModalUtils.getWindowTypeFromConfig(windowConfiguration, error)) {
+      case FuiModalWindowEnum.ERROR:
+        return new FuiModalErrorWindowCtrlImpl(modalCtrl, windowConfiguration);
       case FuiModalWindowEnum.STANDARD:
         return new FuiModalStandardWindowCtrlImpl(modalCtrl, windowConfiguration);
       case FuiModalWindowEnum.WIZARD:

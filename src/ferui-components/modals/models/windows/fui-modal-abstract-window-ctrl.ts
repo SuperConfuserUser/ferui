@@ -40,9 +40,10 @@ export abstract class AbstractFuiModalWindowCtrlImpl<S extends FuiModalWindowScr
   // Default left value for the child windows
   defaultLeftValue: number = 300;
 
+  viewContainerRef: ViewContainerRef;
+
   protected injector: Injector;
   protected componentFactoryResolver: ComponentFactoryResolver;
-  protected viewContainerRef: ViewContainerRef;
   protected componentScreenInstance: S;
 
   protected constructor(protected modalCtrl: FuiModalCtrl, public windowConfiguration: FuiModalWindowConfiguration) {
@@ -154,18 +155,7 @@ export abstract class AbstractFuiModalWindowCtrlImpl<S extends FuiModalWindowScr
    * @param viewContainerRef
    * @param error
    */
-  renderError(viewContainerRef: ViewContainerRef, error: string | Error): void {
-    this.error = error;
-    this.viewContainerRef = viewContainerRef;
-    this.viewContainerRef.clear();
-    this.windowEmbedViewRef = this.viewContainerRef.createEmbeddedView<FuiModalWindowTemplateContext>(
-      this.modalCtrl.modalWindowErrorTplt,
-      {
-        modalCtrl: this.modalCtrl,
-        windowCtrl: this
-      }
-    );
-  }
+  abstract renderError(viewContainerRef: ViewContainerRef, error: string | Error): void;
 
   /**
    * Render the corresponding window within the specified viewContainerRef.

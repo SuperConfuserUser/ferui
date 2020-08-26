@@ -46,6 +46,17 @@ import * as jsBeautify from 'js-beautify';
             <pre><code [languages]="['typescript']" [highlight]="codeExample3"></code></pre>
           </fui-tab>
         </fui-tabs>
+
+        <fui-tabs>
+          <fui-tab [title]="'Example'" [active]="true">
+            <div class="bd-example">
+              <button class="btn btn-sm btn-primary mr-2" (click)="openErrorWizardModal()">Error wizard modal</button>
+            </div>
+          </fui-tab>
+          <fui-tab [title]="'Code'">
+            <pre><code [languages]="['typescript']" [highlight]="codeExample4"></code></pre>
+          </fui-tab>
+        </fui-tabs>
       </div>
     </div>
   </div>`
@@ -193,6 +204,41 @@ export class ExampleWindowComponent implements FuiModalWizardWindowScreen {
     }
   );
 
+  codeExample4: string = jsBeautify.js(
+    `
+openErrorWizardModal() {
+    this.modalService
+      .openModal(
+        {
+          title: 'Wizard Error',
+          subtitle: 'This is a simple wizard with 1 steps',
+          wizardSteps: [
+            {
+              stepId: 'wizardStep1',
+              label: 'Wizard step 1',
+              component: ModalWizard1Component
+            }
+          ]
+        },
+        {
+          errorPromise: new Promise<string>((resolve, reject) => {
+            setTimeout(() => {
+              reject('There where an issue with promise \`errorPromise\`.');
+            }, 600);
+          })
+        }
+      )
+      .then(args => {
+        console.log('[modalService.openModal] openErrorWizardModal ::: submitted ::: ', args);
+      });
+  }
+  `,
+    {
+      indent_size: 2,
+      indent_with_tabs: false
+    }
+  );
+
   constructor(private modalService: FuiModalService) {}
 
   openWizardModal() {
@@ -244,6 +290,33 @@ export class ExampleWindowComponent implements FuiModalWizardWindowScreen {
       )
       .then(args => {
         console.log('[modalService.openModal] openSimpleModal2 ::: submitted ::: ', args);
+      });
+  }
+
+  openErrorWizardModal() {
+    this.modalService
+      .openModal(
+        {
+          title: 'Wizard Error',
+          subtitle: 'This is a simple wizard with 1 steps',
+          wizardSteps: [
+            {
+              stepId: 'wizardStep1',
+              label: 'Wizard step 1',
+              component: ModalWizard1Component
+            }
+          ]
+        },
+        {
+          errorPromise: new Promise<string>((resolve, reject) => {
+            setTimeout(() => {
+              reject('There where an issue with promise `errorPromise`.');
+            }, 600);
+          })
+        }
+      )
+      .then(args => {
+        console.log('[modalService.openModal] openErrorWizardModal ::: submitted ::: ', args);
       });
   }
 }

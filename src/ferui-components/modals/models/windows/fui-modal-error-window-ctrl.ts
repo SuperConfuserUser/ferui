@@ -1,25 +1,24 @@
 import {
   FuiModalCtrl,
-  FuiModalHeadlessWindowCtrl,
-  FuiModalHeadlessWindowScreen,
   FuiModalWindowConfiguration,
   FUI_MODAL_CTRL_TOKEN,
-  FUI_MODAL_WINDOW_CTRL_TOKEN
+  FUI_MODAL_WINDOW_CTRL_TOKEN,
+  FuiModalErrorWindowScreen,
+  FuiModalErrorWindowCtrl
 } from '../../interfaces/modals-interfaces';
 import { AbstractFuiModalWindowCtrlImpl } from './fui-modal-abstract-window-ctrl';
 import { Injector, Type, ViewContainerRef } from '@angular/core';
 import { FuiModalHeadlessWindowComponent } from '../../components/modals-headless-window.component';
-import { FuiModalUtils } from '../../utils/modal-utils';
 
 /**
- * Headless window controller class.
+ * Error window controller class.
  */
-export class FuiModalHeadlessWindowCtrlImpl<I = any, CL = any>
-  extends AbstractFuiModalWindowCtrlImpl<FuiModalHeadlessWindowScreen<I, CL>, I, CL>
-  implements FuiModalHeadlessWindowCtrl<I, CL> {
-  component: Type<FuiModalHeadlessWindowScreen>;
+export class FuiModalErrorWindowCtrlImpl<I = any, CL = any>
+  extends AbstractFuiModalWindowCtrlImpl<FuiModalErrorWindowScreen<I, CL>, I, CL>
+  implements FuiModalErrorWindowCtrl<I, CL> {
+  component: Type<FuiModalErrorWindowScreen>;
 
-  protected componentScreenInstance: FuiModalHeadlessWindowScreen<I, CL>;
+  protected componentScreenInstance: FuiModalErrorWindowScreen<I, CL>;
 
   constructor(protected modalCtrl: FuiModalCtrl, public windowConfiguration: FuiModalWindowConfiguration) {
     super(modalCtrl, windowConfiguration);
@@ -58,18 +57,10 @@ export class FuiModalHeadlessWindowCtrlImpl<I = any, CL = any>
 
   /**
    * Force to render the error window within the specified viewContainerRef.
+   * There is no way to render another error within an error window.
+   * This method will never be called, it is there only for inheritance.
    * @param viewContainerRef
    * @param error
    */
-  renderError(viewContainerRef: ViewContainerRef, error: string | Error): void {
-    FuiModalUtils.renderErrorWindow<CL>(
-      error,
-      this.injector,
-      this.modalCtrl,
-      this.windowConfiguration,
-      viewContainerRef,
-      this.componentFactoryResolver,
-      this.$close.bind(this)
-    );
-  }
+  renderError(viewContainerRef: ViewContainerRef, error: string | Error): void {}
 }

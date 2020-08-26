@@ -11,6 +11,7 @@ import {
 import { Injector, TemplateRef, Type, ViewContainerRef } from '@angular/core';
 import { AbstractFuiModalWindowCtrlImpl } from './fui-modal-abstract-window-ctrl';
 import { FuiModalStandardWindowComponent } from '../../components/modals-standard-window.component';
+import { FuiModalUtils } from '../../utils/modal-utils';
 
 /**
  * Standard window controller class.
@@ -153,6 +154,23 @@ export class FuiModalStandardWindowCtrlImpl<I = any, CL = any, S = any, C = any>
         ],
         parent: this.injector
       })
+    );
+  }
+
+  /**
+   * Force to render the error window within the specified viewContainerRef.
+   * @param viewContainerRef
+   * @param error
+   */
+  renderError(viewContainerRef: ViewContainerRef, error: string | Error): void {
+    FuiModalUtils.renderErrorWindow<CL>(
+      error,
+      this.injector,
+      this.modalCtrl,
+      this.windowConfiguration,
+      viewContainerRef,
+      this.componentFactoryResolver,
+      this.$close.bind(this)
     );
   }
 }

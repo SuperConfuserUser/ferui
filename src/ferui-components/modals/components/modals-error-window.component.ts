@@ -1,33 +1,27 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { FUI_MODAL_CHILD_WINDOW_TPLT, FUI_MODAL_CLOSE_TPLT, FUI_MODAL_WINDOW_ERROR_MSG } from '../modals-window-templates';
 import { FuiModalAbstractWindowComponent } from './modals-abstract-window.component';
 import {
-  FuiModalHeadlessWindowCtrl,
-  FuiModalHeadlessWindowScreen,
   FUI_MODAL_CTRL_TOKEN,
-  FUI_MODAL_WINDOW_CTRL_TOKEN
+  FUI_MODAL_WINDOW_CTRL_TOKEN,
+  FuiModalErrorWindowCtrl,
+  FuiModalErrorWindowScreen
 } from '../interfaces/modals-interfaces';
 
 /**
- * Modal window component class for Headless type window.
+ * Modal window component class for Error type window.
  */
 @Component({
-  template: `<div
-    class="fui-modal-container fui-modal-headless-window"
-    [class.fui-modal-has-child-window-open]="windowCtrl.hasChildWindowOpen"
-    [style.width.px]="windowCtrl.width"
-    [ngClass]="windowCtrl.cssClass"
-  >
-    ${FUI_MODAL_CLOSE_TPLT}
+  template: `<div class="fui-modal-container fui-modal-headless-window">
+    <button class="fui-modal-close-btn" (click)="close($event)">
+      <clr-icon class="fui-modal-close-icon" shape="fui-close"></clr-icon>
+    </button>
     <div class="fui-modal-body">
-      ${FUI_MODAL_WINDOW_ERROR_MSG}
       <ng-template #componentHost></ng-template>
     </div>
-    ${FUI_MODAL_CHILD_WINDOW_TPLT}
   </div>`
 })
-export class FuiModalHeadlessWindowComponent
-  extends FuiModalAbstractWindowComponent<FuiModalHeadlessWindowCtrl, FuiModalHeadlessWindowScreen>
+export class FuiModalErrorWindowComponent
+  extends FuiModalAbstractWindowComponent<FuiModalErrorWindowCtrl, FuiModalErrorWindowScreen>
   implements OnInit {
   ngOnInit(): void {
     if (!this.windowCtrl.component || !this.viewContainerRef) {

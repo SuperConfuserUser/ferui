@@ -16,7 +16,8 @@ export const FUI_MODAL_CTRL_TOKEN = new InjectionToken('ModalController');
 export enum FuiModalWindowEnum {
   STANDARD = 'standard',
   WIZARD = 'wizard',
-  HEADLESS = 'headless'
+  HEADLESS = 'headless',
+  ERROR = 'error'
 }
 
 export interface FuiModalButtonInterface {
@@ -124,8 +125,7 @@ export interface FuiModalCtrl<D = any, P extends FuiModalWindowParam = any, R ex
   mainWindow: FuiModalWindowCtrl<FuiModalWindowScreen>; // The main window controller.
   childWindows: { [id: string]: FuiModalWindowCtrl<FuiModalWindowScreen> }; // List of every child windows controller.
   interactionSubjects: { [key: string]: Subject<ModalWindowInteractionInterface<any>> }; // [Internal use only]
-  modalWindowLoadingTplt: TemplateRef<FuiModalWindowTemplateContext>; // The loading template. It can be override.
-  modalWindowErrorTplt: TemplateRef<FuiModalWindowTemplateContext>; // The error template. It can be override.
+  modalWindowLoadingTplt: TemplateRef<FuiModalWindowTemplateContext>; // [Internal use only] The loading template.
   onWindowInteraction<T>(windowId: string): Promise<ModalWindowInteractionInterface<T>>; // [Internal use only]
   onWindowInteractionObservable<T>(windowId: string): Observable<ModalWindowInteractionInterface<T>>; // [Internal use only]
   resetWindow(windowId: string): void; // [Internal use only] Reset the specified window by cleaning the interactionSubjects.
@@ -164,6 +164,7 @@ export interface FuiModalWindowCtrl<
   id?: string; // The unique ID of the window. If not set, a uniqueID will be generated.
   // Value in px of the window width.
   width?: number; // The developer can specify the custom width if he want, by default we use 600px for standard window and 770px for wizards.
+  viewContainerRef: ViewContainerRef; // [Internal use only]
   reset(): void; // [Internal use only]
   openChildWindow<T>(windowId: string, windowPromises?: FuiModalWindowResolve, params?: FuiModalWindowParam): Promise<T>;
   render(viewContainerRef: ViewContainerRef): void; // [Internal use only]
@@ -171,6 +172,15 @@ export interface FuiModalWindowCtrl<
   renderLoading(viewContainerRef: ViewContainerRef): void; // [Internal use only]
   $close(event: MouseEvent | KeyboardEvent): Promise<CL>; // Close the window.
   $init(args?: any): Promise<I>; // Initialise the window with args.
+}
+
+export interface FuiModalErrorWindowCtrl<
+  I = any,
+  CL = any,
+  P extends FuiModalWindowParam = any,
+  R extends FuiModalWindowResolved = any
+> extends FuiModalWindowCtrl<FuiModalErrorWindowScreen, I, CL, P, R> {
+  component: Type<FuiModalErrorWindowScreen<I, CL>>; // The component screen to use.
 }
 
 export interface FuiModalHeadlessWindowCtrl<
@@ -271,8 +281,15 @@ export interface FuiModalWizardWindowScreen<I = any, CL = any, N = any, B = any,
 }
 
 /**
- * Headless window screen interface
+ * Headless window screen interface.
  */
 export interface FuiModalHeadlessWindowScreen<I = any, CL = any> extends FuiModalWindowScreen<I, CL> {
   windowCtrl?: FuiModalHeadlessWindowCtrl<I, CL>;
+}
+
+/**
+ * Error window screen interface.
+ */
+export interface FuiModalErrorWindowScreen<I = any, CL = any> extends FuiModalWindowScreen<I, CL> {
+  windowCtrl?: FuiModalErrorWindowCtrl<I, CL>;
 }
