@@ -12,6 +12,7 @@ import { FuiTimeModule } from './time/time.module';
 import { FuiDateModule } from './date/date.module';
 import { FuiDatetimeModule } from './datetime/datetime.module';
 import { FuiNumberModule } from './number/number.module';
+import { FuiToggleModule } from './toggle/toggle.module';
 
 @NgModule({
   imports: [CommonModule],
@@ -27,7 +28,8 @@ import { FuiNumberModule } from './number/number.module';
     FuiDateModule,
     FuiTimeModule,
     FuiDatetimeModule,
-    FuiNumberModule
+    FuiNumberModule,
+    FuiToggleModule
   ]
 })
 export class FuiFormsModule {}

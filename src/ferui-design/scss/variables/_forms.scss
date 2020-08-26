@@ -14,12 +14,14 @@ $textarea-height: 4.375rem !default; // 70px;
 $textarea-default-height: calc((#{$textarea-height} - #{$controls-padding}) - 2px);
 $textarea-margin: calc(#{$controls-filled-padding} + 2px);
 
-// Radios / checkboxes
+// Radios / checkboxes / Toggles
 $checkbox-min-height: 1.25rem !default; // 20px
 $checkmark-width: 0.5rem !default; // 8px
 $radiomark-width: 0.375rem !default; // 6px
 $checkmark-left-value: calc((#{$checkbox-min-height} - #{$checkmark-width}) / 2); // 6px
 $radiocircle-left-value: calc((#{$checkbox-min-height - #{$radiomark-width}}) / 2); // 7px
+$toggle-min-height: 1.625rem !default; // 26px
+$toggle-min-width: 2.5rem !default; // 40px
 
 // Selects
 $color-selected: $blue !default;

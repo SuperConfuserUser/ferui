@@ -36,6 +36,7 @@ import { ModalOverviewComponent } from './modals/pages/modal-overview.component'
 import { ToastNotificationOverviewDemo } from './toast-notification/toast-notification-overview';
 import { ToastNotificationDashboardDemo } from './toast-notification/toast-notification-dashboard-demo';
 import { ModalHeadlessComponent } from './modals/pages/modal-headless.component';
+import { ToggleComponent } from './forms/toggle/toggle.component';
 
 export const COMPONENTS_ROUTES: Routes = [
   {
@@ -57,7 +58,8 @@ export const COMPONENTS_ROUTES: Routes = [
           { path: 'textareas', component: TextareaComponent },
           { path: 'checkboxes', component: CheckboxComponent },
           { path: 'radios', component: RadiosComponent },
-          { path: 'selects', component: SelectsComponent }
+          { path: 'selects', component: SelectsComponent },
+          { path: 'toggles', component: ToggleComponent }
         ]
       },
       {

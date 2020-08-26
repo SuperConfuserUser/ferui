@@ -1,0 +1,50 @@
+<form fuiForm class="container-fluid" #demoForm="ngForm">
+  <fui-tabs>
+    <fui-tab title="Examples" [active]="true">
+      <demo-page [filtersDisplayed]="true" pageTitle="Input Toggle Component">
+        <demo-component [form]="demoForm" [componentData]="inputOne"></demo-component>
+        <demo-component [form]="demoForm" [componentData]="inputTwo"></demo-component>
+        <demo-component [form]="demoForm" [componentData]="inputThree"></demo-component>
+        <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
+        <div class="footer">
+          <button class="btn btn-primary" [disabled]="demoForm.form.invalid" (click)="promptSubmitInfos()" type="submit">
+            Submit
+          </button>
+          <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
+          <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
+        </div>
+      </demo-page>
+    </fui-tab>
+    <fui-tab title="Documentation">
+      <h4>Input toggle component overview</h4>
+      <p class="alert alert-primary mt-4">
+        Be sure to check <a [routerLink]="['../overview']">here</a> here for a general overview of FerUI form component usage.
+      </p>
+      <h5>Basic toggle</h5>
+      <p>
+        By simply applying the <code>fuiToggle</code> directive to a checkbox input element, the input will be styled as a FerUI
+        Toggle and behave like a checkbox. There is no label to describe the field.
+      </p>
+      <pre><code [highlight]="inputOneSource"></code></pre>
+      <h5>Labeled toggle</h5>
+      <p>
+        Wrapping the input with the designated <code>fuiToggleWrapper</code> allows creation of a labeled toggle. The
+        <code>input</code> and <code>label</code> elements may be placed in any order within the wrapper.
+      </p>
+      <pre><code [highlight]="inputTwoSource"></code></pre>
+      <h5>Toggle with validation</h5>
+      <p>
+        To validate that a toggle is toggled (checked) and add style accordingly, apply the <code>required</code> validator
+        directive and wrap everything in <code>fuiToggleContainer</code>. In the absence of the
+        <code>fuiControlError</code> element, the default error message will show. A custom error message may be specified via the
+        <code>innerHTML</code> of <code>fuiControlError</code>.
+      </p>
+      <pre><code [highlight]="inputThreeSource"></code></pre>
+      <h5>Disabled toggle</h5>
+      <p>
+        A <code>disabled</code> toggle input will have disabled functionality as expected as well as styling to reflect its state.
+      </p>
+      <pre><code [highlight]="inputFourSource"></code></pre>
+    </fui-tab>
+  </fui-tabs>
+</form>

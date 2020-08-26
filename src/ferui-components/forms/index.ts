@@ -5,3 +5,4 @@ export * from './time/index';
 export * from './datetime/index';
 export * from './common/index';
 export * from './number/index';
+export * from './toggle/index';

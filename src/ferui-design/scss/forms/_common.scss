@@ -44,13 +44,13 @@
         }
       }
 
-      *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper) {
+      *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper):not(.fui-toggle-wrapper) {
         .fui-control-label:not(.fui-control-icons) {
           @include control-label();
         }
       }
 
-      > *:not(.fui-checkbox-subtext-wrapper):not(.fui-radio-subtext-wrapper) {
+      > *:not(.fui-checkbox-subtext-wrapper):not(.fui-radio-subtext-wrapper):not(.fui-toggle-subtext-wrapper) {
         .fui-control-icons {
           color: $gray-500;
 
@@ -116,7 +116,7 @@
       }
 
       &:not(.fui-empty):not(.fui-no-label) {
-        *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper) {
+        *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper):not(.fui-toggle-wrapper) {
           .fui-control-label:not(.fui-control-icons) {
             @include control-label-selected();
           }
@@ -189,13 +189,13 @@
         }
       }
 
-      *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper) {
+      *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper):not(.fui-toggle-wrapper) {
         .fui-control-label:not(.fui-control-icons) {
           @include control-small-label();
         }
       }
 
-      > *:not(.fui-checkbox-subtext-wrapper):not(.fui-radio-subtext-wrapper) {
+      > *:not(.fui-checkbox-subtext-wrapper):not(.fui-radio-subtext-wrapper):not(.fui-toggle-subtext-wrapper) {
         .fui-control-icons {
           > .fui-validate-icon,
           > .fui-error-icon {
@@ -259,7 +259,7 @@
       }
 
       &:not(.fui-empty):not(.fui-no-label) {
-        *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper) {
+        *:not(.fui-checkbox-wrapper):not(.fui-radio-wrapper):not(.fui-toggle-wrapper) {
           .fui-layout-small:not(.fui-select) {
             padding: $controls-small-padding 2rem $controls-small-padding $controls-small-padding !important;
           }
