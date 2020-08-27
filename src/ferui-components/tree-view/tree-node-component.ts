@@ -21,6 +21,7 @@ import { DomObserver, ObserverInstance } from '../utils/dom-observer/dom-observe
 import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
 
 import {
+  FuiTreeviewNodeSelectionEnum,
   PagedTreeNodeDataRetriever,
   TreeNode,
   TreeNodeDataRetriever,
@@ -30,6 +31,7 @@ import {
   TreeViewEventType
 } from './interfaces';
 import { TREE_VIEW_INDENTATION_PADDING } from './internal-interfaces';
+import { FuiTreeViewMultiSelectService } from './tree-view-multi-select-service';
 import { FuiTreeViewUtilsService } from './tree-view-utils-service';
 
 // To understand why we disabled this tslint rule
@@ -51,6 +53,26 @@ import { FuiTreeViewUtilsService } from './tree-view-utils-service';
           </ng-template>
         </span>
         <span class="label">
+          <input
+            type="checkbox"
+            fuiCheckbox
+            *ngIf="treeviewConfig.nodeSelection === selectionType.MULTIPLE && !multiSelectSingleSelection"
+            [name]="node.id"
+            (ngModelChange)="onChecked()"
+            [(ngModel)]="node.checked"
+            [disabled]="node.disabled || isNodeUnselectable()"
+            [indeterminate]="node.indeterminate"
+          />
+          <input
+            type="radio"
+            fuiRadio
+            *ngIf="treeviewConfig.nodeSelection === selectionType.SINGLE && multiSelectSingleSelection"
+            [value]="true"
+            [name]="node.id"
+            (click)="onChecked()"
+            [(ngModel)]="node.checked"
+            [disabled]="node.disabled || isNodeUnselectable()"
+          />
           <ng-container
             [ngTemplateOutlet]="getNodeTemplate() ? getNodeTemplate() : defaultNodeRenderer"
             [ngTemplateOutletContext]="{ node: node }"
@@ -92,6 +114,8 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck, OnCh
   // left padding dependent of node tree hierarchical level
   padding: number;
   indentationPadding: number = TREE_VIEW_INDENTATION_PADDING;
+  multiSelectSingleSelection: boolean; // if on selection feature check if node should have radio button or checkbox
+  selectionType: typeof FuiTreeviewNodeSelectionEnum = FuiTreeviewNodeSelectionEnum;
 
   private domObservers: ObserverInstance[] = [];
 
@@ -99,7 +123,8 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck, OnCh
     @Self() private element: ElementRef,
     private scrollbarHelper: ScrollbarHelper,
     private cd: ChangeDetectorRef,
-    private treeViewUtils: FuiTreeViewUtilsService
+    private treeViewUtils: FuiTreeViewUtilsService,
+    private fuiTreeViewMultiSelectService: FuiTreeViewMultiSelectService<T>
   ) {}
 
   /**
@@ -112,6 +137,25 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck, OnCh
     while (parent != null) {
       parent = parent.parent;
       this.level++;
+    }
+    if (this.treeviewConfig.nodeSelection) {
+      this.multiSelectSingleSelection =
+        this.fuiTreeViewMultiSelectService.getNodeSelection() === FuiTreeviewNodeSelectionEnum.SINGLE;
+      if (
+        this.fuiTreeViewMultiSelectService.isAutoCheck() &&
+        this.fuiTreeViewMultiSelectService.getNodeSelection() !== FuiTreeviewNodeSelectionEnum.SINGLE
+      ) {
+        // Check if parent is checked, then we check node as well
+        if (this.node.parent && this.node.parent.checked && !this.node.parent.indeterminate) {
+          this.node.checked = true;
+        }
+      } else if (this.dataRetriever.hasOwnProperty('getPagedChildNodeData')) {
+        // On Server Side select if parent is checked, we check and disable child
+        if (this.node.parent && this.node.parent.checked && this.fuiTreeViewMultiSelectService.getDisableChildren()) {
+          this.node.checked = true;
+          this.node.disabled = true;
+        }
+      }
     }
     this.dataRetriever.hasChildNodes(this.node.data).then((hasChildren: boolean) => {
       this.hasChildren = hasChildren;
@@ -186,6 +230,24 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck, OnCh
   }
 
   /**
+   * Invokes the node event based on the host Tree Node and its checked or unchecked state
+   */
+  onChecked(): void {
+    this.onNodeEvent.emit({
+      getNode: () => {
+        return this.node;
+      },
+      getType: () => {
+        // we first check if checkbox was partially checked
+        if (this.node.indeterminate) {
+          return TreeViewEventType.NODE_UNCHECKED;
+        }
+        return !this.node.checked ? TreeViewEventType.NODE_CHECKED : TreeViewEventType.NODE_UNCHECKED;
+      }
+    });
+  }
+
+  /**
    * Gets the icon template reference the developer can use on a Tree Node with its current state
    */
   getIconTemplate(): TemplateRef<any> | null {
@@ -197,6 +259,15 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck, OnCh
    */
   getNodeTemplate(): TemplateRef<any> | null {
     return this.dataRetriever.hasOwnProperty('getNodeTemplate') ? this.dataRetriever.getNodeTemplate() : null;
+  }
+
+  /**
+   * If on multi-select feature, we check if developer wish to make a node unselectable
+   */
+  isNodeUnselectable(): boolean {
+    return this.dataRetriever.hasOwnProperty('isNodeUnselectable')
+      ? this.dataRetriever.isNodeUnselectable(this.node.data)
+      : false;
   }
 
   /**

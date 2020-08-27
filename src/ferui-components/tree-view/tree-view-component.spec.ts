@@ -45,8 +45,8 @@ export default function () {
         height: '300px'
       });
       expect(treeViewCom.colorTheme).toEqual('white');
-      expect(treeViewCom.scrollViewArray).toEqual([
-        {
+      expect(treeViewCom.scrollViewArray[0]).toEqual(
+        jasmine.objectContaining({
           data: {
             data: { name: 'Parent', children: [{ name: 'Child 1' }, { name: 'Child 2' }] },
             nodeLabel: 'Parent'
@@ -57,9 +57,11 @@ export default function () {
           allChildrenLoaded: false,
           parent: null,
           showLoader: false,
-          loadError: false
-        }
-      ]);
+          loadError: false,
+          checked: false,
+          indeterminate: false
+        })
+      );
       expect(treeViewCom.hasBorders).toEqual(false);
     });
   });
@@ -85,8 +87,8 @@ export default function () {
     it('expects all server side properties of Tree View to be set properly', () => {
       const treeViewCom = testComponent.componentInstance.treeView;
       expect(treeViewCom.colorTheme).toEqual('gray');
-      expect(treeViewCom.scrollViewArray).toEqual([
-        {
+      expect(treeViewCom.scrollViewArray[0]).toEqual(
+        jasmine.objectContaining({
           data: {
             data: { name: 'Parent', children: [{ name: 'Child 1' }, { name: 'Child 2' }] },
             nodeLabel: 'Parent'
@@ -97,9 +99,11 @@ export default function () {
           allChildrenLoaded: false,
           parent: null,
           showLoader: false,
-          loadError: false
-        }
-      ]);
+          loadError: false,
+          checked: false,
+          indeterminate: false
+        })
+      );
       expect(treeViewCom.hasBorders).toEqual(true);
     });
 

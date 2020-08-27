@@ -18,11 +18,13 @@ import {
   ViewChildren
 } from '@angular/core';
 
+import { DatagridUtils } from '../datagrid/utils/datagrid-utils';
 import { DomObserver, ObserverInstance } from '../utils/dom-observer/dom-observer';
 import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
 import { FuiVirtualScrollerComponent } from '../virtual-scroller/virtual-scroller';
 
 import {
+  FuiTreeviewNodeSelectionEnum,
   NonRootTreeNode,
   PagedTreeNodeDataRetriever,
   PagingParams,
@@ -38,6 +40,7 @@ import {
 } from './interfaces';
 import { FuiTreeViewComponentStyles, WrappedPromise } from './internal-interfaces';
 import { FuiTreeNodeComponent } from './tree-node-component';
+import { FuiTreeViewMultiSelectService } from './tree-view-multi-select-service';
 import { FuiTreeViewUtilsService } from './tree-view-utils-service';
 
 @Component({
@@ -52,7 +55,8 @@ import { FuiTreeViewUtilsService } from './tree-view-utils-service';
         [bufferAmount]="domBufferAmount"
       >
         <fui-tree-node
-          *ngFor="let node of scroll.viewPortItems"
+          [id]="node.id"
+          *ngFor="let node of scroll.viewPortItems; trackBy: trackByFunc"
           [node]="node"
           [theme]="colorTheme"
           [borders]="hasBorders"
@@ -80,7 +84,7 @@ import { FuiTreeViewUtilsService } from './tree-view-utils-service';
   host: {
     class: 'fui-tree-view-component'
   },
-  providers: [FuiTreeViewUtilsService, ScrollbarHelper]
+  providers: [FuiTreeViewUtilsService, ScrollbarHelper, FuiTreeViewMultiSelectService]
 })
 export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit {
   @Output() readonly onNodeEvent: EventEmitter<TreeViewEvent<T>> = new EventEmitter<TreeViewEvent<T>>();
@@ -124,7 +128,8 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
     @Self() private el: ElementRef,
     private cd: ChangeDetectorRef,
     private treeViewUtils: FuiTreeViewUtilsService,
-    private scrollbarHelper: ScrollbarHelper
+    private scrollbarHelper: ScrollbarHelper,
+    private treeViewMultiSelectService: FuiTreeViewMultiSelectService<T>
   ) {}
 
   /**
@@ -132,6 +137,14 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
    */
   ngOnInit(): void {
     this.serverSideComponent = this.dataRetriever.hasOwnProperty('getPagedChildNodeData');
+    if (this.config.nodeSelection) {
+      const autoCheck = this.serverSideComponent ? false : this.config.autoCheck || true;
+      this.treeViewMultiSelectService.setAutoCheck(autoCheck);
+      this.treeViewMultiSelectService.setNodeSelection(this.config.nodeSelection);
+      if (this.serverSideComponent) {
+        this.treeViewMultiSelectService.setDisableChildren(this.config.serverSideDisableChildren || true);
+      }
+    }
     this.treeViewStyles = {
       width: this.config.width ? this.config.width : this.defaultWidth,
       height: this.config.height ? this.config.height : this.defaultHeight
@@ -139,7 +152,6 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
     this.scrollWidthChangeSub = this.treeViewUtils.treeViewScrollWidthChange.subscribe(() => this.updateScrollerWidth());
     this.colorTheme = this.config.colorVariation ? this.config.colorVariation : this.defaultColorScheme;
     this.border = this.hasBorders = this.config.hasBorders ? this.config.hasBorders : false;
-
     if (this.treeNodeData instanceof NonRootTreeNode) {
       const emptyRootNode = this.createTreeNode(this.treeNodeData, null);
       const params: PagingParams | null = this.serverSideComponent
@@ -198,6 +210,32 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
   }
 
   /**
+   * If on multi-select mode, public api will provide all checked nodes
+   * @returns {Array<TreeNodeData<T>> || null} the checked tree node's data list
+   */
+  getCheckedNodesList(): Array<TreeNodeData<T>> | null {
+    return this.treeViewMultiSelectService.getCheckedNodes().map(it => it.data);
+  }
+
+  /**
+   * If on mult-select mode, public api will provide any partially checked nodes to developer
+   *  @returns {Array<TreeNodeData<T>> || null} the partially checked tree node's data list
+   */
+  getPartiallyCheckedNodesList(): Array<TreeNodeData<T>> | null {
+    return this.treeViewMultiSelectService.getPartialCheckedNodes().map(it => it.data);
+  }
+
+  /**
+   * Track by func
+   * @param index {number}
+   * @param node {TreeNode<T>}
+   * @returns {string} the node id to track by
+   */
+  trackByFunc(index: number, node: TreeNode<T>): string {
+    return node.id;
+  }
+
+  /**
    * Public method to select a Tree Node
    *
    * @param nodeData
@@ -233,6 +271,36 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
   }
 
   /**
+   * Public method to check or uncheck a Tree Node
+   *
+   * @param nodeData {TreeNodeData<T>}
+   * @param shouldBeChecked {boolean}
+   */
+  toggleCheckNode(nodeData: TreeNodeData<T>, shouldBeChecked: boolean): void {
+    if (this.config.nodeSelection) {
+      const treeNode = this.scrollViewArray.find(it => it.id === this.createTreeNode(nodeData, null).id);
+      if (treeNode) {
+        treeNode.checked = shouldBeChecked;
+        treeNode.checked
+          ? this.treeViewMultiSelectService.handleCheckedNode(
+              treeNode,
+              this.cd,
+              this.serverSideComponent,
+              this.dataRetriever,
+              this.createTreeNode.bind(this)
+            )
+          : this.treeViewMultiSelectService.handleUncheckedNode(
+              treeNode,
+              this.cd,
+              this.serverSideComponent,
+              this.dataRetriever,
+              this.createTreeNode.bind(this)
+            );
+      }
+    }
+  }
+
+  /**
    * Emits the Node Event for outside Tree View Component usage as well as ensures tree nodes properties are updated
    * @param event
    */
@@ -247,6 +315,29 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
         break;
       case TreeViewEventType.NODE_CLICKED:
         this.selectOneNode(event.getNode());
+        break;
+      case TreeViewEventType.NODE_CHECKED:
+        const checkedNodes =
+          this.treeViewMultiSelectService.getNodeSelection() === FuiTreeviewNodeSelectionEnum.SINGLE
+            ? this.scrollViewArray.filter(it => it.checked)
+            : undefined;
+        this.treeViewMultiSelectService.handleCheckedNode(
+          event.getNode(),
+          this.cd,
+          this.serverSideComponent,
+          this.dataRetriever,
+          this.createTreeNode.bind(this),
+          checkedNodes
+        );
+        break;
+      case TreeViewEventType.NODE_UNCHECKED:
+        this.treeViewMultiSelectService.handleUncheckedNode(
+          event.getNode(),
+          this.cd,
+          this.serverSideComponent,
+          this.dataRetriever,
+          this.createTreeNode.bind(this)
+        );
         break;
       default:
         break;
@@ -460,6 +551,30 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
       );
       firstNodeWithMoreChildrenToLoad.allChildrenLoaded = true;
     }
+    if (
+      (this.config.nodeSelection && firstNodeWithMoreChildrenToLoad.indeterminate) ||
+      (this.config.nodeSelection && !this.treeViewMultiSelectService.isAutoCheck()) ||
+      (this.config.nodeSelection && this.treeViewMultiSelectService.getNodeSelection() === FuiTreeviewNodeSelectionEnum.SINGLE)
+    ) {
+      // if using selection feature of tree view, we check if any children were left checked/partially checked
+      this.treeViewMultiSelectService.getCheckedNodes().forEach(checkedNode => {
+        newChildren.forEach(newChild => {
+          if (checkedNode.id === newChild.id) {
+            // New child was found in checked nodes list
+            newChild.checked = true;
+          }
+        });
+      });
+      this.treeViewMultiSelectService.getPartialCheckedNodes().forEach(partial => {
+        newChildren.forEach(newChild => {
+          if (partial.id === newChild.id) {
+            // New child was found in partially checked nodes list
+            newChild.checked = true;
+            newChild.indeterminate = true;
+          }
+        });
+      });
+    }
     firstNodeWithMoreChildrenToLoad.children = firstNodeWithMoreChildrenToLoad.children.concat(newChildren);
     this.scrollPromise = false;
     this.cd.markForCheck();
@@ -520,7 +635,12 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
       allChildrenLoaded: false,
       parent: parentTreeNode,
       showLoader: false,
-      loadError: false
+      loadError: false,
+      id: this.dataRetriever.hasOwnProperty('getTreeNodeId')
+        ? this.dataRetriever.getTreeNodeId(treeNodeData)
+        : DatagridUtils.findId(treeNodeData instanceof NonRootTreeNode ? {} : treeNodeData.data),
+      checked: false,
+      indeterminate: false
     };
   }
 

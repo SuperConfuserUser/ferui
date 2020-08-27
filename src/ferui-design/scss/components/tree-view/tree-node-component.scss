@@ -1,3 +1,6 @@
+@import '../../variables';
+@import '../../mixins';
+
 @include exports('components.tree-node') {
   .fui-tree-node-component {
     display: block;
@@ -10,13 +13,27 @@
       width: max-content;
       display: inline-block;
     }
+    .fui-checkbox-wrapper {
+      display: inline-block;
+      vertical-align: middle;
+      margin: -1px -1px 3px 0;
+      width: 28px;
+      input[type='checkbox'] + label::before {
+        border: 1px solid $gray-400;
+      }
+    }
+    .fui-radio-wrapper {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0;
+    }
     .label {
       line-height: 34px;
       font-size: 14px;
       padding-right: 10px;
     }
     .icon-template {
-      margin-right: 9px;
+      margin-right: 10px; // clr-icon width within icon template should be 10px as well to align nodes well
     }
     .fui-loader-animation {
       color: #87a1b5;
@@ -67,6 +84,11 @@
     }
     &.white .fui-node-tree:not(.node-tree-selected):hover {
       background-color: #e5eaee;
+      .fui-checkbox-wrapper {
+        input[type='checkbox']:not(:checked) + label::before {
+          background-color: $white;
+        }
+      }
     }
     &.white .node-tree-selected {
       background: #e4f5ff;
