@@ -17,6 +17,7 @@ import { FormsDashboardComponent } from './dashboard/forms-dashboard.component';
 import { RouterModule } from '@angular/router';
 import { UtilsModule } from '../../utils/utils.module';
 import { NumberComponent } from './number/number';
+import { ToggleComponent } from './toggle/toggle.component';
 
 export const FUI_DEMO_FROMS_DIRECTIVES: Type<any>[] = [
   DefaultTemplateWrapper,
@@ -30,6 +31,7 @@ export const FUI_DEMO_FROMS_DIRECTIVES: Type<any>[] = [
   RadiosComponent,
   SelectsComponent,
   PasswordComponent,
+  ToggleComponent,
   FormsLandingComponent,
   FormsDashboardComponent
 ];

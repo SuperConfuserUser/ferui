@@ -1,0 +1,151 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+@include exports('forms.toggles') {
+  .fui-toggle-wrapper {
+    display: block;
+    position: relative;
+    height: $toggle-min-height;
+    width: auto;
+    margin: 10px 0 0 0;
+
+    input[type='checkbox'] {
+      cursor: pointer;
+      box-sizing: border-box;
+      width: $toggle-min-width;
+      height: $toggle-min-height;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      padding: 0;
+      margin: 0;
+
+      + label {
+        cursor: pointer;
+        color: $gray-500;
+        font-size: $font-size-base;
+        box-sizing: border-box;
+        display: block;
+        position: relative;
+        user-select: none;
+        min-height: $toggle-min-height;
+        line-height: $toggle-min-height;
+        padding-left: 50px;
+
+        &::before {
+          position: absolute;
+          box-sizing: border-box;
+          content: '';
+          top: 0;
+          left: 0;
+          display: inline-block;
+          height: $toggle-min-height;
+          width: $toggle-min-width;
+          background: $white;
+          border: 1px solid $gray-400;
+          border-radius: 15px;
+        }
+
+        &::after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          box-sizing: border-box;
+          width: $checkbox-min-height;
+          height: $checkbox-min-height;
+          top: 0.1875rem; // 3px
+          left: 0.1875rem;
+          background: $gray-500;
+          border-radius: 15px;
+          transition: all ease 0.2s;
+        }
+      }
+
+      &:hover {
+        + label::before {
+          background: $gray-200;
+        }
+      }
+
+      &:hover:checked {
+        + label::before {
+          background: $blue-hover;
+        }
+      }
+
+      &:checked {
+        + label::before {
+          background: $blue;
+          border: none;
+        }
+
+        + label::after {
+          background: $white;
+          left: 1.0625rem; // 17px
+          transition: all ease 0.2s;
+        }
+      }
+
+      &[disabled] {
+        + label {
+          cursor: default;
+
+          &::before {
+            background: $gray-200;
+            border: 1px solid $gray-400;
+          }
+
+          &::after {
+            background: $gray-500;
+            border: none;
+          }
+        }
+
+        &:hover {
+          + label::before {
+            background: $gray-200;
+          }
+        }
+      }
+    }
+  }
+
+  .fui-control-container {
+    .fui-toggle-subtext-wrapper {
+      padding: 5px 0 0 2px;
+
+      .fui-subtext {
+        color: $red;
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 0 0 12px;
+
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s ease 0.2s, opacity 0.2s ease;
+      }
+    }
+
+    &.fui-touched,
+    &.fui-dirty {
+      .fui-toggle-subtext-wrapper {
+        .fui-subtext:first-child {
+          visibility: visible;
+          opacity: 1;
+          transition-delay: 0s;
+        }
+      }
+
+      &.fui-error {
+        .fui-toggle-wrapper {
+          .fui-control-label {
+            &::before {
+              border: 1px solid $red;
+            }
+          }
+        }
+      }
+    }
+  }
+}
