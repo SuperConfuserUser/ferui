@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { FuiModalWindowTemplateContext } from '../interfaces/modals-interfaces';
-import { FUI_MODAL_ERROR_WINDOW_TPLT, FUI_MODAL_LOADING_WINDOW_TPLT } from '../modals-window-templates';
+import { FUI_MODAL_LOADING_WINDOW_TPLT } from '../modals-window-templates';
 import { FuiModalCtrlImpl } from '../models/modal/fui-modal-ctrl';
 
 /**
@@ -14,9 +14,6 @@ import { FuiModalCtrlImpl } from '../models/modal/fui-modal-ctrl';
     <ng-template #modalWindowLoading let-windowConfiguration="windowCtrl.windowConfiguration">
       ${FUI_MODAL_LOADING_WINDOW_TPLT}
     </ng-template>
-    <ng-template #modalWindowError let-windowConfiguration="windowCtrl.windowConfiguration" let-windowCtrl="windowCtrl">
-      ${FUI_MODAL_ERROR_WINDOW_TPLT}
-    </ng-template>
   `,
   host: {
     '[class.fui-modal-anchor]': 'true',
@@ -26,12 +23,10 @@ import { FuiModalCtrlImpl } from '../models/modal/fui-modal-ctrl';
 export class FuiModalComponent implements OnInit {
   @ViewChild('hostWindowContainer', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
   @ViewChild('modalWindowLoading') modalWindowLoadingTplt: TemplateRef<FuiModalWindowTemplateContext>;
-  @ViewChild('modalWindowError') modalWindowErrorTplt: TemplateRef<FuiModalWindowTemplateContext>;
 
   constructor(public modalCtrl: FuiModalCtrlImpl) {}
 
   ngOnInit() {
-    this.modalCtrl.modalWindowErrorTplt = this.modalWindowErrorTplt;
     this.modalCtrl.modalWindowLoadingTplt = this.modalWindowLoadingTplt;
     this.modalCtrl.viewContainerRef = this.viewContainerRef;
     this.modalCtrl.init();

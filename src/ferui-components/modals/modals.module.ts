@@ -6,12 +6,16 @@ import { FuiModalHeadlessWindowComponent } from './components/modals-headless-wi
 import { FuiModalStandardWindowComponent } from './components/modals-standard-window.component';
 import { FuiModalWizardWindowComponent } from './components/modals-wizard-window.component';
 import { FuiAlertsModule } from '../alerts/alerts.module';
+import { FuiModalErrorScreenComponent } from './components/screens/modal-error-screen.component';
+import { FuiModalErrorWindowComponent } from './components/modals-error-window.component';
 
 const FUI_MODALS_DIRECTIVES: Type<any>[] = [
   FuiModalComponent,
   FuiModalHeadlessWindowComponent,
   FuiModalStandardWindowComponent,
-  FuiModalWizardWindowComponent
+  FuiModalWizardWindowComponent,
+  FuiModalErrorScreenComponent,
+  FuiModalErrorWindowComponent
 ];
 
 @NgModule({

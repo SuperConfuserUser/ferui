@@ -8,7 +8,7 @@
   width: 100vw;
   height: 100vh;
   z-index: $zindex-modal-backdrop;
-  background-color: rgba(29, 34, 47, 0.8);
+  background: rgba(36, 42, 59, 0.2);
 
   overflow-x: hidden;
   overflow-y: auto;
@@ -40,7 +40,7 @@
     transform: translate3d(-50%, 0, 0);
     @include border-radius(3px);
     background: $white;
-    box-shadow: 0 6px 36px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
     &.fui-modal-wizard-window {
       width: 770px;
@@ -148,10 +148,11 @@
       .fui-modal-close-icon {
         width: 14px;
         height: 14px;
-        fill: $gray-500;
+        fill: $white;
 
         &:hover {
           fill: $white;
+          opacity: 0.6;
         }
       }
     }
@@ -163,12 +164,13 @@
       background: $white;
       z-index: $zindex-modal-backdrop;
 
+      color: $gray-900;
       width: 250px;
       max-width: 250px;
       min-width: 250px;
       padding: map-get($spacers, 4);
       @include border-radius($border-radius);
-      box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.16);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
       &::before {
         position: absolute;
@@ -204,7 +206,7 @@
     .fui-modal-header {
       position: relative;
       display: flex;
-      flex-flow: column nowrap;
+      flex-flow: row nowrap;
       justify-content: center;
       align-items: center;
       align-content: center;
@@ -217,16 +219,62 @@
       color: $white;
       @include border-top-radius(3px);
 
-      .fui-modal-header-title {
-        line-height: 20px;
-        color: inherit;
-        font-weight: $font-weight-bold;
-        font-size: $font-size-lg;
+      .fui-modal-header-title-wrapper {
+        flex: 1 1 auto;
+        display: flex;
+        height: 60px;
+        min-height: 60px;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+
+        .fui-modal-header-title {
+          line-height: 20px;
+          color: inherit;
+          font-weight: $font-weight-bold;
+          font-size: $font-size-lg;
+        }
+        .fui-modal-header-subtitle {
+          line-height: 14px;
+          color: $gray-450;
+          font-size: $font-size-base;
+        }
       }
-      .fui-modal-header-subtitle {
-        line-height: 14px;
-        color: $gray-450;
-        font-size: $font-size-base;
+
+      .fui-modal-header-close {
+        position: relative;
+        flex: 0 0 54px;
+        width: 54px;
+        height: 60px;
+        min-height: 60px;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+
+        .fui-modal-close-btn {
+          position: relative;
+          top: 0;
+          right: 0;
+          height: 14px;
+
+          .fui-modal-close-icon {
+            fill: $gray-450;
+            vertical-align: top;
+
+            &:hover {
+              fill: $white;
+              opacity: 1;
+            }
+          }
+        }
+
+        .fui-modal-close-confirm-wrapper {
+          right: -105px;
+          top: 55px;
+        }
       }
     }
 
@@ -295,7 +343,7 @@
         right: 0;
         bottom: 0;
         z-index: $zindex-modal-backdrop;
-        background-color: rgba(29, 34, 47, 0.8);
+        background: rgba(36, 42, 59, 0.2);
         @include border-radius(0.1625rem);
       }
     }

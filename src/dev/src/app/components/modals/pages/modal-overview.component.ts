@@ -1,11 +1,4 @@
 import { Component } from '@angular/core';
-import * as jsBeautify from 'js-beautify';
-import {
-  FuiModalCtrl,
-  FuiModalHeadlessWindowCtrl,
-  FuiModalStandardWindowCtrl,
-  FuiModalWizardWindowCtrl
-} from '@ferui/components';
 
 @Component({
   template: `
@@ -129,8 +122,8 @@ import {
           <h5 class="mt-4 mb-4">Modal Configuration object (<code>FuiModalWindowConfiguration</code>)</h5>
 
           <p>
-            The <code>FuiModalWindowConfiguration</code> object is the spearhead of the <code>FuiModalService</code> service. It
-            contains all the configuration needed to open a modal with either one or multiple windows.
+            The <code>FuiModalWindowConfiguration</code> object is the spearhead of the <code>FuiModalService</code>
+            service. It contains all the configuration needed to open a modal with either one or multiple windows.
           </p>
           <pre><code [languages]="['typescript']" [highlight]="modalExample1"></code></pre>
 
@@ -275,8 +268,9 @@ import {
               <strong>$onInit(args)</strong> lifecycle).
             </li>
             <li>
-              <strong>Back</strong>: This action allows you to go back to the previous step. The <strong>$back</strong> action
-              offers the ability to send some data to the previous screen (it will be retrieved by previous screen component
+              <strong>Back</strong>: This action allows you to go back to the previous step. The <strong>$back</strong>
+              action offers the ability to send some data to the previous screen (it will be retrieved by previous screen
+              component
               <strong>$onInit(args)</strong> lifecycle).
             </li>
           </ul>
@@ -730,7 +724,8 @@ import {
           <p>
             <strong>Note 1</strong>: If <code>title</code>, <code>subtitle</code> and <code>titleTemplate</code> are set to null
             or undefined, there will be no header at all.<br />
-            <strong>Note 2</strong>: If <code>withSubmitBtn</code>, <code>withCancelBtn</code>, <code>withBackBtn</code> and
+            <strong>Note 2</strong>: If <code>withSubmitBtn</code>, <code>withCancelBtn</code>, <code>withBackBtn</code>
+            and
             <code>withNextBtn</code> are all set to <strong>false</strong>, there will be no footer at all. <br />
             In this case, you'll need to call respectively <code>windowCtrl.$submit(event: MouseEvent)</code>,
             <code>windowCtrl.$cancel(event: MouseEvent)</code>, <code>windowCtrl.$back(event: MouseEvent)</code> and
@@ -739,15 +734,26 @@ import {
 
           <h4 class="mt-4 mb-4">8. Error handling</h4>
           <p>
-            The modal system has its own way to handle errors that may occurs at different states. <br />
-            One thing to keep in mind is that if the error is a compilation issue (the dev forgot to add a "component" or if the
-            component doesn't compile for any reason) the modal won't open at all and you'll see an error inside the browser
-            console.
-            <br />
-            Any other kind of errors (API responding 4xx or 5xx for instance, return a promise rejection or throwing an error
-            during one of the lifecycle hooks) the error will be displayed within the window, at the top of the body section like
-            shown in this picture:
+            The modal system has its own way to handle errors that may occur at different states of a window workflow:
           </p>
+
+          <ul>
+            <li>
+              <strong>Developer mistake error</strong>: If the error is a compilation issue (the dev set an un-existing component
+              or the component doesn't compile at all for any reason or the dev is trying to open a child window that doesn't
+              exist...) the modal won't open and you'll just see an error inside the browser console.
+            </li>
+            <li>
+              <strong>Initialisation error</strong>: If an error occur during initialisation lifecycle or if one of the initial
+              promises is rejected, then the window you're trying to open will be replaced by an error window which will only
+              display the error that occur. The main window won't even been compiled, only the error window will.
+            </li>
+            <li>
+              <strong>In window error</strong>: Any other kind of errors occurring after the window is fully compiled and
+              initialized will be displayed within the window itself, at the top of the body section like shown in the next
+              picture:
+            </li>
+          </ul>
 
           <img src="./assets/modals/window-error-example.jpg" width="782" height="709" />
 

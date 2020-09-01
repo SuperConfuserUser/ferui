@@ -13,6 +13,7 @@ import { Injector, TemplateRef, ViewContainerRef } from '@angular/core';
 import { FuiModalWizardWindowComponent } from '../../components/modals-wizard-window.component';
 import { AbstractFuiModalWindowCtrlImpl } from './fui-modal-abstract-window-ctrl';
 import { FeruiUtils } from '../../../utils/ferui-utils';
+import { FuiModalUtils } from '../../utils/modal-utils';
 
 /**
  * Wizard window controller class.
@@ -233,6 +234,23 @@ export class FuiModalWizardWindowCtrlImpl<I = any, CL = any, N = any, B = any, S
         ],
         parent: this.injector
       })
+    );
+  }
+
+  /**
+   * Force to render the error window within the specified viewContainerRef.
+   * @param viewContainerRef
+   * @param error
+   */
+  renderError(viewContainerRef: ViewContainerRef, error: string | Error): void {
+    FuiModalUtils.renderErrorWindow<CL>(
+      error,
+      this.injector,
+      this.modalCtrl,
+      this.windowConfiguration,
+      viewContainerRef,
+      this.componentFactoryResolver,
+      this.$close.bind(this)
     );
   }
 
