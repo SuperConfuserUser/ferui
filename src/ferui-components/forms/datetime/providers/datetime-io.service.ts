@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+
 import { DatetimeIoInterface } from '../../common/datetime-io-interface';
-import { DEFAULT_LOCALE_DATETIME_FORMAT, USER_INPUT_DATETIME_REGEX } from '../../datepicker/utils/constants';
-import { LocaleHelperService } from '../../datepicker/providers/locale-helper.service';
-import { TimeIOService } from '../../time/providers/time-io.service';
 import { DateIOService } from '../../date/providers/date-io.service';
+import { LocaleHelperService } from '../../datepicker/providers/locale-helper.service';
+import { DEFAULT_LOCALE_DATETIME_FORMAT, USER_INPUT_DATETIME_REGEX } from '../../datepicker/utils/constants';
+import { TimeIOService } from '../../time/providers/time-io.service';
 
 @Injectable()
 export class DatetimeIOService implements DatetimeIoInterface {
@@ -41,6 +42,8 @@ export class DatetimeIOService implements DatetimeIoInterface {
     if (!dateParts || dateParts.length < 2 || dateParts.length > 4) {
       return null;
     } else if (dateParts.length === 4) {
+      // @ts-ignore
+      // tslint:disable-next-line:no-unused-declaration
       const [_, dateS, timeS] = dateParts;
       datetimeFirstPart = this.dateIOService.getDateValueFromDateOrString(dateS);
       dateTimeSecondPart = this.timeIOService.getDateValueFromDateOrString(timeS);

@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'ng-option',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <ng-content></ng-content> `

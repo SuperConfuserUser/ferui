@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { ContainerNoLabelSpec, TemplateDrivenSpec, ReactiveSpec } from '../tests/container.spec';
-import { FuiCheckboxWrapper } from './checkbox-wrapper';
-import { FuiCheckbox } from './checkbox';
-import { FuiCheckboxContainer } from './checkbox-container';
+import { ContainerNoLabelSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
+
+import { FuiCheckboxDirective } from './checkbox';
+import { FuiCheckboxContainerComponent } from './checkbox-container';
+import { FuiCheckboxWrapperComponent } from './checkbox-wrapper';
 
 @Component({
   template: ` <fui-checkbox-container></fui-checkbox-container> `
@@ -59,14 +60,19 @@ class ReactiveTest {
 }
 
 export default function (): void {
-  describe('FuiCheckboxContainer', () => {
-    ContainerNoLabelSpec(FuiCheckboxContainer, [FuiCheckboxWrapper, FuiCheckbox], NoLabelTest);
+  describe('FuiCheckboxContainerComponent', () => {
+    ContainerNoLabelSpec(FuiCheckboxContainerComponent, [FuiCheckboxWrapperComponent, FuiCheckboxDirective], NoLabelTest);
     TemplateDrivenSpec(
-      FuiCheckboxContainer,
-      [FuiCheckboxWrapper, FuiCheckbox],
+      FuiCheckboxContainerComponent,
+      [FuiCheckboxWrapperComponent, FuiCheckboxDirective],
       TemplateDrivenTest,
       '.fui-checkbox-wrapper [fuiCheckbox]'
     );
-    ReactiveSpec(FuiCheckboxContainer, [FuiCheckboxWrapper, FuiCheckbox], ReactiveTest, '.fui-checkbox-wrapper [fuiCheckbox]');
+    ReactiveSpec(
+      FuiCheckboxContainerComponent,
+      [FuiCheckboxWrapperComponent, FuiCheckboxDirective],
+      ReactiveTest,
+      '.fui-checkbox-wrapper [fuiCheckbox]'
+    );
   });
 }

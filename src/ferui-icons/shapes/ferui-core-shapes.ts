@@ -1,4 +1,5 @@
 import { IconShapeSources } from '@clr/icons/interfaces/icon-interfaces';
+
 import { feruiIconSVG } from '../utils/svg-tag-generator';
 
 interface Window {

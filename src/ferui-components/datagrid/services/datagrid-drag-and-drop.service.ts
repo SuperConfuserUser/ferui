@@ -1,9 +1,11 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { FuiDatagridOptionsWrapperService } from './datagrid-options-wrapper.service';
-import { FuiDragEventsService } from './datagrid-drag-events.service';
-import { DatagridUtils } from '../utils/datagrid-utils';
-import { DragItem, DragListenerParams, DragSource, DropTarget, HDirection, VDirection } from '../types/drag-and-drop';
+
 import { DraggingEvent } from '../events';
+import { DragItem, DragListenerParams, DragSource, DropTarget, HDirection, VDirection } from '../types/drag-and-drop';
+import { DatagridUtils } from '../utils/datagrid-utils';
+
+import { FuiDragEventsService } from './datagrid-drag-events.service';
+import { FuiDatagridOptionsWrapperService } from './datagrid-options-wrapper.service';
 import { FuiDatagridService } from './datagrid.service';
 
 @Injectable()

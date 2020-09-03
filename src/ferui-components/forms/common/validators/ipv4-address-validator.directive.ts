@@ -1,8 +1,5 @@
-import { ValidatorFn } from '@angular/forms';
-import { AbstractControl } from '@angular/forms';
 import { Directive } from '@angular/core';
-import { NG_VALIDATORS } from '@angular/forms';
-import { Validator } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn } from '@angular/forms';
 
 export function ipv4AddressValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
@@ -18,6 +15,7 @@ export function ipv4AddressValidator(): ValidatorFn {
 }
 
 @Directive({
+  // tslint:disable-next-line
   selector: '[ipv4Address]',
   providers: [{ provide: NG_VALIDATORS, useExisting: Ipv4AddressValidatorDirective, multi: true }]
 })

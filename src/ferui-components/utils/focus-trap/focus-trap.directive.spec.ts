@@ -151,17 +151,13 @@ describe('FocusTrap', () => {
 @Component({
   template: `
     <form fuiFocusTrap *ngIf="mainFocusTrap">
-      <button id="first">
-        Button to test first input
-      </button>
+      <button id="first">Button to test first input</button>
       <input type="text" />
       <select>
         <option value="1">1</option>
         <option value="2">2</option>
       </select>
-      <button id="last">
-        Last Input
-      </button>
+      <button id="last">Last Input</button>
 
       <div id="levelOneFocusTrap" fuiFocusTrap *ngIf="level1 === true">
         <button id="levelOneButton">Level 1</button>

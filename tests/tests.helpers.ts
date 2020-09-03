@@ -6,6 +6,7 @@ export const itIgnore = (browsers: string[], should: string, test: any, focus: b
     return xit(should, test);
   }
 
+  // tslint:disable-next-line
   return focus ? fit(should, test) : it(should, test);
 };
 
@@ -18,6 +19,7 @@ export const describeIgnore = (browsers: string[], title: string, suite: any, fo
     return xdescribe(title, suite);
   }
 
+  // tslint:disable-next-line
   return focus ? fdescribe(title, suite) : describe(title, suite);
 };
 

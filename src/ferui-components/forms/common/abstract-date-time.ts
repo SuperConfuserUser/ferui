@@ -1,20 +1,22 @@
 import { ElementRef, EventEmitter, Injector, OnInit, Output, Renderer2, Type, ViewContainerRef } from '@angular/core';
-import { FuiDatetimeModelTypes } from './datetime-model-types.enum';
 import { NgControl } from '@angular/forms';
-import { WrappedFormControl } from './wrapped-control';
+
 import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
-import { DatetimeIoInterface } from './datetime-io-interface';
-import { DayModel } from '../datepicker/model/day.model';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
-import { datesAreEqual, timesAreEqual } from '../datepicker/utils/date-utils';
-import { TimeSelectionService } from '../time/providers/time-selection.service';
-import { TimeModel } from '../time/models/time.model';
 import { DateIOService } from '../date/providers/date-io.service';
-import { TimeIOService } from '../time/providers/time-io.service';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
+import { DayModel } from '../datepicker/model/day.model';
+import { datesAreEqual, timesAreEqual } from '../datepicker/utils/date-utils';
 import { DatetimeIOService } from '../datetime/providers/datetime-io.service';
+import { TimeModel } from '../time/models/time.model';
+import { TimeIOService } from '../time/providers/time-io.service';
+import { TimeSelectionService } from '../time/providers/time-selection.service';
+
+import { DatetimeIoInterface } from './datetime-io-interface';
+import { FuiDatetimeModelTypes } from './datetime-model-types.enum';
+import { WrappedFormControl } from './wrapped-control';
 
 export abstract class AbstractDateTime<W extends DynamicWrapper> extends WrappedFormControl<W> implements OnInit {
-  @Output('fuiDateChange') dateChange: EventEmitter<Date> = new EventEmitter<Date>(false);
+  @Output('fuiDateChange') readonly dateChange: EventEmitter<Date> = new EventEmitter<Date>(false);
   protected _modelType: FuiDatetimeModelTypes = FuiDatetimeModelTypes.STRING;
   protected previousDateChange: Date;
   protected iOService: DatetimeIoInterface;
@@ -24,7 +26,7 @@ export abstract class AbstractDateTime<W extends DynamicWrapper> extends Wrapped
   protected constructor(
     protected vcr: ViewContainerRef,
     protected wrapperType: Type<W>,
-    private injector: Injector,
+    injector: Injector,
     protected control: NgControl,
     protected renderer: Renderer2,
     protected el: ElementRef

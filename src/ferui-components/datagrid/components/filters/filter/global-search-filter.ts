@@ -1,18 +1,21 @@
+import { Subscription } from 'rxjs';
+
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FuiDatagridBaseFilter } from './base-filter';
+
+import { DATAGRID_GLOBAL_SEARCH_ID, FuiDatagridFilterService } from '../../../services/datagrid-filter.service';
+import { DatagridStateService } from '../../../services/datagrid-state.service';
+import { Column } from '../../entities/column';
+import { RowModel } from '../../row-models/row-model';
 import {
   FuiDatagridActiveGlobalFilter,
   FuiDatagridIGlobalSearchFilter,
   IDoesGlobalFilterPassParams,
   IGlobalFilterParams
 } from '../interfaces/filter';
-import { DATAGRID_GLOBAL_SEARCH_ID, FuiDatagridFilterService } from '../../../services/datagrid-filter.service';
-import { FuiDatagridTextFilter, TextComparator, TextFormatter } from './text-filter';
-import { Column } from '../../entities/column';
 import { FilterType } from '../interfaces/filter.enum';
-import { Subscription } from 'rxjs';
-import { DatagridStateService } from '../../../services/datagrid-state.service';
-import { RowModel } from '../../row-models/row-model';
+
+import { FuiDatagridBaseFilter } from './base-filter';
+import { FuiDatagridTextFilterComponent, TextComparator, TextFormatter } from './text-filter';
 
 @Component({
   selector: 'fui-datagrid-global-search-filter',
@@ -36,11 +39,11 @@ import { RowModel } from '../../row-models/row-model';
     class: 'fui-datagrid-filters-search'
   }
 })
-export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFilter, OnInit, OnDestroy {
+export class FuiDatagridGlobalSearchFilterComponent implements FuiDatagridIGlobalSearchFilter, OnInit, OnDestroy {
+  @Output() readonly searchChange: EventEmitter<string> = new EventEmitter<string>();
+
   @Input() columns: Column[];
   @Input() filterParams: IGlobalFilterParams;
-
-  @Output() searchChange: EventEmitter<string> = new EventEmitter<string>();
 
   selectedSearch: string = null;
 
@@ -164,12 +167,12 @@ export class FuiDatagridGlobalSearchFilter implements FuiDatagridIGlobalSearchFi
 
     this.comparator = this.filterParams.textCustomComparator
       ? this.filterParams.textCustomComparator
-      : FuiDatagridTextFilter.DEFAULT_COMPARATOR;
+      : FuiDatagridTextFilterComponent.DEFAULT_COMPARATOR;
     this.formatter = this.filterParams.textFormatter
       ? this.filterParams.textFormatter
       : this.filterParams.caseSensitive === true
-      ? FuiDatagridTextFilter.DEFAULT_FORMATTER
-      : FuiDatagridTextFilter.DEFAULT_LOWERCASE_FORMATTER;
+      ? FuiDatagridTextFilterComponent.DEFAULT_FORMATTER
+      : FuiDatagridTextFilterComponent.DEFAULT_LOWERCASE_FORMATTER;
   }
 
   ngOnDestroy(): void {

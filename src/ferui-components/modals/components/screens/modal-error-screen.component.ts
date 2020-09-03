@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+
 import {
   FUI_MODAL_WINDOW_CTRL_TOKEN,
   FuiModalHeadlessWindowCtrl,

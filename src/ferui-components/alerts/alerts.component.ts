@@ -28,7 +28,7 @@ export enum FuiAlertsTypes {
   `
 })
 export class FuiAlertsComponent implements OnInit {
-  @Output() onClose: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() readonly onClose: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   @Input()
   set closable(closable: boolean) {

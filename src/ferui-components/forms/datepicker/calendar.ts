@@ -1,7 +1,9 @@
-import { Component, ElementRef, HostListener, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy } from '@angular/core';
+
 import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW } from '../../utils/key-codes/key-codes';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
 
 import { CalendarViewModel } from './model/calendar-view.model';
 import { CalendarModel } from './model/calendar.model';
@@ -9,11 +11,9 @@ import { DayModel } from './model/day.model';
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { LocaleHelperService } from './providers/locale-helper.service';
 import { NO_OF_DAYS_IN_A_WEEK } from './utils/constants';
-import { AfterViewInit } from '@angular/core';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
 
 @Component({ selector: 'fui-calendar', templateUrl: './calendar.html' })
-export class FuiCalendar implements OnDestroy, AfterViewInit {
+export class FuiCalendarComponent implements OnDestroy, AfterViewInit {
   /**
    * Calendar View Model to generate the Calendar.
    */

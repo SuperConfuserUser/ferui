@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FuiDatagridBaseFilter } from './base-filter';
+
 import { FuiDatagridIFilter, IComparableFilterParams, IDoesFilterPassParams } from '../interfaces/filter';
 import { FilterType } from '../interfaces/filter.enum';
+
+import { FuiDatagridBaseFilter } from './base-filter';
 
 export interface TextFormatter {
   (from: string): string;
@@ -30,17 +32,17 @@ export function DEFAULT_TEXT_LOWERCASE_FORMATTER(from: string): string {
 
 export function DEFAULT_TEXT_COMPARATOR(filter: string, value: any, filterText: string): boolean {
   switch (filter) {
-    case FuiDatagridTextFilter.CONTAINS:
+    case FuiDatagridTextFilterComponent.CONTAINS:
       return value.indexOf(filterText) >= 0;
-    case FuiDatagridTextFilter.NOT_CONTAINS:
+    case FuiDatagridTextFilterComponent.NOT_CONTAINS:
       return value.indexOf(filterText) === -1;
-    case FuiDatagridTextFilter.EQUALS:
+    case FuiDatagridTextFilterComponent.EQUALS:
       return value === filterText;
-    case FuiDatagridTextFilter.NOT_EQUAL:
+    case FuiDatagridTextFilterComponent.NOT_EQUAL:
       return value !== filterText;
-    case FuiDatagridTextFilter.STARTS_WITH:
+    case FuiDatagridTextFilterComponent.STARTS_WITH:
       return value.indexOf(filterText) === 0;
-    case FuiDatagridTextFilter.ENDS_WITH:
+    case FuiDatagridTextFilterComponent.ENDS_WITH:
       const index = value.lastIndexOf(filterText);
       return index >= 0 && index === value.length - filterText.length;
     default:
@@ -92,7 +94,7 @@ export function DEFAULT_TEXT_COMPARATOR(filter: string, value: any, filterText: 
     class: 'fui-datagrid-text-filter container-fluid'
   }
 })
-export class FuiDatagridTextFilter extends FuiDatagridBaseFilter<ITextFilterParams> implements OnInit {
+export class FuiDatagridTextFilterComponent extends FuiDatagridBaseFilter<ITextFilterParams> implements OnInit {
   static DEFAULT_FORMATTER: TextFormatter = DEFAULT_TEXT_FORMATTER;
   static DEFAULT_LOWERCASE_FORMATTER: TextFormatter = DEFAULT_TEXT_LOWERCASE_FORMATTER;
   static DEFAULT_COMPARATOR: TextComparator = DEFAULT_TEXT_COMPARATOR;
@@ -105,12 +107,12 @@ export class FuiDatagridTextFilter extends FuiDatagridBaseFilter<ITextFilterPara
 
   getApplicableFilterTypes(): string[] {
     return [
-      FuiDatagridTextFilter.EQUALS,
-      FuiDatagridTextFilter.NOT_EQUAL,
-      FuiDatagridTextFilter.STARTS_WITH,
-      FuiDatagridTextFilter.ENDS_WITH,
-      FuiDatagridTextFilter.CONTAINS,
-      FuiDatagridTextFilter.NOT_CONTAINS
+      FuiDatagridTextFilterComponent.EQUALS,
+      FuiDatagridTextFilterComponent.NOT_EQUAL,
+      FuiDatagridTextFilterComponent.STARTS_WITH,
+      FuiDatagridTextFilterComponent.ENDS_WITH,
+      FuiDatagridTextFilterComponent.CONTAINS,
+      FuiDatagridTextFilterComponent.NOT_CONTAINS
     ];
   }
 
@@ -157,7 +159,7 @@ export class FuiDatagridTextFilter extends FuiDatagridBaseFilter<ITextFilterPara
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.selectedType = FuiDatagridTextFilter.getDefaultType();
+    this.selectedType = FuiDatagridTextFilterComponent.getDefaultType();
 
     if (this.getFilterService()) {
       const filter: FuiDatagridIFilter = this.getFilterService().getFilterFor(this.column);
@@ -175,20 +177,20 @@ export class FuiDatagridTextFilter extends FuiDatagridBaseFilter<ITextFilterPara
       this.filterParams.suppressAndOrCondition = false;
     }
     if (!this.filterParams.defaultOption) {
-      this.filterParams.defaultOption = FuiDatagridTextFilter.getDefaultType();
+      this.filterParams.defaultOption = FuiDatagridTextFilterComponent.getDefaultType();
     }
     super.init();
     this.comparator = this.filterParams.textCustomComparator
       ? this.filterParams.textCustomComparator
-      : FuiDatagridTextFilter.DEFAULT_COMPARATOR;
+      : FuiDatagridTextFilterComponent.DEFAULT_COMPARATOR;
     this.formatter = this.filterParams.textFormatter
       ? this.filterParams.textFormatter
       : this.filterParams.caseSensitive === true
-      ? FuiDatagridTextFilter.DEFAULT_FORMATTER
-      : FuiDatagridTextFilter.DEFAULT_LOWERCASE_FORMATTER;
+      ? FuiDatagridTextFilterComponent.DEFAULT_FORMATTER
+      : FuiDatagridTextFilterComponent.DEFAULT_LOWERCASE_FORMATTER;
   }
 
   static getDefaultType(): string {
-    return FuiDatagridTextFilter.EQUALS;
+    return FuiDatagridTextFilterComponent.EQUALS;
   }
 }

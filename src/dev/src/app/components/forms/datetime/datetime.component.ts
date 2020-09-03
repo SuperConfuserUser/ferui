@@ -1,8 +1,8 @@
-import { Component, Inject, LOCALE_ID } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+
+import { FuiDatetimeModelTypes, FuiFormLayoutEnum } from '@ferui/components';
+
 import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
-import { OnInit } from '@angular/core';
-import { FuiDatetimeModelTypes } from '../../../../../../ferui-components/forms/common/datetime-model-types.enum';
-import { FuiFormLayoutEnum } from '../../../../../../ferui-components/forms/common/layout.enum';
 
 const date1: Date = new Date();
 const date2: Date = new Date('2019-05-20 10:20:43');
@@ -456,7 +456,7 @@ export class DatetimeComponent extends AbstractControlDemoComponent implements O
 </fui-time-container>`,
     `<fui-date-container>
   <label>My date input</label>
-  <input [layout]="fuiFormLayoutEnum.SMALL" type="date" placeholder="Small layout" name="sixteen" 
+  <input [layout]="fuiFormLayoutEnum.SMALL" type="date" placeholder="Small layout" name="sixteen"
          [fuiDatetime]="modelTypeDate" [(ngModel)]="model.sixteen"/>
 </fui-date-container>`
   ];

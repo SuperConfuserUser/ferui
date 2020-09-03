@@ -1,14 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { FuiIfOpen } from './if-open.directive';
+import { FuiIfOpenDirective } from './if-open.directive';
 import { IfOpenService } from './if-open.service';
 
 export default function (): void {
   describe('IfOpen Directive', function () {
     describe('Typescript API', function () {
       beforeEach(function () {
-        TestBed.configureTestingModule({ declarations: [FuiIfOpen, IfOpenTest], providers: [IfOpenService] });
+        TestBed.configureTestingModule({ declarations: [FuiIfOpenDirective, IfOpenTest], providers: [IfOpenService] });
         this.fixture = TestBed.createComponent(IfOpenTest);
         this.fixture.detectChanges();
         this.testComponent = this.fixture.componentInstance;
@@ -63,7 +63,7 @@ export default function (): void {
 
     describe('View', function () {
       beforeEach(function () {
-        TestBed.configureTestingModule({ declarations: [FuiIfOpen, IfOpenTest], providers: [IfOpenService] });
+        TestBed.configureTestingModule({ declarations: [FuiIfOpenDirective, IfOpenTest], providers: [IfOpenService] });
         this.fixture = TestBed.createComponent(IfOpenTest);
         this.fixture.detectChanges();
         this.testComponent = this.fixture.componentInstance;
@@ -91,13 +91,9 @@ export default function (): void {
 }
 
 @Component({
-  template: `
-    <ng-template [(FuiIfOpen)]="openState">
-      Hello Template!
-    </ng-template>
-  `
+  template: ` <ng-template [(FuiIfOpenDirective)]="openState"> Hello Template! </ng-template> `
 })
 class IfOpenTest {
-  @ViewChild(FuiIfOpen) directive: FuiIfOpen;
+  @ViewChild(FuiIfOpenDirective) directive: FuiIfOpenDirective;
   openState: boolean = false;
 }

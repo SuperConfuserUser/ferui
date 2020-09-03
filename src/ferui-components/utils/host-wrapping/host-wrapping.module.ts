@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { EmptyAnchor } from './empty-anchor';
+
+import { EmptyAnchorComponent } from './empty-anchor';
 
 /**
  * Internal module, please do not export!
  */
-@NgModule({ declarations: [EmptyAnchor], exports: [EmptyAnchor], entryComponents: [EmptyAnchor] })
+@NgModule({ declarations: [EmptyAnchorComponent], exports: [EmptyAnchorComponent], entryComponents: [EmptyAnchorComponent] })
 export class FuiHostWrappingModule {}

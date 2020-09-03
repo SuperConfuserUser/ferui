@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+
 import { FuiGridOptions } from '../types/grid-options';
+import { FuiRowModel } from '../types/row-model.enum';
+import { DatagridUtils } from '../utils/datagrid-utils';
+
 import { FuiDatagridApiService } from './datagrid-api.service';
 import { FuiDatagridColumnApiService } from './datagrid-column-api.service';
-import { DatagridUtils } from '../utils/datagrid-utils';
-import { FuiRowModel } from '../types/row-model.enum';
 import { ExportParams } from './exporter/export-params';
-import { Column } from '../components/entities/column';
 
 @Injectable()
 export class FuiDatagridOptionsWrapperService {

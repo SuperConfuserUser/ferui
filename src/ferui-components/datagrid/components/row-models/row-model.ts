@@ -1,10 +1,13 @@
-import { FuiRowModel } from '../../types/row-model.enum';
-import { EventEmitter, Injectable } from '@angular/core';
-import { FuiDatagridClientSideRowModel } from './client-side-row-model';
-import { FuiDatagridServerSideRowModel } from './server-side-row-model';
-import { FuiDatagridInfinteRowModel } from './infinite/infinite-row-model';
-import { IServerSideDatasource, ServerSideRowModelInterface } from '../../types/server-side-row-model';
 import { Subscription } from 'rxjs';
+
+import { EventEmitter, Injectable } from '@angular/core';
+
+import { FuiRowModel } from '../../types/row-model.enum';
+import { IServerSideDatasource, ServerSideRowModelInterface } from '../../types/server-side-row-model';
+
+import { FuiDatagridClientSideRowModel } from './client-side-row-model';
+import { FuiDatagridInfinteRowModel } from './infinite/infinite-row-model';
+import { FuiDatagridServerSideRowModel } from './server-side-row-model';
 
 @Injectable()
 export class RowModel {

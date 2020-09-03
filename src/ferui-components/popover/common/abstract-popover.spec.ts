@@ -1,14 +1,14 @@
-import { Component, ElementRef, forwardRef, Injector, Optional, ViewChild } from '@angular/core';
+import { Component, ElementRef, Injector, Optional, ViewChild, forwardRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { itIgnore } from '../../../../tests/tests.helpers';
+import { FuiConditionalModule } from '../../utils/conditional/conditional.module';
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 import { ESC } from '../../utils/key-codes/key-codes';
 
 import { AbstractPopover } from './abstract-popover';
 import { POPOVER_HOST_ANCHOR } from './popover-host-anchor.token';
-import { FuiConditionalModule } from '../../utils/conditional/conditional.module';
 
 describe('Abstract Popover', function () {
   let fixture: ComponentFixture<any>;

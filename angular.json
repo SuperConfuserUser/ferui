@@ -78,8 +78,9 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/dev/tsconfig.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": "src/dev/tsconfig.json",
+            "tslintConfig": "src/dev/tslint.json",
+            "exclude": ["**/node_modules/**", "src/**/*.spec.ts"]
           }
         }
       }
@@ -92,6 +93,7 @@
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
+            "tsConfig": "src/ferui-components/tsconfig.json",
             "project": "src/ferui-components/ng-package.json"
           }
         },
@@ -99,7 +101,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "tests/tests.entry.ts",
-            "tsConfig": "tsconfig.spec.json",
+            "tsConfig": "./tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "codeCoverage": true
           }
@@ -107,8 +109,9 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/ferui-components/tsconfig.lint.json", "src/ferui-components/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": "src/ferui-components/tsconfig.json",
+            "tslintConfig": "./tslint.json",
+            "exclude": ["**/node_modules/**", "src/**/*.spec.ts"]
           }
         }
       }

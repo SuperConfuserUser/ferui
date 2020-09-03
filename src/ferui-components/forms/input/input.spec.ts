@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { TemplateDrivenSpec, ControlStandaloneSpec, ReactiveSpec } from '../tests/control.spec';
-import { FuiInputContainer } from './input-container';
-import { FuiInput } from './input';
+import { ControlStandaloneSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/control.spec';
+
+import { FuiInputDirective } from './input';
+import { FuiInputContainerComponent } from './input-container';
 
 @Component({
   template: ` <input type="text" fuiInput /> `
@@ -31,7 +32,7 @@ class ReactiveTest {
 export default function (): void {
   describe('Input directive', () => {
     ControlStandaloneSpec(StandaloneUseTest);
-    TemplateDrivenSpec(FuiInputContainer, FuiInput, TemplateDrivenTest, 'fui-input');
-    ReactiveSpec(FuiInputContainer, FuiInput, ReactiveTest, 'fui-input');
+    TemplateDrivenSpec(FuiInputContainerComponent, FuiInputDirective, TemplateDrivenTest, 'fui-input');
+    ReactiveSpec(FuiInputContainerComponent, FuiInputDirective, ReactiveTest, 'fui-input');
   });
 }

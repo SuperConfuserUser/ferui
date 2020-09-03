@@ -1,12 +1,14 @@
-import { Component, Inject } from '@angular/core';
+import * as jsBeautify from 'js-beautify';
+
+import { Component, Inject, OnInit } from '@angular/core';
+
 import {
+  FUI_MODAL_WINDOW_CTRL_TOKEN,
   FuiModalStandardWindowCtrl,
   FuiModalStandardWindowScreen,
-  FUI_MODAL_WINDOW_CTRL_TOKEN,
-  FuiModalWindowResolve,
-  FuiModalWindowParam
+  FuiModalWindowParam,
+  FuiModalWindowResolve
 } from '@ferui/components';
-import * as jsBeautify from 'js-beautify';
 
 interface ChildParamsInterface extends FuiModalWindowParam {
   param1: string;
@@ -38,7 +40,7 @@ interface ChildPromiseInterface extends FuiModalWindowResolve {
     <pre><code [languages]="['typescript']" [highlight]="windowExample"></code></pre>
   `
 })
-export class ModalExample1Component implements FuiModalStandardWindowScreen<any, any, string> {
+export class ModalExample1Component implements FuiModalStandardWindowScreen<any, any, string>, OnInit {
   paramsStr: string;
   resolvesStr: string;
 
@@ -175,7 +177,7 @@ export class ModalExample1Component implements FuiModalStandardWindowScreen<any,
     this.resolvesStr = jsBeautify.js(JSON.stringify(this.windowCtrl.resolves || {}));
   }
 
-  $onSubmit(event: MouseEvent): Promise<string> {
+  $onSubmit(): Promise<string> {
     return Promise.resolve('ModalExample1Component-submit-arg');
   }
 

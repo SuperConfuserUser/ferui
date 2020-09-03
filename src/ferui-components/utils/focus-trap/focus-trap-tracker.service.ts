@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { FocusTrapDirective } from './focus-trap.directive';
 
 @Injectable({ providedIn: 'root' })

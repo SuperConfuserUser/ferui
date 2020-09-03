@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
-import { TreeViewModule } from './tree-view.module';
 import { Component, ViewChild } from '@angular/core';
-import { FuiTreeViewComponent } from './tree-view-component';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+
 import {
   PagedTreeNodeDataRetriever,
   TreeNodeData,
@@ -9,6 +8,8 @@ import {
   TreeViewColorTheme,
   TreeViewConfiguration
 } from './interfaces';
+import { FuiTreeViewComponent } from './tree-view-component';
+import { TreeViewModule } from './tree-view.module';
 
 export default function () {
   describe('Client Side Tree View', () => {

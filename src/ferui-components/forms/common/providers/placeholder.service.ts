@@ -1,6 +1,6 @@
+import { Observable, Subject } from 'rxjs';
+
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class PlaceholderService {

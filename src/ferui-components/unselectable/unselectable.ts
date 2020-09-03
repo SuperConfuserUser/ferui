@@ -1,9 +1,10 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2, Self } from '@angular/core';
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: '[unselectable]'
 })
-export class FuiUnselectable implements OnInit {
+export class FuiUnselectableDirective implements OnInit {
   // It can be 'on' or 'off' and if nothing set, it's considered as 'on'.
   @Input('unselectable') unselectable: string = 'on';
 

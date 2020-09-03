@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, ContentChildren, HostBinding, Optional, QueryList } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChildren, HostBinding, OnInit, Optional, QueryList } from '@angular/core';
+
 import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
-import { FuiHeaderCell } from './header-cell';
 import { HeaderRendererService } from '../../services/rendering/header-renderer.service';
+
+import { FuiHeaderCellComponent } from './header-cell';
 
 @Component({
   selector: 'fui-datagrid-header-row',
@@ -12,11 +14,11 @@ import { HeaderRendererService } from '../../services/rendering/header-renderer.
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiHeaderRow {
+export class FuiHeaderRowComponent implements OnInit {
   @HostBinding('attr.role') role: string = 'presentation';
   @HostBinding('style.height.px') headerHeight: number = 0;
 
-  @ContentChildren(FuiHeaderCell) cells: QueryList<FuiHeaderCell>;
+  @ContentChildren(FuiHeaderCellComponent) cells: QueryList<FuiHeaderCellComponent>;
 
   constructor(
     @Optional() private headerRowRendererService: HeaderRendererService,

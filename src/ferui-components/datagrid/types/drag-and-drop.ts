@@ -1,6 +1,7 @@
+import { Observable, Subscription } from 'rxjs';
+
 import { Column } from '../components/entities/column';
 import { DraggingEvent } from '../events';
-import { Observable, Subscription } from 'rxjs';
 
 export enum DropType {
   COLUMN_MOVE,

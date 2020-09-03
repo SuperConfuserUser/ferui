@@ -2,24 +2,24 @@ import { Component, ViewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { FuiForm } from './form';
+import { FuiFormDirective } from './form';
 import { MarkControlService } from './providers/mark-control.service';
 
 @Component({
   template: ` <form fuiForm></form> `
 })
 class SimpleTest {
-  @ViewChild(FuiForm) form: FuiForm;
+  @ViewChild(FuiFormDirective) form: FuiFormDirective;
 }
 
 export default function (): void {
-  describe('FuiForm', () => {
+  describe('FuiFormDirective', () => {
     let fixture, directive;
 
     beforeEach(function () {
-      TestBed.configureTestingModule({ declarations: [FuiForm, SimpleTest] });
+      TestBed.configureTestingModule({ declarations: [FuiFormDirective, SimpleTest] });
       fixture = TestBed.createComponent(SimpleTest);
-      directive = fixture.debugElement.query(By.directive(FuiForm));
+      directive = fixture.debugElement.query(By.directive(FuiFormDirective));
     });
 
     it('adds the .fui-form class to host', function () {

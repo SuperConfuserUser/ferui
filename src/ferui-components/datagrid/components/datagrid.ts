@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -11,22 +13,22 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  Renderer2,
   Self,
   TemplateRef,
   TrackByFunction,
   ViewChild
 } from '@angular/core';
-import { RowRendererService } from '../services/rendering/row-renderer.service';
-import { FuiColumnDefinitions } from '../types/column-definitions';
-import { FuiDatagridApiService } from '../services/datagrid-api.service';
-import { FuiDatagridColumnApiService } from '../services/datagrid-column-api.service';
-import { FuiDatagridOptionsWrapperService } from '../services/datagrid-options-wrapper.service';
-import { FuiColumnService } from '../services/rendering/column.service';
-import { Column } from './entities/column';
-import { ColumnUtilsService } from '../utils/column-utils.service';
-import { FuiDatagridSortService } from '../services/datagrid-sort.service';
-import { Subscription } from 'rxjs';
+
+import { HilitorService } from '../../hilitor/hilitor';
+import { DomObserver, ObserverInstance } from '../../utils/dom-observer/dom-observer';
+import { FeruiUtils } from '../../utils/ferui-utils';
+import { ScrollbarHelper } from '../../utils/scrollbar-helper/scrollbar-helper.service';
+import { VirtualScrollerDefaultOptions } from '../../virtual-scroller/types/virtual-scroller-interfaces';
+import { FuiVirtualScrollerComponent } from '../../virtual-scroller/virtual-scroller';
+import {
+  VIRTUAL_SCROLLER_DEFAULT_OPTIONS,
+  VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY
+} from '../../virtual-scroller/virtual-scroller-factory';
 import {
   CellClickedEvent,
   CellContextMenuEvent,
@@ -41,41 +43,41 @@ import {
   RowDoubleClickedEvent,
   ServerSideRowDataChanged
 } from '../events';
+import { FuiActionMenuService } from '../services/action-menu/action-menu.service';
+import { ColumnKeyCreator } from '../services/column-key-creator';
+import { FuiDatagridApiService } from '../services/datagrid-api.service';
+import { FuiDatagridColumnApiService } from '../services/datagrid-column-api.service';
 import { FuiDatagridDragAndDropService } from '../services/datagrid-drag-and-drop.service';
 import { FuiDragEventsService } from '../services/datagrid-drag-events.service';
-import { FuiDatagridService } from '../services/datagrid.service';
-import { FuiDatagridFilters } from './filters/filters';
-import { FuiDatagridPager } from './pager/pager';
-import { FuiDatagridEventService } from '../services/event.service';
-import { FuiDatagridClientSideRowModel } from './row-models/client-side-row-model';
 import { FuiDatagridFilterService } from '../services/datagrid-filter.service';
-import { FuiVirtualScrollerComponent } from '../../virtual-scroller/virtual-scroller';
-import { FuiRowModel } from '../types/row-model.enum';
-import { FuiDatagridServerSideRowModel } from './row-models/server-side-row-model';
-import { IDatagridResultObject, IServerSideDatasource } from '../types/server-side-row-model';
-import { ColumnKeyCreator } from '../services/column-key-creator';
-import { FuiDatagridInfinteRowModel } from './row-models/infinite/infinite-row-model';
-import { AutoWidthCalculator } from '../services/rendering/autoWidthCalculator';
-import { HeaderRendererService } from '../services/rendering/header-renderer.service';
+import { FuiDatagridOptionsWrapperService } from '../services/datagrid-options-wrapper.service';
+import { FuiDatagridSortService } from '../services/datagrid-sort.service';
 import { DatagridStateEnum, DatagridStateService } from '../services/datagrid-state.service';
-import { HilitorService } from '../../hilitor/hilitor';
-import { FuiPagerPage } from '../types/pager';
-import { FuiDatagridBodyRowContext } from '../types/body-row-context';
-import { FuiActionMenuService } from '../services/action-menu/action-menu.service';
-import { DatagridUtils } from '../utils/datagrid-utils';
-import { GridSerializer } from '../services/exporter/grid-serializer';
+import { FuiDatagridService } from '../services/datagrid.service';
+import { FuiDatagridEventService } from '../services/event.service';
 import { CsvCreator } from '../services/exporter/csv-creator';
 import { Downloader } from '../services/exporter/downloader';
 import { BaseExportParams } from '../services/exporter/export-params';
+import { GridSerializer } from '../services/exporter/grid-serializer';
+import { AutoWidthCalculator } from '../services/rendering/autoWidthCalculator';
+import { FuiColumnService } from '../services/rendering/column.service';
+import { HeaderRendererService } from '../services/rendering/header-renderer.service';
+import { RowRendererService } from '../services/rendering/row-renderer.service';
+import { FuiDatagridBodyRowContext } from '../types/body-row-context';
+import { FuiColumnDefinitions } from '../types/column-definitions';
+import { FuiPagerPage } from '../types/pager';
+import { FuiRowModel } from '../types/row-model.enum';
+import { IDatagridResultObject, IServerSideDatasource } from '../types/server-side-row-model';
+import { ColumnUtilsService } from '../utils/column-utils.service';
+import { DatagridUtils } from '../utils/datagrid-utils';
+
+import { Column } from './entities/column';
+import { FuiDatagridFiltersComponent } from './filters/filters';
+import { FuiDatagridPagerComponent } from './pager/pager';
+import { FuiDatagridClientSideRowModel } from './row-models/client-side-row-model';
+import { FuiDatagridInfinteRowModel } from './row-models/infinite/infinite-row-model';
 import { RowModel } from './row-models/row-model';
-import { VirtualScrollerDefaultOptions } from '../../virtual-scroller/types/virtual-scroller-interfaces';
-import {
-  VIRTUAL_SCROLLER_DEFAULT_OPTIONS,
-  VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY
-} from '../../virtual-scroller/virtual-scroller-factory';
-import { DomObserver, ObserverInstance } from '../../utils/dom-observer/dom-observer';
-import { ScrollbarHelper } from '../../utils/scrollbar-helper/scrollbar-helper.service';
-import { FeruiUtils } from '../../utils/ferui-utils';
+import { FuiDatagridServerSideRowModel } from './row-models/server-side-row-model';
 
 export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefaultOptions {
   const defaults: VirtualScrollerDefaultOptions = VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY();
@@ -141,7 +143,7 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
                 [actionMenuTemplate]="actionMenuTemplate"
                 [style.height.px]="rowHeight - 2"
                 [maxDisplayedRows]="maxDisplayedRows"
-                virtualScrollClipperContent
+                fuiVirtualScrollClipperContent
               ></fui-datagrid-action-menu>
 
               <fui-datagrid-body-row
@@ -277,16 +279,16 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
-  @Output() onDatagridResized: EventEmitter<DatagridOnResizeEvent> = new EventEmitter<DatagridOnResizeEvent>();
-  @Output() onColumnWidthChange: EventEmitter<ColumnEvent> = new EventEmitter<ColumnEvent>();
-  @Output() onColumnResized: EventEmitter<ColumnResizedEvent> = new EventEmitter<ColumnResizedEvent>();
-  @Output() onColumnVisibilityChanged: EventEmitter<ColumnVisibleEvent> = new EventEmitter<ColumnVisibleEvent>();
-  @Output() onRowClicked: EventEmitter<RowClickedEvent> = new EventEmitter<RowClickedEvent>();
-  @Output() onRowDoubleClicked: EventEmitter<RowDoubleClickedEvent> = new EventEmitter<RowDoubleClickedEvent>();
-  @Output() onCellClicked: EventEmitter<CellClickedEvent> = new EventEmitter<CellClickedEvent>();
-  @Output() onCellDoubleClicked: EventEmitter<CellDoubleClickedEvent> = new EventEmitter<CellDoubleClickedEvent>();
-  @Output() onCellContextmenu: EventEmitter<CellContextMenuEvent> = new EventEmitter<CellContextMenuEvent>();
+export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Output() readonly onDatagridResized: EventEmitter<DatagridOnResizeEvent> = new EventEmitter<DatagridOnResizeEvent>();
+  @Output() readonly onColumnWidthChange: EventEmitter<ColumnEvent> = new EventEmitter<ColumnEvent>();
+  @Output() readonly onColumnResized: EventEmitter<ColumnResizedEvent> = new EventEmitter<ColumnResizedEvent>();
+  @Output() readonly onColumnVisibilityChanged: EventEmitter<ColumnVisibleEvent> = new EventEmitter<ColumnVisibleEvent>();
+  @Output() readonly onRowClicked: EventEmitter<RowClickedEvent> = new EventEmitter<RowClickedEvent>();
+  @Output() readonly onRowDoubleClicked: EventEmitter<RowDoubleClickedEvent> = new EventEmitter<RowDoubleClickedEvent>();
+  @Output() readonly onCellClicked: EventEmitter<CellClickedEvent> = new EventEmitter<CellClickedEvent>();
+  @Output() readonly onCellDoubleClicked: EventEmitter<CellDoubleClickedEvent> = new EventEmitter<CellDoubleClickedEvent>();
+  @Output() readonly onCellContextmenu: EventEmitter<CellContextMenuEvent> = new EventEmitter<CellContextMenuEvent>();
 
   @Input() withHeader: boolean = true;
   @Input() withFilters: boolean = true;
@@ -312,8 +314,8 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   scrollSize: number = 0;
   virtualBodyId: string = DatagridUtils.generateUniqueId('fui-body');
   gridSize: DatagridOnResizeEvent;
-  @ViewChild(FuiDatagridFilters) datagridFilters: FuiDatagridFilters;
-  @ViewChild(FuiDatagridPager) datagridPager: FuiDatagridPager;
+  @ViewChild(FuiDatagridFiltersComponent) datagridFilters: FuiDatagridFiltersComponent;
+  @ViewChild(FuiDatagridPagerComponent) datagridPager: FuiDatagridPagerComponent;
 
   @ViewChild('horizontalScrollBody') private horizontalScrollBody: ElementRef;
   @ViewChild('horizontalScrollViewport') private horizontalScrollViewport: ElementRef;
@@ -339,9 +341,6 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   private _isLoading: boolean = true;
   private _isEmptyData: boolean = false;
   private _isServerSideInitiallyLoaded: boolean = false;
-  private gridPanelReady: boolean = false;
-  private isAutoGridHeight: boolean = true;
-  private userGridHeight: number = 0;
   private subscriptions: Subscription[] = [];
   private domObservers: ObserverInstance[] = [];
   private highlightSearchTermsDebounce = null;
@@ -355,13 +354,10 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     @Self() private element: ElementRef,
-    private renderer: Renderer2,
     private cd: ChangeDetectorRef,
-    private rowRendererService: RowRendererService,
     private datagridOptionsWrapper: FuiDatagridOptionsWrapperService,
     private gridApi: FuiDatagridApiService,
     private columnApi: FuiDatagridColumnApiService,
-    private columnUtils: ColumnUtilsService,
     private scrollbarHelper: ScrollbarHelper,
     private sortService: FuiDatagridSortService,
     private filterService: FuiDatagridFilterService,
@@ -720,17 +716,11 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
       this.datagridOptionsWrapper.rowDataModel = this.rowDataModel;
     }
 
-    if (this.gridHeight !== 'auto') {
-      this.isAutoGridHeight = false;
-      this.userGridHeight = parseInt(this.gridHeight, 10);
-    }
-
     this.setupColumns();
     this.calculateSizes();
 
     this.subscriptions.push(
-      this.gridPanel.isReady.subscribe(isReady => {
-        this.gridPanelReady = isReady;
+      this.gridPanel.isReady.subscribe(() => {
         this.stateService.setInitialized();
         const icons: { [name: string]: HTMLElement } = {};
         icons[FuiDatagridDragAndDropService.ICON_MOVE] = this.iconMove.nativeElement;
@@ -915,10 +905,9 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
   /**
    * When we resize the window, we need to automatically adapt the datagrid to fill the new size.
    * After some tests, I've found out that 60ms was a good compromise between performance and UI.
-   * @param event
    */
   @HostListener('window:resize', ['$event'])
-  onResize(event: UIEvent) {
+  onResize() {
     if (this.resizeEventDebounce) {
       clearTimeout(this.resizeEventDebounce);
       this.resizeEventDebounce = undefined;
@@ -939,10 +928,12 @@ export class FuiDatagrid implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  // @ts-ignore
   columnTrackByFn(index: number, column: FuiColumnDefinitions): any {
     return column.field;
   }
 
+  // @ts-ignore
   columnTrackByIndexFn(index: number, column: Column): any {
     return column.getColId();
   }

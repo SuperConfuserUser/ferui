@@ -1,19 +1,21 @@
+import { Injector, TemplateRef, ViewContainerRef } from '@angular/core';
+
+import { FeruiUtils } from '../../../utils/ferui-utils';
+import { FuiModalWizardWindowComponent } from '../../components/modals-wizard-window.component';
 import {
+  FUI_MODAL_CTRL_TOKEN,
+  FUI_MODAL_WINDOW_CTRL_TOKEN,
   FuiModalButtonInterface,
   FuiModalCtrl,
   FuiModalWindowConfiguration,
   FuiModalWizardWindowCtrl,
   FuiModalWizardWindowScreen,
   FuiWizardStepConfiguration,
-  FUI_MODAL_CTRL_TOKEN,
-  FUI_MODAL_WINDOW_CTRL_TOKEN,
   ModalWindowInteractionEnum
 } from '../../interfaces/modals-interfaces';
-import { Injector, TemplateRef, ViewContainerRef } from '@angular/core';
-import { FuiModalWizardWindowComponent } from '../../components/modals-wizard-window.component';
-import { AbstractFuiModalWindowCtrlImpl } from './fui-modal-abstract-window-ctrl';
-import { FeruiUtils } from '../../../utils/ferui-utils';
 import { FuiModalUtils } from '../../utils/modal-utils';
+
+import { AbstractFuiModalWindowCtrlImpl } from './fui-modal-abstract-window-ctrl';
 
 /**
  * Wizard window controller class.

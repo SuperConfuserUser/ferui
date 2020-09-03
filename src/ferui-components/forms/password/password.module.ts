@@ -5,13 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { ClrIconModule } from '../../icon/icon.module';
 import { FuiCommonFormsModule } from '../common/common.module';
 
-import { FuiPassword } from './password';
-import { FuiPasswordContainer } from './password-container';
+import { FuiPasswordDirective } from './password';
+import { FuiPasswordContainerComponent } from './password-container';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ClrIconModule, FuiCommonFormsModule],
-  declarations: [FuiPassword, FuiPasswordContainer],
-  exports: [FuiPassword, FuiPasswordContainer],
-  entryComponents: [FuiPasswordContainer]
+  declarations: [FuiPasswordDirective, FuiPasswordContainerComponent],
+  exports: [FuiPasswordDirective, FuiPasswordContainerComponent],
+  entryComponents: [FuiPasswordContainerComponent]
 })
 export class FuiPasswordModule {}

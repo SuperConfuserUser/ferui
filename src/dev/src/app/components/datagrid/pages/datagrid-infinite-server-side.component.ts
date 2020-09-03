@@ -1,19 +1,21 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { DatagridService } from '../datagrid.service';
-import { RowDataApiService } from '../server-side-api/datagrid-row.service';
+
 import {
+  FilterType,
   FuiColumnDefinitions,
-  IServerSideDatasource,
-  IServerSideGetRowsParams,
-  IDatagridResultObject,
-  IDateFilterParams,
+  FuiDatagridBodyCellContext,
+  FuiDatagridComponent,
   FuiDatagridSortDirections,
   FuiFieldTypes,
-  FilterType,
-  FuiDatagridBodyCellContext,
   FuiRowModel,
-  FuiDatagrid
+  IDatagridResultObject,
+  IDateFilterParams,
+  IServerSideDatasource,
+  IServerSideGetRowsParams
 } from '@ferui/components';
+
+import { DatagridService } from '../datagrid.service';
+import { RowDataApiService } from '../server-side-api/datagrid-row.service';
 
 @Component({
   template: `
@@ -176,13 +178,13 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
   @ViewChild('browserFilter') browserFilter: TemplateRef<any>;
   @ViewChild('countryRenderer') countryRenderer: TemplateRef<FuiDatagridBodyCellContext>;
 
-  @ViewChild('datagrid1') datagrid1: FuiDatagrid;
-  @ViewChild('datagrid2') datagrid2: FuiDatagrid;
-  @ViewChild('datagrid3') datagrid3: FuiDatagrid;
+  @ViewChild('datagrid1') datagrid1: FuiDatagridComponent;
+  @ViewChild('datagrid2') datagrid2: FuiDatagridComponent;
+  @ViewChild('datagrid3') datagrid3: FuiDatagridComponent;
 
   networkBandwith: number = 260;
 
-  constructor(private rowDataService: RowDataApiService, public datagridService: DatagridService) {}
+  constructor(public rowDataService: RowDataApiService, public datagridService: DatagridService) {}
 
   networkBandwithChange(value) {
     this.networkBandwith = value;
@@ -279,7 +281,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
     this.dataSource2 = ServerSideDatasource2(this);
     this.dataSource3 = ServerSideDatasource3(this);
 
-    function ServerSideDatasource(server): IServerSideDatasource {
+    function ServerSideDatasource(server: DatagridInfiniteServerSideComponent): IServerSideDatasource {
       return {
         getRows(params: IServerSideGetRowsParams): Promise<IDatagridResultObject> {
           return new Promise((resolve, reject) => {
@@ -299,7 +301,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
       };
     }
 
-    function ServerSideDatasource2(server): IServerSideDatasource {
+    function ServerSideDatasource2(server: DatagridInfiniteServerSideComponent): IServerSideDatasource {
       return {
         getRows(params: IServerSideGetRowsParams): Promise<IDatagridResultObject> {
           return new Promise((resolve, reject) => {
@@ -319,7 +321,7 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
       };
     }
 
-    function ServerSideDatasource3(server): IServerSideDatasource {
+    function ServerSideDatasource3(server: DatagridInfiniteServerSideComponent): IServerSideDatasource {
       return {
         getRows(params: IServerSideGetRowsParams): Promise<IDatagridResultObject> {
           return new Promise((resolve, reject) => {

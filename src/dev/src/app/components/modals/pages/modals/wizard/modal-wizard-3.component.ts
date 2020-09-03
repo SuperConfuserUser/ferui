@@ -1,6 +1,8 @@
-import { Component, Inject } from '@angular/core';
-import { FuiModalWizardWindowCtrl, FuiModalWizardWindowScreen, FUI_MODAL_WINDOW_CTRL_TOKEN } from '@ferui/components';
 import * as jsBeautify from 'js-beautify';
+
+import { Component, Inject, OnInit } from '@angular/core';
+
+import { FUI_MODAL_WINDOW_CTRL_TOKEN, FuiModalWizardWindowCtrl, FuiModalWizardWindowScreen } from '@ferui/components';
 
 @Component({
   template: `
@@ -13,7 +15,7 @@ import * as jsBeautify from 'js-beautify';
     <pre><code [highlight]="sharedData"></code></pre>
   `
 })
-export class ModalWizard3Component implements FuiModalWizardWindowScreen {
+export class ModalWizard3Component implements FuiModalWizardWindowScreen, OnInit {
   params: string;
   resolves: string;
   sharedData: string;
@@ -30,11 +32,11 @@ export class ModalWizard3Component implements FuiModalWizardWindowScreen {
     return Promise.resolve();
   }
 
-  $onBack(event: MouseEvent): Promise<any> {
+  $onBack(): Promise<any> {
     return Promise.resolve({ step1: 'My super data from step 1', step2: 'My super data from step 2' });
   }
 
-  $onSubmit(event: MouseEvent): Promise<any> {
+  $onSubmit(): Promise<any> {
     return Promise.resolve({
       step1: 'My super data from step 1',
       step2: 'My super data from step 2',

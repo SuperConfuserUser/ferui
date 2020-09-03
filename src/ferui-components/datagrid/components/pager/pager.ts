@@ -1,17 +1,19 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Self } from '@angular/core';
-import { FuiCommonStrings } from '../../../utils/i18n/common-strings.service';
-import { FuiDatagridEventService } from '../../services/event.service';
 import { Subscription } from 'rxjs';
-import { FuiDatagridEvents, FuiFilterEvent, FuiPageChangeEvent, RowDataChanged, ServerSideRowDataChanged } from '../../events';
-import { FuiDatagridService } from '../../services/datagrid.service';
-import { FuiPagerPage } from '../../types/pager';
-import { orderByComparator } from '../../utils/sort';
-import { FuiRowModel } from '../../types/row-model.enum';
-import { DatagridUtils } from '../../utils/datagrid-utils';
-import { RowModel } from '../row-models/row-model';
-import { ServerSideRowModelInterface } from '../../types/server-side-row-model';
+
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Self } from '@angular/core';
+
 import { FuiFormLayoutEnum } from '../../../forms/common/layout.enum';
 import { DomObserver, ObserverInstance } from '../../../utils/dom-observer/dom-observer';
+import { FuiCommonStrings } from '../../../utils/i18n/common-strings.service';
+import { FuiDatagridEvents, FuiFilterEvent, FuiPageChangeEvent, RowDataChanged, ServerSideRowDataChanged } from '../../events';
+import { FuiDatagridService } from '../../services/datagrid.service';
+import { FuiDatagridEventService } from '../../services/event.service';
+import { FuiPagerPage } from '../../types/pager';
+import { FuiRowModel } from '../../types/row-model.enum';
+import { ServerSideRowModelInterface } from '../../types/server-side-row-model';
+import { DatagridUtils } from '../../utils/datagrid-utils';
+import { orderByComparator } from '../../utils/sort';
+import { RowModel } from '../row-models/row-model';
 
 @Component({
   selector: 'fui-datagrid-pager',
@@ -96,10 +98,10 @@ import { DomObserver, ObserverInstance } from '../../../utils/dom-observer/dom-o
     class: 'fui-datagrid-pager'
   }
 })
-export class FuiDatagridPager implements OnInit, OnDestroy {
-  @Output() pagerReset: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() pagerItemPerPage: EventEmitter<number> = new EventEmitter<number>();
-  @Output() heightChange: EventEmitter<number> = new EventEmitter<number>();
+export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
+  @Output() readonly pagerReset: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() readonly pagerItemPerPage: EventEmitter<number> = new EventEmitter<number>();
+  @Output() readonly heightChange: EventEmitter<number> = new EventEmitter<number>();
 
   layoutSmall: FuiFormLayoutEnum = FuiFormLayoutEnum.SMALL;
   numberOfRowsInViewport: number | null = null;
@@ -127,7 +129,6 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
   private domObservers: ObserverInstance[] = [];
   private serverSideReachLastPage: boolean = false;
   private serverSidePages: FuiPagerPage[] = [];
-  private serverSideLoading: boolean = false;
 
   constructor(
     @Self() public elementRef: ElementRef,
@@ -153,7 +154,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
         this.setTotalRows(ev);
         this.resetPager();
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SORT_COLUMN_CHANGED).subscribe(event => {
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SORT_COLUMN_CHANGED).subscribe(() => {
         this.resetPager();
       }),
       // Wait for the main datagrid to be loaded before trying to listen on virtualScrollViewport event.
@@ -371,9 +372,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
    */
   serverSidePageChange(pageIndex: number, limit: number): void {
     this.numberOfRowsInViewport = null;
-
     if (this.isServerSideRowModel()) {
-      this.serverSideLoading = true;
       this.rowModel.getServerSideRowModel().offset = pageIndex;
       this.rowModel.getServerSideRowModel().limit = limit;
       this.rowModel
@@ -384,14 +383,12 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
             this.reachedLastPage(pageIndex.toString());
             this.toPreviousPage();
           }
-          this.serverSideLoading = false;
           const currentPage = this.findPageFromStartIndex(pageIndex);
           if (currentPage) {
             this.pages[currentPage.index].serverSidePageLoaded = true;
           }
         })
         .catch(reason => {
-          this.serverSideLoading = false;
           throw Error(reason);
         });
     } else if (this.isInfiniteServerSideRowModel()) {
@@ -438,6 +435,15 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
       this.serverSidePages = [];
     }
     this.pagerReset.emit(true);
+  }
+
+  /**
+   *
+   * @param index
+   * @param limit
+   */
+  static getPageNumberFromEndIndex(index: number, limit: number): number {
+    return Math.ceil(index / limit);
   }
 
   /**
@@ -507,7 +513,7 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
       } else {
         this.pages = this.isServerSideRowModel() ? [...this.serverSidePages] : [];
         this.addPage(
-          this.getPageNumberFromEndIndex(this.startIndex + 1, this.rowModel.getServerSideRowModel().limit),
+          FuiDatagridPagerComponent.getPageNumberFromEndIndex(this.startIndex + 1, this.rowModel.getServerSideRowModel().limit),
           startIdx,
           endIdx
         );
@@ -642,14 +648,5 @@ export class FuiDatagridPager implements OnInit, OnDestroy {
    */
   private isPageExist(index: number): boolean {
     return this.pages.findIndex(p => p.value === index) > -1;
-  }
-
-  /**
-   *
-   * @param index
-   * @param limit
-   */
-  private getPageNumberFromEndIndex(index: number, limit: number): number {
-    return Math.ceil(index / limit);
   }
 }

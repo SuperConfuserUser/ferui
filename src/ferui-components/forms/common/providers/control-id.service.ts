@@ -1,6 +1,6 @@
+import { BehaviorSubject, Observable } from 'rxjs';
+
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Observable } from 'rxjs';
 
 let counter = 0;
 
@@ -10,6 +10,7 @@ export class ControlIdService {
   get id(): string {
     return this._id;
   }
+
   set id(value: string) {
     this._id = value;
     this._idChange.next(value);

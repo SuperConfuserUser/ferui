@@ -1,20 +1,23 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import * as jsBeautify from 'js-beautify';
+
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+
 import {
-  FuiDatagridBodyCellContext,
+  FilterType,
   FuiColumnDefinitions,
+  FuiDatagridBodyCellContext,
+  FuiDatagridComponent,
   FuiDatagridSortDirections,
   FuiFieldTypes,
-  FilterType,
-  IServerSideDatasource,
-  IDateFilterParams,
-  IServerSideGetRowsParams,
-  IDatagridResultObject,
   FuiRowModel,
-  FuiDatagrid
+  IDatagridResultObject,
+  IDateFilterParams,
+  IServerSideDatasource,
+  IServerSideGetRowsParams
 } from '@ferui/components';
+
 import { DatagridService } from '../datagrid.service';
 import { RowDataApiService } from '../server-side-api/datagrid-row.service';
-import * as jsBeautify from 'js-beautify';
 
 @Component({
   template: `
@@ -133,7 +136,7 @@ import * as jsBeautify from 'js-beautify';
   `,
   providers: [DatagridService]
 })
-export class DatagridServerSideComponent {
+export class DatagridServerSideComponent implements OnInit {
   columnDefs: Array<FuiColumnDefinitions>;
   defaultColumnDefs: FuiColumnDefinitions;
   dataSource: IServerSideDatasource;
@@ -185,10 +188,10 @@ export class DatagridServerSideComponent {
   @ViewChild('browserFilter') browserFilter: TemplateRef<any>;
   @ViewChild('countryRenderer') countryRenderer: TemplateRef<FuiDatagridBodyCellContext>;
 
-  @ViewChild('datagrid1') datagrid1: FuiDatagrid;
-  @ViewChild('datagrid2') datagrid2: FuiDatagrid;
+  @ViewChild('datagrid1') datagrid1: FuiDatagridComponent;
+  @ViewChild('datagrid2') datagrid2: FuiDatagridComponent;
 
-  constructor(private rowDataService: RowDataApiService, public datagridService: DatagridService) {}
+  constructor(public rowDataService: RowDataApiService, public datagridService: DatagridService) {}
 
   networkBandwithChange(value) {
     this.networkBandwith = value;
@@ -256,7 +259,7 @@ export class DatagridServerSideComponent {
     this.dataSource = ServerSideDatasource(this);
     this.dataSource2 = ServerSideDatasource2(this);
 
-    function ServerSideDatasource(server): IServerSideDatasource {
+    function ServerSideDatasource(server: DatagridServerSideComponent): IServerSideDatasource {
       return {
         getRows(params: IServerSideGetRowsParams): Promise<IDatagridResultObject> {
           return new Promise((resolve, reject) => {
@@ -276,7 +279,7 @@ export class DatagridServerSideComponent {
       };
     }
 
-    function ServerSideDatasource2(server): IServerSideDatasource {
+    function ServerSideDatasource2(server: DatagridServerSideComponent): IServerSideDatasource {
       return {
         getRows(params: IServerSideGetRowsParams): Promise<IDatagridResultObject> {
           return new Promise((resolve, reject) => {

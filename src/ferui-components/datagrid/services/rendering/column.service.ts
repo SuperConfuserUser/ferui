@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+
 import { Column } from '../../components/entities/column';
-import { DatagridUtils } from '../../utils/datagrid-utils';
 import {
   ColumnEvent,
   ColumnMovedEvent,
@@ -9,9 +9,11 @@ import {
   DisplayedColumnsWidthChangedEvent,
   FuiDatagridEvents
 } from '../../events';
+import { DatagridUtils } from '../../utils/datagrid-utils';
 import { FuiDatagridApiService } from '../datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../datagrid-column-api.service';
 import { FuiDatagridEventService } from '../event.service';
+
 import { AutoWidthCalculator } from './autoWidthCalculator';
 
 @Injectable()

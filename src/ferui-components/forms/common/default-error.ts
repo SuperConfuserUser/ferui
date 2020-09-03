@@ -18,6 +18,6 @@ import { Component, Input } from '@angular/core';
   `,
   host: { '[class.fui-subtext-wrapper]': 'true' }
 })
-export class FuiDefaultControlError {
+export class FuiDefaultControlErrorComponent {
   @Input('on') condition: boolean;
 }

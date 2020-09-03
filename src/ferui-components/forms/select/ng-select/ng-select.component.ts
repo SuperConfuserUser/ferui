@@ -1,3 +1,6 @@
+import { Subject, merge } from 'rxjs';
+import { debounceTime, filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
+
 import {
   AfterViewInit,
   Attribute,
@@ -8,7 +11,6 @@ import {
   ContentChildren,
   ElementRef,
   EventEmitter,
-  forwardRef,
   HostBinding,
   HostListener,
   Inject,
@@ -16,17 +18,25 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
   Output,
   QueryList,
   SimpleChanges,
   TemplateRef,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  forwardRef
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { debounceTime, filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
-import { merge, Subject } from 'rxjs';
 
+import { NgSelectConfig } from './config.service';
+import { ConsoleService } from './console.service';
+import { newId } from './id';
+import { ItemsList } from './items-list';
+import { NgDropdownPanelComponent } from './ng-dropdown-panel.component';
+import { NgDropdownPanelService } from './ng-dropdown-panel.service';
+import { NgOptionComponent } from './ng-option.component';
+import { KeyCode, NgOption } from './ng-select.types';
 import {
   NgFooterTemplateDirective,
   NgHeaderTemplateDirective,
@@ -40,17 +50,8 @@ import {
   NgTagTemplateDirective,
   NgTypeToSearchTemplateDirective
 } from './ng-templates.directive';
-
-import { ConsoleService } from './console.service';
-import { isDefined, isFunction, isObject, isPromise } from './value-utils';
-import { ItemsList } from './items-list';
-import { KeyCode, NgOption } from './ng-select.types';
-import { newId } from './id';
-import { NgDropdownPanelComponent } from './ng-dropdown-panel.component';
-import { NgOptionComponent } from './ng-option.component';
 import { SelectionModelFactory } from './selection-model';
-import { NgSelectConfig } from './config.service';
-import { NgDropdownPanelService } from './ng-dropdown-panel.service';
+import { isDefined, isFunction, isObject, isPromise } from './value-utils';
 
 export const SELECTION_MODEL_FACTORY = new InjectionToken<SelectionModelFactory>('ng-select-selection-model');
 export type DropdownPosition = 'bottom' | 'top' | 'auto';
@@ -67,6 +68,7 @@ export type GroupValueFn = (key: string | object, children: any[]) => string | o
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
+      // tslint:disable-next-line
       useExisting: forwardRef(() => NgSelectComponent),
       multi: true
     },
@@ -80,7 +82,7 @@ export type GroupValueFn = (key: string | object, children: any[]) => string | o
     '[class.ng-select-single]': '!multiple'
   }
 })
-export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, ControlValueAccessor {
+export class NgSelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit, ControlValueAccessor {
   @Input() bindLabel: string;
   @Input() bindValue: string;
   @Input() markFirst = true;
@@ -119,17 +121,19 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
   @Input() @HostBinding('class.ng-select-clearable') clearable = true;
   @Input() @HostBinding('class.ng-select-opened') isOpen = false;
   // output events
-  @Output('blur') blurEvent = new EventEmitter();
-  @Output('focus') focusEvent = new EventEmitter();
-  @Output('change') changeEvent = new EventEmitter();
-  @Output('open') openEvent = new EventEmitter();
-  @Output('close') closeEvent = new EventEmitter();
-  @Output('search') searchEvent = new EventEmitter<{ term: string; items: any[] }>();
-  @Output('clear') clearEvent = new EventEmitter();
-  @Output('add') addEvent = new EventEmitter();
-  @Output('remove') removeEvent = new EventEmitter();
-  @Output('scroll') scroll = new EventEmitter<{ start: number; end: number }>();
-  @Output('scrollToEnd') scrollToEnd = new EventEmitter();
+  /* tslint:disable */
+  @Output('blur') readonly blurEvent = new EventEmitter();
+  @Output('focus') readonly focusEvent = new EventEmitter();
+  @Output('change') readonly changeEvent = new EventEmitter();
+  @Output('open') readonly openEvent = new EventEmitter();
+  @Output('close') readonly closeEvent = new EventEmitter();
+  @Output('scroll') readonly scroll = new EventEmitter<{ start: number; end: number }>();
+  /* tslint:enable */
+  @Output('search') readonly searchEvent = new EventEmitter<{ term: string; items: any[] }>();
+  @Output('clear') readonly clearEvent = new EventEmitter();
+  @Output('add') readonly addEvent = new EventEmitter();
+  @Output('remove') readonly removeEvent = new EventEmitter();
+  @Output('scrollToEnd') readonly scrollToEnd = new EventEmitter();
   // custom templates
   @ContentChild(NgOptionTemplateDirective, { read: TemplateRef }) optionTemplate: TemplateRef<any>;
   @ContentChild(NgOptgroupTemplateDirective, { read: TemplateRef }) optgroupTemplate: TemplateRef<any>;
@@ -142,6 +146,7 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
   @ContentChild(NgLoadingTextTemplateDirective, { read: TemplateRef }) loadingTextTemplate: TemplateRef<any>;
   @ContentChild(NgTagTemplateDirective, { read: TemplateRef }) tagTemplate: TemplateRef<any>;
   @ContentChild(NgLoadingSpinnerTemplateDirective, { read: TemplateRef }) loadingSpinnerTemplate: TemplateRef<any>;
+  // tslint:disable-next-line
   @ViewChild(forwardRef(() => NgDropdownPanelComponent)) dropdownPanel: NgDropdownPanelComponent;
   @ContentChildren(NgOptionComponent, { descendants: true }) ngOptions: QueryList<NgOptionComponent>;
   @ViewChild('filterInput') filterInput: ElementRef;
@@ -164,9 +169,13 @@ export class NgSelectComponent implements OnDestroy, OnChanges, AfterViewInit, C
   private _clearSearchOnAdd: boolean;
 
   constructor(
+    // There we want to use @Attribute for performance reasons since we expect to get constants values.
+    // so no need to have changeDetector running for those values.
+    /* tslint:disable */
     @Attribute('class') public classes: string,
     @Attribute('tabindex') public tabIndex: string,
     @Attribute('autofocus') private autoFocus: any,
+    /* tslint:enable */
     config: NgSelectConfig,
     @Inject(SELECTION_MODEL_FACTORY) newSelectionModel: SelectionModelFactory,
     _elementRef: ElementRef,

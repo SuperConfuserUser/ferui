@@ -1,26 +1,28 @@
+import { filter } from 'rxjs/operators';
+
 import {
+  AfterViewInit,
   Directive,
-  ViewContainerRef,
   ElementRef,
-  Injector,
-  Self,
-  Input,
-  OnInit,
-  OnDestroy,
-  Optional,
   HostListener,
-  AfterViewInit
+  Injector,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Renderer2,
+  Self,
+  ViewContainerRef
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { Renderer2 } from '@angular/core';
-import { FuiDatetimeModelTypes } from '../common/datetime-model-types.enum';
 import { AbstractDateTime } from '../common/abstract-date-time';
-import { DatetimeIOService } from './providers/datetime-io.service';
+import { FuiDatetimeModelTypes } from '../common/datetime-model-types.enum';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
+
+import { FuiDatetimeContainerComponent } from './datetime-container';
 import { DatetimeFormControlService } from './providers/datetime-form-control.service';
-import { FuiDatetimeContainer } from './datetime-container';
-import { filter } from 'rxjs/operators';
+import { DatetimeIOService } from './providers/datetime-io.service';
 
 @Directive({
   selector: '[fuiDatetime]',
@@ -29,7 +31,10 @@ import { filter } from 'rxjs/operators';
     '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
   }
 })
-export class FuiDatetime extends AbstractDateTime<FuiDatetimeContainer> implements AfterViewInit, OnInit, OnDestroy {
+// tslint:disable-next-line:prettier
+export class FuiDatetimeDirective
+  extends AbstractDateTime<FuiDatetimeContainerComponent>
+  implements AfterViewInit, OnInit, OnDestroy {
   protected index = 1;
 
   @Input('fuiDatetime')
@@ -48,12 +53,12 @@ export class FuiDatetime extends AbstractDateTime<FuiDatetimeContainer> implemen
     protected control: NgControl,
     renderer: Renderer2,
     el: ElementRef,
-    @Optional() protected container: FuiDatetimeContainer,
+    @Optional() protected container: FuiDatetimeContainerComponent,
     @Optional() protected iOService: DatetimeIOService,
     @Optional() private dateFormControlService: DateFormControlService,
     @Optional() private datetimeFormControlService: DatetimeFormControlService
   ) {
-    super(vcr, FuiDatetimeContainer, injector, control, renderer, el);
+    super(vcr, FuiDatetimeContainerComponent, injector, control, renderer, el);
   }
 
   @HostListener('change', ['$event.target'])

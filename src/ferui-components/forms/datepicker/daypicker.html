@@ -1,11 +1,7 @@
 <div class="calendar-header">
   <div class="calendar-pickers">
-    <button class="calendar-btn monthpicker-trigger" type="button" (click)="changeToMonthView()">
-      {{calendarMonth}}
-    </button>
-    <button class="calendar-btn yearpicker-trigger" type="button" (click)="changeToYearView()">
-      {{calendarYear}}
-    </button>
+    <button class="calendar-btn monthpicker-trigger" type="button" (click)="changeToMonthView()">{{calendarMonth}}</button>
+    <button class="calendar-btn yearpicker-trigger" type="button" (click)="changeToYearView()">{{calendarYear}}</button>
   </div>
   <div class="calendar-switchers">
     <button class="calendar-btn switcher" type="button" (click)="previousMonth()">

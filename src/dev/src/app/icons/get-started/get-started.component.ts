@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
 import * as jsBeautify from 'js-beautify';
+
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'get-started',

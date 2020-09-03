@@ -1,3 +1,5 @@
+import { Observable, Subject } from 'rxjs';
+
 import {
   ComponentFactoryResolver,
   ComponentRef,
@@ -8,7 +10,6 @@ import {
   Type,
   ViewContainerRef
 } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 
 export const FUI_MODAL_WINDOW_CTRL_TOKEN = new InjectionToken('ModalWindowController');
 export const FUI_MODAL_CTRL_TOKEN = new InjectionToken('ModalController');

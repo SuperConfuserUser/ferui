@@ -3,3 +3,10 @@ package.json
 dist/
 .vscode
 .ng_build
+.circleci/
+.github/
+.netlify/
+node_modules/
+npm/
+reports/
+tests/

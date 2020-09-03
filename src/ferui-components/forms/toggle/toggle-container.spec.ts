@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { ContainerNoLabelSpec } from '../tests/container.spec';
-import { FuiToggleContainer } from './toggle-container';
-import { FuiToggleWrapper } from './toggle-wrapper';
-import { FuiToggle } from './toggle';
 import { ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
+
+import { FuiToggleDirective } from './toggle';
+import { FuiToggleContainerComponent } from './toggle-container';
+import { FuiToggleWrapperComponent } from './toggle-wrapper';
 
 @Component({
   template: ` <fui-toggle-container></fui-toggle-container> `
@@ -59,9 +61,19 @@ class ReactiveTest {
 }
 
 export default function (): void {
-  describe('FuiToggleContainer', () => {
-    ContainerNoLabelSpec(FuiToggleContainer, [FuiToggleWrapper, FuiToggle], NoLabelTest);
-    TemplateDrivenSpec(FuiToggleContainer, [FuiToggleWrapper, FuiToggle], TemplateDrivenTest, '.fui-toggle-wrapper [fuiToggle]');
-    ReactiveSpec(FuiToggleContainer, [FuiToggleWrapper, FuiToggle], ReactiveTest, '.fui-toggle-wrapper [fuiToggle]');
+  describe('FuiToggleContainerComponent', () => {
+    ContainerNoLabelSpec(FuiToggleContainerComponent, [FuiToggleWrapperComponent, FuiToggleDirective], NoLabelTest);
+    TemplateDrivenSpec(
+      FuiToggleContainerComponent,
+      [FuiToggleWrapperComponent, FuiToggleDirective],
+      TemplateDrivenTest,
+      '.fui-toggle-wrapper [fuiToggle]'
+    );
+    ReactiveSpec(
+      FuiToggleContainerComponent,
+      [FuiToggleWrapperComponent, FuiToggleDirective],
+      ReactiveTest,
+      '.fui-toggle-wrapper [fuiToggle]'
+    );
   });
 }

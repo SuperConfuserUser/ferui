@@ -1,10 +1,12 @@
-import { Directive, Renderer2, ElementRef, Injector, Self, Optional, ViewContainerRef } from '@angular/core';
+import { Directive, ElementRef, Injector, Optional, Renderer2, Self, ViewContainerRef } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { FuiCheckboxWrapper } from './checkbox-wrapper';
+
 import { WrappedFormControl } from '../common/wrapped-control';
 
+import { FuiCheckboxWrapperComponent } from './checkbox-wrapper';
+
 @Directive({ selector: '[fuiCheckbox]' })
-export class FuiCheckbox extends WrappedFormControl<FuiCheckboxWrapper> {
+export class FuiCheckboxDirective extends WrappedFormControl<FuiCheckboxWrapperComponent> {
   constructor(
     vcr: ViewContainerRef,
     injector: Injector,
@@ -14,6 +16,6 @@ export class FuiCheckbox extends WrappedFormControl<FuiCheckboxWrapper> {
     renderer: Renderer2,
     el: ElementRef
   ) {
-    super(vcr, FuiCheckboxWrapper, injector, control, renderer, el);
+    super(vcr, FuiCheckboxWrapperComponent, injector, control, renderer, el);
   }
 }

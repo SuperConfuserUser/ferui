@@ -2,41 +2,40 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ComponentsLandingComponent } from './components-landing.component';
-import { DatagridDemo } from './datagrid/datagrid.demo';
-import { DatagridServerSideComponent } from './datagrid/pages/datagrid-server-side.component';
+import { DatagridDemoComponent } from './datagrid/datagrid.demo';
+import { DatagridClientSideComponent } from './datagrid/pages/datagrid-client-side.component';
+import { DatagridHomeComponent } from './datagrid/pages/datagrid-home';
 import { DatagridInfiniteServerSideComponent } from './datagrid/pages/datagrid-infinite-server-side.component';
-import { DatagridHome } from './datagrid/pages/datagrid-home';
-
-import { FormsLandingComponent } from './forms/forms-landing.component';
+import { DatagridServerSideComponent } from './datagrid/pages/datagrid-server-side.component';
+import { DatagridTreeviewInfiniteServerSideComponent } from './datagrid/pages/datagrid-treeview.component';
 import { ComponentsDashboardComponent } from './default/default.component';
-import { InputsComponent } from './forms/inputs/inputs.component';
-import { FormsDashboardComponent } from './forms/dashboard/forms-dashboard.component';
-import { PasswordComponent } from './forms/password/password.component';
-import { DatetimeComponent } from './forms/datetime/datetime.component';
-import { TextareaComponent } from './forms/textarea/textarea.component';
+import { DropdownDemoComponent } from './dropdown/dropdown.demo';
+import { DropdownExampleComponent } from './dropdown/pages/dropdown-example';
 import { CheckboxComponent } from './forms/checkbox/checkbox.component';
+import { FormsDashboardComponent } from './forms/dashboard/forms-dashboard.component';
+import { DatetimeComponent } from './forms/datetime/datetime.component';
+import { FormsLandingComponent } from './forms/forms-landing.component';
+import { InputsComponent } from './forms/inputs/inputs.component';
+import { NumberComponent } from './forms/number/number';
+import { PasswordComponent } from './forms/password/password.component';
 import { RadiosComponent } from './forms/radios/radios.component';
 import { SelectsComponent } from './forms/select/selects.component';
-import { DatagridClientSideComponent } from './datagrid/pages/datagrid-client-side.component';
-import { DropdownDemo } from './dropdown/dropdown.demo';
-import { DropdownExample } from './dropdown/pages/dropdown-example';
-import { TreeViewClientSideDemo } from './tree-view/tree-view-client-side-demo';
-import { WidgetDemo } from './widget/widget.demo';
-import { NumberComponent } from './forms/number/number';
-import { DatagridTreeviewInfiniteServerSideComponent } from './datagrid/pages/datagrid-treeview.component';
-import { TabsDemo } from './tabs/tabs.demo';
-import { TreeViewServerSideDemo } from './tree-view/tree-view-server-side-demo';
-import { TreeViewOverviewDemo } from './tree-view/tree-view-overview-demo';
-import { TreeViewDashboardDemo } from './tree-view/tree-view-dashboard-demo';
-import { VirtualScrollerDemo } from './virtual-scroller/virtual-scroller.demo';
+import { TextareaComponent } from './forms/textarea/textarea.component';
+import { ToggleComponent } from './forms/toggle/toggle.component';
+import { ModalDemoComponent } from './modals/modal.demo';
+import { ModalHeadlessComponent } from './modals/pages/modal-headless.component';
+import { ModalOverviewComponent } from './modals/pages/modal-overview.component';
 import { ModalSimpleComponent } from './modals/pages/modal-simple.component';
 import { ModalWizardComponent } from './modals/pages/modal-wizard.component';
-import { ModalDemo } from './modals/modal.demo';
-import { ModalOverviewComponent } from './modals/pages/modal-overview.component';
-import { ToastNotificationOverviewDemo } from './toast-notification/toast-notification-overview';
-import { ToastNotificationDashboardDemo } from './toast-notification/toast-notification-dashboard-demo';
-import { ModalHeadlessComponent } from './modals/pages/modal-headless.component';
-import { ToggleComponent } from './forms/toggle/toggle.component';
+import { TabsDemoComponent } from './tabs/tabs.demo';
+import { ToastNotificationDashboardDemoComponent } from './toast-notification/toast-notification-dashboard-demo';
+import { ToastNotificationOverviewDemoComponent } from './toast-notification/toast-notification-overview';
+import { TreeViewClientSideDemoComponent } from './tree-view/tree-view-client-side-demo';
+import { TreeViewDashboardDemoComponent } from './tree-view/tree-view-dashboard-demo';
+import { TreeViewOverviewDemoComponent } from './tree-view/tree-view-overview-demo';
+import { TreeViewServerSideDemoComponent } from './tree-view/tree-view-server-side-demo';
+import { VirtualScrollerDemoComponent } from './virtual-scroller/virtual-scroller.demo';
+import { WidgetDemoComponent } from './widget/widget.demo';
 
 export const COMPONENTS_ROUTES: Routes = [
   {
@@ -64,10 +63,10 @@ export const COMPONENTS_ROUTES: Routes = [
       },
       {
         path: 'datagrid',
-        component: DatagridDemo,
+        component: DatagridDemoComponent,
         children: [
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
-          { path: 'overview', component: DatagridHome },
+          { path: 'overview', component: DatagridHomeComponent },
           { path: 'client-side', component: DatagridClientSideComponent },
           { path: 'server-side', component: DatagridServerSideComponent },
           { path: 'infinite-server-side', component: DatagridInfiniteServerSideComponent },
@@ -76,25 +75,25 @@ export const COMPONENTS_ROUTES: Routes = [
       },
       {
         path: 'dropdown',
-        component: DropdownDemo,
+        component: DropdownDemoComponent,
         children: [
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
-          { path: 'overview', component: DropdownExample }
+          { path: 'overview', component: DropdownExampleComponent }
         ]
       },
       {
         path: 'treeview',
-        component: TreeViewOverviewDemo,
+        component: TreeViewOverviewDemoComponent,
         children: [
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-          { path: 'dashboard', component: TreeViewDashboardDemo },
-          { path: 'client-side', component: TreeViewClientSideDemo },
-          { path: 'server-side', component: TreeViewServerSideDemo }
+          { path: 'dashboard', component: TreeViewDashboardDemoComponent },
+          { path: 'client-side', component: TreeViewClientSideDemoComponent },
+          { path: 'server-side', component: TreeViewServerSideDemoComponent }
         ]
       },
       {
         path: 'modals',
-        component: ModalDemo,
+        component: ModalDemoComponent,
         children: [
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           { path: 'overview', component: ModalOverviewComponent },
@@ -105,23 +104,23 @@ export const COMPONENTS_ROUTES: Routes = [
       },
       {
         path: 'widget',
-        component: WidgetDemo
+        component: WidgetDemoComponent
       },
       {
         path: 'toast-notification',
-        component: ToastNotificationOverviewDemo,
+        component: ToastNotificationOverviewDemoComponent,
         children: [
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-          { path: 'dashboard', component: ToastNotificationDashboardDemo }
+          { path: 'dashboard', component: ToastNotificationDashboardDemoComponent }
         ]
       },
       {
         path: 'tabs',
-        component: TabsDemo
+        component: TabsDemoComponent
       },
       {
         path: 'virtual-scroller',
-        component: VirtualScrollerDemo
+        component: VirtualScrollerDemoComponent
       }
     ]
   }

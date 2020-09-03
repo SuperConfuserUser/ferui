@@ -1,8 +1,9 @@
-import { IServerSideDatasource, IServerSideGetRowsParams } from '../../../types/server-side-row-model';
-import { FuiDatagridEventService } from '../../../services/event.service';
-import { FuiDatagridEvents, ServerSideRowDataChanged } from '../../../events';
 import { Observable, Subject } from 'rxjs';
-import { DatagridStateEnum, DatagridStateService } from '../../../services/datagrid-state.service';
+
+import { FuiDatagridEvents, ServerSideRowDataChanged } from '../../../events';
+import { DatagridStateService } from '../../../services/datagrid-state.service';
+import { FuiDatagridEventService } from '../../../services/event.service';
+import { IServerSideDatasource, IServerSideGetRowsParams } from '../../../types/server-side-row-model';
 
 export interface RowNode {
   id: string;

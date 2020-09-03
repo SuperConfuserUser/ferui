@@ -1,3 +1,6 @@
+import { of } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
+
 import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
@@ -18,16 +21,15 @@ import {
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
+import { AbstractDateTime } from '../common/abstract-date-time';
+import { FuiDatetimeModelTypes } from '../common/datetime-model-types.enum';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { DatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service';
+import { DatepickerFocusService } from '../datepicker/providers/datepicker-focus.service';
+
+import { FuiDateContainerComponent } from './date-container';
 import { DateIOService } from './providers/date-io.service';
 import { DateNavigationService } from './providers/date-navigation.service';
-import { DatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service';
-import { FuiDatetimeModelTypes } from '../common/datetime-model-types.enum';
-import { AbstractDateTime } from '../common/abstract-date-time';
-import { filter, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { DatepickerFocusService } from '../datepicker/providers/datepicker-focus.service';
-import { FuiDateContainer } from './date-container';
 
 @Directive({
   selector: '[fuiDate]',
@@ -37,7 +39,7 @@ import { FuiDateContainer } from './date-container';
   },
   providers: [DatepickerFocusService]
 })
-export class FuiDate extends AbstractDateTime<FuiDateContainer> implements OnInit, AfterViewInit, OnDestroy {
+export class FuiDateDirective extends AbstractDateTime<FuiDateContainerComponent> implements OnInit, AfterViewInit, OnDestroy {
   @Input('fuiDate')
   set modelType(modelType: FuiDatetimeModelTypes) {
     if (modelType === FuiDatetimeModelTypes.STRING || modelType === FuiDatetimeModelTypes.DATE) {
@@ -82,11 +84,11 @@ export class FuiDate extends AbstractDateTime<FuiDateContainer> implements OnIni
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() protected iOService: DateIOService,
     @Optional() protected dateNavigationService: DateNavigationService,
-    @Optional() protected container: FuiDateContainer,
+    @Optional() protected container: FuiDateContainerComponent,
     @Optional() private datepickerEnabledService: DatepickerEnabledService,
     @Optional() private dateFormControlService: DateFormControlService
   ) {
-    super(vcr, FuiDateContainer, injector, control, renderer, el);
+    super(vcr, FuiDateContainerComponent, injector, control, renderer, el);
   }
 
   ngOnInit() {

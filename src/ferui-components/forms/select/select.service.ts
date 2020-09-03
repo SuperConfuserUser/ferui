@@ -1,27 +1,28 @@
 import { Injectable } from '@angular/core';
-import { FuiSelect } from './select';
-import { FuiSelectContainer } from './select-container';
+
+import { FuiSelectDirective } from './select';
+import { FuiSelectContainerComponent } from './select-container';
 
 @Injectable()
 export class FuiSelectService {
-  private _fuiSelect: FuiSelect;
-  private _fuiSelectContainer: FuiSelectContainer;
+  private _fuiSelect: FuiSelectDirective;
+  private _fuiSelectContainer: FuiSelectContainerComponent;
 
   constructor() {}
 
-  get fuiSelect(): FuiSelect {
+  get fuiSelect(): FuiSelectDirective {
     return this._fuiSelect;
   }
 
-  set fuiSelect(value: FuiSelect) {
+  set fuiSelect(value: FuiSelectDirective) {
     this._fuiSelect = value;
   }
 
-  get fuiSelectContainer(): FuiSelectContainer {
+  get fuiSelectContainer(): FuiSelectContainerComponent {
     return this._fuiSelectContainer;
   }
 
-  set fuiSelectContainer(value: FuiSelectContainer) {
+  set fuiSelectContainer(value: FuiSelectContainerComponent) {
     this._fuiSelectContainer = value;
   }
 }

@@ -1,12 +1,12 @@
 import {
-  FormatWidth,
   FormStyle,
+  FormatWidth,
+  TranslationWidth,
   getLocaleDateFormat,
-  getLocaleTimeFormat,
   getLocaleDayNames,
   getLocaleFirstDayOfWeek,
   getLocaleMonthNames,
-  TranslationWidth
+  getLocaleTimeFormat
 } from '@angular/common';
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 

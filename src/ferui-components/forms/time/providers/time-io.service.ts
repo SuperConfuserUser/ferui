@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+
+import { DatetimeIoInterface } from '../../common/datetime-io-interface';
 import { LocaleHelperService } from '../../datepicker/providers/locale-helper.service';
 import { DEFAULT_LOCALE_TIME_FORMAT, USER_INPUT_TIME_REGEX } from '../../datepicker/utils/constants';
-import { DatetimeIoInterface } from '../../common/datetime-io-interface';
 
 @Injectable()
 export class TimeIOService implements DatetimeIoInterface {

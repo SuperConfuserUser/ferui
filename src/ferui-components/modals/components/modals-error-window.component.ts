@@ -1,11 +1,13 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { FuiModalAbstractWindowComponent } from './modals-abstract-window.component';
+
 import {
   FUI_MODAL_CTRL_TOKEN,
   FUI_MODAL_WINDOW_CTRL_TOKEN,
   FuiModalErrorWindowCtrl,
   FuiModalErrorWindowScreen
 } from '../interfaces/modals-interfaces';
+
+import { FuiModalAbstractWindowComponent } from './modals-abstract-window.component';
 
 /**
  * Modal window component class for Error type window.

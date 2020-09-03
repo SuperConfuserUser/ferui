@@ -1,6 +1,6 @@
-import DateIOServiceSpecs from '../date/providers/date-io.service.spec';
 import DateContainerSpecs from '../date/date-container.spec';
 import DateInputSpecs from '../date/date.spec';
+import DateIOServiceSpecs from '../date/providers/date-io.service.spec';
 import DateNavigationServiceSpecs from '../date/providers/date-navigation.service.spec';
 import { addHelpers } from '../tests/helpers.spec';
 

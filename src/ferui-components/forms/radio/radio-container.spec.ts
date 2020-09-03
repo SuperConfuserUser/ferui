@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { ContainerNoLabelSpec, TemplateDrivenSpec, ReactiveSpec } from '../tests/container.spec';
-import { FuiRadioContainer } from './radio-container';
-import { FuiRadioWrapper } from './radio-wrapper';
-import { FuiRadio } from './radio';
+import { ContainerNoLabelSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
+
+import { FuiRadioDirective } from './radio';
+import { FuiRadioContainerComponent } from './radio-container';
+import { FuiRadioWrapperComponent } from './radio-wrapper';
 
 @Component({
   template: ` <fui-radio-container></fui-radio-container> `
@@ -59,9 +60,19 @@ class ReactiveTest {
 }
 
 export default function (): void {
-  describe('FuiRadioContainer', () => {
-    ContainerNoLabelSpec(FuiRadioContainer, [FuiRadio, FuiRadioWrapper], NoLabelTest);
-    TemplateDrivenSpec(FuiRadioContainer, [FuiRadio, FuiRadioWrapper], TemplateDrivenTest, '.fui-radio-wrapper [fuiRadio]');
-    ReactiveSpec(FuiRadioContainer, [FuiRadio, FuiRadioWrapper], ReactiveTest, '.fui-radio-wrapper [fuiRadio]');
+  describe('FuiRadioContainerComponent', () => {
+    ContainerNoLabelSpec(FuiRadioContainerComponent, [FuiRadioDirective, FuiRadioWrapperComponent], NoLabelTest);
+    TemplateDrivenSpec(
+      FuiRadioContainerComponent,
+      [FuiRadioDirective, FuiRadioWrapperComponent],
+      TemplateDrivenTest,
+      '.fui-radio-wrapper [fuiRadio]'
+    );
+    ReactiveSpec(
+      FuiRadioContainerComponent,
+      [FuiRadioDirective, FuiRadioWrapperComponent],
+      ReactiveTest,
+      '.fui-radio-wrapper [fuiRadio]'
+    );
   });
 }

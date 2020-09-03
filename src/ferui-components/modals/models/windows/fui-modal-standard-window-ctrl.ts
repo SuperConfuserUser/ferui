@@ -1,17 +1,19 @@
+import { Injector, TemplateRef, Type, ViewContainerRef } from '@angular/core';
+
+import { FuiModalStandardWindowComponent } from '../../components/modals-standard-window.component';
 import {
+  FUI_MODAL_CTRL_TOKEN,
+  FUI_MODAL_WINDOW_CTRL_TOKEN,
   FuiModalButtonInterface,
   FuiModalCtrl,
   FuiModalStandardWindowCtrl,
   FuiModalStandardWindowScreen,
   FuiModalWindowConfiguration,
-  FUI_MODAL_CTRL_TOKEN,
-  FUI_MODAL_WINDOW_CTRL_TOKEN,
   ModalWindowInteractionEnum
 } from '../../interfaces/modals-interfaces';
-import { Injector, TemplateRef, Type, ViewContainerRef } from '@angular/core';
-import { AbstractFuiModalWindowCtrlImpl } from './fui-modal-abstract-window-ctrl';
-import { FuiModalStandardWindowComponent } from '../../components/modals-standard-window.component';
 import { FuiModalUtils } from '../../utils/modal-utils';
+
+import { AbstractFuiModalWindowCtrlImpl } from './fui-modal-abstract-window-ctrl';
 
 /**
  * Standard window controller class.

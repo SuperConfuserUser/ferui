@@ -1,9 +1,9 @@
 import { Component, ContentChild, Optional } from '@angular/core';
 
 import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
-import { ControlIdService } from '../common/providers/control-id.service';
-import { FuiLabel } from '../common/label';
+import { FuiLabelDirective } from '../common/label';
 import { FuiFormLayoutEnum } from '../common/layout.enum';
+import { ControlIdService } from '../common/providers/control-id.service';
 import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 
 @Component({
@@ -18,9 +18,9 @@ import { FuiFormLayoutService } from '../common/providers/form-layout.service';
   },
   providers: [ControlIdService]
 })
-export class FuiRadioWrapper implements DynamicWrapper {
+export class FuiRadioWrapperComponent implements DynamicWrapper {
   _dynamic = false;
-  @ContentChild(FuiLabel) label: FuiLabel;
+  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
 
   constructor(@Optional() public formLayoutService: FuiFormLayoutService) {}
 

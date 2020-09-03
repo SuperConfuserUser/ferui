@@ -1,8 +1,5 @@
-import { ValidatorFn } from '@angular/forms';
-import { AbstractControl } from '@angular/forms';
 import { Directive, Input } from '@angular/core';
-import { NG_VALIDATORS } from '@angular/forms';
-import { Validator } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn } from '@angular/forms';
 
 export function valuesEqualValidator(valueToCompare: any): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
@@ -16,6 +13,7 @@ export function valuesEqualValidator(valueToCompare: any): ValidatorFn {
 }
 
 @Directive({
+  // tslint:disable-next-line
   selector: '[valuesEqual]',
   providers: [{ provide: NG_VALIDATORS, useExisting: ValuesEqualValidatorDirective, multi: true }]
 })

@@ -1,11 +1,13 @@
-import { Column } from '../components/entities/column';
-import { sortRows } from '../utils/sort';
 import { Injectable } from '@angular/core';
+
+import { Column } from '../components/entities/column';
+import { FuiDatagridEvents, FuiSortColumnsEvent } from '../events';
 import { FuiDatagridSortDirections } from '../types/sort-directions.enum';
-import { FuiDatagridEventService } from './event.service';
-import { FuiDatagridEvents, FuiSortColumnsEvent, FuiSortEvent } from '../events';
+import { sortRows } from '../utils/sort';
+
 import { FuiDatagridApiService } from './datagrid-api.service';
 import { FuiDatagridColumnApiService } from './datagrid-column-api.service';
+import { FuiDatagridEventService } from './event.service';
 
 @Injectable()
 export class FuiDatagridSortService {

@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 
 import { IfOpenService } from '../../utils/conditional/if-open.service';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { DateIOService } from '../date/providers/date-io.service';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
+import { TestContext } from '../tests/helpers.spec';
 
+import { FuiDaypickerComponent } from './daypicker';
 import { DayModel } from './model/day.model';
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { LocaleHelperService } from './providers/locale-helper.service';
 import { ViewManagerService } from './providers/view-manager.service';
-import { TestContext } from '../tests/helpers.spec';
-import { FuiDaypicker } from './daypicker';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
-import { DateIOService } from '../date/providers/date-io.service';
-import { DateFormControlService } from '../common/providers/date-form-control.service';
 
 export default function () {
   describe('Daypicker Component', () => {
-    let context: TestContext<FuiDaypicker, TestComponent>;
+    let context: TestContext<FuiDaypickerComponent, TestComponent>;
     let viewManagerService: ViewManagerService;
     let localeHelperService: LocaleHelperService;
     let dateNavigationService: DateNavigationService;
@@ -25,7 +25,7 @@ export default function () {
       dateNavigationService.selectedDay = new DayModel(2015, 1, 1);
       dateNavigationService.initializeCalendar();
 
-      context = this.create(FuiDaypicker, TestComponent, [
+      context = this.create(FuiDaypickerComponent, TestComponent, [
         { provide: DateNavigationService, useValue: dateNavigationService },
         DateIOService,
         IfOpenService,

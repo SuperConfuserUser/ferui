@@ -1,6 +1,7 @@
+import { Observable, Subject } from 'rxjs';
+
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs';
+
 import { CalendarModel } from '../../datepicker/model/calendar.model';
 import { DayModel } from '../../datepicker/model/day.model';
 

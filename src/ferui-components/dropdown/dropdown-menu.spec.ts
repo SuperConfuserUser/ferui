@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
+
 import { TestContext } from '../forms/tests/helpers.spec';
-import { IfOpenService } from '../utils/conditional/if-open.service';
-import { FuiDropdownMenu } from './dropdown-menu';
 import { Point } from '../popover/common/popover-options.interface';
+import { IfOpenService } from '../utils/conditional/if-open.service';
+
+import { FuiDropdownMenuComponent } from './dropdown-menu';
 
 export default function (): void {
   describe('DropdownMenu component', function () {
-    let context: TestContext<FuiDropdownMenu, SimpleTest>;
+    let context: TestContext<FuiDropdownMenuComponent, SimpleTest>;
 
     beforeEach(function () {
-      context = this.create(FuiDropdownMenu, SimpleTest, [IfOpenService]);
+      context = this.create(FuiDropdownMenuComponent, SimpleTest, [IfOpenService]);
       context.getFeruiProvider(IfOpenService).open = true;
       context.detectChanges();
     });
@@ -43,9 +45,7 @@ export default function (): void {
 @Component({
   template: `
     <fui-dropdown>
-      <fui-dropdown-menu [fuiPosition]="position">
-        Hello world
-      </fui-dropdown-menu>
+      <fui-dropdown-menu [fuiPosition]="position"> Hello world </fui-dropdown-menu>
     </fui-dropdown>
   `
 })

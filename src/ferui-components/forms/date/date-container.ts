@@ -1,26 +1,27 @@
-import { Component, ContentChild, Input, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { Component, ContentChild, Input, OnDestroy } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
+import { IfOpenService } from '../../utils/conditional/if-open.service';
+import { FormControlClass } from '../../utils/form-control-class/form-control-class';
 import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
 import { IfErrorService } from '../common/if-error/if-error.service';
+import { FuiLabelDirective } from '../common/label';
+import { FuiFormLayoutEnum } from '../common/layout.enum';
 import { ControlClassService } from '../common/providers/control-class.service';
-import { NgControlService } from '../common/providers/ng-control.service';
-
-import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { FuiLabel } from '../common/label';
-import { PlaceholderService } from '../common/providers/placeholder.service';
-import { FocusService } from '../common/providers/focus.service';
-import { RequiredControlService } from '../common/providers/required-control.service';
 import { ControlIdService } from '../common/providers/control-id.service';
-import { IfOpenService } from '../../utils/conditional/if-open.service';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { FocusService } from '../common/providers/focus.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { NgControlService } from '../common/providers/ng-control.service';
+import { PlaceholderService } from '../common/providers/placeholder.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
+import { DatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service';
+import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
+
 import { DateIOService } from './providers/date-io.service';
 import { DateNavigationService } from './providers/date-navigation.service';
-import { DateFormControlService } from '../common/providers/date-form-control.service';
-import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
-import { DatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service';
-import { FuiFormLayoutService } from '../common/providers/form-layout.service';
-import { FuiFormLayoutEnum } from '../common/layout.enum';
 
 @Component({
   selector: 'fui-date-container',
@@ -69,14 +70,14 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
     '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
   }
 })
-export class FuiDateContainer implements DynamicWrapper, OnDestroy {
+export class FuiDateContainerComponent implements DynamicWrapper, OnDestroy {
   _dynamic: boolean = false;
   invalid: boolean = false;
   control: NgControl;
 
   @Input() appendTo: string;
 
-  @ContentChild(FuiLabel) label: FuiLabel;
+  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
 
   private focus: boolean = false;
   private subscriptions: Subscription[] = [];

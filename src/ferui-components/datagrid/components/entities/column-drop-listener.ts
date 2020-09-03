@@ -1,10 +1,11 @@
-import { DragSourceType, DropListener, HDirection } from '../../types/drag-and-drop';
 import { DraggingEvent } from '../../events';
 import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-drop.service';
-import { Column } from './column';
-import { FuiColumnService } from '../../services/rendering/column.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
+import { FuiColumnService } from '../../services/rendering/column.service';
+import { DragSourceType, DropListener, HDirection } from '../../types/drag-and-drop';
 import { DatagridUtils } from '../../utils/datagrid-utils';
+
+import { Column } from './column';
 
 export class FuiColumnDropListener implements DropListener {
   private needToMoveLeft = false;

@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
-import { ClrIconModule } from '../icon/icon.module';
-import { FuiAlertsComponent } from './alerts.component';
-import { FuiAlertsIcon } from './alerts-icon.directive';
 
-export const FUI_ALERTS_DIRECTIVES: Type<any>[] = [FuiAlertsComponent, FuiAlertsIcon];
+import { ClrIconModule } from '../icon/icon.module';
+
+import { FuiAlertsIconDirective } from './alerts-icon.directive';
+import { FuiAlertsComponent } from './alerts.component';
+
+export const FUI_ALERTS_DIRECTIVES: Type<any>[] = [FuiAlertsComponent, FuiAlertsIconDirective];
 
 @NgModule({
   imports: [CommonModule, ClrIconModule],

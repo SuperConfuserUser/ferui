@@ -18,8 +18,7 @@
 /* BEGIN Thin Italic */
 @font-face {
   font-family: Roboto;
-  src: local('Roboto'), local('Roboto-ThinItalic'),
-    url('#{$fui-font-path}/ThinItalic/Roboto-ThinItalic.woff2') format('woff2'),
+  src: local('Roboto'), local('Roboto-ThinItalic'), url('#{$fui-font-path}/ThinItalic/Roboto-ThinItalic.woff2') format('woff2'),
     url('#{$fui-font-path}/ThinItalic/Roboto-ThinItalic.woff') format('woff'),
     url('#{$fui-font-path}/ThinItalic/Roboto-ThinItalic.ttf') format('truetype');
   font-weight: 100;
@@ -39,8 +38,7 @@
 /* BEGIN Light Italic */
 @font-face {
   font-family: Roboto;
-  src: local('Roboto'), local('Roboto-LightItalic'),
-    url('#{$fui-font-path}/LightItalic/Roboto-LightItalic.woff2') format('woff2'),
+  src: local('Roboto'), local('Roboto-LightItalic'), url('#{$fui-font-path}/LightItalic/Roboto-LightItalic.woff2') format('woff2'),
     url('#{$fui-font-path}/LightItalic/Roboto-LightItalic.woff') format('woff'),
     url('#{$fui-font-path}/LightItalic/Roboto-LightItalic.ttf') format('truetype');
   font-weight: 300;
@@ -101,8 +99,7 @@
 /* BEGIN Bold Italic */
 @font-face {
   font-family: Roboto;
-  src: local('Roboto'), local('Roboto-BoldItalic'),
-    url('#{$fui-font-path}/BoldItalic/Roboto-BoldItalic.woff2') format('woff2'),
+  src: local('Roboto'), local('Roboto-BoldItalic'), url('#{$fui-font-path}/BoldItalic/Roboto-BoldItalic.woff2') format('woff2'),
     url('#{$fui-font-path}/BoldItalic/Roboto-BoldItalic.woff') format('woff'),
     url('#{$fui-font-path}/BoldItalic/Roboto-BoldItalic.ttf') format('truetype');
   font-weight: 700;
@@ -122,8 +119,7 @@
 /* BEGIN Black Italic */
 @font-face {
   font-family: Roboto;
-  src: local('Roboto'), local('Roboto-BlackItalic'),
-    url('#{$fui-font-path}/BlackItalic/Roboto-BlackItalic.woff2') format('woff2'),
+  src: local('Roboto'), local('Roboto-BlackItalic'), url('#{$fui-font-path}/BlackItalic/Roboto-BlackItalic.woff2') format('woff2'),
     url('#{$fui-font-path}/BlackItalic/Roboto-BlackItalic.woff') format('woff'),
     url('#{$fui-font-path}/BlackItalic/Roboto-BlackItalic.ttf') format('truetype');
   font-weight: 900;

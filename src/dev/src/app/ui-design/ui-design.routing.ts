@@ -1,11 +1,12 @@
-import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { UiDesignLandingComponent } from './ui-design-landing.component';
-import { UiDesignGetStartedComponent } from './get-started/get-started.component';
-import { UiDesignSpacingsComponent } from './spacings/spacings.component';
-import { UiDesignGridComponent } from './grid/grid.component';
-import { UiDesignButtonsComponent } from './buttons/buttons.component';
+import { RouterModule, Routes } from '@angular/router';
+
 import { UiDesignAlertsComponent } from './alerts/alerts.component';
+import { UiDesignButtonsComponent } from './buttons/buttons.component';
+import { UiDesignGetStartedComponent } from './get-started/get-started.component';
+import { UiDesignGridComponent } from './grid/grid.component';
+import { UiDesignSpacingsComponent } from './spacings/spacings.component';
+import { UiDesignLandingComponent } from './ui-design-landing.component';
 
 export const UI_DESIGN_ROUTES: Routes = [
   {

@@ -1,7 +1,9 @@
-import { NgModule, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
 import { ClrIconModule } from '../icon/icon.module';
+
 import { FuiToastNotificationComponent } from './toast-notification-component';
 import { FuiToastNotificationService } from './toast-notification-service';
 

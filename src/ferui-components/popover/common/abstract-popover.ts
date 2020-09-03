@@ -1,5 +1,6 @@
-import { AfterViewChecked, ElementRef, HostBinding, Injector, OnDestroy, Optional, Renderer2, SkipSelf } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { AfterViewChecked, ElementRef, HostBinding, Injector, OnDestroy, Optional, Renderer2, SkipSelf } from '@angular/core';
 
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 import { ESC } from '../../utils/key-codes/key-codes';

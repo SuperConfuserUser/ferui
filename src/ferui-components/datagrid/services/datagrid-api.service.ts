@@ -1,7 +1,8 @@
-import { FuiDatagridFilterService } from './datagrid-filter.service';
 import { Injectable } from '@angular/core';
-import { FuiColumnService } from './rendering/column.service';
+
+import { FuiDatagridFilterService } from './datagrid-filter.service';
 import { FuiDatagridService } from './datagrid.service';
+import { FuiColumnService } from './rendering/column.service';
 
 @Injectable()
 export class FuiDatagridApiService {

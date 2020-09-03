@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { AbstractFuiCommonStrings } from './common-strings.interface';
 
 export class FuiCommonStringsService implements Required<FuiCommonStrings> {

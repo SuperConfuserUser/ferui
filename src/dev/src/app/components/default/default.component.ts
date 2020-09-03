@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DemoComponentData } from '../../utils/demo-component-data';
 import { NgForm } from '@angular/forms';
+
+import { DemoComponentData } from '../../utils/demo-component-data';
 
 @Component({
   template: `

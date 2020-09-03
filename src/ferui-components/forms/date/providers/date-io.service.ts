@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { DatetimeIoInterface } from '../../common/datetime-io-interface';
+import { LocaleHelperService } from '../../datepicker/providers/locale-helper.service';
 import {
   BIG_ENDIAN,
   DEFAULT_LOCALE_FORMAT,
@@ -13,9 +15,6 @@ import {
   USER_INPUT_REGEX
 } from '../../datepicker/utils/constants';
 import { getNumberOfDaysInTheMonth, parseToFourDigitYear } from '../../datepicker/utils/date-utils';
-
-import { LocaleHelperService } from '../../datepicker/providers/locale-helper.service';
-import { DatetimeIoInterface } from '../../common/datetime-io-interface';
 
 @Injectable()
 export class DateIOService implements DatetimeIoInterface {

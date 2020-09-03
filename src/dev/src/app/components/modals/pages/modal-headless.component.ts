@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
-import { FuiModalService } from '@ferui/components';
 import * as jsBeautify from 'js-beautify';
-import { ModalHeadlessExample1Component } from './modals/headless/modal-headless-example-1.component';
+
+import { Component } from '@angular/core';
+
+import { FuiModalService } from '@ferui/components';
+
 import { ChildModal3Component } from './modals/child-modals/child-modal-3';
+import { ModalHeadlessExample1Component } from './modals/headless/modal-headless-example-1.component';
 
 @Component({
   template: `

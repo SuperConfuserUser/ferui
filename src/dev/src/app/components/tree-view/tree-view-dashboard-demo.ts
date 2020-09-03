@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
 import * as jsBeautify from 'js-beautify';
+
+import { Component } from '@angular/core';
 
 @Component({
   template: `
@@ -116,7 +117,7 @@ import * as jsBeautify from 'js-beautify';
     </table>
   `
 })
-export class TreeViewDashboardDemo {
+export class TreeViewDashboardDemoComponent {
   importModule = jsBeautify.js(`
   import { AppComponent } from './app.component';
   import { NgModule } from '@angular/core';

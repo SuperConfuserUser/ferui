@@ -1,34 +1,40 @@
 import {
-  Component,
-  Input,
-  OnInit,
-  Output,
-  EventEmitter,
-  TemplateRef,
-  HostBinding,
-  ElementRef,
-  ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Self,
-  OnDestroy,
+  Component,
   DoCheck,
-  SimpleChanges
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  Self,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
-import {
-  TreeViewEventType,
-  TreeNodeDataRetriever,
-  PagedTreeNodeDataRetriever,
-  TreeViewColorTheme,
-  TreeViewConfiguration,
-  TreeNode,
-  TreeNodeEvent
-} from './interfaces';
-import { FuiTreeViewUtilsService } from './tree-view-utils-service';
+
 import { DomObserver, ObserverInstance } from '../utils/dom-observer/dom-observer';
 import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
-import { TREE_VIEW_INDENTATION_PADDING } from './internal-interfaces';
 
+import {
+  PagedTreeNodeDataRetriever,
+  TreeNode,
+  TreeNodeDataRetriever,
+  TreeNodeEvent,
+  TreeViewColorTheme,
+  TreeViewConfiguration,
+  TreeViewEventType
+} from './interfaces';
+import { TREE_VIEW_INDENTATION_PADDING } from './internal-interfaces';
+import { FuiTreeViewUtilsService } from './tree-view-utils-service';
+
+// To understand why we disabled this tslint rule
+// See https://stackoverflow.com/questions/39233650/can-you-use-both-onchanges-and-docheck-in-an-angular-2-component?answertab=active#tab-top
+/* tslint:disable:no-conflicting-lifecycle */
 @Component({
   selector: 'fui-tree-node',
   template: `
@@ -63,9 +69,9 @@ import { TREE_VIEW_INDENTATION_PADDING } from './internal-interfaces';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck {
-  @Output() onNodeEvent: EventEmitter<TreeNodeEvent<T>> = new EventEmitter<TreeNodeEvent<T>>();
-  @Output() onFirstLevelNodeHasChildren: EventEmitter<boolean> = new EventEmitter<boolean>();
+export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck, OnChanges {
+  @Output() readonly onNodeEvent: EventEmitter<TreeNodeEvent<T>> = new EventEmitter<TreeNodeEvent<T>>();
+  @Output() readonly onFirstLevelNodeHasChildren: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Input() node: TreeNode<T>;
   @Input() theme: TreeViewColorTheme;

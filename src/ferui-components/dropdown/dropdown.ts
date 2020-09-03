@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,10 +12,10 @@ import {
   Output,
   SkipSelf
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { IfOpenService } from '../utils/conditional/if-open.service';
 
 import { POPOVER_HOST_ANCHOR } from '../popover/common/popover-host-anchor.token';
+import { IfOpenService } from '../utils/conditional/if-open.service';
+
 import { ROOT_DROPDOWN_PROVIDER, RootDropdownService } from './services/dropdown.service';
 
 @Component({
@@ -26,8 +28,8 @@ import { ROOT_DROPDOWN_PROVIDER, RootDropdownService } from './services/dropdown
   providers: [IfOpenService, ROOT_DROPDOWN_PROVIDER, { provide: POPOVER_HOST_ANCHOR, useExisting: ElementRef }],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiDropdown implements OnDestroy {
-  @Output() dropdownOpenChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+export class FuiDropdownComponent implements OnDestroy {
+  @Output() readonly dropdownOpenChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Input('fuiCloseMenuOnItemClick') isMenuClosable: boolean = true;
 
@@ -41,10 +43,10 @@ export class FuiDropdown implements OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    @SkipSelf() @Optional() public parent: FuiDropdown,
+    @SkipSelf() @Optional() public parent: FuiDropdownComponent,
     public ifOpenService: IfOpenService,
     private cdr: ChangeDetectorRef,
-    private dropdownService: RootDropdownService
+    dropdownService: RootDropdownService
   ) {
     this.subscriptions.push(dropdownService.changes.subscribe(value => (this.ifOpenService.open = value)));
     this.subscriptions.push(

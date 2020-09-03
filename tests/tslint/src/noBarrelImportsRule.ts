@@ -1,18 +1,17 @@
-import { IRuleMetadata } from 'tslint';
-import * as ts from 'typescript';
 import * as Lint from 'tslint';
+import * as ts from 'typescript';
 import { resolve } from 'path';
 import { statSync } from 'fs';
 
 export class Rule extends Lint.Rules.AbstractRule {
-  public static metadata: IRuleMetadata = {
+  public static metadata: Lint.IRuleMetadata = {
     ruleName: 'no-barrel-imports',
     type: 'maintainability',
     description: 'Prevents imports from referencing an index file',
     hasFix: false,
     options: null,
     optionsDescription: '',
-    typescriptOnly: false,
+    typescriptOnly: false
   };
 
   public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
@@ -21,6 +20,7 @@ export class Rule extends Lint.Rules.AbstractRule {
 }
 
 // The walker takes care of all the work.
+// tslint:disable-next-line
 class NoBarrelImportsWalker extends Lint.RuleWalker {
   // This will run anytime TSLint runs into an import declaration, so we want to
   // use it to detect if relative imports are pointing to a file or directory

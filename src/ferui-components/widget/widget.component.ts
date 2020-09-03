@@ -9,4 +9,4 @@ import { Component } from '@angular/core';
     <ng-content select="fui-widget-footer"></ng-content>
   `
 })
-export class FuiWidget {}
+export class FuiWidgetComponent {}

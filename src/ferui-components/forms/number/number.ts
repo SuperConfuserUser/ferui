@@ -1,9 +1,20 @@
-import { Directive, Optional, ViewContainerRef, ElementRef, Injector, Self, HostBinding, Input, OnInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostBinding,
+  Injector,
+  Input,
+  OnInit,
+  Optional,
+  Renderer2,
+  Self,
+  ViewContainerRef
+} from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { FuiNumberContainer } from './number-container';
 import { WrappedFormControl } from '../common/wrapped-control';
-import { Renderer2 } from '@angular/core';
+
+import { FuiNumberContainerComponent } from './number-container';
 import { NumberIoService } from './providers/number-io.service';
 
 @Directive({
@@ -13,7 +24,7 @@ import { NumberIoService } from './providers/number-io.service';
     '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
   }
 })
-export class FuiNumber extends WrappedFormControl<FuiNumberContainer> implements OnInit {
+export class FuiNumberDirective extends WrappedFormControl<FuiNumberContainerComponent> implements OnInit {
   @Input('step')
   set step(value: number) {
     if (this.numberIOService) {
@@ -73,13 +84,11 @@ export class FuiNumber extends WrappedFormControl<FuiNumberContainer> implements
   constructor(
     vcr: ViewContainerRef,
     injector: Injector,
-    @Self()
-    @Optional()
-    private control: NgControl,
+    @Self() @Optional() control: NgControl,
     renderer: Renderer2,
     el: ElementRef,
     @Optional() private numberIOService: NumberIoService
   ) {
-    super(vcr, FuiNumberContainer, injector, control, renderer, el);
+    super(vcr, FuiNumberContainerComponent, injector, control, renderer, el);
   }
 }

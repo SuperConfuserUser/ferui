@@ -1,11 +1,11 @@
-import { Directive, Optional, ViewContainerRef, ElementRef, Injector, Self, OnInit, Host } from '@angular/core';
+import { Directive, ElementRef, Host, Injector, OnInit, Optional, Renderer2, Self, ViewContainerRef } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { FuiSelectContainer } from './select-container';
 import { WrappedFormControl } from '../common/wrapped-control';
-import { Renderer2 } from '@angular/core';
-import { FuiSelectService } from './select.service';
+
 import { NgSelectComponent } from './ng-select/ng-select.component';
+import { FuiSelectContainerComponent } from './select-container';
+import { FuiSelectService } from './select.service';
 
 @Directive({
   selector: '[fuiSelect]',
@@ -14,7 +14,7 @@ import { NgSelectComponent } from './ng-select/ng-select.component';
     '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
   }
 })
-export class FuiSelect extends WrappedFormControl<FuiSelectContainer> implements OnInit {
+export class FuiSelectDirective extends WrappedFormControl<FuiSelectContainerComponent> implements OnInit {
   private selectService: FuiSelectService;
 
   constructor(
@@ -28,7 +28,7 @@ export class FuiSelect extends WrappedFormControl<FuiSelectContainer> implements
     @Optional()
     public ngSelect: NgSelectComponent
   ) {
-    super(vcr, FuiSelectContainer, injector, control, renderer, el);
+    super(vcr, FuiSelectContainerComponent, injector, control, renderer, el);
     try {
       this.selectService = injector.get(FuiSelectService);
     } catch (e) {}

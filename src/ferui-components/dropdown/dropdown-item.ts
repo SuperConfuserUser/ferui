@@ -1,14 +1,15 @@
 import { AfterViewInit, Directive, ElementRef, Renderer2 } from '@angular/core';
+
+import { FuiDropdownComponent } from './dropdown';
 import { RootDropdownService } from './services/dropdown.service';
-import { FuiDropdown } from './dropdown';
 
 @Directive({
   selector: '[fuiDropdownItem]',
   host: { '[class.fui-dropdown-item]': 'true' }
 })
-export class FuiDropdownItem implements AfterViewInit {
+export class FuiDropdownItemDirective implements AfterViewInit {
   constructor(
-    private dropdown: FuiDropdown,
+    private dropdown: FuiDropdownComponent,
     private el: ElementRef,
     private _dropdownService: RootDropdownService,
     private renderer: Renderer2

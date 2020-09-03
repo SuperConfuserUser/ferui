@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { IfOpenService } from '../../../utils/conditional/if-open.service';
 import { Subscription } from 'rxjs';
-import { FuiColumnService } from '../../services/rendering/column.service';
+
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+
+import { IfOpenService } from '../../../utils/conditional/if-open.service';
 import { FuiDatagridFilterService } from '../../services/datagrid-filter.service';
+import { FuiColumnService } from '../../services/rendering/column.service';
 import { Column } from '../entities/column';
 import { FuiDatagridClientSideRowModel } from '../row-models/client-side-row-model';
 
@@ -34,7 +36,7 @@ import { FuiDatagridClientSideRowModel } from '../row-models/client-side-row-mod
     class: 'fui-datagrid-search-filter-button'
   }
 })
-export class FuiDatagridSearchFilterButton implements OnDestroy, OnInit {
+export class FuiDatagridSearchFilterButtonComponent implements OnDestroy, OnInit {
   isOpenPopup: boolean = false;
   columns: Column[];
 

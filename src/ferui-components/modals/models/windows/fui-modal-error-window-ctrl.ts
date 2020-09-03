@@ -1,14 +1,16 @@
+import { Injector, Type, ViewContainerRef } from '@angular/core';
+
+import { FuiModalHeadlessWindowComponent } from '../../components/modals-headless-window.component';
 import {
-  FuiModalCtrl,
-  FuiModalWindowConfiguration,
   FUI_MODAL_CTRL_TOKEN,
   FUI_MODAL_WINDOW_CTRL_TOKEN,
+  FuiModalCtrl,
+  FuiModalErrorWindowCtrl,
   FuiModalErrorWindowScreen,
-  FuiModalErrorWindowCtrl
+  FuiModalWindowConfiguration
 } from '../../interfaces/modals-interfaces';
+
 import { AbstractFuiModalWindowCtrlImpl } from './fui-modal-abstract-window-ctrl';
-import { Injector, Type, ViewContainerRef } from '@angular/core';
-import { FuiModalHeadlessWindowComponent } from '../../components/modals-headless-window.component';
 
 /**
  * Error window controller class.

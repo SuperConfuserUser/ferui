@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TemplateDrivenSpec, ReactiveSpec, ContainerNoLabelSpec } from '../tests/container.spec';
-import { FuiNumberContainer } from './number-container';
-import { FuiNumber } from './number';
+
+import { ContainerNoLabelSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
+
+import { FuiNumberDirective } from './number';
+import { FuiNumberContainerComponent } from './number-container';
 
 @Component({
   template: `
@@ -46,9 +48,9 @@ class ReactiveTest {
 }
 
 export default function (): void {
-  describe('FuiNumberContainer', () => {
-    ContainerNoLabelSpec(FuiNumberContainer, FuiNumber, NoLabelTest);
-    TemplateDrivenSpec(FuiNumberContainer, FuiNumber, SimpleTest, '.fui-input-wrapper [fuiNumber]');
-    ReactiveSpec(FuiNumberContainer, FuiNumber, ReactiveTest, '.fui-input-wrapper [fuiNumber]');
+  describe('FuiNumberContainerComponent', () => {
+    ContainerNoLabelSpec(FuiNumberContainerComponent, FuiNumberDirective, NoLabelTest);
+    TemplateDrivenSpec(FuiNumberContainerComponent, FuiNumberDirective, SimpleTest, '.fui-input-wrapper [fuiNumber]');
+    ReactiveSpec(FuiNumberContainerComponent, FuiNumberDirective, ReactiveTest, '.fui-input-wrapper [fuiNumber]');
   });
 }

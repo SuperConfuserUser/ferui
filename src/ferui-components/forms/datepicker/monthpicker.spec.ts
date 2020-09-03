@@ -4,20 +4,20 @@ import { async } from '@angular/core/testing';
 import { itIgnore } from '../../../../tests/tests.helpers';
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW } from '../../utils/key-codes/key-codes';
+import { DateIOService } from '../date/providers/date-io.service';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
+import { TestContext } from '../tests/helpers.spec';
 
 import { DayModel } from './model/day.model';
+import { FuiMonthpickerComponent } from './monthpicker';
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { LocaleHelperService } from './providers/locale-helper.service';
 import { ViewManagerService } from './providers/view-manager.service';
 import { createKeyboardEvent } from './utils/test-utils';
-import { TestContext } from '../tests/helpers.spec';
-import { FuiMonthpicker } from './monthpicker';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
-import { DateIOService } from '../date/providers/date-io.service';
 
 export default function () {
   describe('Monthpicker Component', () => {
-    let context: TestContext<FuiMonthpicker, TestComponent>;
+    let context: TestContext<FuiMonthpickerComponent, TestComponent>;
     let localeHelperService: LocaleHelperService;
     let dateNavigationService: DateNavigationService;
     const selectedMonth: number = 1;
@@ -33,7 +33,7 @@ export default function () {
       beforeEach(function () {
         initializeCalendar(new DayModel(2015, selectedMonth, 1));
 
-        context = this.create(FuiMonthpicker, TestComponent, [
+        context = this.create(FuiMonthpickerComponent, TestComponent, [
           ViewManagerService,
           DatepickerFocusService,
           IfOpenService,
@@ -130,7 +130,7 @@ export default function () {
       beforeEach(function () {
         initializeCalendar(new DayModel(2015, selectedMonth, 1));
 
-        context = this.create(FuiMonthpicker, TestComponent, [
+        context = this.create(FuiMonthpickerComponent, TestComponent, [
           ViewManagerService,
           DatepickerFocusService,
           IfOpenService,
@@ -200,7 +200,7 @@ export default function () {
       function createMonthPicker(scope: any, selectedDay: DayModel) {
         initializeCalendar(selectedDay);
 
-        context = scope.create(FuiMonthpicker, TestComponent, [
+        context = scope.create(FuiMonthpickerComponent, TestComponent, [
           ViewManagerService,
           DatepickerFocusService,
           IfOpenService,

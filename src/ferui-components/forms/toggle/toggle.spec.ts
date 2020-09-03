@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { ControlStandaloneSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/control.spec';
-import { FuiToggleWrapper } from './toggle-wrapper';
-import { FuiToggle } from './toggle';
+
+import { FuiToggleDirective } from './toggle';
+import { FuiToggleWrapperComponent } from './toggle-wrapper';
 
 @Component({
   template: ` <input type="checkbox" fuiToggle />`
@@ -28,9 +30,9 @@ class ReactiveTest {
 }
 
 export default function (): void {
-  describe('FuiToggle directive', () => {
+  describe('FuiToggleDirective directive', () => {
     ControlStandaloneSpec(StandaloneUseTest);
-    TemplateDrivenSpec(FuiToggleWrapper, FuiToggle, TemplateDrivenTest, 'fui-toggle');
-    ReactiveSpec(FuiToggleWrapper, FuiToggle, ReactiveTest, 'fui-toggle');
+    TemplateDrivenSpec(FuiToggleWrapperComponent, FuiToggleDirective, TemplateDrivenTest, 'fui-toggle');
+    ReactiveSpec(FuiToggleWrapperComponent, FuiToggleDirective, ReactiveTest, 'fui-toggle');
   });
 }

@@ -1,9 +1,10 @@
-import { FuiDatagridIFilter, IDoesFilterPassParams, IFilterParams } from '../interfaces/filter';
-import { Column } from '../../entities/column';
-import { Input, OnInit, Type } from '@angular/core';
+import { Input, OnInit } from '@angular/core';
+
 import { FuiFormLayoutEnum } from '../../../../forms/common/layout.enum';
 import { FuiDatagridFilterService } from '../../../services/datagrid-filter.service';
 import { DatagridUtils } from '../../../utils/datagrid-utils';
+import { Column } from '../../entities/column';
+import { FuiDatagridIFilter, IDoesFilterPassParams, IFilterParams } from '../interfaces/filter';
 import { FilterType } from '../interfaces/filter.enum';
 
 const DEFAULT_TRANSLATIONS: { [name: string]: string } = {

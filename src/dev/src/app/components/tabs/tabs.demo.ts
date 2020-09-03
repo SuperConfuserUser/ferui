@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { DemoComponentData } from '../../utils/demo-component-data';
 
 @Component({
@@ -87,7 +88,7 @@ import { DemoComponentData } from '../../utils/demo-component-data';
     </fui-tabs>
   `
 })
-export class TabsDemo implements OnInit {
+export class TabsDemoComponent implements OnInit {
   examples: Array<DemoComponentData> = [];
 
   ngOnInit(): void {

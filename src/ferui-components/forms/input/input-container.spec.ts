@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FuiInput } from './input';
-import { FuiInputContainer } from './input-container';
-import { TemplateDrivenSpec, ReactiveSpec, ContainerNoLabelSpec } from '../tests/container.spec';
+
+import { ContainerNoLabelSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
+
+import { FuiInputDirective } from './input';
+import { FuiInputContainerComponent } from './input-container';
 
 @Component({
   template: `
@@ -46,9 +48,9 @@ class ReactiveTest {
 }
 
 export default function (): void {
-  describe('FuiInputContainer', () => {
-    ContainerNoLabelSpec(FuiInputContainer, FuiInput, NoLabelTest);
-    TemplateDrivenSpec(FuiInputContainer, FuiInput, SimpleTest, '.fui-input-wrapper [fuiInput]');
-    ReactiveSpec(FuiInputContainer, FuiInput, ReactiveTest, '.fui-input-wrapper [fuiInput]');
+  describe('FuiInputContainerComponent', () => {
+    ContainerNoLabelSpec(FuiInputContainerComponent, FuiInputDirective, NoLabelTest);
+    TemplateDrivenSpec(FuiInputContainerComponent, FuiInputDirective, SimpleTest, '.fui-input-wrapper [fuiInput]');
+    ReactiveSpec(FuiInputContainerComponent, FuiInputDirective, ReactiveTest, '.fui-input-wrapper [fuiInput]');
   });
 }

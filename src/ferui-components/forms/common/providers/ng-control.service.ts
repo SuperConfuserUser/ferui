@@ -1,6 +1,7 @@
+import { Observable, Subject } from 'rxjs';
+
 import { Injectable } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class NgControlService {

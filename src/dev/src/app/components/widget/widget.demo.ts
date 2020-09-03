@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { DemoComponentData } from '../../utils/demo-component-data';
+
 import { FuiDatetimeModelTypes } from '@ferui/components';
+
+import { DemoComponentData } from '../../utils/demo-component-data';
 
 @Component({
   selector: 'widget-demo-example',
@@ -102,7 +104,7 @@ import { FuiDatetimeModelTypes } from '@ferui/components';
     </form>
   `
 })
-export class WidgetDemo implements OnInit {
+export class WidgetDemoComponent implements OnInit {
   @ViewChild('demoForm') form: NgForm;
   selectedTab: string = 'doc';
   examples: Array<DemoComponentData> = [];

@@ -1,9 +1,10 @@
-import { DragSourceType, DropListener, DropTarget, DropType } from '../../types/drag-and-drop';
 import { DraggingEvent } from '../../events';
 import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-drop.service';
-import { FuiColumnDropListener } from './column-drop-listener';
-import { FuiColumnService } from '../../services/rendering/column.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
+import { FuiColumnService } from '../../services/rendering/column.service';
+import { DragSourceType, DropListener, DropTarget, DropType } from '../../types/drag-and-drop';
+
+import { FuiColumnDropListener } from './column-drop-listener';
 
 export abstract class FuiDatagridBodyDropTarget implements DropTarget {
   private eSecondaryContainers: HTMLElement[];

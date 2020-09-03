@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+import { Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { Injectable } from '@angular/core';
+
 import { Column } from '../components/entities/column';
-import { FuiColumnService } from './rendering/column.service';
 import { ColumnResizedEvent, FuiDatagridEvents } from '../events';
+
 import { FuiDatagridEventService } from './event.service';
+import { FuiColumnService } from './rendering/column.service';
 
 export interface DatagridResizeParams {
   eElement: HTMLElement;

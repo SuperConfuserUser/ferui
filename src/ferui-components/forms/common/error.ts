@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'fui-control-error',
@@ -9,6 +8,6 @@ import { Input } from '@angular/core';
     '[attr.hidden]': 'displayOn === false ? true : null'
   }
 })
-export class FuiControlError {
+export class FuiControlErrorComponent {
   @Input() displayOn: boolean;
 }

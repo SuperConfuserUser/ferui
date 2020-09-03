@@ -1,27 +1,28 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
 import {
-  IDatagridResultObject,
-  IServerSideGetRowsParams,
+  ColumnVO,
+  Comparator,
+  DATAGRID_GLOBAL_SEARCH_ID,
+  DateIOService,
   FilterModel,
   FilterType,
-  FuiDatagridTextFilter,
-  FuiDatagridBooleanFilter,
-  Comparator,
-  FuiDatagridNumberFilter,
-  FuiDatagridDateFilter,
-  NullComparator,
-  FuiFieldTypes,
-  SortModel,
+  FuiDatagridBooleanFilterComponent,
+  FuiDatagridDateFilterComponent,
+  FuiDatagridNumberFilterComponent,
   FuiDatagridSortDirections,
-  DateIOService,
-  orderByComparator,
-  DATAGRID_GLOBAL_SEARCH_ID,
+  FuiDatagridTextFilterComponent,
+  FuiFieldTypes,
+  IDatagridResultObject,
   IDoesGlobalFilterPassParams,
-  ColumnVO
+  IServerSideGetRowsParams,
+  NullComparator,
+  SortModel,
+  orderByComparator
 } from '@ferui/components';
 
 export interface IDatagridRowData {
@@ -75,7 +76,7 @@ export class RowDataApiService {
       filterable: true,
       filterType: FilterType.STRING,
       filterValue: groupValue,
-      filterOption: FuiDatagridTextFilter.EQUALS
+      filterOption: FuiDatagridTextFilterComponent.EQUALS
     });
 
     return this.getRows(params, maxResults, withTotalRows);
@@ -175,9 +176,7 @@ export class RowDataApiService {
     const filteredData: any[] = [];
     let doesFiltersPass: boolean = true;
     let globalSearchPass: boolean = true;
-    let added: boolean = false;
     results.forEach(data => {
-      added = false;
       doesFiltersPass = true;
       globalSearchPass = true;
 
@@ -215,8 +214,8 @@ export class RowDataApiService {
     selectedSearch
   ): boolean {
     const rowData: any = params.rowData;
-    const formatter = FuiDatagridTextFilter.DEFAULT_LOWERCASE_FORMATTER;
-    const comparator = FuiDatagridTextFilter.DEFAULT_COMPARATOR;
+    const formatter = FuiDatagridTextFilterComponent.DEFAULT_LOWERCASE_FORMATTER;
+    const comparator = FuiDatagridTextFilterComponent.DEFAULT_COMPARATOR;
     let pass: boolean = false;
     if (columns.length > 0 && rowData) {
       columns.forEach(column => {
@@ -245,13 +244,13 @@ export class RowDataApiService {
   }
 
   private textFilter(selectedType: string, selectedSearch: string, data: string): boolean {
-    const formatter = FuiDatagridTextFilter.DEFAULT_LOWERCASE_FORMATTER;
-    const comparator = FuiDatagridTextFilter.DEFAULT_COMPARATOR;
+    const formatter = FuiDatagridTextFilterComponent.DEFAULT_LOWERCASE_FORMATTER;
+    const comparator = FuiDatagridTextFilterComponent.DEFAULT_COMPARATOR;
     return comparator(selectedType, formatter(data), formatter(selectedSearch));
   }
 
   private booleanFilter(selectedValue: string | boolean, data: string | boolean): boolean {
-    const formatter = FuiDatagridBooleanFilter.DEFAULT_FORMATTER;
+    const formatter = FuiDatagridBooleanFilterComponent.DEFAULT_FORMATTER;
     if (data === null && data === undefined && data === '') {
       return false;
     }
@@ -265,21 +264,21 @@ export class RowDataApiService {
     const compareResult = comparator(filterValue, cellValue);
 
     switch (selectedType) {
-      case FuiDatagridNumberFilter.EMPTY:
+      case FuiDatagridNumberFilterComponent.EMPTY:
         return false;
-      case FuiDatagridNumberFilter.EQUALS:
+      case FuiDatagridNumberFilterComponent.EQUALS:
         return compareResult === 0;
-      case FuiDatagridNumberFilter.GREATER_THAN:
+      case FuiDatagridNumberFilterComponent.GREATER_THAN:
         return compareResult > 0;
-      case FuiDatagridNumberFilter.GREATER_THAN_OR_EQUAL:
+      case FuiDatagridNumberFilterComponent.GREATER_THAN_OR_EQUAL:
         return compareResult >= 0;
-      case FuiDatagridNumberFilter.LESS_THAN_OR_EQUAL:
+      case FuiDatagridNumberFilterComponent.LESS_THAN_OR_EQUAL:
         return compareResult <= 0;
-      case FuiDatagridNumberFilter.LESS_THAN:
+      case FuiDatagridNumberFilterComponent.LESS_THAN:
         return compareResult < 0;
-      case FuiDatagridNumberFilter.NOT_EQUAL:
+      case FuiDatagridNumberFilterComponent.NOT_EQUAL:
         return compareResult !== 0;
-      case FuiDatagridNumberFilter.IN_RANGE:
+      case FuiDatagridNumberFilterComponent.IN_RANGE:
         const compareToResult: number = comparator((filterValues as number[])[1], cellValue);
         return compareResult >= 0 && compareToResult <= 0;
       default:
@@ -312,17 +311,17 @@ export class RowDataApiService {
     const compareResult = comparator(filterValue, cellValue);
 
     switch (selectedType) {
-      case FuiDatagridDateFilter.EMPTY:
+      case FuiDatagridDateFilterComponent.EMPTY:
         return false;
-      case FuiDatagridDateFilter.EQUALS:
+      case FuiDatagridDateFilterComponent.EQUALS:
         return compareResult === 0;
-      case FuiDatagridDateFilter.GREATER_THAN:
+      case FuiDatagridDateFilterComponent.GREATER_THAN:
         return compareResult > 0;
-      case FuiDatagridDateFilter.LESS_THAN:
+      case FuiDatagridDateFilterComponent.LESS_THAN:
         return compareResult < 0;
-      case FuiDatagridDateFilter.NOT_EQUAL:
+      case FuiDatagridDateFilterComponent.NOT_EQUAL:
         return compareResult !== 0;
-      case FuiDatagridDateFilter.IN_RANGE:
+      case FuiDatagridDateFilterComponent.IN_RANGE:
         const compareToResult: number = comparator(rawFilterValues[1], cellValue);
         return compareResult >= 0 && compareToResult <= 0;
       default:
@@ -367,7 +366,7 @@ export class RowDataApiService {
   private translateNull(type: string): boolean {
     const reducedType: string =
       type.indexOf('greater') > -1 ? 'greaterThan' : type.indexOf('lessThan') > -1 ? 'lessThan' : 'equals';
-    return (FuiDatagridNumberFilter.DEFAULT_NULL_COMPARATOR as NullComparator)[reducedType];
+    return (FuiDatagridNumberFilterComponent.DEFAULT_NULL_COMPARATOR as NullComparator)[reducedType];
   }
 
   private nullComparator(selectedType: string, comparator: Comparator<number | Date>): Comparator<number | Date> {
@@ -375,19 +374,19 @@ export class RowDataApiService {
       if (gridValue === null) {
         const nullValue = this.translateNull(selectedType);
         switch (selectedType) {
-          case FuiDatagridNumberFilter.EMPTY:
+          case FuiDatagridNumberFilterComponent.EMPTY:
             return 0;
-          case FuiDatagridNumberFilter.EQUALS:
+          case FuiDatagridNumberFilterComponent.EQUALS:
             return nullValue ? 0 : 1;
-          case FuiDatagridNumberFilter.GREATER_THAN:
+          case FuiDatagridNumberFilterComponent.GREATER_THAN:
             return nullValue ? 1 : -1;
-          case FuiDatagridNumberFilter.GREATER_THAN_OR_EQUAL:
+          case FuiDatagridNumberFilterComponent.GREATER_THAN_OR_EQUAL:
             return nullValue ? 1 : -1;
-          case FuiDatagridNumberFilter.LESS_THAN_OR_EQUAL:
+          case FuiDatagridNumberFilterComponent.LESS_THAN_OR_EQUAL:
             return nullValue ? -1 : 1;
-          case FuiDatagridNumberFilter.LESS_THAN:
+          case FuiDatagridNumberFilterComponent.LESS_THAN:
             return nullValue ? -1 : 1;
-          case FuiDatagridNumberFilter.NOT_EQUAL:
+          case FuiDatagridNumberFilterComponent.NOT_EQUAL:
             return nullValue ? 1 : 0;
           default:
             break;

@@ -26,5 +26,11 @@
   "style": "ferui-icons.min.js",
   "bugs": {
     "url": "https://github.com/ilanddev/ferui/issues"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not ie <= 11",
+    "Firefox >= 35",
+    "Chrome >= 35"
+  ]
 }

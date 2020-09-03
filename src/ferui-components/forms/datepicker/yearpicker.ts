@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, ElementRef, HostListener } from '@angular/core';
 
+import { FuiCommonStrings } from '../../utils/i18n/common-strings.service';
 import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW } from '../../utils/key-codes/key-codes';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
 
 import { YearRangeModel } from './model/year-range.model';
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
-import { ViewManagerService } from './providers/view-manager.service';
-import { FuiCommonStrings } from '../../utils/i18n/common-strings.service';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
 import { LocaleHelperService } from './providers/locale-helper.service';
+import { ViewManagerService } from './providers/view-manager.service';
 
 @Component({
   selector: 'fui-yearpicker',
@@ -50,7 +50,7 @@ import { LocaleHelperService } from './providers/locale-helper.service';
     '[class.yearpicker]': 'true'
   }
 })
-export class FuiYearpicker implements AfterViewInit {
+export class FuiYearpickerComponent implements AfterViewInit {
   /**
    * YearRangeModel which is used to build the YearPicker view.
    */

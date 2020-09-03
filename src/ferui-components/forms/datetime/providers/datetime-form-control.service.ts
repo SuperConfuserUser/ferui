@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+
+import { Injectable } from '@angular/core';
+
 import { FuiDatetimeModelTypes } from '../../common/datetime-model-types.enum';
 
 @Injectable()

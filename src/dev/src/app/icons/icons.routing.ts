@@ -1,7 +1,8 @@
-import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { IconsLandingComponent } from './icons-landing.component';
+import { RouterModule, Routes } from '@angular/router';
+
 import { GetStartedComponent } from './get-started/get-started.component';
+import { IconsLandingComponent } from './icons-landing.component';
 import { IconsComponent } from './icons-list/icons.component';
 
 export const ICONS_ROUTES: Routes = [

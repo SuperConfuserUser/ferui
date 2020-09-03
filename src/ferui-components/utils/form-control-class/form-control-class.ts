@@ -1,11 +1,12 @@
 import { NgControl } from '@angular/forms';
-import { FuiLabel } from '../../forms/common/label';
+
+import { FuiLabelDirective } from '../../forms/common/label';
 import { FeruiUtils } from '../ferui-utils';
 
 export class FormControlClass {
   public static extractControlClass(
     control: NgControl,
-    label?: FuiLabel,
+    label?: FuiLabelDirective,
     focus?: boolean,
     excludedList?: Array<string>
   ): Array<string> {

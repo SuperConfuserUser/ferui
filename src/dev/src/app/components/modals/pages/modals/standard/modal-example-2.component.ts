@@ -1,12 +1,14 @@
+import * as jsBeautify from 'js-beautify';
+
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
 import {
+  FUI_MODAL_WINDOW_CTRL_TOKEN,
   FuiDatetimeModelTypes,
   FuiModalStandardWindowCtrl,
-  FuiModalStandardWindowScreen,
-  FUI_MODAL_WINDOW_CTRL_TOKEN
+  FuiModalStandardWindowScreen
 } from '@ferui/components';
-import { NgForm } from '@angular/forms';
-import * as jsBeautify from 'js-beautify';
 
 @Component({
   template: `
@@ -56,9 +58,7 @@ import * as jsBeautify from 'js-beautify';
           required
           [(ngModel)]="confirmPassword"
         />
-        <fui-control-error *fuiIfError="'valuesEqual'">
-          The two passwords doesn't match.
-        </fui-control-error>
+        <fui-control-error *fuiIfError="'valuesEqual'"> The two passwords doesn't match. </fui-control-error>
       </fui-password-container>
       <fui-date-container>
         <label>Birth Date</label>

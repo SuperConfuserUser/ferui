@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,15 +14,15 @@ import {
   QueryList,
   Self
 } from '@angular/core';
-import { FuiBodyCell } from './body-cell';
-import { RowRendererService } from '../../services/rendering/row-renderer.service';
-import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
-import { Column } from '../entities/column';
-import { FuiDatagridEventService } from '../../services/event.service';
+
 import { FuiDatagridEvents, RowClickedEvent, RowDoubleClickedEvent } from '../../events';
-import { Subscription } from 'rxjs';
-import { FuiActionMenuService } from '../../services/action-menu/action-menu.service';
 import { FuiActionMenuUtils } from '../../services/action-menu/action-menu-utils';
+import { FuiActionMenuService } from '../../services/action-menu/action-menu.service';
+import { FuiDatagridEventService } from '../../services/event.service';
+import { RowRendererService } from '../../services/rendering/row-renderer.service';
+import { Column } from '../entities/column';
+
+import { FuiBodyCellComponent } from './body-cell';
 
 @Component({
   selector: 'fui-datagrid-body-row',
@@ -39,7 +41,7 @@ import { FuiActionMenuUtils } from '../../services/action-menu/action-menu-utils
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiBodyRow implements OnInit, OnDestroy {
+export class FuiBodyRowComponent implements OnInit, OnDestroy {
   @HostBinding('attr.role') role: string = 'row';
 
   @HostBinding('style.height.px')
@@ -74,7 +76,7 @@ export class FuiBodyRow implements OnInit, OnDestroy {
     return this._rowIndex;
   }
 
-  @ContentChildren(FuiBodyCell) cells: QueryList<FuiBodyCell>;
+  @ContentChildren(FuiBodyCellComponent) cells: QueryList<FuiBodyCellComponent>;
 
   isRowSelected: boolean = false;
   isRowOrActionMenuHovered: boolean = false;
@@ -87,7 +89,6 @@ export class FuiBodyRow implements OnInit, OnDestroy {
     @Self() public elementRef: ElementRef,
     private cd: ChangeDetectorRef,
     private rowRendererService: RowRendererService,
-    private optionsWrapperService: FuiDatagridOptionsWrapperService,
     private eventService: FuiDatagridEventService,
     private actionMenuService: FuiActionMenuService
   ) {}
@@ -167,7 +168,7 @@ export class FuiBodyRow implements OnInit, OnDestroy {
     this.subscriptions = null;
   }
 
-  getCellForCol(column: Column): FuiBodyCell {
+  getCellForCol(column: Column): FuiBodyCellComponent {
     return this.cells.find(cell => cell.column.getColId() === column.getColId());
   }
 

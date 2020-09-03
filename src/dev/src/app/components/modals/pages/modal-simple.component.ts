@@ -1,13 +1,16 @@
+import * as jsBeautify from 'js-beautify';
+
 import { Component, TemplateRef, ViewChild } from '@angular/core';
+
 import { FuiModalService } from '@ferui/components';
-import { ModalExample1Component } from './modals/standard/modal-example-1.component';
-import { ModalExample2Component } from './modals/standard/modal-example-2.component';
-import { ModalExample3Component } from './modals/standard/modal-example-3.component';
+
 import { ChildModal1Component } from './modals/child-modals/child-modal-1';
 import { ChildModal2Component } from './modals/child-modals/child-modal-2';
 import { ChildModal3Component } from './modals/child-modals/child-modal-3';
 import { ChildModal4Component } from './modals/child-modals/child-modal-4';
-import * as jsBeautify from 'js-beautify';
+import { ModalExample1Component } from './modals/standard/modal-example-1.component';
+import { ModalExample2Component } from './modals/standard/modal-example-2.component';
+import { ModalExample3Component } from './modals/standard/modal-example-3.component';
 
 @Component({
   template: `

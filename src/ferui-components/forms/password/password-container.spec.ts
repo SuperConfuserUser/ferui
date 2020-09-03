@@ -6,11 +6,11 @@ import { By } from '@angular/platform-browser';
 import { ClrIconModule } from '../../icon/icon.module';
 import { FuiCommonFormsModule } from '../common/common.module';
 import { IfErrorService } from '../common/if-error/if-error.service';
-
 import { NgControlService } from '../common/providers/ng-control.service';
 import { ContainerNoLabelSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
-import { FuiPassword } from './password';
-import { FuiPasswordContainer } from './password-container';
+
+import { FuiPasswordDirective } from './password';
+import { FuiPasswordContainerComponent } from './password-container';
 
 @Component({
   template: `
@@ -55,22 +55,27 @@ class ReactiveTest {
 }
 
 export default function (): void {
-  describe('FuiPasswordContainer', () => {
-    ContainerNoLabelSpec(FuiPasswordContainer, FuiPassword, NoLabelTest);
-    TemplateDrivenSpec(FuiPasswordContainer, FuiPassword, TemplateDrivenTest, '.fui-input-wrapper [fuiPassword]');
-    ReactiveSpec(FuiPasswordContainer, FuiPassword, ReactiveTest, '.fui-input-wrapper [fuiPassword]');
+  describe('FuiPasswordContainerComponent', () => {
+    ContainerNoLabelSpec(FuiPasswordContainerComponent, FuiPasswordDirective, NoLabelTest);
+    TemplateDrivenSpec(
+      FuiPasswordContainerComponent,
+      FuiPasswordDirective,
+      TemplateDrivenTest,
+      '.fui-input-wrapper [fuiPassword]'
+    );
+    ReactiveSpec(FuiPasswordContainerComponent, FuiPasswordDirective, ReactiveTest, '.fui-input-wrapper [fuiPassword]');
 
     describe('password toggle', () => {
       let fixture, containerDE, containerEl;
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FuiCommonFormsModule, FormsModule],
-          declarations: [FuiPasswordContainer, FuiPassword, TemplateDrivenTest],
+          declarations: [FuiPasswordContainerComponent, FuiPasswordDirective, TemplateDrivenTest],
           providers: [NgControl, NgControlService, IfErrorService]
         });
         fixture = TestBed.createComponent(TemplateDrivenTest);
 
-        containerDE = fixture.debugElement.query(By.directive(FuiPasswordContainer));
+        containerDE = fixture.debugElement.query(By.directive(FuiPasswordContainerComponent));
         containerEl = containerDE.nativeElement;
         fixture.detectChanges();
       });

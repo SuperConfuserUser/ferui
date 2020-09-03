@@ -1,6 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FuiModalStandardWindowCtrl, FuiModalStandardWindowScreen, FUI_MODAL_WINDOW_CTRL_TOKEN } from '@ferui/components';
 import * as jsBeautify from 'js-beautify';
+
+import { Component, Inject, OnInit } from '@angular/core';
+
+import { FUI_MODAL_WINDOW_CTRL_TOKEN, FuiModalStandardWindowCtrl, FuiModalStandardWindowScreen } from '@ferui/components';
 
 @Component({
   template: `

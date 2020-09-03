@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
 import * as jsBeautify from 'js-beautify';
+
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'tabs-demo-example',
@@ -56,19 +57,13 @@ import * as jsBeautify from 'js-beautify';
 
     <pre><code [languages]="['html']" [highlight]="codeExample4"></code></pre>
 
-    <p class="has-line-data">
-      You must also define width and height for the container and for its children.
-    </p>
+    <p class="has-line-data">You must also define width and height for the container and for its children.</p>
 
     <pre><code [languages]="['css']" [highlight]="codeExample5"></code></pre>
 
     <p class="has-line-data"><strong>Step 2:</strong> Create ‘my-custom-component’ component.</p>
-    <p class="has-line-data">
-      ‘my-custom-component’ must be a custom angular2 component, outside of this library.
-    </p>
-    <p class="has-line-data">
-      Child component is not necessary if your item is simple enough. See below.
-    </p>
+    <p class="has-line-data">‘my-custom-component’ must be a custom angular2 component, outside of this library.</p>
+    <p class="has-line-data">Child component is not necessary if your item is simple enough. See below.</p>
 
     <pre><code [languages]="['html']" [highlight]="codeExample6"></code></pre>
 
@@ -113,16 +108,12 @@ import * as jsBeautify from 'js-beautify';
         <tr>
           <td>scrollDebounceTime</td>
           <td>number</td>
-          <td>
-            Milliseconds to delay refreshing viewport if user is scrolling quickly (for performance reasons). Default is 0.
-          </td>
+          <td>Milliseconds to delay refreshing viewport if user is scrolling quickly (for performance reasons). Default is 0.</td>
         </tr>
         <tr>
           <td>scrollThrottlingTime</td>
           <td>number</td>
-          <td>
-            Milliseconds to delay refreshing viewport if user is scrolling quickly (for performance reasons). Default is 0.
-          </td>
+          <td>Milliseconds to delay refreshing viewport if user is scrolling quickly (for performance reasons). Default is 0.</td>
         </tr>
         <tr>
           <td>useMarginInsteadOfTranslate</td>
@@ -342,9 +333,7 @@ import * as jsBeautify from 'js-beautify';
 
     <pre><code [languages]="['html']" [highlight]="codeExample9"></code></pre>
 
-    <p class="has-line-data">
-      Note: The parent element should have a width and height defined.
-    </p>
+    <p class="has-line-data">Note: The parent element should have a width and height defined.</p>
     <h2 class="code-line"><a id="Use_scrollbar_of_window_227"></a>Use scrollbar of window</h2>
     <p class="has-line-data">If you want to use the window’s scrollbar, set <code>parentScroll</code>.</p>
 
@@ -589,7 +578,7 @@ import * as jsBeautify from 'js-beautify';
     <pre><code [languages]="['html']" [highlight]="codeExample26"></code></pre>
   `
 })
-export class VirtualScrollerDemo {
+export class VirtualScrollerDemoComponent {
   codeExample1: string = jsBeautify.html(`<fui-virtual-scroller #scroll [items]="items">
     <my-custom-component *ngFor="let item of scroll.viewPortItems">
     </my-custom-component>

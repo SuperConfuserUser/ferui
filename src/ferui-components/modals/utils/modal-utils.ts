@@ -1,3 +1,7 @@
+import { ComponentFactoryResolver, Injector, ViewContainerRef } from '@angular/core';
+
+import { FuiModalErrorWindowComponent } from '../components/modals-error-window.component';
+import { FuiModalErrorScreenComponent } from '../components/screens/modal-error-screen.component';
 import {
   FUI_MODAL_CTRL_TOKEN,
   FUI_MODAL_WINDOW_CTRL_TOKEN,
@@ -7,9 +11,6 @@ import {
   FuiModalWindowConfiguration,
   FuiModalWindowEnum
 } from '../interfaces/modals-interfaces';
-import { FuiModalErrorScreenComponent } from '../components/screens/modal-error-screen.component';
-import { FuiModalErrorWindowComponent } from '../components/modals-error-window.component';
-import { ComponentFactoryResolver, Injector, ViewContainerRef } from '@angular/core';
 import { FuiModalErrorWindowCtrlImpl } from '../models/windows/fui-modal-error-window-ctrl';
 
 /**

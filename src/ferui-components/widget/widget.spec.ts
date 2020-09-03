@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FuiWidgetModule } from './widget.module';
 import { By } from '@angular/platform-browser';
-import { FuiWidget } from './widget.component';
-import { FuiWidgetBody } from './widget-body.component';
-import { FuiWidgetHeader } from './widget-header.component';
-import { FuiWidgetTitle } from './widget-title.component';
-import { FuiWidgetSubtitle } from './widget-subtitle.component';
-import { FuiWidgetFooter } from './widget-footer.component';
-import { FuiWidgetActions } from './widget-actions.component';
-import { FuiDate, FuiDateContainer } from '../forms/date/index';
-import { FuiCheckbox, FuiCheckboxWrapper } from '../forms/checkbox/index';
+
+import { FuiCheckboxDirective, FuiCheckboxWrapperComponent } from '../forms/checkbox/index';
 import { FuiDatetimeModelTypes } from '../forms/common/datetime-model-types.enum';
+import { FuiDateContainerComponent, FuiDateDirective } from '../forms/date/index';
+
+import { FuiWidgetActionsComponent } from './widget-actions.component';
+import { FuiWidgetBodyComponent } from './widget-body.component';
+import { FuiWidgetFooterComponent } from './widget-footer.component';
+import { FuiWidgetHeaderComponent } from './widget-header.component';
+import { FuiWidgetSubtitleComponent } from './widget-subtitle.component';
+import { FuiWidgetTitleComponent } from './widget-title.component';
+import { FuiWidgetComponent } from './widget.component';
+import { FuiWidgetModule } from './widget.module';
 
 @Component({
   template: `
@@ -67,10 +69,10 @@ class WidgetWithComponents {
 }
 
 export default function (): void {
-  describe('FuiWidget component', () => {
+  describe('FuiWidgetComponent component', () => {
     let fixture: ComponentFixture<any>;
 
-    describe('FuiWidget with text content', () => {
+    describe('FuiWidgetComponent with text content', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [FuiWidgetModule],
@@ -80,64 +82,64 @@ export default function (): void {
         fixture.detectChanges();
       });
 
-      it('FuiWidget directive is created', () => {
-        const elmt = fixture.debugElement.query(By.directive(FuiWidget));
+      it('FuiWidgetComponent directive is created', () => {
+        const elmt = fixture.debugElement.query(By.directive(FuiWidgetComponent));
         expect(elmt).toBeDefined();
       });
 
       describe('Widget body', () => {
-        it('FuiWidgetBody directive is created', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetBody));
+        it('FuiWidgetBodyComponent directive is created', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetBodyComponent));
           expect(elmt).toBeDefined();
         });
 
-        it('FuiWidgetBody has text content', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetBody));
+        it('FuiWidgetBodyComponent has text content', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetBodyComponent));
           expect(elmt.nativeElement.textContent).toEqual('Widget Body');
         });
       });
 
       describe('Widget header', () => {
-        it('FuiWidgetHeader directive is created', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetHeader));
+        it('FuiWidgetHeaderComponent directive is created', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetHeaderComponent));
           expect(elmt).toBeDefined();
         });
 
-        it('FuiWidgetTitle directive is created', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetTitle));
+        it('FuiWidgetTitleComponent directive is created', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetTitleComponent));
           expect(elmt).toBeDefined();
         });
 
-        it('FuiWidgetTitle has text content', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetTitle));
+        it('FuiWidgetTitleComponent has text content', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetTitleComponent));
           expect(elmt.nativeElement.textContent).toEqual('Widget title');
         });
 
-        it('FuiWidgetSubtitle directive is created', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetSubtitle));
+        it('FuiWidgetSubtitleComponent directive is created', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetSubtitleComponent));
           expect(elmt).toBeDefined();
         });
 
-        it('FuiWidgetSubtitle has text content', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetSubtitle));
+        it('FuiWidgetSubtitleComponent has text content', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetSubtitleComponent));
           expect(elmt.nativeElement.textContent).toEqual('Widget subtitle');
         });
       });
 
       describe('Widget footer', () => {
-        it('FuiWidgetFooter directive is created', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetFooter));
+        it('FuiWidgetFooterComponent directive is created', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetFooterComponent));
           expect(elmt).toBeDefined();
         });
 
-        it('FuiWidgetTitle has text content', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetFooter));
+        it('FuiWidgetTitleComponent has text content', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetFooterComponent));
           expect(elmt.nativeElement.textContent).toEqual('Widget footer');
         });
       });
     });
 
-    describe('FuiWidget with components', () => {
+    describe('FuiWidgetComponent with components', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [FuiWidgetModule],
@@ -147,40 +149,40 @@ export default function (): void {
         fixture.detectChanges();
       });
 
-      it('FuiWidget directive is created', () => {
-        const elmt = fixture.debugElement.query(By.directive(FuiWidget));
+      it('FuiWidgetComponent directive is created', () => {
+        const elmt = fixture.debugElement.query(By.directive(FuiWidgetComponent));
         expect(elmt).toBeDefined();
       });
 
       describe('Widget header', () => {
-        it('FuiWidgetHeader directive is created', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetHeader));
+        it('FuiWidgetHeaderComponent directive is created', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetHeaderComponent));
           expect(elmt).toBeDefined();
         });
 
-        it('FuiWidgetActions directive is created', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetActions));
+        it('FuiWidgetActionsComponent directive is created', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetActionsComponent));
           expect(elmt).toBeDefined();
         });
 
-        it('FuiWidgetActions directive contains a component', () => {
-          let elmt = fixture.debugElement.query(By.directive(FuiDateContainer));
+        it('FuiWidgetActionsComponent directive contains a component', () => {
+          let elmt = fixture.debugElement.query(By.directive(FuiDateContainerComponent));
           expect(elmt).toBeDefined();
-          elmt = fixture.debugElement.query(By.directive(FuiDate));
+          elmt = fixture.debugElement.query(By.directive(FuiDateDirective));
           expect(elmt).toBeDefined();
         });
       });
 
       describe('Widget body', () => {
-        it('FuiWidgetBody directive is created', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetBody));
+        it('FuiWidgetBodyComponent directive is created', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetBodyComponent));
           expect(elmt).toBeDefined();
         });
 
-        it('FuiWidgetBody contains a component', () => {
-          let elmt = fixture.debugElement.query(By.directive(FuiCheckboxWrapper));
+        it('FuiWidgetBodyComponent contains a component', () => {
+          let elmt = fixture.debugElement.query(By.directive(FuiCheckboxWrapperComponent));
           expect(elmt).toBeDefined();
-          elmt = fixture.debugElement.query(By.directive(FuiCheckbox));
+          elmt = fixture.debugElement.query(By.directive(FuiCheckboxDirective));
           expect(elmt).toBeDefined();
         });
       });

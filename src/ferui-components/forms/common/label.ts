@@ -1,3 +1,5 @@
+import { Observable, Subject, Subscription } from 'rxjs';
+
 import {
   Directive,
   ElementRef,
@@ -11,21 +13,21 @@ import {
   Output,
   Renderer2
 } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
 
 import { ControlIdService } from './providers/control-id.service';
 import { NgControlService } from './providers/ng-control.service';
 import { PlaceholderService } from './providers/placeholder.service';
 import { RequiredControlService } from './providers/required-control.service';
 
+// tslint:disable-next-line
 @Directive({ selector: 'label' })
-export class FuiLabel implements OnInit, OnDestroy {
+export class FuiLabelDirective implements OnInit, OnDestroy {
   @HostBinding('attr.tabindex') tabindex: number = 0;
   @HostBinding('attr.for')
   @Input('for')
   forAttr: string;
 
-  @Output() focusChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() readonly focusChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   private _value: Subject<string> = new Subject<string>();
   private placeholderChild: HTMLSpanElement;

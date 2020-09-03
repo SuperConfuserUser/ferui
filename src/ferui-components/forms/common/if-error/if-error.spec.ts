@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, Validators } from '@angular/forms';
-import { NgControlService } from '../providers/ng-control.service';
-import { IfErrorService } from './if-error.service';
-import { FuiIfError } from './if-error';
+
 import { ClrIconModule } from '@ferui/components';
-import { FuiInput } from '../../input/input';
-import { FuiControlError } from '../error';
-import { FuiInputContainer } from '../../input/input-container';
-import { FuiDefaultControlError } from '../default-error';
+
+import { FuiInputDirective } from '../../input/input';
+import { FuiInputContainerComponent } from '../../input/input-container';
+import { FuiDefaultControlErrorComponent } from '../default-error';
+import { FuiControlErrorComponent } from '../error';
+import { NgControlService } from '../providers/ng-control.service';
+
+import { FuiIfErrorDirective } from './if-error';
+import { IfErrorService } from './if-error.service';
 
 const errorMessage = 'ERROR_MESSAGE';
 const minLengthMessage = 'MIN_LENGTH_MESSAGE';
@@ -34,10 +37,10 @@ class GeneralErrorTest {}
 class SpecificErrorTest {}
 
 export default function (): void {
-  describe('FuiIfError', () => {
+  describe('FuiIfErrorDirective', () => {
     describe('invalid use', () => {
       it('throws error when used outside of a control container', () => {
-        TestBed.configureTestingModule({ declarations: [FuiIfError, InvalidUseTest] });
+        TestBed.configureTestingModule({ declarations: [FuiIfErrorDirective, InvalidUseTest] });
         expect(() => {
           const fixture = TestBed.createComponent(InvalidUseTest);
           fixture.detectChanges();
@@ -51,7 +54,14 @@ export default function (): void {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FormsModule],
-          declarations: [FuiInput, FuiControlError, FuiInputContainer, FuiDefaultControlError, FuiIfError, GeneralErrorTest]
+          declarations: [
+            FuiInputDirective,
+            FuiControlErrorComponent,
+            FuiInputContainerComponent,
+            FuiDefaultControlErrorComponent,
+            FuiIfErrorDirective,
+            GeneralErrorTest
+          ]
         });
         fixture = TestBed.createComponent(GeneralErrorTest);
         fixture.detectChanges();
@@ -80,7 +90,14 @@ export default function (): void {
       beforeEach(() => {
         TestBed.configureTestingModule({
           imports: [ClrIconModule, FormsModule],
-          declarations: [FuiInput, FuiControlError, FuiInputContainer, FuiDefaultControlError, FuiIfError, SpecificErrorTest]
+          declarations: [
+            FuiInputDirective,
+            FuiControlErrorComponent,
+            FuiInputContainerComponent,
+            FuiDefaultControlErrorComponent,
+            FuiIfErrorDirective,
+            SpecificErrorTest
+          ]
         });
         fixture = TestBed.createComponent(SpecificErrorTest);
         fixture.detectChanges();

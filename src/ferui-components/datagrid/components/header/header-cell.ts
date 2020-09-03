@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -10,27 +12,26 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  Renderer2,
   Self,
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { FuiColumnDefinitions } from '../../types/column-definitions';
-import { Column } from '../entities/column';
-import { FuiDatagridSortDirections } from '../../types/sort-directions.enum';
-import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
-import { Subscription } from 'rxjs';
+
 import { ColumnEvent, ColumnResizedEvent, ColumnVisibleEvent, FuiDatagridEvents } from '../../events';
-import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-drop.service';
-import { DragItem, DragSource, DragSourceType } from '../../types/drag-and-drop';
-import { FuiColumnService } from '../../services/rendering/column.service';
-import { FuiDatagridService } from '../../services/datagrid.service';
-import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
-import { DatagridResizeParams, FuiDatagridResizeService } from '../../services/datagrid-resize.service';
-import { FuiDatagridEventService } from '../../services/event.service';
 import { ColumnKeyCreator } from '../../services/column-key-creator';
-import { RowModel } from '../row-models/row-model';
+import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-drop.service';
+import { DatagridResizeParams, FuiDatagridResizeService } from '../../services/datagrid-resize.service';
+import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
 import { DatagridStateService } from '../../services/datagrid-state.service';
+import { FuiDatagridService } from '../../services/datagrid.service';
+import { FuiDatagridEventService } from '../../services/event.service';
+import { FuiColumnService } from '../../services/rendering/column.service';
+import { FuiColumnDefinitions } from '../../types/column-definitions';
+import { DragItem, DragSource, DragSourceType } from '../../types/drag-and-drop';
+import { FuiDatagridSortDirections } from '../../types/sort-directions.enum';
+import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
+import { Column } from '../entities/column';
+import { RowModel } from '../row-models/row-model';
 
 @Component({
   selector: 'fui-datagrid-header-cell',
@@ -72,11 +73,11 @@ import { DatagridStateService } from '../../services/datagrid-state.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FuiDatagridResizeService, Column]
 })
-export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, OnDestroy, AfterViewInit {
-  @Output() resize: EventEmitter<ColumnResizedEvent> = new EventEmitter<ColumnResizedEvent>();
-  @Output() changeVisibility: EventEmitter<ColumnVisibleEvent> = new EventEmitter<ColumnVisibleEvent>();
-  @Output() changeWidth: EventEmitter<ColumnEvent> = new EventEmitter<ColumnEvent>();
-  @Output() changeLeft: EventEmitter<ColumnEvent> = new EventEmitter<ColumnEvent>();
+export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements OnInit, OnDestroy, AfterViewInit {
+  @Output() readonly onResize: EventEmitter<ColumnResizedEvent> = new EventEmitter<ColumnResizedEvent>();
+  @Output() readonly changeVisibility: EventEmitter<ColumnVisibleEvent> = new EventEmitter<ColumnVisibleEvent>();
+  @Output() readonly changeWidth: EventEmitter<ColumnEvent> = new EventEmitter<ColumnEvent>();
+  @Output() readonly changeLeft: EventEmitter<ColumnEvent> = new EventEmitter<ColumnEvent>();
 
   fuiDatagridSortDirections = FuiDatagridSortDirections;
   colId: string;
@@ -109,7 +110,6 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
 
   constructor(
     @Self() elementRef: ElementRef,
-    private renderer: Renderer2,
     private cd: ChangeDetectorRef,
     private sortService: FuiDatagridSortService,
     private resizeService: FuiDatagridResizeService,
@@ -270,7 +270,7 @@ export class FuiHeaderCell extends FuiDatagridBodyDropTarget implements OnInit, 
         const ev: ColumnResizedEvent = columnEvent as ColumnResizedEvent;
         if (ev && ev.column && ev.column.getColId() === this.column.getColId()) {
           this.updateWidth(ev.column);
-          this.resize.emit(ev);
+          this.onResize.emit(ev);
         }
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_WIDTH_CHANGED).subscribe(columnEvent => {

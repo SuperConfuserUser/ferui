@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
-import { WrapperFullSpec, WrapperNoLabelSpec, WrapperContainerSpec } from '../tests/wrapper.spec';
-import { FuiCheckboxContainer } from './checkbox-container';
-import { FuiCheckbox } from './checkbox';
-import { FuiCheckboxWrapper } from './checkbox-wrapper';
+import { WrapperContainerSpec, WrapperFullSpec, WrapperNoLabelSpec } from '../tests/wrapper.spec';
+
+import { FuiCheckboxDirective } from './checkbox';
+import { FuiCheckboxContainerComponent } from './checkbox-container';
+import { FuiCheckboxWrapperComponent } from './checkbox-wrapper';
 
 @Component({
   template: `
@@ -42,9 +43,15 @@ class ContainerTest {
 }
 
 export default function (): void {
-  describe('FuiCheckboxWrapper', () => {
-    WrapperNoLabelSpec(FuiCheckboxWrapper, FuiCheckbox, NoLabelTest);
-    WrapperFullSpec(FuiCheckboxWrapper, FuiCheckbox, FullTest, 'fui-checkbox-wrapper');
-    WrapperContainerSpec(FuiCheckboxContainer, FuiCheckboxWrapper, FuiCheckbox, ContainerTest, 'fui-checkbox-wrapper');
+  describe('FuiCheckboxWrapperComponent', () => {
+    WrapperNoLabelSpec(FuiCheckboxWrapperComponent, FuiCheckboxDirective, NoLabelTest);
+    WrapperFullSpec(FuiCheckboxWrapperComponent, FuiCheckboxDirective, FullTest, 'fui-checkbox-wrapper');
+    WrapperContainerSpec(
+      FuiCheckboxContainerComponent,
+      FuiCheckboxWrapperComponent,
+      FuiCheckboxDirective,
+      ContainerTest,
+      'fui-checkbox-wrapper'
+    );
   });
 }

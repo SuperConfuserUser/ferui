@@ -1,5 +1,6 @@
 import { Component, ContentChild } from '@angular/core';
-import { FuiWidgetSubtitle } from './widget-subtitle.component';
+
+import { FuiWidgetSubtitleComponent } from './widget-subtitle.component';
 
 @Component({
   selector: 'fui-widget-header',
@@ -17,6 +18,6 @@ import { FuiWidgetSubtitle } from './widget-subtitle.component';
     </div>
   `
 })
-export class FuiWidgetHeader {
-  @ContentChild(FuiWidgetSubtitle) subtitle: ContentChild;
+export class FuiWidgetHeaderComponent {
+  @ContentChild(FuiWidgetSubtitleComponent) subtitle: ContentChild;
 }

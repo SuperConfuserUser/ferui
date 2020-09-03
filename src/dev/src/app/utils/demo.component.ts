@@ -1,26 +1,30 @@
+import * as jsBeautify from 'js-beautify';
+
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Compiler,
   Component,
-  Input,
-  NgModule,
-  ViewChild,
-  ViewContainerRef,
-  ComponentRef,
-  ModuleWithComponentFactories,
   ComponentFactory,
+  ComponentRef,
+  Input,
+  ModuleWithComponentFactories,
+  NgModule,
   OnInit,
+  QueryList,
+  ViewChild,
   ViewChildren,
-  QueryList
+  ViewContainerRef
 } from '@angular/core';
-import { FeruiModule } from '@ferui/components';
 import { FormsModule, NgControl, NgForm, NgModel } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import * as jsBeautify from 'js-beautify';
-import { DemoComponentData } from './demo-component-data';
+
+import { FeruiModule } from '@ferui/components';
+
 import { IconsModule } from '../icons/icons.module';
 import { WINDOW_PROVIDERS } from '../services/window.service';
+
+import { DemoComponentData } from './demo-component-data';
 
 /**
  * Class:  Demo.component.ts

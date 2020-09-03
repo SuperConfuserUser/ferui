@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VIRTUAL_SCROLLER_DEFAULT_OPTIONS, VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY } from './virtual-scroller-factory';
-import { FuiVirtualScrollerComponent } from './virtual-scroller';
+import { NgModule } from '@angular/core';
+
 import { VirtualScrollClipperContentDirective } from './virtual-scroll-directives';
+import { FuiVirtualScrollerComponent } from './virtual-scroller';
+import { VIRTUAL_SCROLLER_DEFAULT_OPTIONS, VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY } from './virtual-scroller-factory';
 
 @NgModule({
   exports: [FuiVirtualScrollerComponent, VirtualScrollClipperContentDirective],

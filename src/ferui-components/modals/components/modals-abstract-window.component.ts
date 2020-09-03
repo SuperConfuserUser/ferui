@@ -8,13 +8,14 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
+
 import {
-  FuiModalCtrl,
-  FuiModalWindowCtrl,
-  FuiModalWindowScreen,
-  FuiModalWindowComponentInterface,
   FUI_MODAL_CTRL_TOKEN,
-  FUI_MODAL_WINDOW_CTRL_TOKEN
+  FUI_MODAL_WINDOW_CTRL_TOKEN,
+  FuiModalCtrl,
+  FuiModalWindowComponentInterface,
+  FuiModalWindowCtrl,
+  FuiModalWindowScreen
 } from '../interfaces/modals-interfaces';
 
 /**

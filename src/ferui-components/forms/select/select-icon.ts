@@ -6,8 +6,8 @@ import { Directive, ElementRef, EventEmitter, HostListener, Output, Self } from 
     '[class.focused]': 'focused'
   }
 })
-export class FuiSelectIcon {
-  @Output() onClick: EventEmitter<boolean> = new EventEmitter();
+export class FuiSelectIconDirective {
+  @Output() readonly onClick: EventEmitter<boolean> = new EventEmitter();
 
   private _focused: boolean = false;
   private _clicked: boolean = false;

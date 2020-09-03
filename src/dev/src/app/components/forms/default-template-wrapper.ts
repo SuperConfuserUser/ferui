@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
-import { Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { ExampleCode } from './abstract-control-demo.component';
-import { Output } from '@angular/core';
-import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'default-template-wrapper',
@@ -17,15 +15,14 @@ import { EventEmitter } from '@angular/core';
     <ng-content></ng-content>
   `
 })
-export class DefaultTemplateWrapper {
+export class DefaultTemplateWrapperComponent {
+  @Output() readonly disabledChange = new EventEmitter<boolean>();
+  @Output() readonly toggleEvent = new EventEmitter<any>();
+
   @Input() pageTitle: string = 'Control Page';
   @Input() examples: Array<ExampleCode> = [];
   @Input() results: Array<ExampleCode> = [];
-
   @Input() disabled: boolean = true;
-  @Output() disabledChange = new EventEmitter<boolean>();
-
-  @Output() toggleEvent = new EventEmitter<any>();
 
   toggle(model: any, index: number | string): void {
     this.toggleEvent.next([model, index]);

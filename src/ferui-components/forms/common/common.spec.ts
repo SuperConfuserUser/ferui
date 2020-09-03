@@ -3,12 +3,12 @@ import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
-
-import { ControlIdService } from './providers/control-id.service';
-import { WrappedFormControl } from './wrapped-control';
 import { FuiHostWrappingModule } from '../../utils/host-wrapping/host-wrapping.module';
+
 import { FuiCommonFormsModule } from './common.module';
 import { FuiFormLayoutEnum } from './layout.enum';
+import { ControlIdService } from './providers/control-id.service';
+import { WrappedFormControl } from './wrapped-control';
 
 /*
  * Components representing generic form controls.

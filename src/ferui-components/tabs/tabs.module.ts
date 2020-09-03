@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FuiTabs } from './tabs';
-import { FuiTab } from './tab';
+import { NgModule } from '@angular/core';
+
+import { FuiTabComponent } from './tab';
+import { FuiTabsComponent } from './tabs';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [FuiTabs, FuiTab],
-  exports: [FuiTabs, FuiTab]
+  declarations: [FuiTabsComponent, FuiTabComponent],
+  exports: [FuiTabsComponent, FuiTabComponent]
 })
 export class FuiTabsModule {}

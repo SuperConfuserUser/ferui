@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { FuiTextarea } from './textarea';
-import { FuiTextareaContainer } from './textarea-container';
+import { ContainerNoLabelSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
 
-import { ContainerNoLabelSpec, TemplateDrivenSpec, ReactiveSpec } from '../tests/container.spec';
+import { FuiTextareaDirective } from './textarea';
+import { FuiTextareaContainerComponent } from './textarea-container';
 
 @Component({
   template: `
@@ -48,9 +48,9 @@ class ReactiveTest {
 }
 
 export default function (): void {
-  describe('FuiTextareaContainer', () => {
-    ContainerNoLabelSpec(FuiTextareaContainer, FuiTextarea, NoLabelTest);
-    TemplateDrivenSpec(FuiTextareaContainer, FuiTextarea, SimpleTest, '.fui-textarea-wrapper [fuiTextarea]');
-    ReactiveSpec(FuiTextareaContainer, FuiTextarea, ReactiveTest, '.fui-textarea-wrapper [fuiTextarea]');
+  describe('FuiTextareaContainerComponent', () => {
+    ContainerNoLabelSpec(FuiTextareaContainerComponent, FuiTextareaDirective, NoLabelTest);
+    TemplateDrivenSpec(FuiTextareaContainerComponent, FuiTextareaDirective, SimpleTest, '.fui-textarea-wrapper [fuiTextarea]');
+    ReactiveSpec(FuiTextareaContainerComponent, FuiTextareaDirective, ReactiveTest, '.fui-textarea-wrapper [fuiTextarea]');
   });
 }

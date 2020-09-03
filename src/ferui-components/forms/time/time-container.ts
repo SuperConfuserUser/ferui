@@ -1,36 +1,28 @@
-import {
-  AfterViewInit,
-  Component,
-  ContentChild,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChildren
-} from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { AfterViewInit, Component, ContentChild, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { IfErrorService } from '../common/if-error/if-error.service';
-import { NgControlService } from '../common/providers/ng-control.service';
-import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
-import { ControlIdService } from '../common/providers/control-id.service';
-import { FuiLabel } from '../common/label';
-import { ControlClassService } from '../common/providers/control-class.service';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { PlaceholderService } from '../common/providers/placeholder.service';
-import { FocusService } from '../common/providers/focus.service';
-import { RequiredControlService } from '../common/providers/required-control.service';
-import { TimeIOService } from './providers/time-io.service';
-import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
-import { TimeSelectionService } from './providers/time-selection.service';
-import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
 import { FuiCommonStrings } from '../../utils/i18n/common-strings.service';
-import { TimeModel } from './models/time.model';
-import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { IfErrorService } from '../common/if-error/if-error.service';
+import { FuiLabelDirective } from '../common/label';
 import { FuiFormLayoutEnum } from '../common/layout.enum';
+import { ControlClassService } from '../common/providers/control-class.service';
+import { ControlIdService } from '../common/providers/control-id.service';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { FocusService } from '../common/providers/focus.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { NgControlService } from '../common/providers/ng-control.service';
+import { PlaceholderService } from '../common/providers/placeholder.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
+import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
 import { NgSelectComponent } from '../select/ng-select/ng-select.component';
+
+import { TimeModel } from './models/time.model';
+import { TimeIOService } from './providers/time-io.service';
+import { TimeSelectionService } from './providers/time-selection.service';
 
 export interface TimeInterface {
   hour: number;
@@ -132,7 +124,7 @@ export interface TimeInterface {
     FuiFormLayoutService
   ]
 })
-export class FuiTimeContainer implements DynamicWrapper, AfterViewInit, OnInit, OnDestroy {
+export class FuiTimeContainerComponent implements DynamicWrapper, AfterViewInit, OnInit, OnDestroy {
   _dynamic = false;
   _numberOfControls = 3;
   control: NgControl;
@@ -148,7 +140,7 @@ export class FuiTimeContainer implements DynamicWrapper, AfterViewInit, OnInit, 
   minutesList: Array<number> = [];
   secondsList: Array<number> = [];
 
-  @ContentChild(FuiLabel) label: FuiLabel;
+  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
   @ViewChildren('selectElement') selectElements: QueryList<NgSelectComponent>;
 
   @Input() twentyFourHourFormat: boolean = false;
@@ -162,7 +154,6 @@ export class FuiTimeContainer implements DynamicWrapper, AfterViewInit, OnInit, 
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private el: ElementRef,
     public commonStrings: FuiCommonStrings,
     private ifErrorService: IfErrorService,
     private controlClassService: ControlClassService,

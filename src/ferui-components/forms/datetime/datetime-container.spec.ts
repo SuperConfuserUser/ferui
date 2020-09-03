@@ -1,32 +1,33 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { TestBed, async } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+
 import { IfErrorService } from '../common/if-error/if-error.service';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { ControlIdService } from '../common/providers/control-id.service';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
 import { FocusService } from '../common/providers/focus.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
 import { NgControlService } from '../common/providers/ng-control.service';
-
-import { TestContext } from '../tests/helpers.spec';
-import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
 import { PlaceholderService } from '../common/providers/placeholder.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
-import { FuiDatetimeContainer } from './datetime-container';
-import { DatetimeIOService } from './providers/datetime-io.service';
+import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
+import { TestContext } from '../tests/helpers.spec';
+
+import { FuiDatetimeContainerComponent } from './datetime-container';
 import { DatetimeFormControlService } from './providers/datetime-form-control.service';
-import { DateFormControlService } from '../common/providers/date-form-control.service';
-import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { DatetimeIOService } from './providers/datetime-io.service';
 
 export default function () {
   describe('Datetime Container Component', () => {
-    let context: TestContext<FuiDatetimeContainer, TestComponent>;
+    let context: TestContext<FuiDatetimeContainerComponent, TestComponent>;
     let dateFormControlService: DatetimeFormControlService;
 
     beforeEach(function () {
       TestBed.configureTestingModule({
         imports: [FormsModule]
       });
-      TestBed.overrideComponent(FuiDatetimeContainer, {
+      TestBed.overrideComponent(FuiDatetimeContainerComponent, {
         set: {
           providers: [
             PlaceholderService,
@@ -45,7 +46,7 @@ export default function () {
         }
       });
 
-      context = this.create(FuiDatetimeContainer, TestComponent, []);
+      context = this.create(FuiDatetimeContainerComponent, TestComponent, []);
       dateFormControlService = context.getFeruiProvider(DatetimeFormControlService);
     });
 

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FuiDatagrid, FuiRowModel, FuiDatagridApiService, FuiDatagridColumnApiService } from '@ferui/components';
+
+import { FuiDatagridApiService, FuiDatagridColumnApiService, FuiDatagridComponent, FuiRowModel } from '@ferui/components';
 
 @Component({
   selector: 'fui-demo-datagrid-option-menu',
@@ -38,20 +39,21 @@ import { FuiDatagrid, FuiRowModel, FuiDatagridApiService, FuiDatagridColumnApiSe
     </div>
   `
 })
-export class DefaultDatagridOptionsMenu {
-  @Output() bandwidthSpeedChange: EventEmitter<number> = new EventEmitter<number>();
+export class DefaultDatagridOptionsMenuComponent {
+  @Output() readonly bandwidthSpeedChange: EventEmitter<number> = new EventEmitter<number>();
+
   @Input() bandwidthSpeedName: string = this.generateUniqueName('bandwidthSpeed');
   @Input() bandwidthSpeed: number = 260;
   @Input() datagridRowModel: FuiRowModel;
 
-  @Input() set datagrid(datagrid: FuiDatagrid) {
+  @Input() set datagrid(datagrid: FuiDatagridComponent) {
     this._datagrid = datagrid;
     // We set the grid api and column api
     this.gridApi = datagrid.getGridApi();
     this.columnApi = datagrid.getColumnApi();
   }
 
-  get datagrid(): FuiDatagrid {
+  get datagrid(): FuiDatagridComponent {
     return this._datagrid;
   }
 
@@ -59,7 +61,7 @@ export class DefaultDatagridOptionsMenu {
   columnApi: FuiDatagridColumnApiService;
   bandwidthSpeedList: number[] = [120, 260, 500];
 
-  private _datagrid: FuiDatagrid;
+  private _datagrid: FuiDatagridComponent;
 
   constructor() {}
 

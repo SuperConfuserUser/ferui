@@ -1,6 +1,6 @@
+import { Observable, Subject } from 'rxjs';
+
 import { ElementRef, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs';
 
 @Injectable()
 

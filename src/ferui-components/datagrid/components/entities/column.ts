@@ -1,21 +1,22 @@
-import { FuiColumnDefinitions } from '../../types/column-definitions';
+import { Injectable, TemplateRef } from '@angular/core';
+
+import { ColumnEvent, FuiDatagridEvents } from '../../events';
 import { FuiDatagridApiService } from '../../services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../../services/datagrid-column-api.service';
 import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
-import { ColumnUtilsService } from '../../utils/column-utils.service';
-import { Injectable, TemplateRef } from '@angular/core';
-import { FuiDatagridComparator } from '../../types/comparator';
-import { FuiDatagridSortDirections } from '../../types/sort-directions.enum';
-import { orderByComparator } from '../../utils/sort';
-import { FuiFieldTypes } from '../../types/field-types.enum';
-import { ColumnEvent, FuiDatagridEvents } from '../../events';
+import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
 import { FuiDatagridEventService } from '../../services/event.service';
+import { FuiColumnService } from '../../services/rendering/column.service';
+import { FuiColumnDefinitions } from '../../types/column-definitions';
+import { FuiDatagridComparator } from '../../types/comparator';
+import { FuiFieldTypes } from '../../types/field-types.enum';
+import { FilterModel, SortModel } from '../../types/server-side-row-model';
+import { FuiDatagridSortDirections } from '../../types/sort-directions.enum';
+import { ColumnUtilsService } from '../../utils/column-utils.service';
+import { orderByComparator } from '../../utils/sort';
+import { FuiDatagridBaseFilter } from '../filters/filter/base-filter';
 import { IFilterParams } from '../filters/interfaces/filter';
 import { FilterType } from '../filters/interfaces/filter.enum';
-import { FuiDatagridBaseFilter } from '../filters/filter/base-filter';
-import { FuiColumnService } from '../../services/rendering/column.service';
-import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
-import { FilterModel, SortModel } from '../../types/server-side-row-model';
 
 export interface ColumnJSON {
   id: string;

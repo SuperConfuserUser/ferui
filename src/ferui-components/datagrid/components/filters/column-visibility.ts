@@ -1,9 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit, Self } from '@angular/core';
-import { Column } from '../entities/column';
-import { FuiColumnService } from '../../services/rendering/column.service';
-import { FuiDatagridEventService } from '../../services/event.service';
-import { FuiDatagridEvents } from '../../events';
 import { Subscription } from 'rxjs';
+
+import { Component, ElementRef, OnDestroy, OnInit, Self } from '@angular/core';
+
+import { FuiDatagridEvents } from '../../events';
+import { FuiDatagridEventService } from '../../services/event.service';
+import { FuiColumnService } from '../../services/rendering/column.service';
+import { Column } from '../entities/column';
 
 @Component({
   selector: 'fui-datagrid-filter-column-visibility',
@@ -25,7 +27,7 @@ import { Subscription } from 'rxjs';
     </fui-select-container>
   `
 })
-export class FuiDatagridFilterColumnVisibility implements OnInit, OnDestroy {
+export class FuiDatagridFilterColumnVisibilityComponent implements OnInit, OnDestroy {
   columns: Object[] = [];
   visibleColumns: Object[] = [];
 
@@ -45,7 +47,7 @@ export class FuiDatagridFilterColumnVisibility implements OnInit, OnDestroy {
         this.eventService.listenToEvent(FuiDatagridEvents.EVENT_VISIBLE_CHANGED).subscribe(() => {
           this.visibleColumns = [...this.columnService.getVisibleColumns()].map(col => col.toJson());
         }),
-        this.eventService.listenToEvent(FuiDatagridEvents.EVENT_COLUMN_MOVED).subscribe(event => {
+        this.eventService.listenToEvent(FuiDatagridEvents.EVENT_COLUMN_MOVED).subscribe(() => {
           this.columns = [...this.columnService.getAllDisplayedColumns()].map(col => col.toJson());
           this.visibleColumns = [...this.columnService.getVisibleColumns()].map(col => col.toJson());
         })

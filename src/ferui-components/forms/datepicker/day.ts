@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 import { IfOpenService } from '../../utils/conditional/if-open.service';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
 
 import { DayViewModel } from './model/day-view.model';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
-import { DateFormControlService } from '../common/providers/date-form-control.service';
 
 @Component({
   selector: 'fui-day',
@@ -24,7 +24,7 @@ import { DateFormControlService } from '../common/providers/date-form-control.se
   `,
   host: { '[class.day]': 'true' }
 })
-export class FuiDay {
+export class FuiDayComponent {
   /**
    * DayViewModel input which is used to build the Day View.
    */
@@ -37,14 +37,14 @@ export class FuiDay {
   ) {}
 
   /**
-   * Updates the focusedDay in the DateNavigationService when the FuiDay is focused.
+   * Updates the focusedDay in the DateNavigationService when the FuiDayComponent is focused.
    */
   onDayViewFocus() {
     this.dateNavigationService.focusedDay = this.dayView.dayModel;
   }
 
   /**
-   * Updates the selectedDay when the FuiDay is selected and closes the datepicker popover.
+   * Updates the selectedDay when the FuiDayComponent is selected and closes the datepicker popover.
    */
   selectDay(): void {
     this.dateNavigationService.notifySelectedDayChanged(this.dayView.dayModel);

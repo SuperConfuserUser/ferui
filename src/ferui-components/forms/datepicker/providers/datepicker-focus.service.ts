@@ -1,6 +1,7 @@
+import { filter, first } from 'rxjs/operators';
+
 import { isPlatformBrowser } from '@angular/common';
 import { ElementRef, Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
-import { first, filter } from 'rxjs/operators';
 
 /**
  * This service focuses the day that is focusable in the calendar.

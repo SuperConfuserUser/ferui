@@ -1,15 +1,18 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ClrIconModule, FeruiModule } from '@ferui/components';
 import { HighlightModule } from 'ngx-highlightjs';
-import { UiDesignRoutingModule } from './ui-design.routing';
-import { UiDesignGetStartedComponent } from './get-started/get-started.component';
-import { UiDesignLandingComponent } from './ui-design-landing.component';
-import { UiDesignSpacingsComponent } from './spacings/spacings.component';
-import { UiDesignGridComponent } from './grid/grid.component';
-import { UiDesignButtonsComponent } from './buttons/buttons.component';
+
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+import { ClrIconModule, FeruiModule } from '@ferui/components';
+
 import { UiDesignAlertsComponent } from './alerts/alerts.component';
+import { UiDesignButtonsComponent } from './buttons/buttons.component';
+import { UiDesignGetStartedComponent } from './get-started/get-started.component';
+import { UiDesignGridComponent } from './grid/grid.component';
+import { UiDesignSpacingsComponent } from './spacings/spacings.component';
+import { UiDesignLandingComponent } from './ui-design-landing.component';
+import { UiDesignRoutingModule } from './ui-design.routing';
 
 @NgModule({
   imports: [CommonModule, FormsModule, UiDesignRoutingModule, ClrIconModule, FeruiModule, HighlightModule],

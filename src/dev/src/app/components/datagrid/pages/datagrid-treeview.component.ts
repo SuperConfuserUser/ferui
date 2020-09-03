@@ -1,28 +1,31 @@
+import { Subject } from 'rxjs';
+
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { DatagridService } from '../datagrid.service';
-import { IDatagridRowData, RowDataApiService } from '../server-side-api/datagrid-row.service';
+
 import {
+  DatagridOnResizeEvent,
+  FilterType,
   FuiColumnDefinitions,
-  IServerSideDatasource,
-  IServerSideGetRowsParams,
-  IDatagridResultObject,
-  IDateFilterParams,
+  FuiDatagridBodyCellContext,
+  FuiDatagridComponent,
   FuiDatagridSortDirections,
   FuiFieldTypes,
-  FilterType,
-  FuiDatagridBodyCellContext,
   FuiRowModel,
-  FuiDatagrid,
+  FuiTreeViewComponent,
+  IDatagridResultObject,
+  IDateFilterParams,
+  IServerSideDatasource,
+  IServerSideGetRowsParams,
+  NonRootTreeNode,
+  PagedTreeNodeDataRetriever,
+  PagingParams,
   TreeNodeData,
   TreeViewConfiguration,
-  PagedTreeNodeDataRetriever,
-  TreeViewEvent,
-  NonRootTreeNode,
-  PagingParams,
-  FuiTreeViewComponent,
-  DatagridOnResizeEvent
+  TreeViewEvent
 } from '@ferui/components';
-import { Subject } from 'rxjs';
+
+import { DatagridService } from '../datagrid.service';
+import { IDatagridRowData, RowDataApiService } from '../server-side-api/datagrid-row.service';
 
 @Component({
   styleUrls: ['./datagrid-treeview.component.scss'],
@@ -177,7 +180,7 @@ export class DatagridTreeviewInfiniteServerSideComponent implements OnInit {
   @ViewChild('idRenderer') idRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('browserFilter') browserFilter: TemplateRef<any>;
   @ViewChild('countryRenderer') countryRenderer: TemplateRef<FuiDatagridBodyCellContext>;
-  @ViewChild('datagrid') datagrid: FuiDatagrid;
+  @ViewChild('datagrid') datagrid: FuiDatagridComponent;
 
   networkBandwith: number = 260;
 

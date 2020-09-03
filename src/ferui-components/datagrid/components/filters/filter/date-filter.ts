@@ -1,11 +1,14 @@
+import { isArray } from 'util';
+
 import { Component, OnInit } from '@angular/core';
-import { FuiDatagridBaseFilter } from './base-filter';
-import { Comparator, FuiDatagridIFilter, IDateFilterParams, IDoesFilterPassParams, NullComparator } from '../interfaces/filter';
+
 import { FuiDatetimeModelTypes } from '../../../../forms/common/datetime-model-types.enum';
 import { DateIOService } from '../../../../forms/date/providers/date-io.service';
 import { LocaleHelperService } from '../../../../forms/datepicker/providers/locale-helper.service';
+import { Comparator, FuiDatagridIFilter, IDateFilterParams, IDoesFilterPassParams, NullComparator } from '../interfaces/filter';
 import { FilterType } from '../interfaces/filter.enum';
-import { isArray } from 'util';
+
+import { FuiDatagridBaseFilter } from './base-filter';
 
 @Component({
   selector: 'fui-datagrid-date-filter',
@@ -61,7 +64,7 @@ import { isArray } from 'util';
   },
   providers: [LocaleHelperService, DateIOService]
 })
-export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterParams> implements OnInit {
+export class FuiDatagridDateFilterComponent extends FuiDatagridBaseFilter<IDateFilterParams> implements OnInit {
   static readonly DEFAULT_NULL_COMPARATOR: NullComparator = {
     equals: false,
     lessThan: false,
@@ -80,16 +83,16 @@ export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterPara
 
   getApplicableFilterTypes(): string[] {
     return [
-      FuiDatagridDateFilter.EQUALS,
-      FuiDatagridDateFilter.NOT_EQUAL,
-      FuiDatagridDateFilter.LESS_THAN,
-      FuiDatagridDateFilter.GREATER_THAN,
-      FuiDatagridDateFilter.IN_RANGE
+      FuiDatagridDateFilterComponent.EQUALS,
+      FuiDatagridDateFilterComponent.NOT_EQUAL,
+      FuiDatagridDateFilterComponent.LESS_THAN,
+      FuiDatagridDateFilterComponent.GREATER_THAN,
+      FuiDatagridDateFilterComponent.IN_RANGE
     ];
   }
 
   isInRange(): boolean {
-    return this.selectedType === FuiDatagridDateFilter.IN_RANGE;
+    return this.selectedType === FuiDatagridDateFilterComponent.IN_RANGE;
   }
 
   doesFilterPass(params: IDoesFilterPassParams): boolean {
@@ -101,17 +104,17 @@ export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterPara
     const compareResult = comparator(filterValue, cellValue);
 
     switch (this.selectedType) {
-      case FuiDatagridDateFilter.EMPTY:
+      case FuiDatagridDateFilterComponent.EMPTY:
         return false;
-      case FuiDatagridDateFilter.EQUALS:
+      case FuiDatagridDateFilterComponent.EQUALS:
         return compareResult === 0;
-      case FuiDatagridDateFilter.GREATER_THAN:
+      case FuiDatagridDateFilterComponent.GREATER_THAN:
         return compareResult > 0;
-      case FuiDatagridDateFilter.LESS_THAN:
+      case FuiDatagridDateFilterComponent.LESS_THAN:
         return compareResult < 0;
-      case FuiDatagridDateFilter.NOT_EQUAL:
+      case FuiDatagridDateFilterComponent.NOT_EQUAL:
         return compareResult !== 0;
-      case FuiDatagridDateFilter.IN_RANGE:
+      case FuiDatagridDateFilterComponent.IN_RANGE:
         const compareToResult: number = comparator(rawFilterValues[1], cellValue);
         if (!this.filterParams.inRangeInclusive) {
           return compareResult > 0 && compareToResult < 0;
@@ -139,7 +142,7 @@ export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterPara
     if (!this.selectedSearch) {
       return null;
     }
-    return this.selectedType !== FuiDatagridDateFilter.IN_RANGE
+    return this.selectedType !== FuiDatagridDateFilterComponent.IN_RANGE
       ? this.selectedSearch
       : [this.selectedSearch, this.selectedSearchTo];
   }
@@ -176,7 +179,7 @@ export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterPara
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.selectedType = FuiDatagridDateFilter.getDefaultType();
+    this.selectedType = FuiDatagridDateFilterComponent.getDefaultType();
     this.defaultFilter = this.selectedType;
     if (!this.filterParams.inRangeInclusive) {
       this.filterParams.inRangeInclusive = true;
@@ -210,7 +213,7 @@ export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterPara
   }
 
   static getDefaultType(): string {
-    return FuiDatagridDateFilter.EQUALS;
+    return FuiDatagridDateFilterComponent.EQUALS;
   }
 
   private defaultComparator(filterDate: Date, cellValue: any): number {
@@ -239,7 +242,7 @@ export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterPara
       return (this.filterParams.nullComparator as NullComparator)[reducedType];
     }
 
-    return (FuiDatagridDateFilter.DEFAULT_NULL_COMPARATOR as NullComparator)[reducedType];
+    return (FuiDatagridDateFilterComponent.DEFAULT_NULL_COMPARATOR as NullComparator)[reducedType];
   }
 
   private nullComparator(type: string): Comparator<Date> {
@@ -247,15 +250,15 @@ export class FuiDatagridDateFilter extends FuiDatagridBaseFilter<IDateFilterPara
       if (gridValue === null) {
         const nullValue = this.translateNull(type);
         switch (this.selectedType) {
-          case FuiDatagridDateFilter.EMPTY:
+          case FuiDatagridDateFilterComponent.EMPTY:
             return 0;
-          case FuiDatagridDateFilter.EQUALS:
+          case FuiDatagridDateFilterComponent.EQUALS:
             return nullValue ? 0 : 1;
-          case FuiDatagridDateFilter.GREATER_THAN:
+          case FuiDatagridDateFilterComponent.GREATER_THAN:
             return nullValue ? 1 : -1;
-          case FuiDatagridDateFilter.LESS_THAN:
+          case FuiDatagridDateFilterComponent.LESS_THAN:
             return nullValue ? -1 : 1;
-          case FuiDatagridDateFilter.NOT_EQUAL:
+          case FuiDatagridDateFilterComponent.NOT_EQUAL:
             return nullValue ? 1 : 0;
           default:
             break;

@@ -1,5 +1,6 @@
-import { Directive, EventEmitter, Input, OnDestroy, Output, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { Directive, EventEmitter, Input, OnDestroy, Output, TemplateRef, ViewContainerRef } from '@angular/core';
 
 import { IfOpenService } from './if-open.service';
 
@@ -7,7 +8,7 @@ import { IfOpenService } from './if-open.service';
 
 /**********
  *
- * @class FuiIfOpen
+ * @class FuiIfOpenDirective
  *
  * @description
  * A structural directive that controls whether or not the associated TemplateRef is instantiated or not.
@@ -15,7 +16,7 @@ import { IfOpenService } from './if-open.service';
  * using it in the component template.
  *
  */
-export class FuiIfOpen implements OnDestroy {
+export class FuiIfOpenDirective implements OnDestroy {
   /*********
    *
    * @description
@@ -45,7 +46,7 @@ export class FuiIfOpen implements OnDestroy {
    * An event emitter that emits when the open property is set to allow for 2way binding when the directive is
    * used with de-structured / de-sugared syntax.
    */
-  @Output('fuiIfOpenChange') openChange: EventEmitter<boolean> = new EventEmitter<boolean>(false);
+  @Output('fuiIfOpenChange') readonly openChange: EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
   private subscription: Subscription;
 

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnInit, Self } from '@angular/core';
+
 import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
 
@@ -10,7 +11,7 @@ import { FuiDatagridService } from '../../services/datagrid.service';
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiHeaderViewport implements OnInit {
+export class FuiHeaderViewportComponent implements OnInit {
   @HostBinding('attr.role') role: string = 'presentation';
   @HostBinding('style.height.px') headerHeight: number = 0;
 

@@ -1,5 +1,6 @@
-import { VirtualScrollerDefaultOptions } from './types/virtual-scroller-interfaces';
 import { InjectionToken } from '@angular/core';
+
+import { VirtualScrollerDefaultOptions } from './types/virtual-scroller-interfaces';
 
 export const VIRTUAL_SCROLLER_DEFAULT_OPTIONS = new InjectionToken<string>('virtual_scroller_default_options');
 

@@ -1,9 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FuiDropdownModule } from './dropdown.module';
-import { FuiDropdown } from './dropdown';
+
 import { IfOpenService } from '../utils/conditional/if-open.service';
+
+import { FuiDropdownComponent } from './dropdown';
+import { FuiDropdownModule } from './dropdown.module';
 
 export default function (): void {
   describe('Dropdown', () => {
@@ -170,7 +172,7 @@ export default function (): void {
     });
 
     it("doesn't close before custom click events have triggered", function () {
-      const ifOpenService = fixture.debugElement.query(By.directive(FuiDropdown)).injector.get(IfOpenService);
+      const ifOpenService = fixture.debugElement.query(By.directive(FuiDropdownComponent)).injector.get(IfOpenService);
 
       const dropdownToggle: HTMLElement = compiled.querySelector('.fui-dropdown-trigger');
       dropdownToggle.click();
@@ -219,7 +221,7 @@ export default function (): void {
   `
 })
 class TestComponent {
-  @ViewChild(FuiDropdown) dropdownInstance: FuiDropdown;
+  @ViewChild(FuiDropdownComponent) dropdownInstance: FuiDropdownComponent;
 
   customClickHandlerDone = false;
   menuClosable: boolean = true;

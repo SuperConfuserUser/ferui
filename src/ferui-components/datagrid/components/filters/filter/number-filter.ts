@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FuiDatagridBaseFilter } from './base-filter';
-import { Comparator, FuiDatagridIFilter, IDoesFilterPassParams, IScalarFilterParams, NullComparator } from '../interfaces/filter';
-import { DatagridUtils } from '../../../utils/datagrid-utils';
-import { FilterType } from '../interfaces/filter.enum';
 import { isArray } from 'util';
+
+import { Component, OnInit } from '@angular/core';
+
+import { DatagridUtils } from '../../../utils/datagrid-utils';
+import { Comparator, FuiDatagridIFilter, IDoesFilterPassParams, IScalarFilterParams, NullComparator } from '../interfaces/filter';
+import { FilterType } from '../interfaces/filter.enum';
+
+import { FuiDatagridBaseFilter } from './base-filter';
 
 export interface INumberFilterParams extends IScalarFilterParams {
   debounceMs?: number;
@@ -66,7 +69,7 @@ export interface INumberFilterParams extends IScalarFilterParams {
     class: 'fui-datagrid-number-filter container-fluid'
   }
 })
-export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilterParams> implements OnInit {
+export class FuiDatagridNumberFilterComponent extends FuiDatagridBaseFilter<INumberFilterParams> implements OnInit {
   static readonly DEFAULT_NULL_COMPARATOR: NullComparator = {
     equals: false,
     lessThan: false,
@@ -79,18 +82,18 @@ export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilter
 
   getApplicableFilterTypes(): string[] {
     return [
-      FuiDatagridNumberFilter.EQUALS,
-      FuiDatagridNumberFilter.NOT_EQUAL,
-      FuiDatagridNumberFilter.LESS_THAN,
-      FuiDatagridNumberFilter.LESS_THAN_OR_EQUAL,
-      FuiDatagridNumberFilter.GREATER_THAN,
-      FuiDatagridNumberFilter.GREATER_THAN_OR_EQUAL,
-      FuiDatagridNumberFilter.IN_RANGE
+      FuiDatagridNumberFilterComponent.EQUALS,
+      FuiDatagridNumberFilterComponent.NOT_EQUAL,
+      FuiDatagridNumberFilterComponent.LESS_THAN,
+      FuiDatagridNumberFilterComponent.LESS_THAN_OR_EQUAL,
+      FuiDatagridNumberFilterComponent.GREATER_THAN,
+      FuiDatagridNumberFilterComponent.GREATER_THAN_OR_EQUAL,
+      FuiDatagridNumberFilterComponent.IN_RANGE
     ];
   }
 
   isInRange(): boolean {
-    return this.selectedType === FuiDatagridNumberFilter.IN_RANGE;
+    return this.selectedType === FuiDatagridNumberFilterComponent.IN_RANGE;
   }
 
   doesFilterPass(params: IDoesFilterPassParams): boolean {
@@ -102,21 +105,21 @@ export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilter
     const compareResult = comparator(filterValue, cellValue);
 
     switch (this.selectedType) {
-      case FuiDatagridNumberFilter.EMPTY:
+      case FuiDatagridNumberFilterComponent.EMPTY:
         return false;
-      case FuiDatagridNumberFilter.EQUALS:
+      case FuiDatagridNumberFilterComponent.EQUALS:
         return compareResult === 0;
-      case FuiDatagridNumberFilter.GREATER_THAN:
+      case FuiDatagridNumberFilterComponent.GREATER_THAN:
         return compareResult > 0;
-      case FuiDatagridNumberFilter.GREATER_THAN_OR_EQUAL:
+      case FuiDatagridNumberFilterComponent.GREATER_THAN_OR_EQUAL:
         return compareResult >= 0;
-      case FuiDatagridNumberFilter.LESS_THAN_OR_EQUAL:
+      case FuiDatagridNumberFilterComponent.LESS_THAN_OR_EQUAL:
         return compareResult <= 0;
-      case FuiDatagridNumberFilter.LESS_THAN:
+      case FuiDatagridNumberFilterComponent.LESS_THAN:
         return compareResult < 0;
-      case FuiDatagridNumberFilter.NOT_EQUAL:
+      case FuiDatagridNumberFilterComponent.NOT_EQUAL:
         return compareResult !== 0;
-      case FuiDatagridNumberFilter.IN_RANGE:
+      case FuiDatagridNumberFilterComponent.IN_RANGE:
         const compareToResult: number = comparator((rawFilterValues as number[])[1], cellValue);
         if (!this.filterParams.inRangeInclusive) {
           return compareResult > 0 && compareToResult < 0;
@@ -140,10 +143,13 @@ export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilter
     return this.filterValues();
   }
 
-  public filterValues(): number | number[] {
-    return this.selectedType !== FuiDatagridNumberFilter.IN_RANGE
-      ? this.asNumber(this.selectedSearch)
-      : [this.asNumber(this.selectedSearch), this.asNumber(this.selectedSearchTo)];
+  filterValues(): number | number[] {
+    return this.selectedType !== FuiDatagridNumberFilterComponent.IN_RANGE
+      ? FuiDatagridNumberFilterComponent.asNumber(this.selectedSearch)
+      : [
+          FuiDatagridNumberFilterComponent.asNumber(this.selectedSearch),
+          FuiDatagridNumberFilterComponent.asNumber(this.selectedSearchTo)
+        ];
   }
 
   onFilterTypeChanged(value: string) {
@@ -181,7 +187,7 @@ export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilter
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.selectedType = FuiDatagridNumberFilter.getDefaultType();
+    this.selectedType = FuiDatagridNumberFilterComponent.getDefaultType();
     this.defaultFilter = this.selectedType;
     if (!this.filterParams.inRangeInclusive) {
       this.filterParams.inRangeInclusive = true;
@@ -222,7 +228,11 @@ export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilter
   }
 
   static getDefaultType(): string {
-    return FuiDatagridNumberFilter.EQUALS;
+    return FuiDatagridNumberFilterComponent.EQUALS;
+  }
+
+  static asNumber(value: any): number {
+    return DatagridUtils.isNumeric(value) ? value : null;
   }
 
   private translateNull(type: string): boolean {
@@ -233,11 +243,7 @@ export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilter
       return (this.filterParams.nullComparator as NullComparator)[reducedType];
     }
 
-    return (FuiDatagridNumberFilter.DEFAULT_NULL_COMPARATOR as NullComparator)[reducedType];
-  }
-
-  private asNumber(value: any): number {
-    return DatagridUtils.isNumeric(value) ? value : null;
+    return (FuiDatagridNumberFilterComponent.DEFAULT_NULL_COMPARATOR as NullComparator)[reducedType];
   }
 
   private nullComparator(type: string): Comparator<number> {
@@ -245,19 +251,19 @@ export class FuiDatagridNumberFilter extends FuiDatagridBaseFilter<INumberFilter
       if (gridValue === null) {
         const nullValue = this.translateNull(type);
         switch (this.selectedType) {
-          case FuiDatagridNumberFilter.EMPTY:
+          case FuiDatagridNumberFilterComponent.EMPTY:
             return 0;
-          case FuiDatagridNumberFilter.EQUALS:
+          case FuiDatagridNumberFilterComponent.EQUALS:
             return nullValue ? 0 : 1;
-          case FuiDatagridNumberFilter.GREATER_THAN:
+          case FuiDatagridNumberFilterComponent.GREATER_THAN:
             return nullValue ? 1 : -1;
-          case FuiDatagridNumberFilter.GREATER_THAN_OR_EQUAL:
+          case FuiDatagridNumberFilterComponent.GREATER_THAN_OR_EQUAL:
             return nullValue ? 1 : -1;
-          case FuiDatagridNumberFilter.LESS_THAN_OR_EQUAL:
+          case FuiDatagridNumberFilterComponent.LESS_THAN_OR_EQUAL:
             return nullValue ? -1 : 1;
-          case FuiDatagridNumberFilter.LESS_THAN:
+          case FuiDatagridNumberFilterComponent.LESS_THAN:
             return nullValue ? -1 : 1;
-          case FuiDatagridNumberFilter.NOT_EQUAL:
+          case FuiDatagridNumberFilterComponent.NOT_EQUAL:
             return nullValue ? 1 : 0;
           default:
             break;

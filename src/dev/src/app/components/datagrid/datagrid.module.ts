@@ -1,31 +1,33 @@
-import { NgModule, Type } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HighlightModule } from 'ngx-highlightjs';
-import { FeruiModule, DateIOService, LocaleHelperService } from '@ferui/components';
-import { DatagridDemo } from './datagrid.demo';
-import { DatagridClientSideComponent } from './pages/datagrid-client-side.component';
-import { DatagridServerSideComponent } from './pages/datagrid-server-side.component';
-import { CustomBrowserFilter } from './custom-browser-filter';
-import { RouterModule } from '@angular/router';
-import { RowDataApiService } from './server-side-api/datagrid-row.service';
 
-import { SafeHTML } from './safe-html.pipe';
+import { CommonModule } from '@angular/common';
+import { NgModule, Type } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
+import { DateIOService, FeruiModule, LocaleHelperService } from '@ferui/components';
+
+import { CustomBrowserFilterComponent } from './custom-browser-filter';
+import { DatagridDemoComponent } from './datagrid.demo';
+import { DefaultDatagridOptionsMenuComponent } from './default-datagrid-options-menu';
+import { DatagridClientSideComponent } from './pages/datagrid-client-side.component';
+import { DatagridHomeComponent } from './pages/datagrid-home';
 import { DatagridInfiniteServerSideComponent } from './pages/datagrid-infinite-server-side.component';
-import { DefaultDatagridOptionsMenu } from './default-datagrid-options-menu';
-import { DatagridHome } from './pages/datagrid-home';
+import { DatagridServerSideComponent } from './pages/datagrid-server-side.component';
 import { DatagridTreeviewInfiniteServerSideComponent } from './pages/datagrid-treeview.component';
+import { SafeHTML } from './safe-html.pipe';
+import { RowDataApiService } from './server-side-api/datagrid-row.service';
 
 const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
   SafeHTML,
-  DatagridDemo,
+  DatagridDemoComponent,
   DatagridClientSideComponent,
   DatagridServerSideComponent,
   DatagridInfiniteServerSideComponent,
   DatagridTreeviewInfiniteServerSideComponent,
-  DefaultDatagridOptionsMenu,
-  CustomBrowserFilter,
-  DatagridHome
+  DefaultDatagridOptionsMenuComponent,
+  CustomBrowserFilterComponent,
+  DatagridHomeComponent
 ];
 
 @NgModule({

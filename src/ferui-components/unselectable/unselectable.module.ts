@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FuiUnselectable } from './unselectable';
+import { NgModule } from '@angular/core';
+
+import { FuiUnselectableDirective } from './unselectable';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [FuiUnselectable],
-  exports: [FuiUnselectable]
+  declarations: [FuiUnselectableDirective],
+  exports: [FuiUnselectableDirective]
 })
 export class FuiUnselectableModule {}

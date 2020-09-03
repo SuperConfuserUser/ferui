@@ -20,7 +20,7 @@ import { Component, Input, TemplateRef } from '@angular/core';
     '[class.fui-datagrid-body-empty]': 'true'
   }
 })
-export class FuiBodyEmpty {
+export class FuiBodyEmptyComponent {
   @Input() emptyIcon: TemplateRef<any>;
   @Input() emptyMessage: TemplateRef<any>;
 }

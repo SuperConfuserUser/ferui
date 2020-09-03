@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Self } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, Self } from '@angular/core';
 
 @Component({
   selector: 'fui-datagrid-filters',
@@ -19,8 +19,8 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outp
     class: 'fui-datagrid-filters'
   }
 })
-export class FuiDatagridFilters implements AfterViewInit {
-  @Output() heightChange: EventEmitter<number> = new EventEmitter<number>();
+export class FuiDatagridFiltersComponent implements AfterViewInit {
+  @Output() readonly heightChange: EventEmitter<number> = new EventEmitter<number>();
 
   @Input() displayFilters: boolean = true;
   @Input() displayColumnVisibility: boolean = true;

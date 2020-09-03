@@ -6,4 +6,4 @@ import { Directive } from '@angular/core';
     '[class.fui-alert-icon]': 'true'
   }
 })
-export class FuiAlertsIcon {}
+export class FuiAlertsIconDirective {}

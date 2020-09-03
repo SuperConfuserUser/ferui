@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { FuiTextarea } from './textarea';
-import { FuiTextareaContainer } from './textarea-container';
+import { ControlStandaloneSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/control.spec';
 
-import { TemplateDrivenSpec, ControlStandaloneSpec, ReactiveSpec } from '../tests/control.spec';
+import { FuiTextareaDirective } from './textarea';
+import { FuiTextareaContainerComponent } from './textarea-container';
 
 @Component({
   template: ` <textarea fuiTextarea></textarea> `
@@ -32,7 +32,7 @@ class ReactiveTest {
 export default function (): void {
   describe('Textarea directive', () => {
     ControlStandaloneSpec(StandaloneUseTest);
-    TemplateDrivenSpec(FuiTextareaContainer, FuiTextarea, TemplateDrivenTest, 'fui-textarea');
-    ReactiveSpec(FuiTextareaContainer, FuiTextarea, ReactiveTest, 'fui-textarea');
+    TemplateDrivenSpec(FuiTextareaContainerComponent, FuiTextareaDirective, TemplateDrivenTest, 'fui-textarea');
+    ReactiveSpec(FuiTextareaContainerComponent, FuiTextareaDirective, ReactiveTest, 'fui-textarea');
   });
 }

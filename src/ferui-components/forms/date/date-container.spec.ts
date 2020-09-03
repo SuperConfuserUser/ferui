@@ -1,28 +1,29 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { TestBed, async } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 import { IfErrorService } from '../common/if-error/if-error.service';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { ControlIdService } from '../common/providers/control-id.service';
-import { FocusService } from '../common/providers/focus.service';
-import { NgControlService } from '../common/providers/ng-control.service';
-
 import { DateFormControlService } from '../common/providers/date-form-control.service';
-import { DateIOService } from './providers/date-io.service';
-import { DateNavigationService } from './providers/date-navigation.service';
-import { MockDatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service.mock';
-import { FuiDateContainer } from './date-container';
-import { TestContext } from '../tests/helpers.spec';
-import { DatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service';
-import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
+import { FocusService } from '../common/providers/focus.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { NgControlService } from '../common/providers/ng-control.service';
 import { PlaceholderService } from '../common/providers/placeholder.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
-import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { DatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service';
+import { MockDatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service.mock';
+import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
+import { TestContext } from '../tests/helpers.spec';
+
+import { FuiDateContainerComponent } from './date-container';
+import { DateIOService } from './providers/date-io.service';
+import { DateNavigationService } from './providers/date-navigation.service';
 
 export default function () {
   describe('Date Container Component', () => {
-    let context: TestContext<FuiDateContainer, TestComponent>;
+    let context: TestContext<FuiDateContainerComponent, TestComponent>;
     let enabledService: MockDatepickerEnabledService;
     let dateFormControlService: DateFormControlService;
     let ifOpenService: IfOpenService;
@@ -31,7 +32,7 @@ export default function () {
       TestBed.configureTestingModule({
         imports: [FormsModule]
       });
-      TestBed.overrideComponent(FuiDateContainer, {
+      TestBed.overrideComponent(FuiDateContainerComponent, {
         set: {
           providers: [
             { provide: DatepickerEnabledService, useClass: MockDatepickerEnabledService },
@@ -52,7 +53,7 @@ export default function () {
         }
       });
 
-      context = this.create(FuiDateContainer, TestComponent, []);
+      context = this.create(FuiDateContainerComponent, TestComponent, []);
 
       enabledService = <MockDatepickerEnabledService>context.getFeruiProvider(DatepickerEnabledService);
       dateFormControlService = context.getFeruiProvider(DateFormControlService);

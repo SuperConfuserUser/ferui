@@ -1,5 +1,6 @@
-import { Route } from '@angular/router';
 import { Component } from '@angular/core';
+import { Route } from '@angular/router';
+
 import { COMPONENTS_ROUTES } from './components/components-demo.routing';
 import { ICONS_ROUTES } from './icons/icons.routing';
 import { UI_DESIGN_ROUTES } from './ui-design/ui-design.routing';

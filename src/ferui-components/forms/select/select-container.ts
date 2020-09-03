@@ -1,22 +1,23 @@
-import { AfterContentInit, Component, OnInit } from '@angular/core';
-import { IfErrorService } from '../common/if-error/if-error.service';
-import { NgControlService } from '../common/providers/ng-control.service';
-import { ControlIdService } from '../common/providers/control-id.service';
-import { ControlClassService } from '../common/providers/control-class.service';
-import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
-import { OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { AfterContentInit, Component, ContentChild, OnDestroy, OnInit } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { ContentChild } from '@angular/core';
+
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { FuiLabel } from '../common/label';
-import { PlaceholderService } from '../common/providers/placeholder.service';
-import { FocusService } from '../common/providers/focus.service';
-import { RequiredControlService } from '../common/providers/required-control.service';
-import { FuiSelectIcon } from './select-icon';
-import { FuiSelectService } from './select.service';
-import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
+import { IfErrorService } from '../common/if-error/if-error.service';
+import { FuiLabelDirective } from '../common/label';
 import { FuiFormLayoutEnum } from '../common/layout.enum';
+import { ControlClassService } from '../common/providers/control-class.service';
+import { ControlIdService } from '../common/providers/control-id.service';
+import { FocusService } from '../common/providers/focus.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { NgControlService } from '../common/providers/ng-control.service';
+import { PlaceholderService } from '../common/providers/placeholder.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
+
+import { FuiSelectIconDirective } from './select-icon';
+import { FuiSelectService } from './select.service';
 
 @Component({
   selector: 'fui-select-container',
@@ -30,8 +31,6 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
         <div class="select-arrow"></div>
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <!--<clr-icon *ngIf="false" class="fui-validate-icon" shape="fui-tick"-->
-          <!--aria-hidden="true"></clr-icon>-->
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -58,13 +57,13 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
     FuiFormLayoutService
   ]
 })
-export class FuiSelectContainer implements DynamicWrapper, OnInit, OnDestroy, AfterContentInit {
+export class FuiSelectContainerComponent implements DynamicWrapper, OnInit, OnDestroy, AfterContentInit {
   invalid = false;
   _dynamic = false;
   control: NgControl;
 
-  @ContentChild(FuiLabel) label: FuiLabel;
-  @ContentChild(FuiSelectIcon) selectIcon: FuiSelectIcon;
+  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
+  @ContentChild(FuiSelectIconDirective) selectIcon: FuiSelectIconDirective;
 
   private placeholder: string = null;
   private focus: boolean = false;

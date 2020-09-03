@@ -1,11 +1,12 @@
 import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector } from '@angular/core';
+
+import { FuiModalComponent } from '../components/modals.component';
 import {
   FuiModalWindowConfiguration,
   FuiModalWindowParam,
   FuiModalWindowResolve,
   ModalWindowInteractionEnum
 } from '../interfaces/modals-interfaces';
-import { FuiModalComponent } from '../components/modals.component';
 import { FuiModalCtrlImpl } from '../models/modal/fui-modal-ctrl';
 
 /**

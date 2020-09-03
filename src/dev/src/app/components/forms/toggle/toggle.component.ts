@@ -1,6 +1,7 @@
-import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
 import { Component, OnInit } from '@angular/core';
+
 import { DemoComponentData } from '../../../utils/demo-component-data';
+import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
 
 @Component({
   templateUrl: './toggle.component.html'

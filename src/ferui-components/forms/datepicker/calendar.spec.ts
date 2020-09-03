@@ -3,21 +3,21 @@ import { Component } from '@angular/core';
 import { itIgnore } from '../../../../tests/tests.helpers';
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW } from '../../utils/key-codes/key-codes';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { DateIOService } from '../date/providers/date-io.service';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
+import { TestContext } from '../tests/helpers.spec';
 
+import { FuiCalendarComponent } from './calendar';
 import { DayModel } from './model/day.model';
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { LocaleHelperService } from './providers/locale-helper.service';
 import { ViewManagerService } from './providers/view-manager.service';
 import { createKeyboardEvent } from './utils/test-utils';
-import { TestContext } from '../tests/helpers.spec';
-import { FuiCalendar } from './calendar';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
-import { DateIOService } from '../date/providers/date-io.service';
-import { DateFormControlService } from '../common/providers/date-form-control.service';
 
 export default function () {
   describe('Calendar Component', () => {
-    let context: TestContext<FuiCalendar, TestComponent>;
+    let context: TestContext<FuiCalendarComponent, TestComponent>;
     let dateNavigationService: DateNavigationService;
 
     beforeEach(function () {
@@ -26,7 +26,7 @@ export default function () {
       dateNavigationService.selectedDay = new DayModel(2015, 0, 1);
       dateNavigationService.initializeCalendar();
 
-      context = this.create(FuiCalendar, TestComponent, [
+      context = this.create(FuiCalendarComponent, TestComponent, [
         { provide: DateNavigationService, useValue: dateNavigationService },
         DateIOService,
         IfOpenService,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
+
 import { DemoComponentData } from '../../../utils/demo-component-data';
+import { AbstractControlDemoComponent } from '../abstract-control-demo.component';
 
 @Component({
   template: `

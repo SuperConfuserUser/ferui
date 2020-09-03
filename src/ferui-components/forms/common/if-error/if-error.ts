@@ -1,12 +1,14 @@
-import { Directive, Input, Optional, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { IfErrorService } from './if-error.service';
-import { NgControlService } from '../providers/ng-control.service';
+import { Directive, Input, OnDestroy, Optional, TemplateRef, ViewContainerRef } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
+import { NgControlService } from '../providers/ng-control.service';
+
+import { IfErrorService } from './if-error.service';
+
 @Directive({ selector: '[fuiIfError]' })
-export class FuiIfError {
+export class FuiIfErrorDirective implements OnDestroy {
   @Input('fuiIfError') error: string;
 
   private subscriptions: Subscription[] = [];

@@ -1,15 +1,17 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
-import {
-  PagingParams,
-  TreeNodeDataRetriever,
-  TreeNodeData,
-  PagedTreeNodeDataRetriever,
-  FuiTreeViewComponent,
-  TreeViewAutoNodeSelector,
-  NonRootTreeNode,
-  TreeNode
-} from '@ferui/components';
 import * as jsBeautify from 'js-beautify';
+
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+
+import {
+  FuiTreeViewComponent,
+  NonRootTreeNode,
+  PagedTreeNodeDataRetriever,
+  PagingParams,
+  TreeNode,
+  TreeNodeData,
+  TreeNodeDataRetriever,
+  TreeViewAutoNodeSelector
+} from '@ferui/components';
 
 @Component({
   template: `
@@ -148,7 +150,7 @@ import * as jsBeautify from 'js-beautify';
     `
   ]
 })
-export class TreeViewServerSideDemo {
+export class TreeViewServerSideDemoComponent implements OnInit {
   @ViewChild('publicApi') publicTreeView: FuiTreeViewComponent<any>;
   @ViewChild('treeViewTemplate') nodeTemplate: TemplateRef<TreeNode<FoodNode>>;
 

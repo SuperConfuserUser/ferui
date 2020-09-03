@@ -1,7 +1,13 @@
 /**
+ * NgStyles interface that component styles interface extends.
+ */
+interface NgStyles {
+  [p: string]: string;
+}
+/**
  * Tree View Component Styles Interface
  */
-export interface FuiTreeViewComponentStyles {
+export interface FuiTreeViewComponentStyles extends NgStyles {
   width: string;
   height: string;
 }

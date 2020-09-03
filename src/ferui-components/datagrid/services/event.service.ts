@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
-import { DatagridEvent } from '../events';
 import { Observable, Subject } from 'rxjs';
+
+import { Injectable } from '@angular/core';
+
+import { DatagridEvent } from '../events';
 
 @Injectable()
 export class FuiDatagridEventService {

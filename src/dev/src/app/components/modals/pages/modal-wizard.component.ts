@@ -1,10 +1,13 @@
+import * as jsBeautify from 'js-beautify';
+
 import { Component } from '@angular/core';
+
 import { FuiModalService } from '@ferui/components';
+
+import { ChildModal4Component } from './modals/child-modals/child-modal-4';
 import { ModalWizard1Component } from './modals/wizard/modal-wizard-1.component';
 import { ModalWizard2Component } from './modals/wizard/modal-wizard-2.component';
 import { ModalWizard3Component } from './modals/wizard/modal-wizard-3.component';
-import { ChildModal4Component } from './modals/child-modals/child-modal-4';
-import * as jsBeautify from 'js-beautify';
 
 @Component({
   template: `<div class="container-fluid">

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { WrapperFullSpec, WrapperNoLabelSpec, WrapperContainerSpec } from '../tests/wrapper.spec';
-import { FuiToggleContainer } from './toggle-container';
-import { FuiToggle } from './toggle';
-import { FuiToggleWrapper } from './toggle-wrapper';
+
+import { WrapperContainerSpec, WrapperFullSpec, WrapperNoLabelSpec } from '../tests/wrapper.spec';
+
+import { FuiToggleDirective } from './toggle';
+import { FuiToggleContainerComponent } from './toggle-container';
+import { FuiToggleWrapperComponent } from './toggle-wrapper';
 
 @Component({
   template: `
@@ -41,9 +43,15 @@ class ContainerTest {
 }
 
 export default function (): void {
-  describe('FuiToggleWrapper', () => {
-    WrapperNoLabelSpec(FuiToggleWrapper, FuiToggle, NoLabelTest);
-    WrapperFullSpec(FuiToggleWrapper, FuiToggle, FullTest, 'fui-toggle-wrapper');
-    WrapperContainerSpec(FuiToggleContainer, FuiToggleWrapper, FuiToggle, ContainerTest, 'fui-toggle-wrapper');
+  describe('FuiToggleWrapperComponent', () => {
+    WrapperNoLabelSpec(FuiToggleWrapperComponent, FuiToggleDirective, NoLabelTest);
+    WrapperFullSpec(FuiToggleWrapperComponent, FuiToggleDirective, FullTest, 'fui-toggle-wrapper');
+    WrapperContainerSpec(
+      FuiToggleContainerComponent,
+      FuiToggleWrapperComponent,
+      FuiToggleDirective,
+      ContainerTest,
+      'fui-toggle-wrapper'
+    );
   });
 }

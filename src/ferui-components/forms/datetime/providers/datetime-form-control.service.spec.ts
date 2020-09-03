@@ -1,5 +1,6 @@
-import { DatetimeFormControlService } from './datetime-form-control.service';
 import { FuiDatetimeModelTypes } from '../../common/datetime-model-types.enum';
+
+import { DatetimeFormControlService } from './datetime-form-control.service';
 
 export default function (): void {
   describe('DatetimeFormControlService', function () {

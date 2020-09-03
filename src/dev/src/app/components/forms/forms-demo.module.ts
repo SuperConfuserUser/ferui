@@ -1,27 +1,31 @@
-import { NgModule, Type } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { InputsComponent } from './inputs/inputs.component';
-import { FeruiModule } from '@ferui/components';
-import { FormsLandingComponent } from './forms-landing.component';
-import { FormsModule } from '@angular/forms';
 import { HighlightModule } from 'ngx-highlightjs';
-import { TextareaComponent } from './textarea/textarea.component';
-import { CheckboxComponent } from './checkbox/checkbox.component';
-import { SelectsComponent } from './select/selects.component';
-import { RadiosComponent } from './radios/radios.component';
-import { PasswordComponent } from './password/password.component';
-import { DefaultTemplateWrapper } from './default-template-wrapper';
-import { DefaultTemplateContent } from './default-template-content';
-import { DatetimeComponent } from './datetime/datetime.component';
-import { FormsDashboardComponent } from './dashboard/forms-dashboard.component';
+
+import { CommonModule } from '@angular/common';
+import { NgModule, Type } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+
+import { FeruiModule } from '@ferui/components';
+
 import { UtilsModule } from '../../utils/utils.module';
+
+import { CheckboxComponent } from './checkbox/checkbox.component';
+import { FormsDashboardComponent } from './dashboard/forms-dashboard.component';
+import { DatetimeComponent } from './datetime/datetime.component';
+import { DefaultTemplateContentComponent } from './default-template-content';
+import { DefaultTemplateWrapperComponent } from './default-template-wrapper';
+import { FormsLandingComponent } from './forms-landing.component';
+import { InputsComponent } from './inputs/inputs.component';
 import { NumberComponent } from './number/number';
+import { PasswordComponent } from './password/password.component';
+import { RadiosComponent } from './radios/radios.component';
+import { SelectsComponent } from './select/selects.component';
+import { TextareaComponent } from './textarea/textarea.component';
 import { ToggleComponent } from './toggle/toggle.component';
 
 export const FUI_DEMO_FROMS_DIRECTIVES: Type<any>[] = [
-  DefaultTemplateWrapper,
-  DefaultTemplateContent,
+  DefaultTemplateWrapperComponent,
+  DefaultTemplateContentComponent,
   FormsDashboardComponent,
   InputsComponent,
   NumberComponent,

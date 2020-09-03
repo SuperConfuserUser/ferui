@@ -1,13 +1,16 @@
+import { Observable, Subject } from 'rxjs';
+
 import { Injectable, Renderer2 } from '@angular/core';
+
+import { ScrollbarHelper } from '../../utils/scrollbar-helper/scrollbar-helper.service';
+import { FuiVirtualScrollerComponent } from '../../virtual-scroller/virtual-scroller';
+import { BodyScrollEvent, FuiDatagridEvents } from '../events';
 import { DatagridUtils } from '../utils/datagrid-utils';
+
 import { FuiDatagridApiService } from './datagrid-api.service';
 import { FuiDatagridColumnApiService } from './datagrid-column-api.service';
-import { Observable, Subject } from 'rxjs';
-import { FuiVirtualScrollerComponent } from '../../virtual-scroller/virtual-scroller';
 import { FuiDatagridEventService } from './event.service';
 import { FuiColumnService } from './rendering/column.service';
-import { ScrollbarHelper } from '../../utils/scrollbar-helper/scrollbar-helper.service';
-import { BodyScrollEvent, FuiDatagridEvents } from '../events';
 
 @Injectable()
 export class FuiDatagridService {

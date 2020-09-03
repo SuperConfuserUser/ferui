@@ -1,26 +1,28 @@
-import { Component, ContentChild, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { Component, ContentChild, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { IfErrorService } from '../common/if-error/if-error.service';
-import { NgControlService } from '../common/providers/ng-control.service';
-import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
-import { ControlIdService } from '../common/providers/control-id.service';
-import { FuiLabel } from '../common/label';
-import { ControlClassService } from '../common/providers/control-class.service';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { PlaceholderService } from '../common/providers/placeholder.service';
-import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
-import { FocusService } from '../common/providers/focus.service';
-import { DateFormControlService } from '../common/providers/date-form-control.service';
-import { RequiredControlService } from '../common/providers/required-control.service';
+import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
 import { FuiDatetimeModelTypes } from '../common/datetime-model-types.enum';
-import { DatetimeIOService } from './providers/datetime-io.service';
-import { DatetimeFormControlService } from './providers/datetime-form-control.service';
-import { FuiTime } from '../time/time';
-import { FuiDate } from '../date/date';
+import { IfErrorService } from '../common/if-error/if-error.service';
+import { FuiLabelDirective } from '../common/label';
 import { FuiFormLayoutEnum } from '../common/layout.enum';
+import { ControlClassService } from '../common/providers/control-class.service';
+import { ControlIdService } from '../common/providers/control-id.service';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { FocusService } from '../common/providers/focus.service';
 import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { NgControlService } from '../common/providers/ng-control.service';
+import { PlaceholderService } from '../common/providers/placeholder.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
+import { FuiDateDirective } from '../date/date';
+import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
+import { FuiTimeDirective } from '../time/time';
+
+import { DatetimeFormControlService } from './providers/datetime-form-control.service';
+import { DatetimeIOService } from './providers/datetime-io.service';
 
 export interface DatetimeInterface {
   date: Date;
@@ -95,16 +97,16 @@ export interface DatetimeInterface {
     '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
   }
 })
-export class FuiDatetimeContainer implements DynamicWrapper, OnInit, OnDestroy {
+export class FuiDatetimeContainerComponent implements DynamicWrapper, OnInit, OnDestroy {
   _dynamic = false;
   _numberOfControls: number = 4;
   _dateModelType: FuiDatetimeModelTypes = FuiDatetimeModelTypes.DATE;
   control: NgControl;
   invalid = false;
 
-  @ContentChild(FuiLabel) label: FuiLabel;
-  @ViewChild(FuiTime) fuiTime: FuiTime;
-  @ViewChild(FuiDate) fuiDate: FuiDate;
+  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
+  @ViewChild(FuiTimeDirective) fuiTime: FuiTimeDirective;
+  @ViewChild(FuiDateDirective) fuiDate: FuiDateDirective;
 
   modelType: FuiDatetimeModelTypes;
   model: DatetimeInterface = {
@@ -128,7 +130,6 @@ export class FuiDatetimeContainer implements DynamicWrapper, OnInit, OnDestroy {
     private controlClassService: ControlClassService,
     private ngControlService: NgControlService,
     private focusService: FocusService,
-    private requiredService: RequiredControlService,
     private datetimeIOService: DatetimeIOService,
     private dateFormControlService: DateFormControlService,
     private datetimeFormControlService: DatetimeFormControlService,

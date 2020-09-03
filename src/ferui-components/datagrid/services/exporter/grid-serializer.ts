@@ -1,4 +1,5 @@
 import { Column } from '../../components/entities/column';
+
 import { CsvExportParams, ExportParams } from './export-params';
 
 const LINE_SEPARATOR = '\r\n';

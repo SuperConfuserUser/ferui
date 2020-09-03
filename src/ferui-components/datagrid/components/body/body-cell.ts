@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -11,15 +13,15 @@ import {
   Self,
   TemplateRef
 } from '@angular/core';
-import { Column } from '../entities/column';
-import { Subscription } from 'rxjs';
+
 import { CellClickedEvent, CellContextMenuEvent, CellDoubleClickedEvent, ColumnEvent, FuiDatagridEvents } from '../../events';
 import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-drop.service';
-import { FuiColumnService } from '../../services/rendering/column.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiDatagridEventService } from '../../services/event.service';
+import { FuiColumnService } from '../../services/rendering/column.service';
 import { FuiDatagridBodyCellContext } from '../../types/body-cell-context';
 import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
+import { Column } from '../entities/column';
 
 @Component({
   selector: 'fui-datagrid-body-cell',
@@ -38,7 +40,7 @@ import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, OnDestroy {
+export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements OnInit, OnDestroy {
   @HostBinding('attr.role') role: string = 'gridcell';
   @HostBinding('attr.tabindex') tabindex: string = '-1';
 
@@ -55,7 +57,6 @@ export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, On
   cellTemplate: TemplateRef<FuiDatagridBodyCellContext>;
   templateContext: FuiDatagridBodyCellContext;
 
-  private element: HTMLElement;
   private subscriptions: Subscription[] = [];
 
   private _left: number = 0;
@@ -69,7 +70,6 @@ export class FuiBodyCell extends FuiDatagridBodyDropTarget implements OnInit, On
     gridPanel: FuiDatagridService
   ) {
     super(gridPanel.eBodyViewport, dragAndDropService, columnService, gridPanel);
-    this.element = elementRef.nativeElement;
   }
 
   @HostBinding('style.left.px')

@@ -1,3 +1,5 @@
+import { BehaviorSubject } from 'rxjs';
+
 import {
   Directive,
   ElementRef,
@@ -10,32 +12,30 @@ import {
   Self,
   ViewContainerRef
 } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { NgControl } from '@angular/forms';
 
-import { FuiPasswordContainer, ToggleService } from './password-container';
 import { WrappedFormControl } from '../common/wrapped-control';
+
+import { FuiPasswordContainerComponent, ToggleService } from './password-container';
 
 @Directive({
   selector: '[fuiPassword]',
   host: { '[class.fui-input]': 'true' }
 })
-export class FuiPassword extends WrappedFormControl<FuiPasswordContainer> implements OnInit, OnDestroy {
+export class FuiPasswordDirective extends WrappedFormControl<FuiPasswordContainerComponent> implements OnInit, OnDestroy {
   protected index = 1;
 
   constructor(
     vcr: ViewContainerRef,
     injector: Injector,
-    @Self()
-    @Optional()
-    control: NgControl,
+    @Self() @Optional() control: NgControl,
     renderer: Renderer2,
     el: ElementRef,
     @Optional()
     @Inject(ToggleService)
     private toggleService: BehaviorSubject<boolean>
   ) {
-    super(vcr, FuiPasswordContainer, injector, control, renderer, el);
+    super(vcr, FuiPasswordContainerComponent, injector, control, renderer, el);
 
     this.subscriptions.push(
       this.toggleService.subscribe(toggle => {

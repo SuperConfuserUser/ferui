@@ -1,5 +1,6 @@
 import { Directive, TemplateRef } from '@angular/core';
 
+// tslint:disable:directive-selector
 @Directive({ selector: '[ng-option-tmp]' })
 export class NgOptionTemplateDirective {
   constructor(public template: TemplateRef<any>) {}

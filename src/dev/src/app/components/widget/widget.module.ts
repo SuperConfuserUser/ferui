@@ -1,12 +1,16 @@
-import { NgModule, Type } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HighlightModule } from 'ngx-highlightjs';
+
+import { CommonModule } from '@angular/common';
+import { NgModule, Type } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 import { FeruiModule } from '@ferui/components';
-import { WidgetDemo } from './widget.demo';
+
 import { UtilsModule } from '../../utils/utils.module';
 
-const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [WidgetDemo];
+import { WidgetDemoComponent } from './widget.demo';
+
+const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [WidgetDemoComponent];
 
 @NgModule({
   imports: [CommonModule, FormsModule, FeruiModule, HighlightModule, UtilsModule],

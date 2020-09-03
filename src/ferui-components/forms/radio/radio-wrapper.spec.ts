@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
-import { WrapperFullSpec, WrapperNoLabelSpec, WrapperContainerSpec } from '../tests/wrapper.spec';
-import { FuiRadioWrapper } from './radio-wrapper';
-import { FuiRadio } from './radio';
-import { FuiRadioContainer } from './radio-container';
+import { WrapperContainerSpec, WrapperFullSpec, WrapperNoLabelSpec } from '../tests/wrapper.spec';
+
+import { FuiRadioDirective } from './radio';
+import { FuiRadioContainerComponent } from './radio-container';
+import { FuiRadioWrapperComponent } from './radio-wrapper';
 
 @Component({
   template: `
@@ -42,9 +43,15 @@ class ContainerTest {
 }
 
 export default function (): void {
-  describe('FuiRadioWrapper', () => {
-    WrapperNoLabelSpec(FuiRadioWrapper, FuiRadio, NoLabelTest);
-    WrapperFullSpec(FuiRadioWrapper, FuiRadio, FullTest, 'fui-radio-wrapper');
-    WrapperContainerSpec(FuiRadioContainer, FuiRadioWrapper, FuiRadio, ContainerTest, 'fui-radio-wrapper');
+  describe('FuiRadioWrapperComponent', () => {
+    WrapperNoLabelSpec(FuiRadioWrapperComponent, FuiRadioDirective, NoLabelTest);
+    WrapperFullSpec(FuiRadioWrapperComponent, FuiRadioDirective, FullTest, 'fui-radio-wrapper');
+    WrapperContainerSpec(
+      FuiRadioContainerComponent,
+      FuiRadioWrapperComponent,
+      FuiRadioDirective,
+      ContainerTest,
+      'fui-radio-wrapper'
+    );
   });
 }

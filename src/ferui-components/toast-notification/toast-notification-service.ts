@@ -1,5 +1,7 @@
-import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector } from '@angular/core';
+
 import { FuiToastNotificationInterface } from './interfaces';
 import { FuiToastNotificationComponent } from './toast-notification-component';
 

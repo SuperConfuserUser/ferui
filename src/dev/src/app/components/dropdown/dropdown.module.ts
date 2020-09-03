@@ -1,14 +1,18 @@
-import { NgModule, Type } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HighlightModule } from 'ngx-highlightjs';
-import { FeruiModule } from '@ferui/components';
-import { DropdownDemo } from './dropdown.demo';
+
+import { CommonModule } from '@angular/common';
+import { NgModule, Type } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { DropdownExample } from './pages/dropdown-example';
+
+import { FeruiModule } from '@ferui/components';
+
 import { UtilsModule } from '../../utils/utils.module';
 
-const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [DropdownDemo, DropdownExample];
+import { DropdownDemoComponent } from './dropdown.demo';
+import { DropdownExampleComponent } from './pages/dropdown-example';
+
+const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [DropdownDemoComponent, DropdownExampleComponent];
 
 @NgModule({
   imports: [CommonModule, FormsModule, UtilsModule, FeruiModule, RouterModule, HighlightModule],

@@ -3,9 +3,10 @@ import localeAk from '@angular/common/locales/ak';
 import localeHr from '@angular/common/locales/hr';
 import localeKkj from '@angular/common/locales/kkj';
 
-import { TimeIOService } from './time-io.service';
 import { LocaleHelperService } from '../../datepicker/providers/locale-helper.service';
 import { assertEqualTimes } from '../../datepicker/utils/test-utils';
+
+import { TimeIOService } from './time-io.service';
 
 registerLocaleData(localeAk);
 registerLocaleData(localeHr);

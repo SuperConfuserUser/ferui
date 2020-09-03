@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -8,10 +10,10 @@ import {
   OnDestroy,
   TemplateRef
 } from '@angular/core';
-import { FuiDatagridBodyRowContext } from '../../types/body-row-context';
+
 import { FuiActionMenuService } from '../../services/action-menu/action-menu.service';
-import { Subscription } from 'rxjs';
 import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
+import { FuiDatagridBodyRowContext } from '../../types/body-row-context';
 
 @Component({
   selector: 'fui-datagrid-action-menu',
@@ -25,7 +27,7 @@ import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-option
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiDatagridActionMenu implements OnDestroy {
+export class FuiDatagridActionMenuComponent implements OnDestroy {
   @Input('actionMenuTemplate') actionMenuTemplate: TemplateRef<FuiDatagridBodyRowContext>;
   @Input() maxDisplayedRows: number;
 

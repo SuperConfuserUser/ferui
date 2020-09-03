@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FuiDatagridBaseFilter, Column, IDoesFilterPassParams, IComparableFilterParams } from '@ferui/components';
+
+import { Column, FuiDatagridBaseFilter, IComparableFilterParams, IDoesFilterPassParams } from '@ferui/components';
+
 import { DatagridService } from './datagrid.service';
 
 export interface IBrowserFilterParams extends IComparableFilterParams {}
@@ -43,7 +45,7 @@ export interface IBrowserFilterParams extends IComparableFilterParams {}
     `
   ]
 })
-export class CustomBrowserFilter extends FuiDatagridBaseFilter<IBrowserFilterParams> implements OnInit {
+export class CustomBrowserFilterComponent extends FuiDatagridBaseFilter<IBrowserFilterParams> implements OnInit {
   @Input() filterParams: IBrowserFilterParams;
   @Input() column: Column;
 
@@ -79,7 +81,7 @@ export class CustomBrowserFilter extends FuiDatagridBaseFilter<IBrowserFilterPar
             return aFilter.index === this.column.getColId();
           })
         : null;
-      this.modelValues[value] = filter ? (filter.filter as CustomBrowserFilter).modelValues[value] : null;
+      this.modelValues[value] = filter ? (filter.filter as CustomBrowserFilterComponent).modelValues[value] : null;
     });
   }
 

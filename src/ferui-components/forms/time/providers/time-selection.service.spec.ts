@@ -1,5 +1,6 @@
-import { TimeSelectionService } from './time-selection.service';
 import { TimeModel } from '../models/time.model';
+
+import { TimeSelectionService } from './time-selection.service';
 
 export default function (): void {
   describe('TimeSelectionService', function () {

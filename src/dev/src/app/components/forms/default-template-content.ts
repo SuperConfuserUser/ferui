@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
 import { isArray } from 'util';
+
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'default-template-content',
@@ -42,7 +43,7 @@ import { isArray } from 'util';
     </div>
   `
 })
-export class DefaultTemplateContent {
+export class DefaultTemplateContentComponent {
   @Input() disabled: boolean;
   @Input() code: string;
   @Input() examples: Array<boolean>;

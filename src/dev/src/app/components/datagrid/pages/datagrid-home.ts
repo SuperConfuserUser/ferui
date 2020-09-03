@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
 import * as jsBeautify from 'js-beautify';
+
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'datagrid-demo-home',
@@ -138,7 +139,7 @@ import * as jsBeautify from 'js-beautify';
 
           <p>
             <u>NOTE:</u> The template for action-menu can be anything you want, from a simple link to a complex dropdown (it works
-            perfectly with <a href="/#/components/dropdown/overview"><code>FuiDropdown</code></a
+            perfectly with <a href="/#/components/dropdown/overview"><code>FuiDropdownComponent</code></a
             >). It is up-to you to decide. But keep in mind that the template will always use the
             <code>FuiDatagridBodyRowContext</code> context which contain the data of the hovered row to allow you to do whatever
             you want.
@@ -386,7 +387,7 @@ import * as jsBeautify from 'js-beautify';
     </div>
   `
 })
-export class DatagridHome {
+export class DatagridHomeComponent {
   columnDefinitionInterface: string = `  import { TemplateRef } from '@angular/core';
   import { FuiDatagridSortDirections } from './sort-directions.enum';
   import { FuiDatagridComparator } from './comparator';
@@ -643,7 +644,7 @@ export class DatagridHome {
       \`,
     ],
   })
-  export class CustomBrowserFilter extends FuiDatagridBaseFilter<IBrowserFilterParams> implements OnInit {
+  export class CustomBrowserFilterComponent extends FuiDatagridBaseFilter<IBrowserFilterParams> implements OnInit {
     @Input() filterParams: IBrowserFilterParams;
     @Input() column: Column;
 
@@ -678,7 +679,7 @@ export class DatagridHome {
               return aFilter.index === this.column.getColId();
             })
           : null;
-        this.modelValues[value] = filter ? (filter.filter as CustomBrowserFilter).modelValues[value] : null;
+        this.modelValues[value] = filter ? (filter.filter as CustomBrowserFilterComponent).modelValues[value] : null;
       });
     }
 

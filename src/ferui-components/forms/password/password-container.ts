@@ -1,20 +1,20 @@
-import { Component, ContentChild, Inject, InjectionToken, Input, OnDestroy, AfterContentInit } from '@angular/core';
-import { NgControl } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
+
+import { Component, ContentChild, Inject, InjectionToken, Input, OnDestroy } from '@angular/core';
+import { NgControl } from '@angular/forms';
+
+import { FormControlClass } from '../../utils/form-control-class/form-control-class';
 import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
-
 import { IfErrorService } from '../common/if-error/if-error.service';
-
+import { FuiLabelDirective } from '../common/label';
+import { FuiFormLayoutEnum } from '../common/layout.enum';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { ControlIdService } from '../common/providers/control-id.service';
-import { NgControlService } from '../common/providers/ng-control.service';
 import { FocusService } from '../common/providers/focus.service';
-import { FuiLabel } from '../common/label';
-import { FormControlClass } from '../../utils/form-control-class/form-control-class';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { NgControlService } from '../common/providers/ng-control.service';
 import { PlaceholderService } from '../common/providers/placeholder.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
-import { FuiFormLayoutService } from '../common/providers/form-layout.service';
-import { FuiFormLayoutEnum } from '../common/layout.enum';
 
 /* tslint:disable-next-line:variable-name */
 export const ToggleService = new InjectionToken<any>(undefined);
@@ -67,7 +67,7 @@ export function ToggleServiceProvider() {
     FuiFormLayoutService
   ]
 })
-export class FuiPasswordContainer implements DynamicWrapper, OnDestroy {
+export class FuiPasswordContainerComponent implements DynamicWrapper, OnDestroy {
   invalid = false;
   control: NgControl;
   _dynamic = false;
@@ -86,7 +86,7 @@ export class FuiPasswordContainer implements DynamicWrapper, OnDestroy {
     return this._toggle;
   }
 
-  @ContentChild(FuiLabel) label: FuiLabel;
+  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
 
   private _toggle = true;
   private subscriptions: Subscription[] = [];

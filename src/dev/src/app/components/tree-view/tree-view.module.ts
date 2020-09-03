@@ -1,19 +1,22 @@
-import { NgModule, Type } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { TreeViewClientSideDemo } from './tree-view-client-side-demo';
-import { FeruiModule } from '@ferui/components';
 import { HighlightModule } from 'ngx-highlightjs';
-import { TreeViewServerSideDemo } from './tree-view-server-side-demo';
-import { TreeViewOverviewDemo } from './tree-view-overview-demo';
+
+import { CommonModule } from '@angular/common';
+import { NgModule, Type } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TreeViewDashboardDemo } from './tree-view-dashboard-demo';
+
+import { FeruiModule } from '@ferui/components';
+
+import { TreeViewClientSideDemoComponent } from './tree-view-client-side-demo';
+import { TreeViewDashboardDemoComponent } from './tree-view-dashboard-demo';
+import { TreeViewOverviewDemoComponent } from './tree-view-overview-demo';
+import { TreeViewServerSideDemoComponent } from './tree-view-server-side-demo';
 
 const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
-  TreeViewClientSideDemo,
-  TreeViewServerSideDemo,
-  TreeViewOverviewDemo,
-  TreeViewDashboardDemo
+  TreeViewClientSideDemoComponent,
+  TreeViewServerSideDemoComponent,
+  TreeViewOverviewDemoComponent,
+  TreeViewDashboardDemoComponent
 ];
 
 @NgModule({

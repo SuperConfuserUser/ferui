@@ -5,11 +5,12 @@ import {
   FuiModalWindowEnum,
   FuiModalWindowScreen
 } from '../interfaces/modals-interfaces';
+import { FuiModalErrorWindowCtrlImpl } from '../models/windows/fui-modal-error-window-ctrl';
+import { FuiModalHeadlessWindowCtrlImpl } from '../models/windows/fui-modal-headless-window-ctrl';
 import { FuiModalStandardWindowCtrlImpl } from '../models/windows/fui-modal-standard-window-ctrl';
 import { FuiModalWizardWindowCtrlImpl } from '../models/windows/fui-modal-wizard-window-ctrl';
-import { FuiModalHeadlessWindowCtrlImpl } from '../models/windows/fui-modal-headless-window-ctrl';
+
 import { FuiModalUtils } from './modal-utils';
-import { FuiModalErrorWindowCtrlImpl } from '../models/windows/fui-modal-error-window-ctrl';
 
 /**
  * FerUI modals instance utils class

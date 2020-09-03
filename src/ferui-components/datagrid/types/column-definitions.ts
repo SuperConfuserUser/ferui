@@ -1,11 +1,12 @@
 import { TemplateRef } from '@angular/core';
-import { FuiDatagridSortDirections } from './sort-directions.enum';
-import { FuiDatagridComparator } from './comparator';
-import { FuiFieldTypes } from './field-types.enum';
-import { FilterType } from '../components/filters/interfaces/filter.enum';
+
 import { FuiDatagridBaseFilter } from '../components/filters/filter/base-filter';
 import { IFilterParams } from '../components/filters/interfaces/filter';
-import { FuiDatagridBodyRowContext } from './body-row-context';
+import { FilterType } from '../components/filters/interfaces/filter.enum';
+
+import { FuiDatagridComparator } from './comparator';
+import { FuiFieldTypes } from './field-types.enum';
+import { FuiDatagridSortDirections } from './sort-directions.enum';
 
 export interface FuiColumnDefinitions {
   //The unique ID to give the column. This is optional.

@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+
 import { Point, PopoverOptions } from './popover-options.interface';
 
 const POSITION_RELATIVE = 'relative';

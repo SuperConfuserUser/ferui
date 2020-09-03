@@ -1,4 +1,4 @@
-import { FuiBodyRow } from '../../components/body/body-row';
+import { FuiBodyRowComponent } from '../../components/body/body-row';
 import { FuiDatagridBodyRowContext } from '../../types/body-row-context';
 
 /**
@@ -10,7 +10,7 @@ export class FuiActionMenuUtils {
    * This is used in place of the FuiDatagridBodyRow definition which is much more complex object.
    * This is for better memory consumption.
    */
-  static getContextForActionMenu(row: FuiBodyRow): FuiDatagridBodyRowContext {
+  static getContextForActionMenu(row: FuiBodyRowComponent): FuiDatagridBodyRowContext {
     return {
       rowHeight: row.rowHeight,
       rowIndex: row.rowIndex,

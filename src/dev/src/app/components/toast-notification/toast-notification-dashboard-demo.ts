@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
 import * as jsBeautify from 'js-beautify';
+
+import { Component } from '@angular/core';
+
 import { FuiToastNotificationService } from '@ferui/components';
 
 @Component({
@@ -106,9 +108,7 @@ import { FuiToastNotificationService } from '@ferui/components';
             <pre><code [languages]="['typescript']" [highlight]="jsExample5"></code></pre>
           </fui-tab>
         </fui-tabs>
-        <div class="btn btn-light" (click)="withElementAction()">
-          Toast Notification With Custom Action and No Anchor Point
-        </div>
+        <div class="btn btn-light" (click)="withElementAction()">Toast Notification With Custom Action and No Anchor Point</div>
         <fui-tabs>
           <fui-tab [title]="'HTML'" [active]="true">
             <pre><code [languages]="['html']" [highlight]="htmlExample6"></code></pre>
@@ -129,7 +129,7 @@ import { FuiToastNotificationService } from '@ferui/components';
     `
   ]
 })
-export class ToastNotificationDashboardDemo {
+export class ToastNotificationDashboardDemoComponent {
   overViewExample: string = jsBeautify.js(`
     openToastNotification(): void {
       const anchorElement: HTMLElement = document.getElementById('anchor');

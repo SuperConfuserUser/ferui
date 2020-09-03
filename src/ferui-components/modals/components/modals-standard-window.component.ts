@@ -1,5 +1,11 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { FuiModalAbstractWindowComponent } from './modals-abstract-window.component';
+
+import {
+  FUI_MODAL_CTRL_TOKEN,
+  FUI_MODAL_WINDOW_CTRL_TOKEN,
+  FuiModalStandardWindowCtrl,
+  FuiModalStandardWindowScreen
+} from '../interfaces/modals-interfaces';
 import {
   FUI_MODAL_CHILD_WINDOW_TPLT,
   FUI_MODAL_CLOSE_TPLT,
@@ -7,12 +13,8 @@ import {
   FUI_MODAL_WINDOW_STANDARD_FOOTER_TPLT,
   FUI_MODAL_WINDOW_TITLE_TPLT
 } from '../modals-window-templates';
-import {
-  FuiModalStandardWindowCtrl,
-  FuiModalStandardWindowScreen,
-  FUI_MODAL_CTRL_TOKEN,
-  FUI_MODAL_WINDOW_CTRL_TOKEN
-} from '../interfaces/modals-interfaces';
+
+import { FuiModalAbstractWindowComponent } from './modals-abstract-window.component';
 
 /**
  * Modal window component class for Standard type window.
@@ -25,12 +27,8 @@ import {
     [ngClass]="windowCtrl.cssClass"
   >
     <div class="fui-modal-header" *ngIf="windowCtrl.title || windowCtrl.subtitle || windowCtrl.titleTemplate">
-      <div class="fui-modal-header-title-wrapper">
-        ${FUI_MODAL_WINDOW_TITLE_TPLT}
-      </div>
-      <div class="fui-modal-header-close">
-        ${FUI_MODAL_CLOSE_TPLT}
-      </div>
+      <div class="fui-modal-header-title-wrapper">${FUI_MODAL_WINDOW_TITLE_TPLT}</div>
+      <div class="fui-modal-header-close">${FUI_MODAL_CLOSE_TPLT}</div>
     </div>
     <div class="fui-modal-body">
       ${FUI_MODAL_WINDOW_ERROR_MSG}

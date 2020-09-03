@@ -1,9 +1,9 @@
-import { Directive, Optional, ViewContainerRef, ElementRef, Injector, Self } from '@angular/core';
+import { Directive, ElementRef, Injector, Optional, Renderer2, Self, ViewContainerRef } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { FuiInputContainer } from './input-container';
 import { WrappedFormControl } from '../common/wrapped-control';
-import { Renderer2 } from '@angular/core';
+
+import { FuiInputContainerComponent } from './input-container';
 
 @Directive({
   selector: '[fuiInput]',
@@ -12,7 +12,7 @@ import { Renderer2 } from '@angular/core';
     '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
   }
 })
-export class FuiInput extends WrappedFormControl<FuiInputContainer> {
+export class FuiInputDirective extends WrappedFormControl<FuiInputContainerComponent> {
   protected index = 1;
 
   constructor(
@@ -24,6 +24,6 @@ export class FuiInput extends WrappedFormControl<FuiInputContainer> {
     renderer: Renderer2,
     el: ElementRef
   ) {
-    super(vcr, FuiInputContainer, injector, control, renderer, el);
+    super(vcr, FuiInputContainerComponent, injector, control, renderer, el);
   }
 }

@@ -1,8 +1,10 @@
-import * as searchHelper from './search-helper';
 import { AfterViewInit, Directive, ElementRef, Input, OnChanges, Renderer2 } from '@angular/core';
+
+import * as searchHelper from './search-helper';
 import { isDefined } from './value-utils';
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: '[ngOptionHighlight]'
 })
 export class NgOptionHighlightDirective implements OnChanges, AfterViewInit {

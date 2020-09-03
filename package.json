@@ -25,6 +25,10 @@
     {
       "name": "Ari Quinones",
       "email": "ariquinones0015@gmail.com"
+    },
+    {
+      "name": "Natasha Chernis",
+      "email": "nchernis@iland.com"
     }
   ],
   "license": "BSD-3-Clause",
@@ -58,16 +62,18 @@
     "deploy:gh-pages": "gh-pages -d dist/dev",
     "build:deploy:dev": "npm-run-all build:dev deploy:gh-pages",
     "ng": "ng",
-    "start": "npm run pretest:lint; ng serve dev --port 9090",
-    "start:prod": "npm run pretest:lint; ng serve dev --port 9090 --prod=true",
-    "test:lint": "tslint-config-prettier-check ./tslint.json",
+    "start": "npm run prelint; ng serve dev --port 9090",
+    "start:prod": "npm run prelint; ng serve dev --port 9090 --prod=true",
+    "prelint": "tsc -p tests/tslint/tsconfig.json",
+    "lint:fix": "npm run prelint; tslint -c ./tslint-imports.json --fix -p src/dev/tsconfig.json -e src/**/*.spec.ts; tslint -c ./tslint-imports.json --fix -p src/ferui-components/tsconfig.json -e src/**/*.spec.ts",
+    "test:lint": "npm run prelint; ng l ferui-components --format=stylish; ng l dev --format=stylish",
     "test:components": "ng test ferui-components --watch=false",
     "test:components:watch": "ng test ferui-components --watch",
     "test": "npm-run-all test:lint test:components",
     "format": "pretty-quick",
-    "format:fix": "pretty-quick --staged",
-    "format:all": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --write \"src/{ferui-components,ferui-design,ferui-icons,dev}/**/*.{ts,html}\"",
-    "pretest:lint": "tsc -p tests/tslint/tsconfig.json",
+    "format:fix": "npm run lint:fix; pretty-quick --staged",
+    "format:prettier": "prettier --config ./.prettierrc.json --ignore-path ./.prettierignore --write \"src/{ferui-components,ferui-design,ferui-icons,dev}/**/*.{js,scss,ts,html}\"",
+    "format:all": "npm-run-all lint:fix format:prettier",
     "netlify": "netlify",
     "netlify:publish": "netlify deploy",
     "netlify:publish:prod": "netlify deploy --prod",
@@ -94,10 +100,11 @@
     "resize-observer-polyfill": "^1.5.1",
     "intersection-observer": "^0.7.0",
     "@webcomponents/custom-elements": "^1.0.0",
-    "core-js": "^2.5.5",
-    "rxjs": "6.3.3",
     "web-animations-js": "^2.3.1",
-    "zone.js": "^0.8.26"
+    "core-js": "^2.5.5",
+    "rxjs": "~6.3.3",
+    "tslib": "^1.9.0",
+    "zone.js": "~0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.9",
@@ -115,10 +122,10 @@
     "@types/js-beautify": "^1.8.0",
     "@types/node": "~8.9.4",
     "angular-in-memory-web-api": "^0.8.0",
-    "autoprefixer": "^9.5.0",
+    "autoprefixer": "^9.8.6",
     "awesome-typescript-loader": "^5.2.1",
     "cheerio": "^1.0.0-rc.2",
-    "codelyzer": "^4.5.0",
+    "codelyzer": "~5.2.0",
     "cpy-cli": "^1.0.1",
     "csso-cli": "^3.0.0",
     "del-cli": "^1.1.0",
@@ -127,6 +134,7 @@
     "highlight.js": "^9.15.6",
     "html-reporter": "^3.0.2",
     "husky": "^1.2.0",
+    "import-sort-style-angular": "^1.1.1",
     "jasmine-core": "^3.3.0",
     "jasmine-expect": "^3.8.4",
     "jasmine-spec-reporter": "^4.2.1",
@@ -145,26 +153,28 @@
     "netlify-cli": "^2.54.0",
     "ng-dynamic": "^3.0.2",
     "ng-dynamic-component": "^4.0.0",
-    "ng-packagr": "^4.4.5",
+    "ng-packagr": "4.6.0",
     "ngx-highlightjs": "^3.0.3",
     "node-sass": "^4.12.0",
     "node-sass-tilde-importer": "^1.0.2",
     "npm-run-all": "^4.1.2",
-    "postcss-cli": "^7.1.0",
-    "prettier": "^2.0.5",
+    "postcss-cli": "^7.1.2",
+    "prettier": "^2.1.1",
+    "prettier-plugin-import-sort": "0.0.4",
     "pretty-quick": "^2.0.1",
     "replace": "^1.0.0",
     "shelljs": "^0.8.1",
     "source-map": "^0.7.2",
-    "ts-api-guardian": "^0.4.1",
-    "ts-node": "~5.0.1",
-    "tsickle": "^0.33.0",
-    "tslib": "^1.7.1",
-    "tslint": "^5.11.0",
+    "ts-node": "~7.0.0",
+    "tsickle": "^0.33.1",
+    "tslint": "~5.16.0",
+    "tslint-angular": "^3.0.3",
     "tslint-config-prettier": "^1.18.0",
     "tslint-defocus": "^2.0.6",
+    "tslint-etc": "^1.13.6",
     "tslint-plugin-prettier": "^2.3.0",
-    "typescript": ">=3.1.3 <=3.3.0",
+    "tsutils": "^3.17.1",
+    "typescript": "3.1.3",
     "uglifyjs": "^2.4.11",
     "uglifyjs-webpack-plugin": "^1.3.0",
     "webpack-cli": "^3.3.9"
@@ -177,5 +187,11 @@
     "hooks": {
       "pre-commit": "npm run format:fix"
     }
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not ie <= 11",
+    "Firefox >= 35",
+    "Chrome >= 35"
+  ]
 }

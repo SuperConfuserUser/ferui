@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnInit, Self } from '@angular/core';
+
 import { FuiDatagridService } from '../../services/datagrid.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { FuiDatagridService } from '../../services/datagrid.service';
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiHeaderContainer implements OnInit {
+export class FuiHeaderContainerComponent implements OnInit {
   @HostBinding('attr.role') role: string = 'presentation';
 
   constructor(@Self() private elementRef: ElementRef, private gridPanel: FuiDatagridService) {}

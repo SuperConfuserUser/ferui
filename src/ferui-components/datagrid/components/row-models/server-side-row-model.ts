@@ -1,12 +1,13 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
-import { FuiColumnService } from '../../services/rendering/column.service';
-import { FuiDatagridFilterService } from '../../services/datagrid-filter.service';
+
 import { FuiDatagridEvents, ServerSideRowDataChanged } from '../../events';
-import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiDatagridApiService } from '../../services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../../services/datagrid-column-api.service';
+import { FuiDatagridFilterService } from '../../services/datagrid-filter.service';
 import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
+import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
+import { FuiDatagridEventService } from '../../services/event.service';
+import { FuiColumnService } from '../../services/rendering/column.service';
 import {
   FilterModel,
   IDatagridResultObject,

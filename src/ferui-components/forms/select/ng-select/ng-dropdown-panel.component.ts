@@ -1,3 +1,6 @@
+import { Subject, animationFrameScheduler, asapScheduler, fromEvent, merge } from 'rxjs';
+import { auditTime, takeUntil } from 'rxjs/operators';
+
 import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -19,10 +22,8 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { animationFrameScheduler, asapScheduler, fromEvent, merge, Subject } from 'rxjs';
-import { auditTime, takeUntil } from 'rxjs/operators';
-import { NgDropdownPanelService, PanelDimensions } from './ng-dropdown-panel.service';
 
+import { NgDropdownPanelService, PanelDimensions } from './ng-dropdown-panel.service';
 import { DropdownPosition } from './ng-select.component';
 import { NgOption } from './ng-select.types';
 import { isDefined } from './value-utils';
@@ -34,6 +35,7 @@ const SCROLL_SCHEDULER = typeof requestAnimationFrame !== 'undefined' ? animatio
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  // tslint:disable-next-line
   selector: 'ng-dropdown-panel',
   template: `
     <div *ngIf="headerTemplate" class="ng-dropdown-header">
@@ -51,6 +53,12 @@ const SCROLL_SCHEDULER = typeof requestAnimationFrame !== 'undefined' ? animatio
   `
 })
 export class NgDropdownPanelComponent implements OnInit, OnChanges, OnDestroy {
+  @Output() readonly update = new EventEmitter<any[]>();
+  // tslint:disable-next-line
+  @Output() readonly scroll = new EventEmitter<{ start: number; end: number }>();
+  @Output() readonly scrollToEnd = new EventEmitter<void>();
+  @Output() readonly outsideClick = new EventEmitter<void>();
+
   @Input() items: NgOption[] = [];
   @Input() markedItem: NgOption;
   @Input() position: DropdownPosition = 'auto';
@@ -60,11 +68,6 @@ export class NgDropdownPanelComponent implements OnInit, OnChanges, OnDestroy {
   @Input() headerTemplate: TemplateRef<any>;
   @Input() footerTemplate: TemplateRef<any>;
   @Input() filterValue: string = null;
-
-  @Output() update = new EventEmitter<any[]>();
-  @Output() scroll = new EventEmitter<{ start: number; end: number }>();
-  @Output() scrollToEnd = new EventEmitter<void>();
-  @Output() outsideClick = new EventEmitter<void>();
 
   @ViewChild('content', { read: ElementRef }) contentElementRef: ElementRef;
   @ViewChild('scroll', { read: ElementRef }) scrollElementRef: ElementRef;

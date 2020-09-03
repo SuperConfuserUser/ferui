@@ -1,5 +1,6 @@
-import { AfterContentInit, Component, ContentChildren, Input, QueryList } from '@angular/core';
-import { FuiTab } from './tab';
+import { AfterContentInit, Component, ContentChildren, QueryList } from '@angular/core';
+
+import { FuiTabComponent } from './tab';
 
 @Component({
   selector: 'fui-tabs',
@@ -25,8 +26,8 @@ import { FuiTab } from './tab';
     </div>
   `
 })
-export class FuiTabs implements AfterContentInit {
-  @ContentChildren(FuiTab) tabs: QueryList<FuiTab>;
+export class FuiTabsComponent implements AfterContentInit {
+  @ContentChildren(FuiTabComponent) tabs: QueryList<FuiTabComponent>;
 
   ngAfterContentInit() {
     const activeTabs = this.tabs.filter(tab => tab.active);
@@ -36,7 +37,7 @@ export class FuiTabs implements AfterContentInit {
     }
   }
 
-  selectTab(tab: FuiTab) {
+  selectTab(tab: FuiTabComponent) {
     if (!tab) {
       return;
     }

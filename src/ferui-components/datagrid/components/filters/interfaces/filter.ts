@@ -1,6 +1,7 @@
-import { Column } from '../../entities/column';
 import { FuiColumnDefinitions } from '../../../types/column-definitions';
+import { Column } from '../../entities/column';
 import { TextComparator } from '../filter/text-filter';
+
 import { FilterType } from './filter.enum';
 
 export interface FuiDatagridIFilter {

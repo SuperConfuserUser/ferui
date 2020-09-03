@@ -1,8 +1,10 @@
 import { Component, ElementRef, EventEmitter, OnDestroy, Output, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { FuiTimerUtil } from './timer-util';
-import { FuiToastNotificationInterface } from './interfaces';
+
 import { FeruiUtils } from '../utils/ferui-utils';
+
+import { FuiToastNotificationInterface } from './interfaces';
+import { FuiTimerUtil } from './timer-util';
 
 @Component({
   selector: 'fui-toast-notification-component',
@@ -51,9 +53,10 @@ import { FeruiUtils } from '../utils/ferui-utils';
   `
 })
 export class FuiToastNotificationComponent implements OnDestroy {
-  @ViewChild('toastNotificationWrapper') toastNotificationWrapper: ElementRef;
+  // tslint:disable-next-line
+  @Output() readonly close: EventEmitter<void> = new EventEmitter<void>();
 
-  @Output() close: EventEmitter<void> = new EventEmitter<void>();
+  @ViewChild('toastNotificationWrapper') toastNotificationWrapper: ElementRef;
 
   onScreen: boolean = false;
   removeNotification = false;

@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   host: { '[class.fui-widget-body]': 'true' },
   template: ` <ng-content></ng-content> `
 })
-export class FuiWidgetBody {}
+export class FuiWidgetBodyComponent {}

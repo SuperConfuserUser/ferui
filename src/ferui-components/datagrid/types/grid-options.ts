@@ -1,10 +1,11 @@
-import { FuiColumnDefinitions } from './column-definitions';
-import { FuiRowSelection } from './row-selection.enum';
-import { FuiRowModel } from './row-model.enum';
-import { FuiIconDefinitions } from './icon-definitions';
 import { FuiDatagridApiService } from '../services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../services/datagrid-column-api.service';
+
+import { FuiColumnDefinitions } from './column-definitions';
 import { GetContextMenuItems } from './context-menu-items';
+import { FuiIconDefinitions } from './icon-definitions';
+import { FuiRowModel } from './row-model.enum';
+import { FuiRowSelection } from './row-selection.enum';
 
 export interface FuiGridOptions {
   // columns definition.

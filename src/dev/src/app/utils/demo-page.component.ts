@@ -1,4 +1,5 @@
 import { AfterContentInit, Component, ContentChildren, Input, QueryList } from '@angular/core';
+
 import { DemoComponent } from './demo.component';
 
 /**
@@ -27,9 +28,7 @@ import { DemoComponent } from './demo.component';
         Toggle Disabled ({{ disabled ? 'true' : 'false' }})
       </button>
       <button class="btn btn-sm btn-info ml-2" (click)="toggleAllCodes()">Toggle all code</button>
-      <button class="btn btn-sm btn-info ml-2" *ngIf="canToggleResults" (click)="toggleAllResults()">
-        Toggle all results
-      </button>
+      <button class="btn btn-sm btn-info ml-2" *ngIf="canToggleResults" (click)="toggleAllResults()">Toggle all results</button>
     </p>
     <ng-content></ng-content>
   `

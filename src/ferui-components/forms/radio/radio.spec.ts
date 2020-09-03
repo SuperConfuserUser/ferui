@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ControlStandaloneSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/control.spec';
-import { FuiRadio } from './radio';
-import { FuiRadioWrapper } from './radio-wrapper';
+
+import { FuiRadioDirective } from './radio';
+import { FuiRadioWrapperComponent } from './radio-wrapper';
 
 @Component({
   template: ` <input type="radio" fuiRadio /> `
@@ -29,9 +30,9 @@ class ReactiveTest {
 }
 
 export default function (): void {
-  describe('FuiRadio directive', () => {
+  describe('FuiRadioDirective directive', () => {
     ControlStandaloneSpec(StandaloneUseTest);
-    TemplateDrivenSpec(FuiRadioWrapper, FuiRadio, TemplateDrivenTest, 'fui-radio');
-    ReactiveSpec(FuiRadioWrapper, FuiRadio, ReactiveTest, 'fui-radio');
+    TemplateDrivenSpec(FuiRadioWrapperComponent, FuiRadioDirective, TemplateDrivenTest, 'fui-radio');
+    ReactiveSpec(FuiRadioWrapperComponent, FuiRadioDirective, ReactiveTest, 'fui-radio');
   });
 }

@@ -1,4 +1,5 @@
 import { Directive } from '@angular/core';
+
 import { MarkControlService } from './providers/mark-control.service';
 
 @Directive({
@@ -8,7 +9,7 @@ import { MarkControlService } from './providers/mark-control.service';
     '[class.fui-form]': 'true'
   }
 })
-export class FuiForm {
+export class FuiFormDirective {
   constructor(private markControlService: MarkControlService) {}
 
   markAsDirty() {

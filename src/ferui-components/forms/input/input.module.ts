@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { ClrIconModule } from '../../icon/icon.module';
 import { FuiCommonFormsModule } from '../common/common.module';
 
-import { FuiInput } from './input';
-import { FuiInputContainer } from './input-container';
-import { ClrIconModule } from '../../icon/icon.module';
+import { FuiInputDirective } from './input';
+import { FuiInputContainerComponent } from './input-container';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ClrIconModule, FuiCommonFormsModule],
-  declarations: [FuiInput, FuiInputContainer],
-  exports: [FuiInput, FuiInputContainer],
-  entryComponents: [FuiInputContainer]
+  declarations: [FuiInputDirective, FuiInputContainerComponent],
+  exports: [FuiInputDirective, FuiInputContainerComponent],
+  entryComponents: [FuiInputContainerComponent]
 })
 export class FuiInputModule {}

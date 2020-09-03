@@ -1,20 +1,21 @@
-import { Component, Inject, TemplateRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+
 import {
+  CsvExportParams,
   FilterType,
   FuiColumnDefinitions,
-  FuiDatagrid,
   FuiDatagridBodyCellContext,
+  FuiDatagridComponent,
   FuiDatagridSortDirections,
   FuiFieldTypes,
   FuiRowModel,
-  IDateFilterParams,
-  CsvExportParams
+  IDateFilterParams
 } from '@ferui/components';
+
 import { DatagridService } from '../datagrid.service';
 import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
 
-// @ts-ignore
 @Component({
   template: `
     <h1 class="mt-4 mb-4">Client-side datagrid</h1>
@@ -234,9 +235,7 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
           The examples is of three data items.
         </p>
 
-        <p>
-          API: There is no API to get this data. However it was provided by the application so you should already have it.
-        </p>
+        <p>API: There is no API to get this data. However it was provided by the application so you should already have it.</p>
 
         <h3>State 2: All Rows</h3>
 
@@ -265,7 +264,7 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
   `,
   providers: [DatagridService]
 })
-export class DatagridClientSideComponent {
+export class DatagridClientSideComponent implements OnInit {
   rowData: Array<any>;
   synchronousRowData: Array<any>;
   columnDefs: Array<FuiColumnDefinitions>;
@@ -296,7 +295,7 @@ export class DatagridClientSideComponent {
   @ViewChild('userAgentRenderer') userAgentRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('browserFilter') browserFilter: TemplateRef<any>;
   @ViewChild('countryRenderer') countryRenderer: TemplateRef<FuiDatagridBodyCellContext>;
-  @ViewChild('datagrid') datagrid: FuiDatagrid;
+  @ViewChild('datagrid') datagrid: FuiDatagridComponent;
 
   constructor(@Inject(HttpClient) private http: HttpClient, public datagridService: DatagridService) {}
 

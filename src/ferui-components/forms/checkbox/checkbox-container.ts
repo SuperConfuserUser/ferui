@@ -1,16 +1,17 @@
-import { Component, ContentChild, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { Component, ContentChild, OnDestroy, OnInit } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { IfErrorService } from '../common/if-error/if-error.service';
-import { FuiLabel } from '../common/label';
-import { ControlClassService } from '../common/providers/control-class.service';
-import { NgControlService } from '../common/providers/ng-control.service';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { FocusService } from '../common/providers/focus.service';
-import { RequiredControlService } from '../common/providers/required-control.service';
-import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { IfErrorService } from '../common/if-error/if-error.service';
+import { FuiLabelDirective } from '../common/label';
 import { FuiFormLayoutEnum } from '../common/layout.enum';
+import { ControlClassService } from '../common/providers/control-class.service';
+import { FocusService } from '../common/providers/focus.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { NgControlService } from '../common/providers/ng-control.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
 
 @Component({
   selector: 'fui-checkbox-container',
@@ -34,11 +35,11 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
   },
   providers: [NgControlService, ControlClassService, IfErrorService, FocusService, RequiredControlService, FuiFormLayoutService]
 })
-export class FuiCheckboxContainer implements OnDestroy {
+export class FuiCheckboxContainerComponent implements OnDestroy, OnInit {
   invalid = false;
   control: NgControl;
 
-  @ContentChild(FuiLabel) label: FuiLabel;
+  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
 
   private focus: boolean = false;
   private subscriptions: Subscription[] = [];

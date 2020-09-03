@@ -10,6 +10,7 @@ import {
   Optional,
   SkipSelf
 } from '@angular/core';
+
 import { AbstractPopover } from '../popover/common/abstract-popover';
 import { POPOVER_HOST_ANCHOR } from '../popover/common/popover-host-anchor.token';
 import { Point } from '../popover/common/popover-options.interface';
@@ -22,12 +23,12 @@ import { Point } from '../popover/common/popover-options.interface';
     '[class.visible]': 'isOpen()'
   }
 })
-export class FuiDropdownMenu extends AbstractPopover implements OnInit, OnDestroy, AfterViewInit {
+export class FuiDropdownMenuComponent extends AbstractPopover implements OnInit, OnDestroy, AfterViewInit {
   @Input() appendTo: string;
   @Input() parentContainer: HTMLElement | string;
 
   private forcedPosition: boolean;
-  private readonly nested: FuiDropdownMenu;
+  private readonly nested: FuiDropdownMenuComponent;
 
   private _position: string;
 
@@ -38,7 +39,7 @@ export class FuiDropdownMenu extends AbstractPopover implements OnInit, OnDestro
     parentHost: ElementRef,
     @Optional()
     @SkipSelf()
-    nested: FuiDropdownMenu
+    nested: FuiDropdownMenuComponent
   ) {
     if (!parentHost) {
       throw new Error('fui-dropdown-menu should only be used inside of a fui-dropdown');

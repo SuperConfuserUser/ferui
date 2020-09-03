@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
 
 import { itIgnore } from '../../../../tests/tests.helpers';
-import { TestContext } from '../tests/helpers.spec';
 import { IfOpenService } from '../../utils/conditional/if-open.service';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { DateIOService } from '../date/providers/date-io.service';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
+import { TestContext } from '../tests/helpers.spec';
 
-import { FuiDay } from './day';
+import { FuiDayComponent } from './day';
 import { DayViewModel } from './model/day-view.model';
 import { DayModel } from './model/day.model';
 import { LocaleHelperService } from './providers/locale-helper.service';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
-import { DateIOService } from '../date/providers/date-io.service';
-import { DateFormControlService } from '../common/providers/date-form-control.service';
 
 export default function () {
   describe('Day Component', () => {
-    let context: TestContext<FuiDay, TestComponent>;
+    let context: TestContext<FuiDayComponent, TestComponent>;
 
     beforeEach(function () {
-      context = this.create(FuiDay, TestComponent, [
+      context = this.create(FuiDayComponent, TestComponent, [
         LocaleHelperService,
         DateNavigationService,
         DateIOService,

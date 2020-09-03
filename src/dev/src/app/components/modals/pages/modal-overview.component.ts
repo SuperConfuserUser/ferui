@@ -231,9 +231,7 @@ import { Component } from '@angular/core';
           </ul>
 
           <h4 class="mt-4 mb-4">5. Window Workflow</h4>
-          <p>
-            Each window type has their own internal workflow:
-          </p>
+          <p>Each window type has their own internal workflow:</p>
 
           <h5>Headless Workflow</h5>
           <p>
@@ -278,9 +276,7 @@ import { Component } from '@angular/core';
           <img src="./assets/modals/window-workflow-diagram.jpg" width="714" height="1020" />
 
           <h4 class="mt-4 mb-4">6. Window Screen lifecycle</h4>
-          <p>
-            Like in Angular, the modal system has its own lifecycle.
-          </p>
+          <p>Like in Angular, the modal system has its own lifecycle.</p>
 
           <h5 class="mt-4 mb-4">Lifecycle Hooks commons to every window types</h5>
           <table class="fui-table mt-4 mb-4">
@@ -733,9 +729,7 @@ import { Component } from '@angular/core';
           </p>
 
           <h4 class="mt-4 mb-4">8. Error handling</h4>
-          <p>
-            The modal system has its own way to handle errors that may occur at different states of a window workflow:
-          </p>
+          <p>The modal system has its own way to handle errors that may occur at different states of a window workflow:</p>
 
           <ul>
             <li>

@@ -1,12 +1,16 @@
-import { NgModule, Type } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HighlightModule } from 'ngx-highlightjs';
-import { FeruiModule } from '@ferui/components';
-import { UtilsModule } from '../../utils/utils.module';
-import { TabsDemo } from './tabs.demo';
 
-const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [TabsDemo];
+import { CommonModule } from '@angular/common';
+import { NgModule, Type } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+import { FeruiModule } from '@ferui/components';
+
+import { UtilsModule } from '../../utils/utils.module';
+
+import { TabsDemoComponent } from './tabs.demo';
+
+const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [TabsDemoComponent];
 
 @NgModule({
   imports: [CommonModule, FormsModule, FeruiModule, HighlightModule, UtilsModule],

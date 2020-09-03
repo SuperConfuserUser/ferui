@@ -1,28 +1,30 @@
-import { TestContext } from '../tests/helpers.spec';
+import { Component, DebugElement, Injectable, ViewChild } from '@angular/core';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { FormControl, FormGroup, FormsModule, NgControl, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+
+import { itIgnore } from '../../../../tests/tests.helpers';
+import { IfErrorService } from '../common/if-error/if-error.service';
+import { ControlClassService } from '../common/providers/control-class.service';
+import { ControlIdService } from '../common/providers/control-id.service';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
 import { FocusService } from '../common/providers/focus.service';
-import { Component, DebugElement, Injectable, ViewChild } from '@angular/core';
 import { NgControlService } from '../common/providers/ng-control.service';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { FuiTimeContainer } from './time-container';
-import { ControlClassService } from '../common/providers/control-class.service';
-import { FormControl, FormGroup, FormsModule, NgControl, NgForm, ReactiveFormsModule } from '@angular/forms';
-import { IfErrorService } from '../common/if-error/if-error.service';
-import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
-import { ControlIdService } from '../common/providers/control-id.service';
-import { By } from '@angular/platform-browser';
-import { itIgnore } from '../../../../tests/tests.helpers';
 import { PlaceholderService } from '../common/providers/placeholder.service';
 import { RequiredControlService } from '../common/providers/required-control.service';
+import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
+import { TestContext } from '../tests/helpers.spec';
+
+import { TimeModel } from './models/time.model';
 import { TimeIOService } from './providers/time-io.service';
 import { TimeSelectionService } from './providers/time-selection.service';
-import { FuiTime } from './time';
-import { TimeModel } from './models/time.model';
+import { FuiTimeDirective } from './time';
+import { FuiTimeContainerComponent } from './time-container';
 import { FuiTimeModule } from './time.module';
 
 export default function () {
   describe('Time Input Component', () => {
-    let context: TestContext<FuiTime, TestComponent>;
+    let context: TestContext<FuiTimeDirective, TestComponent>;
     let timeIOService: TimeIOService;
     let timeSelectionService: TimeSelectionService;
     let dateFormControlService: DateFormControlService;
@@ -37,7 +39,7 @@ export default function () {
 
     describe('Basics', () => {
       beforeEach(function () {
-        context = this.create(FuiTime, TestComponent, [
+        context = this.create(FuiTimeDirective, TestComponent, [
           ControlClassService,
           { provide: NgControlService, useClass: MockNgControlService },
           NgControl,
@@ -52,9 +54,9 @@ export default function () {
           TimeSelectionService
         ]);
 
-        timeIOService = context.fixture.debugElement.query(By.directive(FuiTimeContainer)).injector.get(TimeIOService);
+        timeIOService = context.fixture.debugElement.query(By.directive(FuiTimeContainerComponent)).injector.get(TimeIOService);
         timeSelectionService = context.fixture.debugElement
-          .query(By.directive(FuiTimeContainer))
+          .query(By.directive(FuiTimeContainerComponent))
           .injector.get(TimeSelectionService);
         focusService = context.fixture.debugElement.injector.get(FocusService);
       });
@@ -105,7 +107,7 @@ export default function () {
         it('listens to the input change events', () => {
           spyOn(context.feruiDirective, 'onValueChange');
 
-          const inputEl = context.fixture.debugElement.query(By.directive(FuiTime));
+          const inputEl = context.fixture.debugElement.query(By.directive(FuiTimeDirective));
           inputEl.triggerEventHandler('change', inputEl);
 
           expect(context.feruiDirective.onValueChange).toHaveBeenCalled();
@@ -127,8 +129,8 @@ export default function () {
         fixture = TestBed.createComponent(TestComponentWithNgModel);
         fixture.detectChanges();
 
-        timeContainerDebugElement = fixture.debugElement.query(By.directive(FuiTimeContainer));
-        timeInputDebugElement = fixture.debugElement.query(By.directive(FuiTime));
+        timeContainerDebugElement = fixture.debugElement.query(By.directive(FuiTimeContainerComponent));
+        timeInputDebugElement = fixture.debugElement.query(By.directive(FuiTimeDirective));
         timeSelectionService = timeContainerDebugElement.injector.get(TimeSelectionService);
       });
 
@@ -214,8 +216,8 @@ export default function () {
 
         fixture = TestBed.createComponent(TestComponentWithReactiveForms);
         fixture.detectChanges();
-        timeContainerDebugElement = fixture.debugElement.query(By.directive(FuiTimeContainer));
-        timeInputDebugElement = fixture.debugElement.query(By.directive(FuiTime));
+        timeContainerDebugElement = fixture.debugElement.query(By.directive(FuiTimeContainerComponent));
+        timeInputDebugElement = fixture.debugElement.query(By.directive(FuiTimeDirective));
         timeSelectionService = timeContainerDebugElement.injector.get(TimeSelectionService);
         dateFormControlService = timeContainerDebugElement.injector.get(DateFormControlService);
       });
@@ -293,7 +295,7 @@ export default function () {
         fixture = TestBed.createComponent(TestComponentWithTemplateDrivenForms);
         fixture.detectChanges();
 
-        timeContainerDebugElement = fixture.debugElement.query(By.directive(FuiTimeContainer));
+        timeContainerDebugElement = fixture.debugElement.query(By.directive(FuiTimeContainerComponent));
         dateFormControlService = timeContainerDebugElement.injector.get(DateFormControlService);
       });
 
@@ -370,7 +372,7 @@ class TestComponent {
 class TestComponentWithNgModel {
   timeValue: string;
 
-  @ViewChild(FuiTime) timeInputInstance: FuiTime;
+  @ViewChild(FuiTimeDirective) timeInputInstance: FuiTimeDirective;
 }
 
 @Component({

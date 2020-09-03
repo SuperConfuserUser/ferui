@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+
 import {
   AfterContentInit,
   AfterViewInit,
@@ -13,15 +15,16 @@ import {
   Self,
   ViewChild
 } from '@angular/core';
-import { FuiDatagridService } from '../../services/datagrid.service';
-import { FuiVirtualScrollerComponent } from '../../../virtual-scroller/virtual-scroller';
-import { DatagridStateEnum, DatagridStateService } from '../../services/datagrid-state.service';
-import { Subscription } from 'rxjs';
-import { RowRendererService } from '../../services/rendering/row-renderer.service';
-import { FuiActionMenuService } from '../../services/action-menu/action-menu.service';
-import { FuiBodyRow } from './body-row';
+
 import { FeruiUtils } from '../../../utils/ferui-utils';
+import { FuiVirtualScrollerComponent } from '../../../virtual-scroller/virtual-scroller';
 import { FuiActionMenuUtils } from '../../services/action-menu/action-menu-utils';
+import { FuiActionMenuService } from '../../services/action-menu/action-menu.service';
+import { DatagridStateEnum, DatagridStateService } from '../../services/datagrid-state.service';
+import { FuiDatagridService } from '../../services/datagrid.service';
+import { RowRendererService } from '../../services/rendering/row-renderer.service';
+
+import { FuiBodyRowComponent } from './body-row';
 
 @Component({
   selector: 'fui-datagrid-body',
@@ -50,7 +53,7 @@ import { FuiActionMenuUtils } from '../../services/action-menu/action-menu-utils
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuiBodyRoot implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
+export class FuiBodyRootComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
   @Input() isFixedheight: boolean = false;
   @Input() headerHeight: number = 50;
   @Input() rowHeight: number = 50;
@@ -66,7 +69,7 @@ export class FuiBodyRoot implements OnInit, OnDestroy, AfterViewInit, AfterConte
 
   private _isLoading: boolean = true;
   private _isEmptyData: boolean = false;
-  private currentlyHoveredRow: FuiBodyRow;
+  private currentlyHoveredRow: FuiBodyRowComponent;
   private subscriptions: Subscription[] = [];
   private onMoveFunc;
   private onLeaveFunc;

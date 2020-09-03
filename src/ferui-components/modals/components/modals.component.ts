@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+
 import { FuiModalWindowTemplateContext } from '../interfaces/modals-interfaces';
 import { FUI_MODAL_LOADING_WINDOW_TPLT } from '../modals-window-templates';
 import { FuiModalCtrlImpl } from '../models/modal/fui-modal-ctrl';

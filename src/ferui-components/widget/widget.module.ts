@@ -1,16 +1,33 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FuiWidget } from './widget.component';
-import { FuiWidgetTitle } from './widget-title.component';
-import { FuiWidgetSubtitle } from './widget-subtitle.component';
-import { FuiWidgetFooter } from './widget-footer.component';
-import { FuiWidgetHeader } from './widget-header.component';
-import { FuiWidgetActions } from './widget-actions.component';
-import { FuiWidgetBody } from './widget-body.component';
+import { NgModule } from '@angular/core';
+
+import { FuiWidgetActionsComponent } from './widget-actions.component';
+import { FuiWidgetBodyComponent } from './widget-body.component';
+import { FuiWidgetFooterComponent } from './widget-footer.component';
+import { FuiWidgetHeaderComponent } from './widget-header.component';
+import { FuiWidgetSubtitleComponent } from './widget-subtitle.component';
+import { FuiWidgetTitleComponent } from './widget-title.component';
+import { FuiWidgetComponent } from './widget.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [FuiWidget, FuiWidgetHeader, FuiWidgetTitle, FuiWidgetSubtitle, FuiWidgetActions, FuiWidgetBody, FuiWidgetFooter],
-  exports: [FuiWidget, FuiWidgetHeader, FuiWidgetTitle, FuiWidgetSubtitle, FuiWidgetActions, FuiWidgetBody, FuiWidgetFooter]
+  declarations: [
+    FuiWidgetComponent,
+    FuiWidgetHeaderComponent,
+    FuiWidgetTitleComponent,
+    FuiWidgetSubtitleComponent,
+    FuiWidgetActionsComponent,
+    FuiWidgetBodyComponent,
+    FuiWidgetFooterComponent
+  ],
+  exports: [
+    FuiWidgetComponent,
+    FuiWidgetHeaderComponent,
+    FuiWidgetTitleComponent,
+    FuiWidgetSubtitleComponent,
+    FuiWidgetActionsComponent,
+    FuiWidgetBodyComponent,
+    FuiWidgetFooterComponent
+  ]
 })
 export class FuiWidgetModule {}

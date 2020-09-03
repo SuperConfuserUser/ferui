@@ -1,5 +1,9 @@
+import { ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injector, ViewContainerRef } from '@angular/core';
+
+import { FeruiUtils } from '../../../utils/ferui-utils';
 import {
   FuiModalCtrl,
+  FuiModalWindowComponentInterface,
   FuiModalWindowConfiguration,
   FuiModalWindowCtrl,
   FuiModalWindowParam,
@@ -7,11 +11,8 @@ import {
   FuiModalWindowResolved,
   FuiModalWindowScreen,
   FuiModalWindowTemplateContext,
-  FuiModalWindowComponentInterface,
   ModalWindowInteractionEnum
 } from '../../interfaces/modals-interfaces';
-import { ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injector, ViewContainerRef } from '@angular/core';
-import { FeruiUtils } from '../../../utils/ferui-utils';
 
 /**
  * Abstract class for windows.

@@ -1,4 +1,9 @@
+import { Subscription } from 'rxjs';
+
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -8,33 +13,32 @@ import {
   OnInit,
   Output,
   QueryList,
+  Self,
   ViewChild,
-  ViewChildren,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Self
+  ViewChildren
 } from '@angular/core';
+
+import { DomObserver, ObserverInstance } from '../utils/dom-observer/dom-observer';
+import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
+import { FuiVirtualScrollerComponent } from '../virtual-scroller/virtual-scroller';
+
 import {
+  NonRootTreeNode,
+  PagedTreeNodeDataRetriever,
+  PagingParams,
+  TreeNode,
+  TreeNodeData,
+  TreeNodeDataRetriever,
+  TreeNodeEvent,
+  TreeViewAutoNodeSelector,
   TreeViewColorTheme,
   TreeViewConfiguration,
   TreeViewEvent,
-  TreeViewEventType,
-  TreeNodeData,
-  TreeNodeDataRetriever,
-  PagedTreeNodeDataRetriever,
-  NonRootTreeNode,
-  PagingParams,
-  TreeViewAutoNodeSelector,
-  TreeNode,
-  TreeNodeEvent
+  TreeViewEventType
 } from './interfaces';
 import { FuiTreeViewComponentStyles, WrappedPromise } from './internal-interfaces';
-import { FuiVirtualScrollerComponent } from '../virtual-scroller/virtual-scroller';
-import { Subscription } from 'rxjs';
 import { FuiTreeNodeComponent } from './tree-node-component';
 import { FuiTreeViewUtilsService } from './tree-view-utils-service';
-import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
-import { DomObserver, ObserverInstance } from '../utils/dom-observer/dom-observer';
 
 @Component({
   selector: 'fui-tree-view',
@@ -78,8 +82,8 @@ import { DomObserver, ObserverInstance } from '../utils/dom-observer/dom-observe
   },
   providers: [FuiTreeViewUtilsService, ScrollbarHelper]
 })
-export class FuiTreeViewComponent<T> implements OnInit, OnDestroy {
-  @Output() onNodeEvent: EventEmitter<TreeViewEvent<T>> = new EventEmitter<TreeViewEvent<T>>();
+export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit {
+  @Output() readonly onNodeEvent: EventEmitter<TreeViewEvent<T>> = new EventEmitter<TreeViewEvent<T>>();
 
   @Input() treeNodeData: TreeNodeData<T>;
   @Input() dataRetriever: TreeNodeDataRetriever<T> | PagedTreeNodeDataRetriever<T>;

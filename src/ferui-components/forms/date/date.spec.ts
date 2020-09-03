@@ -1,34 +1,34 @@
 import { Component, DebugElement, Injectable, ViewChild } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, NgControl, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { itIgnore } from '../../../../tests/tests.helpers';
 import { IfOpenService } from '../../utils/conditional/if-open.service';
-import { ControlIdService } from '../common/providers/control-id.service';
-import { FocusService } from '../common/providers/focus.service';
-import { NgControlService } from '../common/providers/ng-control.service';
-
-import { DateFormControlService } from '../common/providers/date-form-control.service';
-import { DateIOService } from './providers/date-io.service';
-import { DateNavigationService } from './providers/date-navigation.service';
-import { TestContext } from '../tests/helpers.spec';
-import { FuiDate } from './date';
-import { MockDatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service.mock';
-import { DatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service';
-import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
-import { DayModel } from '../datepicker/model/day.model';
-import { DatepickerFocusService } from '../datepicker/providers/datepicker-focus.service';
-import { FuiDateModule } from './date.module';
-import { FuiDatepickerModule } from '../datepicker/datepicker.module';
-import { FuiDateContainer } from './date-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
 import { ControlClassService } from '../common/providers/control-class.service';
+import { ControlIdService } from '../common/providers/control-id.service';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { FocusService } from '../common/providers/focus.service';
 import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { NgControlService } from '../common/providers/ng-control.service';
+import { FuiDatepickerModule } from '../datepicker/datepicker.module';
+import { DayModel } from '../datepicker/model/day.model';
+import { DatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service';
+import { MockDatepickerEnabledService } from '../datepicker/providers/datepicker-enabled.service.mock';
+import { DatepickerFocusService } from '../datepicker/providers/datepicker-focus.service';
+import { LocaleHelperService } from '../datepicker/providers/locale-helper.service';
+import { TestContext } from '../tests/helpers.spec';
+
+import { FuiDateDirective } from './date';
+import { FuiDateContainerComponent } from './date-container';
+import { FuiDateModule } from './date.module';
+import { DateIOService } from './providers/date-io.service';
+import { DateNavigationService } from './providers/date-navigation.service';
 
 export default function () {
   describe('Date Input Component', () => {
-    let context: TestContext<FuiDate, TestComponent>;
+    let context: TestContext<FuiDateDirective, TestComponent>;
     let enabledService: MockDatepickerEnabledService;
     let dateIOService: DateIOService;
     let dateNavigationService: DateNavigationService;
@@ -45,13 +45,13 @@ export default function () {
 
     describe('Basics', () => {
       beforeEach(function () {
-        TestBed.overrideComponent(FuiDateContainer, {
+        TestBed.overrideComponent(FuiDateContainerComponent, {
           set: {
             providers: [{ provide: DatepickerEnabledService, useClass: MockDatepickerEnabledService }]
           }
         });
 
-        context = this.create(FuiDate, TestComponent, [
+        context = this.create(FuiDateDirective, TestComponent, [
           ControlClassService,
           { provide: NgControlService, useClass: MockNgControlService },
           NgControl,
@@ -68,11 +68,11 @@ export default function () {
         ]);
 
         enabledService = <MockDatepickerEnabledService>(
-          context.fixture.debugElement.query(By.directive(FuiDateContainer)).injector.get(DatepickerEnabledService)
+          context.fixture.debugElement.query(By.directive(FuiDateContainerComponent)).injector.get(DatepickerEnabledService)
         );
-        dateIOService = context.fixture.debugElement.query(By.directive(FuiDateContainer)).injector.get(DateIOService);
+        dateIOService = context.fixture.debugElement.query(By.directive(FuiDateContainerComponent)).injector.get(DateIOService);
         dateNavigationService = context.fixture.debugElement
-          .query(By.directive(FuiDateContainer))
+          .query(By.directive(FuiDateContainerComponent))
           .injector.get(DateNavigationService);
         focusService = context.fixture.debugElement.injector.get(FocusService);
         datepickerFocusService = context.fixture.debugElement.injector.get(DatepickerFocusService);
@@ -213,7 +213,7 @@ export default function () {
         it('listens to the input change events', () => {
           spyOn(context.feruiDirective, 'onValueChange');
 
-          const inputEl = context.fixture.debugElement.query(By.directive(FuiDate));
+          const inputEl = context.fixture.debugElement.query(By.directive(FuiDateDirective));
           inputEl.triggerEventHandler('change', inputEl);
 
           expect(context.feruiDirective.onValueChange).toHaveBeenCalled();
@@ -234,8 +234,8 @@ export default function () {
 
         fixture = TestBed.createComponent(TestComponentWithNgModel);
         fixture.detectChanges();
-        dateContainerDebugElement = fixture.debugElement.query(By.directive(FuiDateContainer));
-        dateInputDebugElement = fixture.debugElement.query(By.directive(FuiDate));
+        dateContainerDebugElement = fixture.debugElement.query(By.directive(FuiDateContainerComponent));
+        dateInputDebugElement = fixture.debugElement.query(By.directive(FuiDateDirective));
         dateNavigationService = dateContainerDebugElement.injector.get(DateNavigationService);
       });
 
@@ -321,8 +321,8 @@ export default function () {
 
         fixture = TestBed.createComponent(TestComponentWithReactiveForms);
         fixture.detectChanges();
-        dateContainerDebugElement = fixture.debugElement.query(By.directive(FuiDateContainer));
-        dateInputDebugElement = fixture.debugElement.query(By.directive(FuiDate));
+        dateContainerDebugElement = fixture.debugElement.query(By.directive(FuiDateContainerComponent));
+        dateInputDebugElement = fixture.debugElement.query(By.directive(FuiDateDirective));
         dateNavigationService = dateContainerDebugElement.injector.get(DateNavigationService);
         dateFormControlService = dateContainerDebugElement.injector.get(DateFormControlService);
       });
@@ -400,7 +400,7 @@ export default function () {
         fixture = TestBed.createComponent(TestComponentWithTemplateDrivenForms);
         fixture.detectChanges();
 
-        dateContainerDebugElement = fixture.debugElement.query(By.directive(FuiDateContainer));
+        dateContainerDebugElement = fixture.debugElement.query(By.directive(FuiDateContainerComponent));
         dateFormControlService = dateContainerDebugElement.injector.get(DateFormControlService);
       });
 
@@ -476,7 +476,7 @@ class TestComponent {
 })
 class TestComponentWithNgModel {
   dateValue: string;
-  @ViewChild(FuiDate) dateInputInstance: FuiDate;
+  @ViewChild(FuiDateDirective) dateInputInstance: FuiDateDirective;
 }
 
 @Component({

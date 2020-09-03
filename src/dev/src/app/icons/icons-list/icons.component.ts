@@ -1,7 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { WINDOW } from '../../services/window.service';
-import { IconShapeSources } from '@clr/icons/interfaces/icon-interfaces';
 import * as jsBeautify from 'js-beautify';
+
+import { Component, Inject, OnInit } from '@angular/core';
+
+import { IconShapeSources } from '@clr/icons/interfaces/icon-interfaces';
+
+import { WINDOW } from '../../services/window.service';
 
 interface Window {
   ClarityIcons: any;

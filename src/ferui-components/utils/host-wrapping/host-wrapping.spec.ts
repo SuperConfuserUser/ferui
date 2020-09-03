@@ -3,10 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { FuiFormLayoutEnum } from '../../forms/common/layout.enum';
+
 import { DynamicWrapper } from './dynamic-wrapper';
 import { HostWrapper } from './host-wrapper';
 import { FuiHostWrappingModule } from './host-wrapping.module';
-import { FuiFormLayoutEnum } from '../../forms/common/layout.enum';
 
 const WRAPPER_SERVICE = new InjectionToken<number>('WrapperService');
 

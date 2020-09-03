@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FuiDatagridBaseFilter } from './base-filter';
+
+import { FeruiUtils } from '../../../../utils/ferui-utils';
 import { FuiDatagridIFilter, IDoesFilterPassParams, IFilterParams } from '../interfaces/filter';
 import { FilterType } from '../interfaces/filter.enum';
-import { isArray } from 'util';
+
+import { FuiDatagridBaseFilter } from './base-filter';
 
 export interface BooleanFormatter {
   (from: string | boolean): boolean;
@@ -70,14 +72,14 @@ export function DEFAULT_BOOLEAN_FORMATTER(value: string | boolean) {
     `
   ]
 })
-export class FuiDatagridBooleanFilter extends FuiDatagridBaseFilter<IBooleanFilterParams> implements OnInit {
+export class FuiDatagridBooleanFilterComponent extends FuiDatagridBaseFilter<IBooleanFilterParams> implements OnInit {
   static DEFAULT_FORMATTER: BooleanFormatter = DEFAULT_BOOLEAN_FORMATTER;
   formatter: BooleanFormatter;
   model: boolean;
 
   doesFilterPass(params: IDoesFilterPassParams): boolean {
     const data: string | boolean = params.data;
-    if (data === null && data === undefined && data === '') {
+    if (FeruiUtils.isNullOrUndefined(data) || data === '') {
       return false;
     }
     return this.formatter(data) === this.formatter(this.model);
@@ -117,7 +119,7 @@ export class FuiDatagridBooleanFilter extends FuiDatagridBaseFilter<IBooleanFilt
     super.ngOnInit();
     this.formatter = this.filterParams.booleanFormatter
       ? this.filterParams.booleanFormatter
-      : FuiDatagridBooleanFilter.DEFAULT_FORMATTER;
+      : FuiDatagridBooleanFilterComponent.DEFAULT_FORMATTER;
     if (this.getFilterService()) {
       const filter: FuiDatagridIFilter = this.getFilterService().getFilterFor(this.column);
       if (filter) {

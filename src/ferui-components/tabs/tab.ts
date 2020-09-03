@@ -17,7 +17,7 @@ import { Component, HostBinding, Input, TemplateRef } from '@angular/core';
     '[class.fade]': 'true'
   }
 })
-export class FuiTab {
+export class FuiTabComponent {
   @HostBinding('attr.role') tabRole: string = 'tabpanel';
   @Input() title: string;
   @Input() active: boolean = false;

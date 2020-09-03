@@ -1,12 +1,14 @@
+import { Observable, Subject } from 'rxjs';
+
 import { Injectable } from '@angular/core';
+
+import { Column } from '../components/entities/column';
 import {
   FuiDatagridActiveGlobalFilter,
   FuiDatagridIFilter,
   FuiDatagridIGlobalSearchFilter,
   IDoesGlobalFilterPassParams
 } from '../components/filters/interfaces/filter';
-import { Column } from '../components/entities/column';
-import { Observable, Subject } from 'rxjs';
 
 export interface FuiDatagridActiveFilter {
   index: string;

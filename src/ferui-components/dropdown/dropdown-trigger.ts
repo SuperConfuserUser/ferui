@@ -1,6 +1,8 @@
 import { Directive, HostListener } from '@angular/core';
-import { FuiDropdown } from './dropdown';
+
 import { IfOpenService } from '../utils/conditional/if-open.service';
+
+import { FuiDropdownComponent } from './dropdown';
 
 @Directive({
   selector: '[fuiDropdownTrigger]',
@@ -11,10 +13,10 @@ import { IfOpenService } from '../utils/conditional/if-open.service';
     '[class.active]': 'active'
   }
 })
-export class FuiDropdownTrigger {
+export class FuiDropdownTriggerDirective {
   public isRootLevelToggle: boolean = true;
 
-  constructor(dropdown: FuiDropdown, private ifOpenService: IfOpenService) {
+  constructor(dropdown: FuiDropdownComponent, private ifOpenService: IfOpenService) {
     // if the containing dropdown has a parent, then this is not the root level one
     if (dropdown.parent) {
       this.isRootLevelToggle = false;

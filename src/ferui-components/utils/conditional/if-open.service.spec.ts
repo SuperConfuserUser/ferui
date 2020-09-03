@@ -1,5 +1,6 @@
-import { ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { ElementRef } from '@angular/core';
 
 import { IfOpenService } from './if-open.service';
 

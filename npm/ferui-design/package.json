@@ -24,5 +24,11 @@
   "style": "css/ferui-design.min.css",
   "bugs": {
     "url": "https://github.com/ilanddev/ferui/issues"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not ie <= 11",
+    "Firefox >= 35",
+    "Chrome >= 35"
+  ]
 }

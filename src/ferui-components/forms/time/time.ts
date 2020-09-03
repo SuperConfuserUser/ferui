@@ -1,32 +1,34 @@
+import { of } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
+
+import { isPlatformBrowser } from '@angular/common';
 import {
-  Directive,
-  Optional,
-  ViewContainerRef,
-  ElementRef,
-  Injector,
-  Self,
-  Input,
-  HostBinding,
-  Inject,
-  PLATFORM_ID,
-  OnInit,
-  OnDestroy,
   AfterViewInit,
-  HostListener
+  Directive,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  Inject,
+  Injector,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  PLATFORM_ID,
+  Renderer2,
+  Self,
+  ViewContainerRef
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { Renderer2 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { TimeIOService } from './providers/time-io.service';
-import { TimeModel } from './models/time.model';
-import { TimeSelectionService } from './providers/time-selection.service';
-import { FuiDatetimeModelTypes } from '../common/datetime-model-types.enum';
 import { AbstractDateTime } from '../common/abstract-date-time';
+import { FuiDatetimeModelTypes } from '../common/datetime-model-types.enum';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
-import { filter, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { FuiTimeContainer } from './time-container';
+
+import { TimeModel } from './models/time.model';
+import { TimeIOService } from './providers/time-io.service';
+import { TimeSelectionService } from './providers/time-selection.service';
+import { FuiTimeContainerComponent } from './time-container';
 
 @Directive({
   selector: '[fuiTime]',
@@ -35,7 +37,7 @@ import { FuiTimeContainer } from './time-container';
     '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
   }
 })
-export class FuiTime extends AbstractDateTime<FuiTimeContainer> implements OnInit, AfterViewInit, OnDestroy {
+export class FuiTimeDirective extends AbstractDateTime<FuiTimeContainerComponent> implements OnInit, AfterViewInit, OnDestroy {
   protected index = 1;
 
   /**
@@ -63,12 +65,12 @@ export class FuiTime extends AbstractDateTime<FuiTimeContainer> implements OnIni
     @Self()
     @Optional()
     protected control: NgControl,
-    @Optional() protected container: FuiTimeContainer,
+    @Optional() protected container: FuiTimeContainerComponent,
     @Optional() protected iOService: TimeIOService,
     @Optional() protected timeSelectionService: TimeSelectionService,
     @Optional() private dateFormControlService: DateFormControlService
   ) {
-    super(vcr, FuiTimeContainer, injector, control, renderer, el);
+    super(vcr, FuiTimeContainerComponent, injector, control, renderer, el);
   }
 
   @HostListener('change', ['$event.target'])

@@ -1,11 +1,11 @@
 import { Component, ElementRef, Inject, Injector, Input, OnInit, Optional, SkipSelf } from '@angular/core';
 
-import { DatepickerFocusService } from './providers/datepicker-focus.service';
-import { ViewManagerService } from './providers/view-manager.service';
-
 import { AbstractPopover } from '../../popover/common/abstract-popover';
 import { POPOVER_HOST_ANCHOR } from '../../popover/common/popover-host-anchor.token';
 import { Point } from '../../popover/common/popover-options.interface';
+
+import { DatepickerFocusService } from './providers/datepicker-focus.service';
+import { ViewManagerService } from './providers/view-manager.service';
 
 @Component({
   selector: 'fui-datepicker-view-manager',
@@ -13,7 +13,7 @@ import { Point } from '../../popover/common/popover-options.interface';
   providers: [ViewManagerService, DatepickerFocusService],
   host: { '[class.datepicker]': 'true' }
 })
-export class FuiDatepickerViewManager extends AbstractPopover implements OnInit {
+export class FuiDatepickerViewManagerComponent extends AbstractPopover implements OnInit {
   @Input() appendTo: string;
 
   constructor(

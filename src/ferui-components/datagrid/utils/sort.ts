@@ -1,6 +1,6 @@
-import { FuiDatagridSortDirections } from '../types/sort-directions.enum';
 import { Column } from '../components/entities/column';
 import { FuiFieldTypes } from '../types/field-types.enum';
+import { FuiDatagridSortDirections } from '../types/sort-directions.enum';
 
 /**
  * Adapted from ngx-datatable

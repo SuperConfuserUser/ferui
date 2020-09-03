@@ -1,3 +1,8 @@
+import { Observable, Subject } from 'rxjs';
+
+import { ComponentFactoryResolver, Injector, TemplateRef, ViewContainerRef } from '@angular/core';
+
+import { FeruiUtils } from '../../../utils/ferui-utils';
 import {
   FuiModalCtrl,
   FuiModalWindowConfiguration,
@@ -10,9 +15,6 @@ import {
   ModalWindowInteractionInterface
 } from '../../interfaces/modals-interfaces';
 import { FuiModalInstancesUtils } from '../../utils/modal-instances-utils';
-import { ComponentFactoryResolver, Injector, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { FeruiUtils } from '../../../utils/ferui-utils';
 
 /**
  * Modal Controller class

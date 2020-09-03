@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { DemoComponentData } from '../../../utils/demo-component-data';
 
 @Component({
@@ -76,7 +77,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
     </fui-tabs>
   `
 })
-export class DropdownExample implements OnInit {
+export class DropdownExampleComponent implements OnInit {
   dropdown1: DemoComponentData;
   dropdown2: DemoComponentData;
   dropdown3: DemoComponentData;
@@ -147,7 +148,7 @@ export class DropdownExample implements OnInit {
       title: ``,
       source: `<div style="padding: 10px; width: 220px; height: 100px; border: 1px solid #87a1b5; overflow: hidden; border-radius: 3px;">
             <p>My super overflow-box</p>
-            
+
             <fui-dropdown>
               <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
                 Dropdown

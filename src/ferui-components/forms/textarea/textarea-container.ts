@@ -1,19 +1,20 @@
-import { Component, ContentChild, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { Component, ContentChild, OnDestroy } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { IfErrorService } from '../common/if-error/if-error.service';
-import { NgControlService } from '../common/providers/ng-control.service';
-import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
-import { ControlIdService } from '../common/providers/control-id.service';
-import { FuiLabel } from '../common/label';
-import { ControlClassService } from '../common/providers/control-class.service';
 import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { PlaceholderService } from '../common/providers/placeholder.service';
-import { FocusService } from '../common/providers/focus.service';
-import { RequiredControlService } from '../common/providers/required-control.service';
-import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
+import { IfErrorService } from '../common/if-error/if-error.service';
+import { FuiLabelDirective } from '../common/label';
 import { FuiFormLayoutEnum } from '../common/layout.enum';
+import { ControlClassService } from '../common/providers/control-class.service';
+import { ControlIdService } from '../common/providers/control-id.service';
+import { FocusService } from '../common/providers/focus.service';
+import { FuiFormLayoutService } from '../common/providers/form-layout.service';
+import { NgControlService } from '../common/providers/ng-control.service';
+import { PlaceholderService } from '../common/providers/placeholder.service';
+import { RequiredControlService } from '../common/providers/required-control.service';
 
 @Component({
   selector: 'fui-textarea-container',
@@ -49,12 +50,12 @@ import { FuiFormLayoutEnum } from '../common/layout.enum';
     FuiFormLayoutService
   ]
 })
-export class FuiTextareaContainer implements DynamicWrapper, OnDestroy {
+export class FuiTextareaContainerComponent implements DynamicWrapper, OnDestroy {
   invalid = false;
   _dynamic = false;
   control: NgControl;
 
-  @ContentChild(FuiLabel) label: FuiLabel;
+  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
 
   private focus: boolean = false;
   private subscriptions: Subscription[] = [];

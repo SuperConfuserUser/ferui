@@ -1,27 +1,28 @@
+import css from 'highlight.js/lib/languages/css';
+import json from 'highlight.js/lib/languages/json';
+import scss from 'highlight.js/lib/languages/scss';
+import typescript from 'highlight.js/lib/languages/typescript';
+import xml from 'highlight.js/lib/languages/xml';
+import { HighlightModule } from 'ngx-highlightjs';
+
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { FeruiModule } from '@ferui/components';
-import { HighlightModule } from 'ngx-highlightjs';
-import xml from 'highlight.js/lib/languages/xml';
-import scss from 'highlight.js/lib/languages/scss';
-import css from 'highlight.js/lib/languages/css';
-import typescript from 'highlight.js/lib/languages/typescript';
-import json from 'highlight.js/lib/languages/json';
 
 import { AppComponent } from './app.component';
-import { LandingComponent } from './landing.component';
-import { AppContentContainerComponent } from './content-container.component';
-import { WINDOW_PROVIDERS } from './services/window.service';
-import { ComponentsDemoModule } from './components/components-demo.module';
-import { IconsModule } from './icons/icons.module';
 import { AppRoutingModule } from './app.routing';
-import { UtilsModule } from './utils/utils.module';
+import { ComponentsDemoModule } from './components/components-demo.module';
+import { AppContentContainerComponent } from './content-container.component';
+import { IconsModule } from './icons/icons.module';
+import { LandingComponent } from './landing.component';
+import { WINDOW_PROVIDERS } from './services/window.service';
 import { UiDesignModule } from './ui-design/ui-design.module';
+import { UtilsModule } from './utils/utils.module';
 
 export function hljsLanguages() {
   return [

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import { DynamicWrapper } from './dynamic-wrapper';
-import { EmptyAnchor } from './empty-anchor';
+import { EmptyAnchorComponent } from './empty-anchor';
 
 /**
  * HostWrapper must be called in OnInit to ensure that the Views are ready. If its called in a constructor the view is
@@ -26,7 +26,7 @@ export class HostWrapper<W extends DynamicWrapper> implements Injector {
       const el = this.injector.get(ElementRef);
 
       // We need a new anchor, since we're projecting the current one.
-      vcr.createComponent(cfr.resolveComponentFactory(EmptyAnchor));
+      vcr.createComponent(cfr.resolveComponentFactory(EmptyAnchorComponent));
       const factory: ComponentFactory<W> = cfr.resolveComponentFactory(containerType);
       // Craft the element array based on what slot to use. Angular only uses the index to determine
       // which ng-content to project into, so if you have more than one ng-content you'll need to set

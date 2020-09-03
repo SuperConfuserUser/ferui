@@ -1,11 +1,11 @@
+import { FuiBodyCellComponent } from './components/body/body-cell';
+import { FuiBodyRowComponent } from './components/body/body-row';
 import { Column } from './components/entities/column';
 import { FuiDatagridApiService } from './services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from './services/datagrid-column-api.service';
 import { DragItem, DragSource, HDirection, VDirection } from './types/drag-and-drop';
 import { FuiPagerPage } from './types/pager';
 import { IDatagridResultObject } from './types/server-side-row-model';
-import { FuiBodyRow } from './components/body/body-row';
-import { FuiBodyCell } from './components/body/body-cell';
 
 // --------------*/
 // * BASIC EVENTS */
@@ -23,7 +23,7 @@ export interface FuiDatagridEvent extends DatagridEvent {
 // * ROW EVENTS */
 // -------------*/
 export interface RowEvent extends DatagridEvent {
-  rowNode: FuiBodyRow;
+  rowNode: FuiBodyRowComponent;
   rowData: any;
   rowIndex: number;
   event?: Event | null;
@@ -39,7 +39,7 @@ export interface RowDoubleClickedEvent extends RowEvent {}
 // * CELLS EVENTS */
 // -------------*/
 export interface CellEvent extends DatagridEvent {
-  cellNode: FuiBodyCell;
+  cellNode: FuiBodyCellComponent;
   column: Column;
   value: any;
   rowIndex: number;

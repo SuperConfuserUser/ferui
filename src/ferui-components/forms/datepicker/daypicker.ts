@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 
-import { LocaleHelperService } from './providers/locale-helper.service';
-import { ViewManagerService } from './providers/view-manager.service';
 import { FuiCommonStrings } from '../../utils/i18n/common-strings.service';
 import { DateNavigationService } from '../date/providers/date-navigation.service';
+
+import { LocaleHelperService } from './providers/locale-helper.service';
+import { ViewManagerService } from './providers/view-manager.service';
 
 @Component({
   selector: 'fui-daypicker',
   templateUrl: './daypicker.html',
   host: { '[class.daypicker]': 'true' }
 })
-export class FuiDaypicker {
+export class FuiDaypickerComponent {
   /**
    * Returns the month value of the calendar in the TranslationWidth.Abbreviated format.
    */

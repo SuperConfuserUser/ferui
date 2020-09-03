@@ -1,25 +1,28 @@
+import { isPlatformServer } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   ContentChild,
+  DoCheck,
   ElementRef,
   EventEmitter,
   Inject,
-  Optional,
   Input,
   NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
+  PLATFORM_ID,
   Renderer2,
-  ViewChild,
-  ChangeDetectorRef
+  ViewChild
 } from '@angular/core';
 
-import { PLATFORM_ID } from '@angular/core';
-import { isPlatformServer } from '@angular/common';
-
 import * as tween from '@tweenjs/tween.js';
+
+import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
+
 import {
   IDimensions,
   IPageInfo,
@@ -28,7 +31,6 @@ import {
   WrapGroupDimension,
   WrapGroupDimensions
 } from './types/virtual-scroller-interfaces';
-import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
 import { VIRTUAL_SCROLLER_DEFAULT_OPTIONS } from './virtual-scroller-factory';
 
 export interface CancelableFunction extends Function {
@@ -40,6 +42,9 @@ export interface CancelableFunction extends Function {
  * Remove all Deprecated variables.
  * Initial authors : Rinto Jose, Devin Garner, Pavel Kukushkin.
  */
+// To understand why we disabled this tslint rule
+// See https://stackoverflow.com/questions/39233650/can-you-use-both-onchanges-and-docheck-in-an-angular-2-component?answertab=active#tab-top
+/* tslint:disable:no-conflicting-lifecycle */
 @Component({
   selector: 'fui-virtual-scroller,[fuiVirtualScroller]',
   exportAs: 'virtualScroller',
@@ -50,7 +55,7 @@ export interface CancelableFunction extends Function {
           <ng-content></ng-content>
         </div>
       </div>
-      <ng-content select="[virtualScrollClipperContent]"></ng-content>
+      <ng-content select="[fuiVirtualScrollClipperContent]"></ng-content>
     </div>
     <div class="total-padding" #invisiblePadding></div>
   `,
@@ -63,7 +68,7 @@ export interface CancelableFunction extends Function {
   styleUrls: ['./virtual-scroller.scss'],
   providers: [ScrollbarHelper]
 })
-export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy {
+export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy, DoCheck {
   viewPortItems: any[];
   window = window;
 
@@ -83,13 +88,13 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   @Input() scrollAnimationTime: number;
   @Input() resizeBypassRefreshThreshold: number;
 
-  @Output('horizontalScroll') hScroll: EventEmitter<Event> = new EventEmitter<Event>();
-  @Output('verticalScroll') vScroll: EventEmitter<Event> = new EventEmitter<Event>();
+  @Output('horizontalScroll') readonly hScroll: EventEmitter<Event> = new EventEmitter<Event>();
+  @Output('verticalScroll') readonly vScroll: EventEmitter<Event> = new EventEmitter<Event>();
 
-  @Output() vsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
-  @Output() vsChange: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
-  @Output() vsStart: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
-  @Output() vsEnd: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
+  @Output() readonly vsUpdate: EventEmitter<any[]> = new EventEmitter<any[]>();
+  @Output() readonly vsChange: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
+  @Output() readonly vsStart: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
+  @Output() readonly vsEnd: EventEmitter<IPageInfo> = new EventEmitter<IPageInfo>();
 
   @ViewChild('content', { read: ElementRef })
   contentElementRef: ElementRef;
@@ -391,8 +396,8 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     item: any,
     alignToBeginning: boolean = true,
     additionalOffset: number = 0,
-    animationMilliseconds: number = undefined,
-    animationCompletedCallback: () => void = undefined
+    animationMilliseconds?: number,
+    animationCompletedCallback?: () => void
   ): void {
     const index: number = this.items.indexOf(item);
     if (index === -1) {
@@ -406,8 +411,8 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     index: number,
     alignToBeginning: boolean = true,
     additionalOffset: number = 0,
-    animationMilliseconds: number = undefined,
-    animationCompletedCallback: () => void = undefined
+    animationMilliseconds?: number,
+    animationCompletedCallback?: () => void
   ): void {
     let maxRetries: number = 5;
 
@@ -435,11 +440,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     this.scrollToIndex_internal(index, alignToBeginning, additionalOffset, animationMilliseconds, retryIfNeeded);
   }
 
-  scrollToPosition(
-    scrollPosition: number,
-    animationMilliseconds: number = undefined,
-    animationCompletedCallback: () => void = undefined
-  ): void {
+  scrollToPosition(scrollPosition: number, animationMilliseconds?: number, animationCompletedCallback?: () => void): void {
     scrollPosition += this.getElementsOffset();
 
     animationMilliseconds = animationMilliseconds === undefined ? this.scrollAnimationTime : animationMilliseconds;
@@ -529,8 +530,8 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     index: number,
     alignToBeginning: boolean = true,
     additionalOffset: number = 0,
-    animationMilliseconds: number = undefined,
-    animationCompletedCallback: () => void = undefined
+    animationMilliseconds?: number,
+    animationCompletedCallback?: () => void
   ): void {
     animationMilliseconds = animationMilliseconds === undefined ? this.scrollAnimationTime : animationMilliseconds;
 
@@ -643,18 +644,13 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     return result;
   }
 
-  protected refresh_internal(
-    itemsArrayModified: boolean,
-    refreshCompletedCallback: () => void = undefined,
-    maxRunTimes: number = 2
-  ): void {
-    //note: maxRunTimes is to force it to keep recalculating if the previous iteration caused a re-render (different sliced items in viewport or scrollPosition changed).
-    //The default of 2x max will probably be accurate enough without causing too large a performance bottleneck
-    //The code would typically quit out on the 2nd iteration anyways. The main time it'd think more than 2 runs would be necessary would be for vastly different sized child items or if this is the 1st time the items array was initialized.
-    //Without maxRunTimes, If the user is actively scrolling this code would become an infinite loop until they stopped scrolling. This would be okay, except each scroll event would start an additional infinte loop. We want to short-circuit it to prevent this.
-
+  protected refresh_internal(itemsArrayModified: boolean, refreshCompletedCallback?: () => void, maxRunTimes: number = 2): void {
+    // note: maxRunTimes is to force it to keep recalculating if the previous iteration caused a re-render (different sliced items in viewport or scrollPosition changed).
+    // The default of 2x max will probably be accurate enough without causing too large a performance bottleneck
+    // The code would typically quit out on the 2nd iteration anyways. The main time it'd think more than 2 runs would be necessary would be for vastly different sized child items or if this is the 1st time the items array was initialized.
+    // Without maxRunTimes, If the user is actively scrolling this code would become an infinite loop until they stopped scrolling. This would be okay, except each scroll event would start an additional infinte loop. We want to short-circuit it to prevent this.
     if (itemsArrayModified && this.previousViewPort && this.previousViewPort.scrollStartPosition > 0) {
-      //if items were prepended, scroll forward to keep same items visible
+      // if items were prepended, scroll forward to keep same items visible
       const oldViewPort = this.previousViewPort;
       const oldViewPortItems = this.viewPortItems;
 
@@ -936,7 +932,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
   }
 
   protected getScrollStartPosition(): number {
-    let windowScrollValue = undefined;
+    let windowScrollValue: number;
     if (this.parentScroll instanceof Window) {
       windowScrollValue = window[this._pageOffsetType];
     }
@@ -1056,9 +1052,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       wrapGroupsPerPage = 0;
 
       for (const child of content.children) {
-        //for (let i = 0; i < content.children.length; ++i) {
         ++arrayStartIndex;
-        //const child = content.children[i];
         const clientRect = this.getElementSize(child);
 
         maxWidthForWrapGroup = Math.max(maxWidthForWrapGroup, clientRect.width);

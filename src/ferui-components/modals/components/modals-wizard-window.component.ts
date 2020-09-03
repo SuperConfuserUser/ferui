@@ -1,4 +1,15 @@
+import { Subscription } from 'rxjs';
+
 import { Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
+import { FeruiUtils } from '../../utils/ferui-utils';
+import {
+  FUI_MODAL_CTRL_TOKEN,
+  FUI_MODAL_WINDOW_CTRL_TOKEN,
+  FuiModalWizardWindowCtrl,
+  FuiModalWizardWindowScreen,
+  ModalWindowInteractionEnum
+} from '../interfaces/modals-interfaces';
 import {
   FUI_MODAL_CHILD_WINDOW_TPLT,
   FUI_MODAL_CLOSE_TPLT,
@@ -6,16 +17,8 @@ import {
   FUI_MODAL_WINDOW_TITLE_TPLT,
   FUI_MODAL_WINDOW_WIZARD_FOOTER_TPLT
 } from '../modals-window-templates';
+
 import { FuiModalAbstractWindowComponent } from './modals-abstract-window.component';
-import {
-  FuiModalWizardWindowCtrl,
-  FuiModalWizardWindowScreen,
-  FUI_MODAL_CTRL_TOKEN,
-  FUI_MODAL_WINDOW_CTRL_TOKEN,
-  ModalWindowInteractionEnum
-} from '../interfaces/modals-interfaces';
-import { Subscription } from 'rxjs';
-import { FeruiUtils } from '../../utils/ferui-utils';
 
 /**
  * Modal window component class for Wizard type window.
@@ -28,12 +31,8 @@ import { FeruiUtils } from '../../utils/ferui-utils';
     [ngClass]="windowCtrl.cssClass"
   >
     <div class="fui-modal-header" *ngIf="windowCtrl.title || windowCtrl.subtitle || windowCtrl.titleTemplate">
-      <div class="fui-modal-header-title-wrapper">
-        ${FUI_MODAL_WINDOW_TITLE_TPLT}
-      </div>
-      <div class="fui-modal-header-close">
-        ${FUI_MODAL_CLOSE_TPLT}
-      </div>
+      <div class="fui-modal-header-title-wrapper">${FUI_MODAL_WINDOW_TITLE_TPLT}</div>
+      <div class="fui-modal-header-close">${FUI_MODAL_CLOSE_TPLT}</div>
     </div>
     <div class="fui-modal-body">
       <div #wizardStepsContainer class="fui-modal-wizard-steps" [style.max-width.px]="wizardStepsWidth">

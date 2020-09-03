@@ -4,19 +4,19 @@ import { async } from '@angular/core/testing';
 import { itIgnore } from '../../../../tests/tests.helpers';
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW } from '../../utils/key-codes/key-codes';
+import { DateIOService } from '../date/providers/date-io.service';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
+import { TestContext } from '../tests/helpers.spec';
 
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { LocaleHelperService } from './providers/locale-helper.service';
 import { ViewManagerService } from './providers/view-manager.service';
 import { createKeyboardEvent } from './utils/test-utils';
-import { TestContext } from '../tests/helpers.spec';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
-import { FuiYearpicker } from './yearpicker';
-import { DateIOService } from '../date/providers/date-io.service';
+import { FuiYearpickerComponent } from './yearpicker';
 
 export default function () {
   describe('Yearpicker Component', () => {
-    let context: TestContext<FuiYearpicker, TestComponent>;
+    let context: TestContext<FuiYearpickerComponent, TestComponent>;
     let dateNavigationService: DateNavigationService;
     const selectedYear: number = 2003;
     const yearsToDisplay: number = 18;
@@ -31,7 +31,7 @@ export default function () {
       beforeEach(function () {
         initializeCalendar(selectedYear);
 
-        context = this.create(FuiYearpicker, TestComponent, [
+        context = this.create(FuiYearpickerComponent, TestComponent, [
           ViewManagerService,
           DatepickerFocusService,
           IfOpenService,
@@ -154,7 +154,7 @@ export default function () {
       beforeEach(function () {
         initializeCalendar(selectedYear);
 
-        context = this.create(FuiYearpicker, TestComponent, [
+        context = this.create(FuiYearpickerComponent, TestComponent, [
           ViewManagerService,
           DatepickerFocusService,
           IfOpenService,
@@ -280,7 +280,7 @@ export default function () {
       function createYearPicker(scope: any, selYear: number) {
         initializeCalendar(selYear);
 
-        context = scope.create(FuiYearpicker, TestComponent, [
+        context = scope.create(FuiYearpickerComponent, TestComponent, [
           ViewManagerService,
           DatepickerFocusService,
           IfOpenService,

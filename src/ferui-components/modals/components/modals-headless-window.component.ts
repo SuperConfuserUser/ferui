@@ -1,12 +1,14 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { FUI_MODAL_CHILD_WINDOW_TPLT, FUI_MODAL_CLOSE_TPLT, FUI_MODAL_WINDOW_ERROR_MSG } from '../modals-window-templates';
-import { FuiModalAbstractWindowComponent } from './modals-abstract-window.component';
+
 import {
-  FuiModalHeadlessWindowCtrl,
-  FuiModalHeadlessWindowScreen,
   FUI_MODAL_CTRL_TOKEN,
-  FUI_MODAL_WINDOW_CTRL_TOKEN
+  FUI_MODAL_WINDOW_CTRL_TOKEN,
+  FuiModalHeadlessWindowCtrl,
+  FuiModalHeadlessWindowScreen
 } from '../interfaces/modals-interfaces';
+import { FUI_MODAL_CHILD_WINDOW_TPLT, FUI_MODAL_CLOSE_TPLT, FUI_MODAL_WINDOW_ERROR_MSG } from '../modals-window-templates';
+
+import { FuiModalAbstractWindowComponent } from './modals-abstract-window.component';
 
 /**
  * Modal window component class for Headless type window.

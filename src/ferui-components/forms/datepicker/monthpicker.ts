@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, ElementRef, HostListener } from '@angular/core';
 
 import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW } from '../../utils/key-codes/key-codes';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
 
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { LocaleHelperService } from './providers/locale-helper.service';
 import { ViewManagerService } from './providers/view-manager.service';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
 
 @Component({
   selector: 'fui-monthpicker',
@@ -37,7 +37,7 @@ import { DateNavigationService } from '../date/providers/date-navigation.service
     '[class.monthpicker]': 'true'
   }
 })
-export class FuiMonthpicker implements AfterViewInit {
+export class FuiMonthpickerComponent implements AfterViewInit {
   /**
    * Keeps track of the current focused month.
    */

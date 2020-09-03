@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
-import { FuiIfOpen } from './if-open.directive';
+
+import { FuiIfOpenDirective } from './if-open.directive';
 
 export * from './if-open.directive';
 
-export const CONDITIONAL_DIRECTIVES: Type<any>[] = [FuiIfOpen];
+export const CONDITIONAL_DIRECTIVES: Type<any>[] = [FuiIfOpenDirective];

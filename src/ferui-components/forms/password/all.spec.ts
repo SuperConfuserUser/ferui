@@ -1,7 +1,7 @@
 import PasswordContainerSpecs from './password-container.spec';
 import PasswordSpecs from './password.spec';
 
-describe('FuiPassword', function () {
+describe('FuiPasswordDirective', function () {
   PasswordContainerSpecs();
   PasswordSpecs();
 });

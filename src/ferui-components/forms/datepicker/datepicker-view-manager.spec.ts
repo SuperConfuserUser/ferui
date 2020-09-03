@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
 
 import { IfOpenService } from '../../utils/conditional/if-open.service';
+import { DateFormControlService } from '../common/providers/date-form-control.service';
+import { DateIOService } from '../date/providers/date-io.service';
+import { DateNavigationService } from '../date/providers/date-navigation.service';
+import { TestContext } from '../tests/helpers.spec';
 
+import { FuiDatepickerViewManagerComponent } from './datepicker-view-manager';
 import { DatepickerFocusService } from './providers/datepicker-focus.service';
 import { LocaleHelperService } from './providers/locale-helper.service';
 import { ViewManagerService } from './providers/view-manager.service';
-import { TestContext } from '../tests/helpers.spec';
-import { FuiDatepickerViewManager } from './datepicker-view-manager';
-import { DateNavigationService } from '../date/providers/date-navigation.service';
-import { DateIOService } from '../date/providers/date-io.service';
-import { DateFormControlService } from '../common/providers/date-form-control.service';
 
 export default function () {
   describe('Datepicker View Manager Component', () => {
-    let context: TestContext<FuiDatepickerViewManager, TestComponent>;
+    let context: TestContext<FuiDatepickerViewManagerComponent, TestComponent>;
     let viewManagerService: ViewManagerService;
 
     beforeEach(function () {
-      context = this.create(FuiDatepickerViewManager, TestComponent, [
+      context = this.create(FuiDatepickerViewManagerComponent, TestComponent, [
         ViewManagerService,
         DatepickerFocusService,
         IfOpenService,

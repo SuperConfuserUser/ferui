@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { RowRendererService } from './row-renderer.service';
-import { FuiDatagridOptionsWrapperService } from '../datagrid-options-wrapper.service';
+
 import { Column } from '../../components/entities/column';
+import { FuiHeaderCellComponent } from '../../components/header/header-cell';
+import { FuiDatagridOptionsWrapperService } from '../datagrid-options-wrapper.service';
+
 import { HeaderRendererService } from './header-renderer.service';
-import { FuiHeaderCell } from '../../components/header/header-cell';
+import { RowRendererService } from './row-renderer.service';
 
 @Injectable()
 export class AutoWidthCalculator {
@@ -62,7 +64,7 @@ export class AutoWidthCalculator {
   }
 
   private getHeaderCellForColumn(column: Column): HTMLElement {
-    const cell: FuiHeaderCell = this.headerRowRendererService.getCellForColumn(column);
+    const cell: FuiHeaderCellComponent = this.headerRowRendererService.getCellForColumn(column);
     return cell ? cell.element : null;
   }
 

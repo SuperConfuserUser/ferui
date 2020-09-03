@@ -1,9 +1,8 @@
-import { AbstractControl } from '@angular/forms';
 import { Directive, Input } from '@angular/core';
-import { NG_VALIDATORS } from '@angular/forms';
-import { Validator } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 @Directive({
+  // tslint:disable-next-line
   selector: '[min]',
   providers: [{ provide: NG_VALIDATORS, useExisting: MinValidatorDirective, multi: true }]
 })

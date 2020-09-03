@@ -1,6 +1,8 @@
-import { Component, ViewChild, TemplateRef } from '@angular/core';
-import { TreeNodeDataRetriever, TreeNodeData, NonRootTreeNode, TreeViewAutoNodeSelector } from '@ferui/components';
 import * as jsBeautify from 'js-beautify';
+
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+
+import { NonRootTreeNode, TreeNodeData, TreeNodeDataRetriever, TreeViewAutoNodeSelector } from '@ferui/components';
 
 @Component({
   template: `
@@ -116,7 +118,7 @@ import * as jsBeautify from 'js-beautify';
     `
   ]
 })
-export class TreeViewClientSideDemo {
+export class TreeViewClientSideDemoComponent implements OnInit {
   @ViewChild('iconTemplate') iconTemplate: TemplateRef<any>;
   @ViewChild('template') nodeTemplate: TemplateRef<any>;
 

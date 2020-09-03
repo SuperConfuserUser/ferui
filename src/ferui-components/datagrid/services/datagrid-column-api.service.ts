@@ -1,6 +1,7 @@
 import { Column } from '../components/entities/column';
-import { FuiColumnService } from './rendering/column.service';
+
 import { FuiDatagridService } from './datagrid.service';
+import { FuiColumnService } from './rendering/column.service';
 
 export class FuiDatagridColumnApiService {
   private columnService: FuiColumnService;

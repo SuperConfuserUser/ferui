@@ -1,20 +1,20 @@
-import { Component, Directive, NgModule, Type, ViewContainerRef, ElementRef, Injector } from '@angular/core';
+import { Component, Directive, ElementRef, Injector, NgModule, Type, ViewContainerRef } from '@angular/core';
+import { Renderer2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NgControl, FormsModule } from '@angular/forms';
 
 import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
 import { HostWrapper } from '../../utils/host-wrapping/host-wrapper';
 import { FuiHostWrappingModule } from '../../utils/host-wrapping/host-wrapping.module';
 
-import { ControlIdService } from './providers/control-id.service';
-import { NgControlService } from './providers/ng-control.service';
 import { IfErrorService } from './if-error/if-error.service';
-import { ControlClassService } from './providers/control-class.service';
-import { MarkControlService } from './providers/mark-control.service';
-import { WrappedFormControl } from './wrapped-control';
-import { Renderer2 } from '@angular/core';
 import { FuiFormLayoutEnum } from './layout.enum';
+import { ControlClassService } from './providers/control-class.service';
+import { ControlIdService } from './providers/control-id.service';
+import { MarkControlService } from './providers/mark-control.service';
+import { NgControlService } from './providers/ng-control.service';
+import { WrappedFormControl } from './wrapped-control';
 
 /*
  * Components using the WrappedFormControl we want to test.

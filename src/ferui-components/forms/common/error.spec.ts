@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { FuiControlError } from './error';
+import { FuiControlErrorComponent } from './error';
 
 @Component({
   template: ` <fui-control-error>Test error</fui-control-error> `
@@ -10,22 +10,22 @@ import { FuiControlError } from './error';
 class SimpleTest {}
 
 export default function (): void {
-  describe('FuiControlError', () => {
+  describe('FuiControlErrorComponent', () => {
     let fixture;
 
     beforeEach(function () {
-      TestBed.configureTestingModule({ declarations: [FuiControlError, SimpleTest] });
+      TestBed.configureTestingModule({ declarations: [FuiControlErrorComponent, SimpleTest] });
       fixture = TestBed.createComponent(SimpleTest);
       fixture.detectChanges();
     });
 
     it('projects content', function () {
-      expect(fixture.debugElement.query(By.directive(FuiControlError)).nativeElement.innerText).toContain('Test error');
+      expect(fixture.debugElement.query(By.directive(FuiControlErrorComponent)).nativeElement.innerText).toContain('Test error');
     });
 
     it('adds the .fui-subtext class to host', function () {
       expect(
-        fixture.debugElement.query(By.directive(FuiControlError)).nativeElement.classList.contains('fui-subtext')
+        fixture.debugElement.query(By.directive(FuiControlErrorComponent)).nativeElement.classList.contains('fui-subtext')
       ).toBeTrue();
     });
   });
