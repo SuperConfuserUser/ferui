@@ -13,6 +13,7 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
             <demo-component [form]="demoForm" [componentData]="inputTwo"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputThree"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
             <div class="footer">
               <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
                 Submit
@@ -39,13 +40,17 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
     three: false,
     threebis: null,
     four: '',
-    fourbis: true
+    fourbis: true,
+    fiveIndeterminate: null,
+    five: false,
+    fivebis: false
   };
 
   inputOne: DemoComponentData;
   inputTwo: DemoComponentData;
   inputThree: DemoComponentData;
   inputFour: DemoComponentData;
+  inputFive: DemoComponentData;
 
   constructor() {
     super();
@@ -56,7 +61,7 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
       title: `<h5>No label, no wrapper :</h5>`,
       models: { one: this.model.one },
       canDisable: false,
-      source: `<input #code type="checkbox" fuiCheckbox name="one" [(ngModel)]="models.one" />`
+      source: `<input #code type="checkbox" fuiCheckbox name="one" [(ngModel)]="models.one"/>`
     });
 
     this.inputTwo = new DemoComponentData({
@@ -118,5 +123,51 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
           </fui-checkbox-wrapper>
         </fui-checkbox-container>`
     });
+
+    this.inputFive = new DemoComponentData({
+      title: `
+        <h5>Indeterminate Checkboxes</h5>
+        <h6>- use the indeterminate input on your fuiCheckbox to be controlled by developer</h6>`,
+      models: {
+        shouldBeIndeterminate: () => {
+          const models = this.inputFive.models as IndeterminateCheckboxesModel;
+          models.fiveIndeterminate = [models.five, models.fivebis].some(it => it === true);
+          models.indeterminate = [models.five, models.fivebis].some(it => it === false);
+        },
+        toggleAll: () => {
+          const models = this.inputFive.models as IndeterminateCheckboxesModel;
+          models.five = models.fivebis = models.fiveIndeterminate;
+          models.indeterminate = [models.five, models.fivebis].some(it => it === false);
+        },
+        indeterminate: '',
+        fiveIndeterminate: this.model.fiveIndeterminate,
+        five: this.model.five,
+        fivebis: this.model.fivebis
+      },
+      source: `
+        <fui-checkbox-wrapper>
+          <input type="checkbox" fuiCheckbox name="fiveIndeterminate" [(ngModel)]="models.fiveIndeterminate" [indeterminate]="models.indeterminate" (change)="models.toggleAll()"/>
+          <label>Indeterminate (can be partially checked)</label>
+        </fui-checkbox-wrapper>
+        <fui-checkbox-wrapper [ngStyle]="{ 'margin-left': '30px' }">
+          <input type="checkbox" fuiCheckbox name="five" [(ngModel)]="models.five" (change)="models.shouldBeIndeterminate()"/>
+          <label>Option 1</label>
+        </fui-checkbox-wrapper>
+        <fui-checkbox-container>
+          <fui-checkbox-wrapper [ngStyle]="{ 'margin-left': '30px' }">
+            <input type="checkbox" fuiCheckbox name="fivebis" [(ngModel)]="models.fivebis" (change)="models.shouldBeIndeterminate()"/>
+            <label>Option 2</label>
+          </fui-checkbox-wrapper>
+        </fui-checkbox-container>`
+    });
   }
+}
+
+interface IndeterminateCheckboxesModel {
+  shouldBeIndeterminate: () => void;
+  toggleAll: () => void;
+  indeterminate: boolean | null;
+  fiveIndeterminate: boolean;
+  five: boolean;
+  fivebis: boolean;
 }
