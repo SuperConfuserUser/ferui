@@ -3,6 +3,7 @@ export interface PopoverOptions {
   offsetY?: number;
   useAnchorParent?: boolean;
   allowMultipleOpen?: boolean;
+  enableAnchorStaticPositioning?: boolean;
 }
 
 export enum Point {

@@ -1,0 +1,6 @@
+@mixin tooltip-variant($background) {
+  color: color-yiq($background);
+  background: $background;
+  // fill color for the tooltip's svg arrow
+  fill: $background;
+}

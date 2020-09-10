@@ -30,6 +30,7 @@ import { ModalWizardComponent } from './modals/pages/modal-wizard.component';
 import { TabsDemoComponent } from './tabs/tabs.demo';
 import { ToastNotificationDashboardDemoComponent } from './toast-notification/toast-notification-dashboard-demo';
 import { ToastNotificationOverviewDemoComponent } from './toast-notification/toast-notification-overview';
+import { TooltipDemoComponent } from './tooltip/tooltip.demo';
 import { TreeViewClientSideDemoComponent } from './tree-view/tree-view-client-side-demo';
 import { TreeViewDashboardDemoComponent } from './tree-view/tree-view-dashboard-demo';
 import { TreeViewOverviewDemoComponent } from './tree-view/tree-view-overview-demo';
@@ -121,6 +122,10 @@ export const COMPONENTS_ROUTES: Routes = [
       {
         path: 'virtual-scroller',
         component: VirtualScrollerDemoComponent
+      },
+      {
+        path: 'tooltip',
+        component: TooltipDemoComponent
       }
     ]
   }

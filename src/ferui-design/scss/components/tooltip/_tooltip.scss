@@ -1,0 +1,67 @@
+@import '../../variables';
+@import '../../mixins';
+
+@include exports('components.tooltip') {
+  //
+  // Base styles
+  //
+
+  .fui-tooltip {
+    position: absolute;
+    font-size: $tooltip-font-size; // 12px
+    line-height: 1.15; // 14px
+    text-align: center;
+    word-wrap: break-word;
+    padding: 0.375rem 0.625rem; // 6px 10px
+    max-width: 500px;
+    border-radius: $tooltip-border-radius;
+    z-index: $zindex-tooltip;
+
+    .fui-tooltip-arrow {
+      position: absolute;
+
+      // Place arrow relative to the main tooltip content
+      // and rotate to the correct orientation based on the tooltip placement.
+      &.top {
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%);
+      }
+
+      &.bottom {
+        top: 0;
+        left: 50%;
+        transform: rotate(0.5turn) translate(50%, 100%);
+      }
+
+      &.right {
+        top: 50%;
+        left: 0;
+        transform-origin: 0 0;
+        transform: rotate(0.25turn) translate(-50%);
+      }
+
+      &.left {
+        top: 50%;
+        left: 100%;
+        transform-origin: 0 0;
+        transform: rotate(0.75turn) translate(-50%);
+      }
+    }
+  }
+
+  // Alternate styles
+  //
+  // Generate contextual modifier classes for colorizing the tooltip.
+  @each $color, $value in $theme-colors {
+    .tooltip-#{$color} {
+      @include tooltip-variant($value);
+    }
+  }
+
+  .fixed-tooltip-wrapper {
+    position: fixed;
+    width: 100%;
+    z-index: $zindex-tooltip;
+  }
+}

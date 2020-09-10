@@ -17,6 +17,7 @@ import { FormsDemoModule } from './forms/forms-demo.module';
 import { ModalDemoModule } from './modals/modal.module';
 import { TabsDemoModule } from './tabs/tabs.module';
 import { ToastNotificationDemoModule } from './toast-notification/toast-notification-module';
+import { TooltipDemoModule } from './tooltip/tooltip.module';
 import { TreeViewDemoModule } from './tree-view/tree-view.module';
 import { VirtualScrollerModule } from './virtual-scroller/virtual-scroller.module';
 import { WidgetDemoModule } from './widget/widget.module';
@@ -39,7 +40,8 @@ export const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [ComponentsDashboardC
     WidgetDemoModule,
     TabsDemoModule,
     VirtualScrollerModule,
-    ToastNotificationDemoModule
+    ToastNotificationDemoModule,
+    TooltipDemoModule
   ],
   declarations: [FUI_DEMO_COMPONENTS_DIRECTIVES],
   exports: [FUI_DEMO_COMPONENTS_DIRECTIVES]
