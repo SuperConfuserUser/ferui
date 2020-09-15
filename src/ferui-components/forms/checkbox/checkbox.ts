@@ -17,7 +17,7 @@ import { NgControl } from '@angular/forms';
 import { WrappedFormControl } from '../common/wrapped-control';
 
 import { FuiCheckboxWrapperComponent } from './checkbox-wrapper';
-import { FuiCheckboxService, FuiCheckboxState } from './checkbox.service';
+import { FuiCheckboxService, FuiCheckboxStateEnum } from './checkbox.service';
 
 @Directive({ selector: '[fuiCheckbox]' })
 export class FuiCheckboxDirective extends WrappedFormControl<FuiCheckboxWrapperComponent> implements OnInit, OnDestroy {
@@ -70,9 +70,9 @@ export class FuiCheckboxDirective extends WrappedFormControl<FuiCheckboxWrapperC
   private updateState(): void {
     this.checkboxService.checkboxState =
       this.isChecked && this._indeterminate === true
-        ? FuiCheckboxState.INDETERMINATE
+        ? FuiCheckboxStateEnum.INDETERMINATE
         : this.isChecked && !(this._indeterminate === true)
-        ? FuiCheckboxState.CHECKED
-        : FuiCheckboxState.NOT_CHECKED;
+        ? FuiCheckboxStateEnum.CHECKED
+        : FuiCheckboxStateEnum.NOT_CHECKED;
   }
 }

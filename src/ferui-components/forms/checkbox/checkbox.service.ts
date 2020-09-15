@@ -4,19 +4,19 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class FuiCheckboxService {
-  private _checkboxState: FuiCheckboxState;
-  private _checkboxChange: BehaviorSubject<FuiCheckboxState> = new BehaviorSubject<FuiCheckboxState>(this._checkboxState);
+  private _checkboxState: FuiCheckboxStateEnum;
+  private _checkboxChange: BehaviorSubject<FuiCheckboxStateEnum> = new BehaviorSubject<FuiCheckboxStateEnum>(this._checkboxState);
 
-  get checkboxState(): FuiCheckboxState {
+  get checkboxState(): FuiCheckboxStateEnum {
     return this._checkboxState;
   }
 
-  set checkboxState(value: FuiCheckboxState) {
+  set checkboxState(value: FuiCheckboxStateEnum) {
     this._checkboxState = value;
     this._checkboxChange.next(this._checkboxState);
   }
 
-  get checkboxChange(): Observable<FuiCheckboxState> {
+  get checkboxChange(): Observable<FuiCheckboxStateEnum> {
     return this._checkboxChange.asObservable();
   }
 }
@@ -24,7 +24,7 @@ export class FuiCheckboxService {
 /**
  * FerUI Checkbox State enum
  */
-export enum FuiCheckboxState {
+export enum FuiCheckboxStateEnum {
   CHECKED = 'CHECKED',
   NOT_CHECKED = 'NOT CHECKED',
   INDETERMINATE = 'INDETERMINATE'
