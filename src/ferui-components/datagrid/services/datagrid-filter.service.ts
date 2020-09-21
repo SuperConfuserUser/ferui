@@ -9,6 +9,7 @@ import {
   FuiDatagridIGlobalSearchFilter,
   IDoesGlobalFilterPassParams
 } from '../components/filters/interfaces/filter';
+import { ChangedPath } from '../types/refresh-model-params';
 
 export interface FuiDatagridActiveFilter {
   index: string;
@@ -24,8 +25,6 @@ export class FuiDatagridFilterService {
   >();
   private _activeFilters: FuiDatagridActiveFilter[] = [];
   private _globalSearchFilter: FuiDatagridActiveGlobalFilter;
-  private _rowData: any[] = [];
-  private _filteredData: any[] = [];
 
   constructor() {}
 
@@ -43,22 +42,6 @@ export class FuiDatagridFilterService {
 
   set globalSearchFilter(value: FuiDatagridActiveGlobalFilter) {
     this._globalSearchFilter = value;
-  }
-
-  get rowData(): any[] {
-    return this._rowData;
-  }
-
-  set rowData(value: any[]) {
-    this._rowData = value;
-  }
-
-  get filteredData(): any[] {
-    return this._filteredData;
-  }
-
-  set filteredData(value: any[]) {
-    this._filteredData = value;
   }
 
   addGlobalSearchFilter(filter: FuiDatagridIGlobalSearchFilter): void {
@@ -121,22 +104,31 @@ export class FuiDatagridFilterService {
     return this.globalSearchFilter && this.globalSearchFilter.filter !== null;
   }
 
+  hasFilters(): boolean {
+    return this.hasActiveFilters() || this.hasGlobalSearchFilter();
+  }
+
   resetFilters(): void {
     this.globalSearchFilter = null;
     this.activeFilters = [];
     this.filters$.next([]);
   }
 
-  filter(): void {
+  filter(changedPath: ChangedPath): void {
+    if (!changedPath.rowNodes) {
+      return;
+    }
+    let filteredData = [];
     if (!this.hasActiveFilters() && !this.hasGlobalSearchFilter) {
-      this.filteredData = this.rowData;
+      filteredData = changedPath.rowNodes;
     } else {
-      const filteredData = [];
       let doesFiltersPass: boolean = true;
       let added: boolean = false;
       let globalSearchPass: boolean = false;
       const condition: string = 'and';
-      this.rowData.forEach(data => {
+
+      changedPath.rowNodes.forEach(node => {
+        const data = node.data;
         added = false;
         doesFiltersPass = true;
 
@@ -148,7 +140,7 @@ export class FuiDatagridFilterService {
               doesFiltersPass = false;
               break;
             } else if (condition === 'or' && !added && doesFilterPass) {
-              filteredData.push(data);
+              filteredData.push(node);
               added = true;
               break;
             }
@@ -167,14 +159,14 @@ export class FuiDatagridFilterService {
             (condition === 'and' && globalSearchPass && doesFiltersPass)
           ) {
             added = true;
-            filteredData.push(data);
+            filteredData.push(node);
           }
         } else if (condition === 'and' && doesFiltersPass) {
-          filteredData.push(data);
+          filteredData.push(node);
         }
       });
-      this.filteredData = filteredData;
     }
+    changedPath.rowNodes = filteredData;
   }
 
   filtersSub(): Observable<Array<FuiDatagridActiveFilter | FuiDatagridActiveGlobalFilter>> {

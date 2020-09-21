@@ -8,12 +8,18 @@ import { FuiColumnService } from './rendering/column.service';
 export class FuiDatagridApiService {
   private columnService: FuiColumnService;
   private gridPanel: FuiDatagridService;
+  private gridId: string;
 
   constructor(public filterService: FuiDatagridFilterService) {}
 
-  init(columnService: FuiColumnService, gridPanel: FuiDatagridService) {
+  init(columnService: FuiColumnService, gridPanel: FuiDatagridService, id: string) {
     this.columnService = columnService;
     this.gridPanel = gridPanel;
+    this.gridId = id;
+  }
+
+  getGridId(): string {
+    return this.gridId;
   }
 
   // Gets columns to adjust in size to fit the grid horizontally.

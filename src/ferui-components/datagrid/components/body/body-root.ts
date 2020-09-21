@@ -91,9 +91,6 @@ export class FuiBodyRootComponent implements OnInit, OnDestroy, AfterViewInit, A
         this.isEmptyData = this.stateService.hasState(DatagridStateEnum.EMPTY);
       })
     );
-
-    // When we load the datagrid for the first time, we want to display the initial loading.
-    this.stateService.setLoading();
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -157,7 +154,8 @@ export class FuiBodyRootComponent implements OnInit, OnDestroy, AfterViewInit, A
           }
         }),
         this.actionMenuService.actionMenuOpenChange().subscribe(isOpen => {
-          const currentlySelectedRowContextIndex: number = this.actionMenuService.currentlySelectedRowContext.rowIndex || null;
+          const currentlySelectedRowContextIndex: number =
+            this.actionMenuService.currentlySelectedRowContext.rowNode.rowIndex || null;
           if (
             !isOpen &&
             (!this.isMouseHoverARow ||
@@ -308,7 +306,12 @@ export class FuiBodyRootComponent implements OnInit, OnDestroy, AfterViewInit, A
     if (!this.currentlyHoveredRow) {
       return;
     }
-    this.actionMenuService.setSelectedRowContext(FuiActionMenuUtils.getContextForActionMenu(this.currentlyHoveredRow));
+    this.actionMenuService.setSelectedRowContext(
+      FuiActionMenuUtils.getContextForActionMenu(
+        this.currentlyHoveredRow.rowNode,
+        this.currentlyHoveredRow.elementRef.nativeElement.offsetTop
+      )
+    );
     this.actionMenuService.isActionMenuVisible = true;
     this.cd.markForCheck();
   }

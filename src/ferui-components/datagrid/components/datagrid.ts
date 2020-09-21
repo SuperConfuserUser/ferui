@@ -29,6 +29,7 @@ import {
   VIRTUAL_SCROLLER_DEFAULT_OPTIONS,
   VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY
 } from '../../virtual-scroller/virtual-scroller-factory';
+import { Constants } from '../constants';
 import {
   CellClickedEvent,
   CellContextMenuEvent,
@@ -41,6 +42,8 @@ import {
   FuiPageChangeEvent,
   RowClickedEvent,
   RowDoubleClickedEvent,
+  RowSelectedEvent,
+  SelectionChangedEvent,
   ServerSideRowDataChanged
 } from '../events';
 import { FuiActionMenuService } from '../services/action-menu/action-menu.service';
@@ -63,15 +66,20 @@ import { AutoWidthCalculator } from '../services/rendering/autoWidthCalculator';
 import { FuiColumnService } from '../services/rendering/column.service';
 import { HeaderRendererService } from '../services/rendering/header-renderer.service';
 import { RowRendererService } from '../services/rendering/row-renderer.service';
+import { DatagridRowNodeManagerService } from '../services/row/datagrid-row-node-manager.service';
+import { FuiDatagridRowSelectionService } from '../services/selection/datagrid-row-selection.service';
 import { FuiDatagridBodyRowContext } from '../types/body-row-context';
 import { FuiColumnDefinitions } from '../types/column-definitions';
+import { GetRowNodeIdFunc, IsRowSelectable } from '../types/grid-options';
 import { FuiPagerPage } from '../types/pager';
 import { FuiRowModel } from '../types/row-model.enum';
-import { IDatagridResultObject, IServerSideDatasource } from '../types/server-side-row-model';
+import { FuiRowSelectionEnum } from '../types/row-selection.enum';
+import { IServerSideDatasource } from '../types/server-side-row-model';
 import { ColumnUtilsService } from '../utils/column-utils.service';
 import { DatagridUtils } from '../utils/datagrid-utils';
 
 import { Column } from './entities/column';
+import { RowNode } from './entities/row-node';
 import { FuiDatagridFiltersComponent } from './filters/filters';
 import { FuiDatagridPagerComponent } from './pager/pager';
 import { FuiDatagridClientSideRowModel } from './row-models/client-side-row-model';
@@ -81,7 +89,7 @@ import { FuiDatagridServerSideRowModel } from './row-models/server-side-row-mode
 
 export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefaultOptions {
   const defaults: VirtualScrollerDefaultOptions = VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY();
-  defaults.pxErrorValue = 0;
+  defaults.pxErrorValue = 1;
   return defaults;
 }
 
@@ -110,7 +118,7 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
                     [colIndex]="i"
                     (changeVisibility)="onColumnChangeVisibility($event)"
                     (changeWidth)="onColumnChangeWidth($event)"
-                    (resize)="onColumnResize($event)"
+                    (onResize)="onColumnResize($event)"
                     [rowHeight]="rowHeight"
                     [columnDefinition]="hColumn"
                   ></fui-datagrid-header-cell>
@@ -148,27 +156,24 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
 
               <fui-datagrid-body-row
                 *ngFor="let row of scroll.viewPortItems; index as idx; trackBy: rowTrackByFn"
-                [data]="row"
+                [rowNode]="row"
                 [rowHeight]="rowHeight"
                 [rowIndex]="idx + scroll.viewPortInfo.startIndexWithBuffer"
                 [style.width.px]="totalWidth"
-                [datagridId]="datagridId"
                 [hasActionMenu]="!!actionMenuTemplate"
               >
                 <fui-datagrid-body-cell
                   *ngFor="let column of getVisibleColumns(); trackBy: columnTrackByIndexFn"
                   unselectable="on"
                   [column]="column"
-                  [rowIndex]="idx + scroll.viewPortInfo.startIndexWithBuffer"
-                  [rowHeight]="rowHeight"
-                  [rowData]="row"
+                  [rowNode]="row"
                 ></fui-datagrid-body-cell>
               </fui-datagrid-body-row>
             </fui-virtual-scroller>
 
             <div
               class="fui-datagrid-infinite-loader"
-              *ngIf="isInfiniteLoading && isInfiniteServerSideRowModel()"
+              *ngIf="isInfiniteLoading || isServerSidePageLoading"
               [style.width]="'calc(100% - ' + scrollSize + 'px)'"
               [style.bottom.px]="0"
             ></div>
@@ -227,31 +232,21 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
 
     <clr-icon #iconDelete class="fui-datagrid-dragdrop-icon fui-datagrid-dragdrop-delete" shape="fui-trash"></clr-icon>
     <clr-icon #iconMove class="fui-datagrid-dragdrop-icon fui-datagrid-dragdrop-move" shape="fui-dragndrop"></clr-icon>
-    <clr-icon
-      #iconLeft
-      class="fui-datagrid-dragdrop-icon fui-datagrid-dragdrop-left"
-      shape="fui-arrow-thin"
-      dir="left"
-    ></clr-icon>
-    <clr-icon
-      #iconRight
-      class="fui-datagrid-dragdrop-icon fui-datagrid-dragdrop-right"
-      shape="fui-arrow-thin"
-      dir="right"
-    ></clr-icon>
+    <clr-icon #iconLeft class="fui-datagrid-dragdrop-icon fui-datagrid-dragdrop-left" shape="fui-arrow-thin left"></clr-icon>
+    <clr-icon #iconRight class="fui-datagrid-dragdrop-icon fui-datagrid-dragdrop-right" shape="fui-arrow-thin right"></clr-icon>
   `,
   host: {
-    class: 'fui-datagrid',
+    '[class.fui-datagrid]': 'true',
     '[class.fui-datagrid-has-vertical-scroll]': 'hasVerticallScroll',
     '[class.fui-datagrid-has-filter]': 'withHeader && datagridFilters !== undefined',
     '[class.fui-datagrid-has-pager]': 'withFooter && datagridPager !== undefined',
-
     '[class.fui-datagrid-without-header]': '!withHeader',
     '[class.fui-datagrid-without-footer]': '!withFooter',
     '[class.fui-datagrid-rounded-corners]': 'roundedCorners'
   },
   providers: [
     { provide: VIRTUAL_SCROLLER_DEFAULT_OPTIONS, useFactory: VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY },
+    DatagridRowNodeManagerService,
     AutoWidthCalculator,
     HeaderRendererService,
     ColumnKeyCreator,
@@ -275,11 +270,13 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
     DatagridStateService,
     HilitorService,
     FuiActionMenuService,
-    Downloader
+    Downloader,
+    FuiDatagridRowSelectionService
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
+  //////////// Grid outputs ////////////
   @Output() readonly onDatagridResized: EventEmitter<DatagridOnResizeEvent> = new EventEmitter<DatagridOnResizeEvent>();
   @Output() readonly onColumnWidthChange: EventEmitter<ColumnEvent> = new EventEmitter<ColumnEvent>();
   @Output() readonly onColumnResized: EventEmitter<ColumnResizedEvent> = new EventEmitter<ColumnResizedEvent>();
@@ -289,7 +286,10 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() readonly onCellClicked: EventEmitter<CellClickedEvent> = new EventEmitter<CellClickedEvent>();
   @Output() readonly onCellDoubleClicked: EventEmitter<CellDoubleClickedEvent> = new EventEmitter<CellDoubleClickedEvent>();
   @Output() readonly onCellContextmenu: EventEmitter<CellContextMenuEvent> = new EventEmitter<CellContextMenuEvent>();
+  @Output() readonly onRowSelected: EventEmitter<RowSelectedEvent> = new EventEmitter<RowSelectedEvent>();
+  @Output() readonly onSelectionChanged: EventEmitter<SelectionChangedEvent> = new EventEmitter<SelectionChangedEvent>();
 
+  //////////// Default Grid params ////////////
   @Input() withHeader: boolean = true;
   @Input() withFilters: boolean = true;
   @Input() withColumnVisibility = true;
@@ -298,15 +298,64 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() withFooterPager: boolean = true;
   @Input() fixedHeight: boolean = false;
   @Input() roundedCorners: boolean = true;
+  @Input('vsBufferAmount') virtualScrollBufferAmount: number = 10;
 
-  @Input() exportParams: BaseExportParams;
-  @Input() actionMenuTemplate: TemplateRef<FuiDatagridBodyRowContext>;
   @Input() columnDefs: FuiColumnDefinitions[] = [];
   @Input() defaultColDefs: FuiColumnDefinitions = {};
-  @Input() headerHeight: number = 50; // In px.
-  @Input() rowHeight: number = 50; // In px.
   @Input() trackByFn: TrackByFunction<any>;
-  @Input('vsBufferAmount') virtualScrollBufferAmount: number = 10;
+
+  ///////////// Grid export params /////////////
+  @Input() exportParams: BaseExportParams;
+  ///////////// Action-menu params /////////////
+  @Input() actionMenuTemplate: TemplateRef<FuiDatagridBodyRowContext>;
+
+  @Input() set getRowNodeId(valueFn: GetRowNodeIdFunc) {
+    this.datagridOptionsWrapper.setGridOption('getRowNodeId', valueFn);
+  }
+
+  @Input() set rowHeight(value: number) {
+    this.datagridOptionsWrapper.setGridOption('rowHeight', FeruiUtils.isNullOrUndefined(value) ? 50 : value); // In px.
+  }
+
+  get rowHeight(): number {
+    return this.datagridOptionsWrapper.getRowHeight();
+  }
+
+  @Input() set headerHeight(value: number) {
+    this.datagridOptionsWrapper.setGridOption('headerHeight', FeruiUtils.isNullOrUndefined(value) ? 50 : value); // In px.
+  }
+
+  get headerHeight() {
+    return this.datagridOptionsWrapper.getHeaderHeight();
+  }
+
+  ///////////// Row selection params /////////////
+  // Set to true to allow multiple rows to be selected with clicks. For example, if you click to select one row and then click to
+  // select another row, the first row will stay selected as well. Clicking a selected row in this mode will deselect the row.
+  // This is useful for touch devices where Ctrl and Shift clicking is not an option.
+  @Input() set rowMultiSelectWithClick(value: boolean) {
+    this.datagridOptionsWrapper.setGridOption('rowMultiSelectWithClick', FeruiUtils.isNullOrUndefined(value) ? true : value);
+  }
+
+  // If true, rows won't be selected when clicked. Use, for example, when you want checkbox selection,
+  // and don't want to also select the row when the row is clicked.
+  @Input() set suppressRowClickSelection(value: boolean) {
+    this.datagridOptionsWrapper.setGridOption('suppressRowClickSelection', !FeruiUtils.isNullOrUndefined(value) ? value : false);
+  }
+
+  @Input() set checkboxSelection(value: boolean) {
+    this.datagridOptionsWrapper.setGridOption('checkboxSelection', FeruiUtils.isNullOrUndefined(value) ? true : value);
+  }
+
+  @Input() set headerSelect(value: boolean) {
+    this.datagridOptionsWrapper.setGridOption('headerSelect', FeruiUtils.isNullOrUndefined(value) ? true : value);
+  }
+
+  @Input() set isRowSelectable(valueFn: IsRowSelectable) {
+    this.datagridOptionsWrapper.setGridOption('isRowSelectable', valueFn);
+  }
+
+  ////////////////////////////////////////////////////
 
   rootWrapperHeight: string = '100%';
   columns: FuiColumnDefinitions[] = [];
@@ -331,16 +380,12 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   private _rowDataModel: FuiRowModel = FuiRowModel.CLIENT_SIDE;
   private _gridWidth: string = '100%';
   private _gridHeight: string = 'auto';
-  private _displayedRows: any[] = [];
-  private _originalRowData: any[];
+  private _displayedRows: RowNode[] = [];
   private _maxDisplayedRows: number = null;
   private _maxDisplayedRowsFirstLoad: boolean = true;
   private _totalRows: number = 0;
   private _isFirstLoad: boolean = true;
   private _datasource: IServerSideDatasource = null;
-  private _isLoading: boolean = true;
-  private _isEmptyData: boolean = false;
-  private _isServerSideInitiallyLoaded: boolean = false;
   private subscriptions: Subscription[] = [];
   private domObservers: ObserverInstance[] = [];
   private highlightSearchTermsDebounce = null;
@@ -372,21 +417,44 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     private stateService: DatagridStateService,
     private hilitor: HilitorService,
     private actionMenuService: FuiActionMenuService,
-    private exportDownloader: Downloader
+    private exportDownloader: Downloader,
+    private rowSelectionService: FuiDatagridRowSelectionService
   ) {
     // Each time we are updating the states, we need to run change detection.
     this.subscriptions.push(
       this.stateService.getCurrentStates().subscribe(() => {
-        this._isLoading = this.stateService.hasState(DatagridStateEnum.LOADING);
-        this._isEmptyData = this.stateService.hasState(DatagridStateEnum.EMPTY);
         if (this.isGridLoadedOnce()) {
           this.inputGridHeight = 'refresh';
         }
+        this.cd.markForCheck();
       })
     );
 
     // When we load the datagrid for the first time, we want to display the initial loading.
     this.stateService.setLoading();
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // If the dev enable the selection feature we initialise the rowSelectionService so that we can track which rows are selected.
+  // Type of row selection, set to either 'single' or 'multiple' to enable selection. 'single' will use single row selection,
+  // such that when you select a row, any previously selected row gets unselected. 'multiple' allows multiple rows to be selected.
+  @Input()
+  set rowSelection(rowSelection: FuiRowSelectionEnum) {
+    if (rowSelection !== this.rowSelection && this.rowSelectionService.initialized) {
+      this.rowSelectionService.destroy();
+    }
+    this.datagridOptionsWrapper.setGridOption('rowSelection', rowSelection);
+    if (
+      !this.rowSelectionService.initialized &&
+      (rowSelection === FuiRowSelectionEnum.SINGLE || rowSelection === FuiRowSelectionEnum.MULTIPLE)
+    ) {
+      this.rowSelectionService.init(rowSelection);
+    }
+  }
+
+  get rowSelection(): FuiRowSelectionEnum {
+    return this.datagridOptionsWrapper.getRowSelection();
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -427,10 +495,10 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     this._maxDisplayedRows = value;
+    this.datagridOptionsWrapper.setGridOption('itemsPerPage', value);
 
-    if (this.isClientSideRowModel() && !this._maxDisplayedRowsFirstLoad) {
-      this.refreshGrid();
-    } else if (this.isServerSideRowModel() && this.serverSideRowModel) {
+    if (this.isServerSideRowModel() && this.serverSideRowModel) {
+      this.serverSideRowModel.reset();
       this.serverSideRowModel.limit = value;
     } else if (this.isInfiniteServerSideRowModel() && this.infiniteRowModel) {
       this.infiniteRowModel.limit = value;
@@ -474,9 +542,10 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (value === 'auto' || value === 'refresh') {
       // This value correspond to two rows of 50px. We will display the loading view.
-      const initialLoadHeight: number = !this.stateService.hasState(DatagridStateEnum.REFRESHING) && this.isLoading ? 100 : 0;
+      const initialLoadHeight: number = this.isLoading ? 100 : 0;
       const emptyDataHeight: number = !this.isLoading && this.isEmptyData ? 100 : 0;
-      const maxDisplayedRows = this.maxDisplayedRows !== null ? this.maxDisplayedRows : 10;
+      const maxDisplayedRows =
+        this.maxDisplayedRows !== null ? this.maxDisplayedRows : this.datagridOptionsWrapper.getItemPerPage();
       const totalRows: number = this.totalRows ? this.totalRows : this.displayedRows.length;
       const scrollSize: number = this.hasHorizontalScroll ? this.scrollSize : 0;
       const serverSideRowModel: FuiDatagridServerSideRowModel = this.rowModel.getServerSideRowModel();
@@ -563,22 +632,25 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param rows
    */
   @Input()
-  set rowData(rows: Array<any>) {
-    this.totalRows = this.isClientSideRowModel() && rows ? rows.length : 0;
-    this.clientSideRowModel.rowData = rows ? rows : [];
-    if (this.datagridOptionsWrapper && this.datagridOptionsWrapper.gridOptions) {
-      this.datagridOptionsWrapper.gridOptions.rowDataLength = this.totalRows;
-    }
-    this.isEmptyData = this.totalRows === 0;
+  set rowData(rows: any[]) {
+    if (this.stateService.hasState(DatagridStateEnum.INITIALIZED) === true) {
+      this.clientSideRowModel.setRowData(rows);
+      this.totalRows = this.clientSideRowModel.getRowCount();
+      this.datagridOptionsWrapper.setGridOption('rowDataLength', this.totalRows);
 
-    if (!this.isFirstLoad() && rows !== undefined) {
-      this.isLoading = false;
-    }
-    this.cd.markForCheck();
-  }
+      if (!this.stateService.hasState(DatagridStateEnum.REFRESHING)) {
+        this.isEmptyData = this.totalRows === 0;
+      }
 
-  get rowData(): Array<any> {
-    return this.clientSideRowModel.rowData;
+      if (!this.isFirstLoad() && rows !== undefined) {
+        this.isLoading = false;
+      }
+      this.cd.markForCheck();
+    } else {
+      setTimeout(() => {
+        this.rowData = rows;
+      }, 10);
+    }
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -586,14 +658,14 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Gets the sorted rows.
    */
-  get displayedRows(): any[] {
+  get displayedRows(): RowNode[] {
     return this._displayedRows;
   }
 
   /**
    * Rows that are displayed in the table.
    */
-  set displayedRows(value: any[]) {
+  set displayedRows(value: RowNode[]) {
     this._displayedRows = value;
     this.cd.markForCheck();
   }
@@ -635,7 +707,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   get isLoading(): boolean {
-    return this._isLoading;
+    return this.stateService.hasState(DatagridStateEnum.LOADING) || this.stateService.hasState(DatagridStateEnum.REFRESHING);
   }
 
   set isLoading(value: boolean) {
@@ -655,6 +727,18 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     return false;
   }
 
+  set isServerSidePageLoading(value: boolean) {
+    if (value === true) {
+      this.stateService.setLoadingMore();
+    } else {
+      this.stateService.setLoadedMore();
+    }
+  }
+
+  get isServerSidePageLoading(): boolean {
+    return this.stateService.hasState(DatagridStateEnum.LOADING_MORE);
+  }
+
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   set isEmptyData(value: boolean) {
@@ -666,18 +750,10 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   get isEmptyData(): boolean {
-    return this._isEmptyData;
+    return this.stateService.hasState(DatagridStateEnum.EMPTY) && !this.stateService.hasState(DatagridStateEnum.REFRESHING);
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  getGridApi(): FuiDatagridApiService {
-    return this.gridApi;
-  }
-
-  getColumnApi(): FuiDatagridColumnApiService {
-    return this.columnApi;
-  }
 
   ngOnInit(): void {
     if (this.maxDisplayedRows === null) {
@@ -705,6 +781,14 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_CELL_CONTEXT_MENU).subscribe(event => {
         const ev: CellContextMenuEvent = event as CellContextMenuEvent;
         this.onCellContextmenu.emit(ev);
+      }),
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_SELECTED).subscribe(event => {
+        const ev: RowSelectedEvent = event as RowSelectedEvent;
+        this.onRowSelected.emit(ev);
+      }),
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SELECTION_CHANGED).subscribe(event => {
+        const ev: SelectionChangedEvent = event as SelectionChangedEvent;
+        this.onSelectionChanged.emit(ev);
       })
     );
 
@@ -730,7 +814,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
         this.dragAndDropService.initIcons(icons);
 
         // We wire the services to gridAPI and ColumnAPI.
-        this.gridApi.init(this.columnService, this.gridPanel);
+        this.gridApi.init(this.columnService, this.gridPanel, this.datagridId);
         this.columnApi.init(this.columnService, this.gridPanel);
 
         if (this.datasource) {
@@ -761,8 +845,6 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
               if (entity.isIntersecting) {
                 // By default we're trying to fit the columns width to grid size.
                 this.gridPanel.sizeColumnsToFit();
-                // Setup column services
-                this.updateColumnService();
                 // This need to be executed only once.
                 observer.unobserve(headerViewport);
               }
@@ -772,36 +854,24 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
       }),
 
       // Server-side only
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_PAGER_SELECTED_PAGE).subscribe(event => {
-        const ev: FuiPageChangeEvent = event as FuiPageChangeEvent;
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_PAGER_SELECTED_PAGE).subscribe((ev: FuiPageChangeEvent) => {
         if (ev && ev.page && (!this.selectedPage || (this.selectedPage && ev.page.index !== this.selectedPage.index))) {
           this.selectedPage = ev.page;
           if (this.isInfiniteServerSideRowModel()) {
             this.infiniteUpdateParams(ev.page.index);
-            this.cd.markForCheck();
-          } else if (this.isServerSideRowModel()) {
-            if (this._isServerSideInitiallyLoaded) {
-              this.stateService.setRefreshing();
-            }
-            this._isServerSideInitiallyLoaded = true;
-            this.isLoading = true;
           }
         }
+        this.cd.markForCheck();
         this.highlightSearchTerms();
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED).subscribe(event => {
         const ev: ServerSideRowDataChanged = event as ServerSideRowDataChanged;
-        this.renderGridRows(ev.resultObject);
+        this.renderGridRows(ev);
       }),
 
       // All row-models
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_DISPLAYED_COLUMNS_WIDTH_CHANGED).subscribe(() => {
         this.calculateSizes();
-      }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_DATA_CHANGED).subscribe(() => {
-        if (this.isClientSideRowModel()) {
-          this.onGridRowsUpdated();
-        }
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SORT_COLUMN_CHANGED).subscribe(() => {
         if (this.isClientSideRowModel()) {
@@ -813,19 +883,15 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SORT_CHANGED).subscribe(() => {
-        if (this.isClientSideRowModel()) {
-          this.onGridSort();
-        } else if (this.isServerSideRowModel()) {
+        if (this.isServerSideRowModel()) {
           this.serverSideUpdateRows();
         } else if (this.isInfiniteServerSideRowModel()) {
           this.infiniteUpdateParams(0, true);
         }
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_FILTER_CHANGED).subscribe(() => {
-        if (this.isClientSideRowModel()) {
-          this.onGridFilter();
-        } else if (this.isServerSideRowModel()) {
-          this.serverSideUpdateRows();
+        if (this.isServerSideRowModel()) {
+          this.serverSideUpdateRows(true);
         } else if (this.isInfiniteServerSideRowModel()) {
           this.infiniteRowModel.reset();
           this.infiniteUpdateParams(0, true);
@@ -833,6 +899,11 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_COLUMN_MOVED).subscribe(() => {
         this.cd.markForCheck();
+      }),
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_MODEL_UPDATED).subscribe(() => {
+        if (this.isClientSideRowModel()) {
+          this.renderGridRows();
+        }
       })
     );
     this.cd.markForCheck();
@@ -846,6 +917,10 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventService.flushListeners();
     if (this.isInfiniteServerSideRowModel()) {
       this.infiniteRowModel.destroy();
+    }
+    // Destroy the selection service if needed.
+    if (this.rowSelectionService.initialized) {
+      this.rowSelectionService.destroy();
     }
   }
 
@@ -903,6 +978,20 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Get the grid API.
+   */
+  getGridApi(): FuiDatagridApiService {
+    return this.gridApi;
+  }
+
+  /**
+   * Get the grid columns API.
+   */
+  getColumnApi(): FuiDatagridColumnApiService {
+    return this.columnApi;
+  }
+
+  /**
    * When we resize the window, we need to automatically adapt the datagrid to fill the new size.
    * After some tests, I've found out that 60ms was a good compromise between performance and UI.
    */
@@ -919,6 +1008,10 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 60);
   }
 
+  /**
+   * When the pager gets reseted, we clear the displayedRows only for infinite server-side row model.
+   * @param reset
+   */
   pagerReset(reset: boolean) {
     if (reset) {
       // When we update the pager item per page value, we want to reset the displayed rows.
@@ -929,15 +1022,30 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // @ts-ignore
+  /**
+   * Angular TrackBy() function for *ngFor over the columns.
+   * @param index
+   * @param column
+   */
   columnTrackByFn(index: number, column: FuiColumnDefinitions): any {
     return column.field;
   }
 
   // @ts-ignore
+  /**
+   * Angular TrackBy() function for *ngFor over the columns using the column index (columnId) instead of the field.
+   * @param index
+   * @param column
+   */
   columnTrackByIndexFn(index: number, column: Column): any {
     return column.getColId();
   }
 
+  /**
+   * Angular TrackBy() function for *ngFor over the rows.
+   * @param index
+   * @param instructor
+   */
   rowTrackByFn(index: number, instructor: any): any {
     if (this.trackByFn) {
       return this.trackByFn(index, instructor);
@@ -951,49 +1059,54 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  onGridRowsUpdated(): void {
-    this.clientSideRowModel.doFilter();
-  }
-
+  /**
+   * Callback whenever the columns get changed.
+   */
   onGridColumnsChanged(): void {
-    this.clientSideRowModel.doSort();
+    this.clientSideRowModel.refreshModel({ step: Constants.STEP_SORT, keepRenderedRows: true });
   }
 
-  onGridFilter(): void {
-    this.clientSideRowModel.doSort();
-  }
-
-  onGridSort(): void {
-    this.renderGridRows();
-  }
-
+  /**
+   * Callback whenever we load more rows for sever-side row model.
+   * @param forceReset
+   */
   serverSideUpdateRows(forceReset: boolean = false): void {
-    this.isLoading = true;
     this.serverSideRowModel.updateRows(forceReset, this.datagridPager.getCurrentPageIndex()).catch(error => {
       throw error;
     });
   }
 
+  /**
+   * Callback whenever we update the infinite server-side row model params.
+   * @param blockNumber
+   * @param forceUpdate
+   */
   infiniteUpdateParams(blockNumber: number = 0, forceUpdate: boolean = false): void {
     this.infiniteRowModel.loadBlocks(blockNumber, forceUpdate);
   }
 
-  renderGridRows(resultObject?: IDatagridResultObject): void {
+  /**
+   * Render all rows depending on the selected RowModel.
+   * @param event
+   */
+  renderGridRows(event?: ServerSideRowDataChanged): void {
     this.calculateSizes();
     if (this.isClientSideRowModel()) {
-      this.displayedRows = this.clientSideRowModel.rowData;
-      this.totalRows = this.clientSideRowModel.getTotalRows();
+      this.displayedRows = this.clientSideRowModel.getRowNodesToDisplay();
+      this.totalRows = this.clientSideRowModel.getRowCount();
       if (!this.isLoading && this.totalRows === 0) {
         this.isEmptyData = true;
       } else if (!this.isLoading && this.totalRows > 0) {
         this.isEmptyData = false;
       }
     } else if (this.isServerSideRowModel()) {
-      if (resultObject) {
-        this.displayedRows = resultObject.data;
-        this.totalRows = resultObject.total;
+      if (event) {
+        this.displayedRows = event.rowNodes;
+        this.totalRows = event.total;
         this.stateService.setRefreshed();
         this.isLoading = false;
+        this.isServerSidePageLoading = false;
+
         if (this.displayedRows.length === 0) {
           this.isEmptyData = true;
         } else if (this.displayedRows.length > 0) {
@@ -1001,26 +1114,28 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     } else if (this.isInfiniteServerSideRowModel()) {
-      if (resultObject) {
-        this.totalRows = resultObject.total;
+      if (event) {
+        this.totalRows = event.total;
       }
     }
     this.cd.markForCheck();
     this.highlightSearchTerms();
   }
 
+  /**
+   * Get only visible columns.
+   */
   getVisibleColumns(): Column[] {
     return this.columnService.getVisibleColumns();
   }
 
-  updateColumnService() {
-    this.sortService.sortingColumns = this.columnService.getAllDisplayedColumns();
-  }
-
+  /**
+   * Callback function whenever we update the item per page value.
+   * @param itemPerPage
+   */
   onPagerItemPerPageChange(itemPerPage: number) {
+    this.maxDisplayedRows = itemPerPage;
     if (this.isServerSideRowModel()) {
-      this.serverSideRowModel.reset();
-      this.serverSideRowModel.limit = itemPerPage;
       this.serverSideRowModel
         .updateRows()
         .then(() => {
@@ -1034,17 +1149,27 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     } else if (this.isInfiniteServerSideRowModel()) {
       this.infiniteRowModel.refresh(itemPerPage);
     }
-    this.maxDisplayedRows = itemPerPage;
   }
 
+  /**
+   * We have our own horizontal scroll within the datagrid.
+   * This is called whenever the user scroll within this custom horizontal scrollbar to reflect the event inside the grid.
+   */
   onFakeHorizontalScroll(): void {
     this.gridPanel.onFakeHorizontalScroll();
   }
 
+  /**
+   * Callback called whenever we vertically/horizontally scroll the center viewport of the grid.
+   */
   onCenterViewportScroll(): void {
     this.gridPanel.onCenterViewportScroll();
   }
 
+  /**
+   * Callback called whenever we scroll vertically inside the grid.
+   * @param event
+   */
   onVerticalScroll(event: Event): void {
     this.gridPanel.onVerticalScroll();
     // The EventTarget coming from a scroll Event should be an Element.
@@ -1062,20 +1187,35 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Whether or not we are using a client-side row model.
+   */
   isClientSideRowModel() {
     return this.rowModel.isClientSideRowModel();
   }
 
+  /**
+   * Whether or not we are using a server-side row model.
+   */
   isServerSideRowModel() {
     // At initialisation, if the developer doesn't set any row model, by default it will be ClientSide.
     // But if he set a datasource, the default row model will be server side.
     return this.rowModel.isServerSideRowModel() || (this.rowModel.isClientSideRowModel() && this.datasource);
   }
 
+  /**
+   * Whether or not we are using a infinite-server-side row model.
+   */
   isInfiniteServerSideRowModel() {
     return this.rowModel.isInfiniteServerSideRowModel();
   }
 
+  /**
+   * Refresh the datagrid. You can either refresh the grid without changing anything regarding the sort/filters or completely
+   * reset the grid.
+   * @param resetFilters
+   * @param resetSorting
+   */
   refreshGrid(resetFilters: boolean = false, resetSorting: boolean = false) {
     // Do nothing if we are refreshing the grid already.
     if (this.stateService.hasState(DatagridStateEnum.REFRESHING)) {
@@ -1098,15 +1238,15 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.isClientSideRowModel()) {
       // We store the original data in a new array.
-      this._originalRowData = [...this.rowData];
+      let originalRowData: RowNode[] = [...this.clientSideRowModel.getRowNodesToDisplay()];
       this.rowData = undefined;
       this.cd.markForCheck();
       setTimeout(() => {
-        this.rowData = this._originalRowData;
+        this.rowData = [...originalRowData.map(row => row.data)];
         // Clear the memory immediately once we've reassign the data.
-        this._originalRowData = undefined;
-        this.cd.markForCheck();
+        originalRowData = undefined;
         this.stateService.setRefreshed();
+        this.cd.markForCheck();
       }, 50);
     } else if (this.isServerSideRowModel()) {
       this.serverSideRowModel
@@ -1122,6 +1262,10 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Callback called whenever a column has its visibility changed.
+   * @param columnEvent
+   */
   onColumnChangeVisibility(columnEvent: ColumnVisibleEvent): void {
     if (columnEvent && columnEvent.column) {
       this.autoSizeColumns();
@@ -1129,6 +1273,10 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Callback called whenever a column has its width changed.
+   * @param columnEvent
+   */
   onColumnChangeWidth(columnEvent: ColumnEvent) {
     if (columnEvent && columnEvent.column) {
       this.calculateSizes();
@@ -1136,36 +1284,83 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Callback called whenever a column gets resized.
+   * @param event
+   */
   onColumnResize(event: ColumnResizedEvent): void {
     this.calculateSizes();
     this.onColumnResized.emit(event);
   }
 
+  /**
+   * Callback called whenever the pager or header height gets updated.
+   */
   onFilterPagerHeightChange() {
     this.rootWrapperHeight = `calc(100% - ${this.getHeaderPagerHeight()}px)`;
     this.cd.markForCheck();
   }
 
+  /**
+   * Export grid to CSV file.
+   */
   exportGrid() {
     const serializer: GridSerializer<any> = new GridSerializer<any>(this.getVisibleColumns(), this.displayedRows);
     const csvCreator: CsvCreator = new CsvCreator(this.exportDownloader, serializer, this.datagridOptionsWrapper);
     csvCreator.export(this.exportParams);
   }
 
+  /**
+   * Retrieve all selected RowNode. This is useful if you want to re-use the items within the grid.
+   */
+  getSelectedNodes(): RowNode[] | null {
+    if (this.rowSelectionService && this.rowSelection) {
+      return this.rowSelectionService.getSelectedNodes();
+    }
+    return null;
+  }
+
+  /**
+   * Retrieve all selected rows data.
+   */
+  getSelectedRows(): any[] {
+    if (this.rowSelectionService && this.rowSelection) {
+      return this.rowSelectionService.getSelectedRows();
+    }
+    return null;
+  }
+
+  /**
+   * Check whether or not the grid has been initialized and that we've loaded some data at least once.
+   * @private
+   */
   private isGridLoadedOnce(): boolean {
     return this.stateService.hasState(DatagridStateEnum.LOADED) && this.stateService.hasState(DatagridStateEnum.INITIALIZED);
   }
 
+  /**
+   * Check whether or not this is the first load of the datagrid.
+   * @private
+   */
   private isFirstLoad(): boolean {
     return this.isGridLoadedOnce() && this._isFirstLoad === true;
   }
 
+  /**
+   * Auto size all columns to fits their own width.
+   * Note that it will adds more width if there is unused size left.
+   * @private
+   */
   private autoSizeColumns() {
     this.columnService.autoSizeAllColumns(this.gridPanel.eBodyViewport);
     this.columnService.updateColumnsPosition();
     this.calculateSizes();
   }
 
+  /**
+   * Activate Hilitor. This will highlight the searching terms within the whole datagrid.
+   * @private
+   */
   private highlightSearchTerms() {
     let searchTerms = '';
     if (this.filterService.globalSearchFilter && this.filterService.globalSearchFilter.filter) {
@@ -1184,6 +1379,10 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 50);
   }
 
+  /**
+   * Calculate the proper sizing for the datagrid (not only the columns size)
+   * @private
+   */
   private calculateSizes(): void {
     this.totalWidth = this.columnService.getTotalColumnWidth();
     if (this.scrollbarHelper.getWidth()) {
@@ -1227,21 +1426,41 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     return filterHeight + pagerHeight;
   }
 
+  /**
+   * Setup all columns. We will create the checkbox column from scratch if we activate the selection feature with the
+   * checkboxSelection option to true.
+   * @private
+   */
   private setupColumns(): void {
-    this.datagridOptionsWrapper.gridOptions = {
-      columnDefs: this.columnDefs,
-      defaultColDef: this.defaultColDefs,
-      headerHeight: this.headerHeight,
-      rowHeight: this.rowHeight
-    };
+    this.datagridOptionsWrapper.setGridOption('columnDefs', this.columnDefs);
+    this.datagridOptionsWrapper.setGridOption('defaultColDef', this.defaultColDefs);
+    this.datagridOptionsWrapper.setGridOption('headerHeight', this.headerHeight);
+    this.datagridOptionsWrapper.setGridOption('rowHeight', this.rowHeight);
 
     const defaultColDef: FuiColumnDefinitions = {
       resizable: true,
       lockPosition: false,
       lockVisible: false
     };
-    this.columns = this.columnDefs.map(colDef => {
-      return { ...defaultColDef, ...this.defaultColDefs, ...colDef };
-    });
+    if (this.datagridOptionsWrapper.isCheckboxSelection()) {
+      this.columns = [
+        {
+          checkboxSelection: true,
+          resizable: false,
+          lockPosition: true,
+          lockVisible: true,
+          width: 50,
+          minWidth: 50,
+          maxWidth: 50,
+          field: 'datagridSelectionField',
+          headerName: ' '
+        }
+      ];
+    }
+    this.columns = this.columns.concat(
+      this.columnDefs.map(colDef => {
+        return { ...defaultColDef, ...this.defaultColDefs, ...colDef };
+      })
+    );
   }
 }

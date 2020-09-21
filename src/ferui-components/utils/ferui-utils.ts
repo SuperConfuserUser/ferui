@@ -135,6 +135,19 @@ export class FeruiUtils {
     return target;
   }
 
+  static flattenObject<T>(object: T): any[] {
+    if (!object) {
+      return null;
+    }
+    const array = [];
+    for (const key in object) {
+      if (object.hasOwnProperty(key)) {
+        array.push(object[key]);
+      }
+    }
+    return array;
+  }
+
   static isNumeric(value: any): boolean {
     if (value === '' || value === null || value === undefined) {
       return false;
@@ -181,6 +194,19 @@ export class FeruiUtils {
         callback(key, value);
       }
     }
+  }
+
+  static cloneObject<T>(object: T): T {
+    const copy = {};
+    const keys = Object.keys(object);
+    for (const key of keys) {
+      copy[key] = (object as any)[key];
+    }
+    return copy as T;
+  }
+
+  static deepCloneObject<T>(object: T): T {
+    return JSON.parse(JSON.stringify(object));
   }
 
   static assign(object: any, ...sources: any[]): any {
@@ -264,6 +290,19 @@ export class FeruiUtils {
 
     // If nothing failed, return true
     return true;
+  }
+
+  /**
+   * Check if a key exist in a specified object.
+   * @param object The object where you expect to find the key in.
+   * @param key The key you're looking for.
+   * @param allowNullValues Default to true; Whether or not we also check if the value of object key is not null nor undefined.
+   */
+  static isKeyExistIn(object: object, key: string | number, allowNullValues: boolean = true) {
+    if (FeruiUtils.isNullOrUndefined(object) || (!FeruiUtils.isNullOrUndefined(object) && FeruiUtils.isObjectEmpty(object))) {
+      return false;
+    }
+    return allowNullValues ? key in object : key in object && !FeruiUtils.isNullOrUndefined(object[key]);
   }
 
   /**

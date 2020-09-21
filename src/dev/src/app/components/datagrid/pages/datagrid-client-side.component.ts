@@ -10,6 +10,7 @@ import {
   FuiDatagridSortDirections,
   FuiFieldTypes,
   FuiRowModel,
+  FuiRowSelectionEnum,
   IDateFilterParams
 } from '@ferui/components';
 
@@ -42,6 +43,12 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
             </button>
             <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFixedHeight = !withFixedHeight">
               {{ withFixedHeight ? 'Auto grid height' : 'Fixed grid height' }}
+            </button>
+            <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="logRowDataSelection()">
+              Display rowData selection in browser console
+            </button>
+            <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="logRowsSelection()">
+              Display rowNode selection in browser console
             </button>
           </fui-demo-datagrid-option-menu>
 
@@ -76,6 +83,8 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
         <div id="testgrid" class="mb-4" style="width: 100%;">
           <fui-datagrid
             #datagrid
+            [checkboxSelection]="true"
+            [rowSelection]="rowSelectionEnum.MULTIPLE"
             [fixedHeight]="withFixedHeight"
             [exportParams]="exportParams"
             [withHeader]="withHeader"
@@ -148,7 +157,8 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
           >
             <fui-dropdown (dropdownOpenChange)="onDropdownOpen($event)" [forceClose]="forceClose">
               <button class="fui-datagrid-demo-action-btn btn" fuiDropdownTrigger>
-                ACTIONS <clr-icon class="dropdown-icon" dir="down" shape="fui-caret"></clr-icon>
+                ACTIONS
+                <clr-icon class="dropdown-icon" dir="down" shape="fui-caret"></clr-icon>
               </button>
               <fui-dropdown-menu [appendTo]="appendTo" *fuiIfOpen>
                 <div fuiDropdownItem>action 1 for row {{ rowIndex }}</div>
@@ -175,7 +185,7 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
               height="24"
               [attr.alt]="value"
               [title]="value"
-              [attr.src]="'https://www.countryflags.io/' + row.country_code + '/shiny/24.png'"
+              [attr.src]="'https://www.countryflags.io/' + row.data.country_code + '/shiny/24.png'"
             />
             {{ value }}
           </ng-template>
@@ -191,6 +201,8 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
           </div>
           <fui-datagrid
             #datagrid2
+            [checkboxSelection]="true"
+            [rowSelection]="rowSelectionEnum.SINGLE"
             [withHeader]="withHeader2"
             [withFooter]="withFooter2"
             [exportParams]="exportParams2"
@@ -282,6 +294,8 @@ export class DatagridClientSideComponent implements OnInit {
   withFooterItemPerPage: boolean = true;
   withFooterPager: boolean = true;
   withFixedHeight: boolean = false;
+
+  rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
 
   exportParams: CsvExportParams = {
     fileName: 'ferUI-export-test-1',
@@ -449,5 +463,13 @@ export class DatagridClientSideComponent implements OnInit {
 
   exportGrid() {
     this.datagrid.exportGrid();
+  }
+
+  logRowsSelection(): void {
+    console.log(this.datagrid.getSelectedNodes());
+  }
+
+  logRowDataSelection(): void {
+    console.log(this.datagrid.getSelectedRows());
   }
 }

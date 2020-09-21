@@ -1,3 +1,5 @@
+import { RowModelInterface } from './row-model';
+
 export interface IServerSideDatasource {
   // The context object to use within the getRows function.
   context?: any;
@@ -62,7 +64,7 @@ export interface FilterModel {
   filterParams?: any;
 }
 
-export interface ServerSideRowModelInterface {
+export interface ServerSideRowModelInterface extends RowModelInterface {
   datasource: IServerSideDatasource;
   params: IServerSideGetRowsParams;
   offset: number;

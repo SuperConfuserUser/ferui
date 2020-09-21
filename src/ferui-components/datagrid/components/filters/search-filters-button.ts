@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 
 import { IfOpenService } from '../../../utils/conditional/if-open.service';
+import { Constants } from '../../constants';
 import { FuiDatagridFilterService } from '../../services/datagrid-filter.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
 import { Column } from '../entities/column';
@@ -74,7 +75,7 @@ export class FuiDatagridSearchFilterButtonComponent implements OnDestroy, OnInit
   }
 
   onGlobalSearchChange() {
-    this.clientSideRowModel.doFilter();
+    this.clientSideRowModel.refreshModel({ step: Constants.STEP_FILTER });
   }
 
   /**

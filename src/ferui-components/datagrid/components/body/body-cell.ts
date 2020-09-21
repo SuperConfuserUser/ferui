@@ -16,17 +16,48 @@ import {
 
 import { CellClickedEvent, CellContextMenuEvent, CellDoubleClickedEvent, ColumnEvent, FuiDatagridEvents } from '../../events';
 import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-drop.service';
+import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
+import { FuiDatagridRowSelectionService } from '../../services/selection/datagrid-row-selection.service';
 import { FuiDatagridBodyCellContext } from '../../types/body-cell-context';
+import { FuiRowSelectionEnum } from '../../types/row-selection.enum';
 import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
 import { Column } from '../entities/column';
+import { RowNode } from '../entities/row-node';
 
 @Component({
   selector: 'fui-datagrid-body-cell',
   template: `
+    <fui-checkbox-wrapper
+      class="fui-datagrid-selection-box"
+      *ngIf="column.isCheckboxSelection() && rowNode.rowSelection === rowSelectionEnum.MULTIPLE"
+    >
+      <input
+        type="checkbox"
+        fuiCheckbox
+        [(ngModel)]="rowSelected"
+        [disabled]="!rowNode.selectable"
+        (ngModelChange)="rowSelectionMultipleChange($event)"
+      />
+    </fui-checkbox-wrapper>
+    <fui-radio-wrapper
+      class="fui-datagrid-selection-box"
+      *ngIf="column.isCheckboxSelection() && rowNode.rowSelection === rowSelectionEnum.SINGLE"
+    >
+      <input
+        type="radio"
+        fuiRadio
+        [value]="rowNode.id"
+        [(ngModel)]="rowSelected"
+        [disabled]="!rowNode.selectable"
+        (ngModelChange)="rowSelectionSingleChange($event)"
+        (click)="rowSelectionSingleClicked()"
+      />
+    </fui-radio-wrapper>
     <ng-container
+      *ngIf="!column.isCheckboxSelection() || !rowNode.rowSelection"
       [ngTemplateOutlet]="cellTemplate ? cellTemplate : defaultCellRenderer"
       [ngTemplateOutletContext]="templateContext"
     ></ng-container>
@@ -43,28 +74,31 @@ import { Column } from '../entities/column';
 export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements OnInit, OnDestroy {
   @HostBinding('attr.role') role: string = 'gridcell';
   @HostBinding('attr.tabindex') tabindex: string = '-1';
-
   @HostBinding('style.width.px') width: number = 0;
   @HostBinding('style.min-width.px') minWidth: number = 0;
   @HostBinding('style.max-width.px') maxWidth: number = null;
   @HostBinding('style.line-height.px') lineHeight: number = null;
 
   @Input() column: Column;
-  @Input() rowHeight: number;
-  @Input() rowData: any;
-  @Input() rowIndex: number;
+  @Input() rowNode: RowNode;
 
+  // ngModel for selection checkbox and radio.
+  rowSelected: boolean | string = null;
+
+  // Default template variables.
+  rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
   cellTemplate: TemplateRef<FuiDatagridBodyCellContext>;
   templateContext: FuiDatagridBodyCellContext;
 
   private subscriptions: Subscription[] = [];
-
   private _left: number = 0;
 
   constructor(
     @Self() public elementRef: ElementRef,
     private cd: ChangeDetectorRef,
     private eventService: FuiDatagridEventService,
+    private rowSelectionService: FuiDatagridRowSelectionService,
+    private optionsWrapperService: FuiDatagridOptionsWrapperService,
     dragAndDropService: FuiDatagridDragAndDropService,
     columnService: FuiColumnService,
     gridPanel: FuiDatagridService
@@ -90,8 +124,8 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
       cellNode: this,
       column: this.column,
       value: this.templateContext.value,
-      rowIndex: this.rowIndex,
-      rowData: this.rowData,
+      rowIndex: this.rowNode.rowIndex,
+      rowData: this.rowNode.data,
       event: event,
       type: FuiDatagridEvents.EVENT_CELL_CLICKED
     };
@@ -104,8 +138,8 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
       cellNode: this,
       column: this.column,
       value: this.templateContext.value,
-      rowIndex: this.rowIndex,
-      rowData: this.rowData,
+      rowIndex: this.rowNode.rowIndex,
+      rowData: this.rowNode.data,
       event: event,
       type: FuiDatagridEvents.EVENT_CELL_DOUBLE_CLICKED
     };
@@ -118,8 +152,8 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
       cellNode: this,
       column: this.column,
       value: this.templateContext.value,
-      rowIndex: this.rowIndex,
-      rowData: this.rowData,
+      rowIndex: this.rowNode.rowIndex,
+      rowData: this.rowNode.data,
       event: event,
       type: FuiDatagridEvents.EVENT_CELL_CONTEXT_MENU
     };
@@ -132,8 +166,8 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
     this.minWidth = this.column.getMinWidth();
     this.maxWidth = this.column.getMaxWidth();
 
-    if (this.rowHeight) {
-      this.lineHeight = this.rowHeight - 1;
+    if (this.rowNode.rowHeight) {
+      this.lineHeight = this.rowNode.rowHeight - 1;
     }
 
     if (this.column.getRendererTemplate()) {
@@ -141,10 +175,21 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
     }
 
     this.templateContext = {
-      value: this.rowData ? this.rowData[this.column.getColumnDefinition().field] : null,
+      value: this.rowNode.data ? this.rowNode.data[this.column.field] : null,
       column: this.column,
-      row: this.rowData
+      row: this.rowNode
     };
+
+    // Selection feature only if we want the checkbox selection.
+    if (this.optionsWrapperService.isCheckboxSelection() && this.column.isCheckboxSelection()) {
+      this.toggleRowSelection();
+      this.subscriptions.push(
+        this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SELECTION_CHANGED).subscribe(() => {
+          this.toggleRowSelection();
+          this.cd.markForCheck();
+        })
+      );
+    }
     this.cd.markForCheck();
 
     this.subscriptions.push(
@@ -170,5 +215,26 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
       this.subscriptions.forEach(sub => sub.unsubscribe());
       this.subscriptions = undefined;
     }
+  }
+
+  rowSelectionMultipleChange(checked: boolean): void {
+    this.rowNode.setSelected(checked === true);
+  }
+
+  rowSelectionSingleChange(rowId: string): void {
+    this.rowNode.setSelected(!(this.rowSelectionService.isNodeSelected(rowId) === true));
+  }
+
+  rowSelectionSingleClicked(): void {
+    if (this.rowSelectionService.isNodeSelected(this.rowNode.id)) {
+      this.rowNode.setSelected(false);
+      this.rowSelected = null;
+    }
+  }
+
+  private toggleRowSelection(): void {
+    this.rowSelected =
+      this.rowNode.rowSelection === FuiRowSelectionEnum.SINGLE && this.rowNode.selected ? this.rowNode.id : this.rowNode.selected;
+    this.cd.markForCheck();
   }
 }

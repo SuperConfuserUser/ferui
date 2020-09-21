@@ -106,7 +106,9 @@ export class FuiActionMenuService {
     }
     if (
       this.currentlySelectedRowContext === null ||
-      (this.currentlySelectedRowContext && context && context.rowIndex !== this.currentlySelectedRowContext.rowIndex)
+      (this.currentlySelectedRowContext &&
+        context &&
+        context.rowNode.rowIndex !== this.currentlySelectedRowContext.rowNode.rowIndex)
     ) {
       this.currentlySelectedRowContext = context;
     } else if (!context) {

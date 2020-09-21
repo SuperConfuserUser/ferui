@@ -13,10 +13,10 @@ export function VIRTUAL_SCROLLER_DEFAULT_OPTIONS_FACTORY(): VirtualScrollerDefau
     resizeBypassRefreshThreshold: 5,
     modifyOverflowStyleOfParentScroll: true,
     stripedTable: false,
-    pxErrorValue: 1 // By default we assume that the height of the viewport is equal to the sum of all rows inside.
+    pxErrorValue: 0 // By default we assume that the height of the viewport is equal to the sum of all rows inside.
     // But in some cases, we want to fake the height and use another value.
-    // i.e : For datagrid we have borders on each rows, but we don't want to display the last row so we need to remove one px
-    // to the viewport height. We need to let the virtual scroller that we are faking the height by one px. The px error
-    // value will then need to be equal to 0.
+    // i.e : For datagrid we have borders on each rows, but we don't want to display the last row bottom border so we need to
+    // remove 1 px to the viewport height. We need to let the virtual scroller know that we are faking the height by one px.
+    // The px error value will then need to be equal to 1.
   };
 }

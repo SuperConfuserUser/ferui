@@ -1,10 +1,16 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Injector, OnInit, SkipSelf } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Injector, OnInit, SkipSelf } from '@angular/core';
 
 import { FuiFormLayoutEnum } from '../../../forms/common/layout.enum';
 import { AbstractPopover } from '../../../popover/common/abstract-popover';
 import { Point } from '../../../popover/common/popover-options.interface';
+import { Constants } from '../../constants';
+import { FuiDatagridEvents, FuiFilterEvent } from '../../events';
+import { FuiDatagridApiService } from '../../services/datagrid-api.service';
+import { FuiDatagridColumnApiService } from '../../services/datagrid-column-api.service';
 import { FuiDatagridFilterService } from '../../services/datagrid-filter.service';
+import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
 import { DatagridStateService } from '../../services/datagrid-state.service';
+import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
 import { Column } from '../entities/column';
 import { FuiDatagridClientSideRowModel } from '../row-models/client-side-row-model';
@@ -28,7 +34,7 @@ import { FilterType } from './interfaces/filter.enum';
                 (ngModelChange)="onColumnChange($event)"
                 [multiple]="true"
                 [clearable]="false"
-                appendTo=".fui-datagrid-filters-popover"
+                [appendTo]="'#' + popoverId"
                 [closeOnSelect]="true"
                 [(ngModel)]="selectedColumns"
                 placeholder="Select a column to filter"
@@ -106,6 +112,9 @@ export class FuiDatagridFiltersPopoverComponent extends AbstractPopover implemen
   fuiFormLayoutEnum = FuiFormLayoutEnum;
   fuiFilterType = FilterType;
 
+  @HostBinding('id')
+  popoverId: string;
+
   constructor(
     @SkipSelf() parent: ElementRef,
     _injector: Injector,
@@ -113,10 +122,15 @@ export class FuiDatagridFiltersPopoverComponent extends AbstractPopover implemen
     private clientSideRowModel: FuiDatagridClientSideRowModel,
     private filterService: FuiDatagridFilterService,
     private rowModel: RowModel,
-    private stateService: DatagridStateService
+    private stateService: DatagridStateService,
+    private optionsWrapperService: FuiDatagridOptionsWrapperService,
+    private gridApi: FuiDatagridApiService,
+    private columnApi: FuiDatagridColumnApiService,
+    private eventService: FuiDatagridEventService
   ) {
     super(_injector, parent, -10, 0);
     this.configurePopover();
+    this.popoverId = 'datagridFilter' + this.optionsWrapperService.getDatagridId();
   }
 
   ngOnInit(): void {
@@ -131,21 +145,13 @@ export class FuiDatagridFiltersPopoverComponent extends AbstractPopover implemen
   }
 
   clearCallback(event: MouseEvent | TouchEvent): void {
-    if (!this.rowModel.isClientSideRowModel()) {
-      this.stateService.setLoading();
-      this.stateService.setRefreshing();
-    }
     this.filterService.resetFilters();
-    this.clientSideRowModel.doFilter();
+    this.onFilterChange();
     this.cancelCallback(event);
   }
 
   applyCallback(event: MouseEvent | TouchEvent): void {
-    if (!this.rowModel.isClientSideRowModel()) {
-      this.stateService.setLoading();
-      this.stateService.setRefreshing();
-    }
-    this.clientSideRowModel.doFilter();
+    this.onFilterChange();
     this.cancelCallback(event);
   }
 
@@ -168,6 +174,21 @@ export class FuiDatagridFiltersPopoverComponent extends AbstractPopover implemen
         this.filterService.removeFilter(aFilter.filter);
       }
     });
+  }
+
+  private onFilterChange(): void {
+    // For server-side and infinite row model, we just need to emit the filter change event.
+    if (!this.rowModel.isClientSideRowModel()) {
+      this.stateService.setLoading();
+      const ev: FuiFilterEvent = {
+        api: null,
+        columnApi: this.columnApi,
+        type: FuiDatagridEvents.EVENT_FILTER_CHANGED
+      };
+      this.eventService.dispatchEvent(ev);
+    } else {
+      this.clientSideRowModel.refreshModel({ step: Constants.STEP_FILTER });
+    }
   }
 
   /**

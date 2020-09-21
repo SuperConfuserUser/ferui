@@ -4,6 +4,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 
 import { FuiRowModel } from '../../types/row-model.enum';
 import { IServerSideDatasource, ServerSideRowModelInterface } from '../../types/server-side-row-model';
+import { RowNode } from '../entities/row-node';
 
 import { FuiDatagridClientSideRowModel } from './client-side-row-model';
 import { FuiDatagridInfinteRowModel } from './infinite/infinite-row-model';
@@ -34,6 +35,9 @@ export class RowModel {
     return this._rowModel;
   }
 
+  /**
+   * Get the currently used RowModel.L
+   */
   getRowModel(): FuiDatagridClientSideRowModel | FuiDatagridServerSideRowModel | FuiDatagridInfinteRowModel {
     switch (this.rowModel) {
       case FuiRowModel.CLIENT_SIDE:
@@ -45,6 +49,29 @@ export class RowModel {
       default:
         throw new Error(`There is no such ${this.rowModel} row model. Please use a valid row model.`);
     }
+  }
+
+  /**
+   * Get all displayed rows.
+   */
+  getDisplayedRows(): RowNode[] {
+    switch (this.rowModel) {
+      case FuiRowModel.CLIENT_SIDE:
+        return this.clientSideRowModel.getRowNodesToDisplay();
+      case FuiRowModel.INFINITE:
+        return this.infiniteRowModel.getCurrentlyLoadedRows();
+      case FuiRowModel.SERVER_SIDE:
+        return this.serverSideRowModel.currentlyLoadedRows;
+      default:
+        throw new Error(`There is no such ${this.rowModel} row model. Please use a valid row model.`);
+    }
+  }
+
+  /**
+   * Check whether or not we have filters.
+   */
+  hasFilters(): boolean {
+    return this.getRowModel().hasFilters();
   }
 
   /**
@@ -68,20 +95,34 @@ export class RowModel {
     return this.isClientSideRowModel() ? (this.getRowModel() as FuiDatagridClientSideRowModel) : null;
   }
 
+  /**
+   * Whether or not we ar using a client-side row model.
+   */
   isClientSideRowModel() {
     return this.rowModel === FuiRowModel.CLIENT_SIDE;
   }
 
+  /**
+   * Whether or not we ar using a server-side row model.
+   */
   isServerSideRowModel() {
     // At initialisation, if the developer doesn't set any row model, by default it will be ClientSide.
     // But if he set a datasource, the default row model will be server side.
     return this.rowModel === FuiRowModel.SERVER_SIDE;
   }
 
+  /**
+   * Whether or not we ar using a infinite-server-side row model.
+   */
   isInfiniteServerSideRowModel() {
     return this.rowModel === FuiRowModel.INFINITE;
   }
 
+  /**
+   * Refresh the row model for infinite and server side row models only.
+   * @param limit
+   * @param datasource
+   */
   refresh(limit?: number, datasource?: IServerSideDatasource) {
     if (this.rowModel !== FuiRowModel.CLIENT_SIDE) {
       (this.getRowModel() as ServerSideRowModelInterface).refresh(limit, datasource);
@@ -99,6 +140,9 @@ export class RowModel {
     return null;
   }
 
+  /**
+   * Remove all listeners and reset the row model.
+   */
   destroy() {
     this.resetSubscribers();
     if (this.serverSideRowModel) {
@@ -109,6 +153,10 @@ export class RowModel {
     }
   }
 
+  /**
+   * Reset all subscribers
+   * @private
+   */
   private resetSubscribers() {
     if (this.subscriptions.length > 0) {
       this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -116,6 +164,10 @@ export class RowModel {
     }
   }
 
+  /**
+   * Setup subscribers.
+   * @private
+   */
   private setupSubscribers() {
     this.resetSubscribers();
     if (this.isServerSideRowModel()) {

@@ -5,6 +5,7 @@
 
 // Color system
 
+// Gray variants
 $white: #ffffff !default;
 $gray-100: #f5f8f9 !default;
 $gray-200: #f1f7fb !default;
@@ -19,6 +20,7 @@ $gray-900: #252a3a !default;
 $gray-1000: #191c28 !default;
 $black: #000 !default;
 
+// Gays list
 $grays: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $grays: map-merge(
@@ -38,9 +40,12 @@ $grays: map-merge(
   $grays
 );
 
+// To create new color variation, please use existing base color then use
+// https://razorltd.github.io/sasscolourfunctioncalculator/ to find the best SASS function to
+// find your desired color variant
+
+// Base colors
 $blue: #03a6ff !default;
-$blue-hover: darken($blue, 7%); // #0295E6 !default
-$blue-selected: #e4f5ff !default;
 $red: #ed5151 !default;
 $light-red: #fdeded !default;
 $red-heavy: #df4242 !default;
@@ -54,13 +59,19 @@ $pink: #e83e8c !default;
 $teal: #20c997 !default;
 $cyan: #17a2b8 !default;
 
+// Color variants
+// Every color variant are found using https://razorltd.github.io/sasscolourfunctioncalculator/
+$blue-hover: darken(desaturate($blue, 1.72), 5.1); // #0295E6
+$blue-selected: lighten(desaturate(adjust-hue($blue, 1), 27.03), 42.16); // #DFF0FA
+$blue-selected-hover: lighten($blue, 36.86); // #BFE8FF
+
+// Base colors list
 $colors: () !default;
+// Do not add color variant in the color theme below.
 // stylelint-disable-next-line scss/dollar-variable-default
 $colors: map-merge(
   (
     'blue': $blue,
-    'blue-hover': $blue-hover,
-    'blue-selected': $blue-selected,
     'indigo': $indigo,
     'purple': $purple,
     'pink': $pink,
@@ -77,6 +88,7 @@ $colors: map-merge(
   $colors
 );
 
+// Theme colors
 $primary: $blue !default;
 $secondary: $gray-500 !default;
 $dark: $black !default;

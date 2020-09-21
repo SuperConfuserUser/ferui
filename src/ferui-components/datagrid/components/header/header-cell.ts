@@ -17,27 +17,68 @@ import {
   ViewChild
 } from '@angular/core';
 
+import { FeruiUtils } from '../../../utils/ferui-utils';
 import { ColumnEvent, ColumnResizedEvent, ColumnVisibleEvent, FuiDatagridEvents } from '../../events';
 import { ColumnKeyCreator } from '../../services/column-key-creator';
 import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-drop.service';
+import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
 import { DatagridResizeParams, FuiDatagridResizeService } from '../../services/datagrid-resize.service';
 import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
 import { DatagridStateService } from '../../services/datagrid-state.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
+import { FuiDatagridRowSelectionService } from '../../services/selection/datagrid-row-selection.service';
 import { FuiColumnDefinitions } from '../../types/column-definitions';
 import { DragItem, DragSource, DragSourceType } from '../../types/drag-and-drop';
+import { FuiRowModel } from '../../types/row-model.enum';
+import { FuiRowSelectionEnum } from '../../types/row-selection.enum';
 import { FuiDatagridSortDirections } from '../../types/sort-directions.enum';
 import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
 import { Column } from '../entities/column';
 import { RowModel } from '../row-models/row-model';
+
+export interface FuiDatagridSelectAllOption {
+  action: string;
+  label: string;
+}
 
 @Component({
   selector: 'fui-datagrid-header-cell',
   template: `
     <div class="fui-datagrid-header-label" #headerLabel role="presentation" unselectable="on" (click)="onHeaderClick($event)">
       <div class="fui-datagrid-header-text" role="presentation" unselectable="on" #datagridHeaderText>
+        <div
+          class="fui-datagrid-select-all-options-wrapper"
+          *ngIf="rowSelection === rowSelectionEnum.MULTIPLE && column.isCheckboxSelection() && hasHeaderSelect()"
+        >
+          <fui-checkbox-wrapper class="fui-datagrid-selection-box">
+            <input
+              type="checkbox"
+              fuiCheckbox
+              name="datagrid-select-all"
+              [indeterminate]="partialSelection"
+              [(ngModel)]="selectAll"
+              (ngModelChange)="selectRows()"
+            />
+          </fui-checkbox-wrapper>
+
+          <fui-dropdown [forceClose]="forceDropdownClose" [fuiCloseMenuOnItemClick]="true" class="fui-datagrid-select-all-select">
+            <button class="btn btn-link" fuiDropdownTrigger>
+              <clr-icon class="fui-caret" shape="fui-caret down"></clr-icon>
+            </button>
+            <fui-dropdown-menu fuiPosition="bottom-left" [appendTo]="'body'" *fuiIfOpen>
+              <div
+                *ngFor="let option of selectAllOptions"
+                [class.disabled]="getDisableStateFor(option)"
+                fuiDropdownItem
+                (click)="!getDisableStateFor(option) && selectRows(option)"
+              >
+                {{ option.label }}
+              </div>
+            </fui-dropdown-menu>
+          </fui-dropdown>
+        </div>
         <ng-container [ngTemplateOutlet]="defaultCellRenderer" [ngTemplateOutletContext]="columnDefinition"></ng-container>
         <ng-template #defaultCellRenderer let-label="headerName">{{ label }}</ng-template>
       </div>
@@ -57,10 +98,10 @@ import { RowModel } from '../row-models/row-model';
     <div class="fui-datagrid-header-cell-resize" (dblclick)="onColumnAutoResize()" #headerResize role="presentation"></div>
 
     <ng-template #sortAscIcon>
-      <clr-icon class="fui-datagrid-sort-asc" shape="fui-arrow-thin" dir="up"></clr-icon>
+      <clr-icon class="fui-datagrid-sort-asc" shape="fui-arrow-thin up"></clr-icon>
     </ng-template>
     <ng-template #sortDescIcon>
-      <clr-icon class="fui-datagrid-sort-desc" shape="fui-arrow-thin" dir="down"></clr-icon>
+      <clr-icon class="fui-datagrid-sort-desc" shape="fui-arrow-thin down"></clr-icon>
     </ng-template>
   `,
   host: {
@@ -68,7 +109,9 @@ import { RowModel } from '../row-models/row-model';
     '[class.fui-datagrid-column-visible]': 'column.isVisible()',
     '[class.with-animation]': 'true',
     '[class.moving]': 'column.isMoving()',
-    '[class.dragging]': 'isDragging()'
+    '[class.dragging]': 'isDragging()',
+    '[class.lock-position]': 'column.isLockPosition()',
+    '[class.checkbox-column]': 'column.isCheckboxSelection()'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FuiDatagridResizeService, Column]
@@ -81,6 +124,12 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
 
   fuiDatagridSortDirections = FuiDatagridSortDirections;
   colId: string;
+  selectAll: boolean = false;
+  partialSelection: boolean = false;
+  rowSelection: FuiRowSelectionEnum;
+  selectAllOptions: FuiDatagridSelectAllOption[] = [];
+  rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
+  forceDropdownClose: boolean = false;
 
   @Input() columnDefinition: FuiColumnDefinitions;
 
@@ -118,6 +167,8 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
     public column: Column,
     private rowModel: RowModel,
     private stateService: DatagridStateService,
+    private optionsWrapperService: FuiDatagridOptionsWrapperService,
+    private rowSelectionService: FuiDatagridRowSelectionService,
     dragAndDropService: FuiDatagridDragAndDropService,
     columnService: FuiColumnService,
     gridPanel: FuiDatagridService
@@ -256,7 +307,7 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
     this.column.nativeElement = this.element;
     this.columnService.addColumn(this.column);
 
-    this.sortable = this.columnDefinition.sortable;
+    this.sortable = this.columnDefinition.sortable === true;
     this.left = this.column.getLeft();
     this.width = this.column.getActualWidth();
     this.minWidth = this.column.getMinWidth();
@@ -265,6 +316,50 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
     if (this.rowHeight) {
       this.lineHeight = this.rowHeight - 1;
     }
+
+    if (!FeruiUtils.isNullOrUndefined(this.optionsWrapperService.getRowSelection())) {
+      this.rowSelection = this.optionsWrapperService.getRowSelection();
+      if (this.rowSelection === FuiRowSelectionEnum.MULTIPLE) {
+        const options: FuiDatagridSelectAllOption[] = [];
+        if (this.isClientSideRowModel()) {
+          options.push({ action: 'selectAll', label: 'All' });
+        } else if (this.rowModel.isServerSideRowModel()) {
+          options.push({ action: 'selectPage', label: 'Current page' });
+          options.push({ action: 'deselectPage', label: 'Deselect current page' });
+        } else {
+          options.push({ action: 'selectVisible', label: 'Loaded pages' });
+          options.push({ action: 'deselectPage', label: 'Deselect loaded pages' });
+        }
+        options.push({ action: 'selectNone', label: 'None' });
+
+        this.selectAllOptions = options;
+        this.subscriptions.push(
+          this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SELECTION_CHANGED).subscribe(() => {
+            this.selectAll = this.rowSelectionService.getSelectionCount() > 0;
+            this.partialSelection = this.rowSelectionService.isPartialSelection();
+            this.cd.markForCheck();
+          }),
+          this.eventService.listenToEvent(FuiDatagridEvents.EVENT_FILTER_CHANGED).subscribe(() => {
+            this.selectAll = this.rowSelectionService.getSelectionCount() > 0;
+            this.partialSelection = this.rowSelectionService.isPartialSelection();
+            if (this.rowModel.hasFilters()) {
+              options.splice(
+                2,
+                0,
+                { action: 'selectFiltered', label: 'Select filtered' },
+                { action: 'deselectFiltered', label: 'Deselect filtered' }
+              );
+            } else {
+              options.splice(2, 2);
+            }
+            this.cd.markForCheck();
+          })
+        );
+      }
+    }
+
+    this.cd.markForCheck();
+
     this.subscriptions.push(
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_COLUMN_RESIZED).subscribe(columnEvent => {
         const ev: ColumnResizedEvent = columnEvent as ColumnResizedEvent;
@@ -318,6 +413,99 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
     this.setupResize(this.headerResize.nativeElement);
   }
 
+  /**
+   * Get disable state for select all option menu.
+   * @param option
+   */
+  getDisableStateFor(option: FuiDatagridSelectAllOption): boolean {
+    const isNoneSelectable: boolean = (option.action === 'selectNone' || option.action === 'deselectPage') && !this.selectAll;
+    const isAllSelectable: boolean =
+      (option.action === 'selectAll' || option.action === 'selectPage' || option.action === 'selectVisible') &&
+      this.selectAll &&
+      !this.partialSelection;
+    const isSelectFilteredSelectable: boolean =
+      option.action === 'selectFiltered' && this.hasFilters() && this.selectAll && !this.partialSelection;
+    const isDeselectFilteredSelectable: boolean = option.action === 'deselectFiltered' && this.hasFilters() && !this.selectAll;
+    return isNoneSelectable || isAllSelectable || isSelectFilteredSelectable || isDeselectFilteredSelectable;
+  }
+
+  /**
+   * Check if there are active filters.
+   */
+  hasFilters(): boolean {
+    return this.rowModel.hasFilters();
+  }
+
+  /**
+   * Check if we want to display the header checkbox or not.
+   */
+  hasHeaderSelect(): boolean {
+    return this.optionsWrapperService.hasHeaderSelect();
+  }
+
+  /**
+   * Select rows callback. This is called when you select an option or just check the checkbox.
+   * @param option
+   */
+  selectRows(option?: FuiDatagridSelectAllOption): void {
+    if (!option) {
+      option = this.hasFilters()
+        ? this.selectAll
+          ? this.selectAllOptions.find(op => {
+              return op.action === 'selectFiltered';
+            })
+          : this.selectAllOptions.find(op => {
+              return op.action === 'deselectFiltered';
+            })
+        : this.selectAll
+        ? this.isClientSideRowModel()
+          ? this.selectAllOptions.find(op => {
+              return op.action === 'selectAll';
+            })
+          : this.selectAllOptions.find(op => {
+              return op.action === 'selectPage' || op.action === 'selectVisible';
+            })
+        : this.isClientSideRowModel()
+        ? this.selectAllOptions.find(op => {
+            return op.action === 'selectNone';
+          })
+        : this.selectAllOptions.find(op => {
+            return op.action === 'deselectPage';
+          });
+    }
+
+    switch (option.action) {
+      case 'selectNone':
+        this.rowSelectionService.deselectAll();
+        break;
+      case 'selectAll':
+      case 'selectPage':
+      case 'selectVisible':
+        this.rowSelectionService.selectAll();
+        break;
+      case 'deselectFiltered':
+      case 'deselectPage':
+        this.rowSelectionService.deselectFiltered();
+        break;
+      case 'selectFiltered':
+        this.rowSelectionService.selectFiltered();
+        break;
+      default:
+        break;
+    }
+    this.selectAll = this.rowSelectionService.getSelectionCount() > 0;
+    this.partialSelection = this.selectAll && this.rowSelectionService.isPartialSelection();
+    this.onSelectAllRowsChange();
+    this.cd.markForCheck();
+  }
+
+  /**
+   * Get the datagrid unique ID.
+   */
+  getDatagridId(): string {
+    return '#' + this.optionsWrapperService.getDatagridId();
+  }
+
   onColumnAutoResize() {
     this.columnService.autoSizeColumn(this.column, this.gridPanel.getCenterContainer());
   }
@@ -335,6 +523,10 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
     }
   }
 
+  isClientSideRowModel(): boolean {
+    return this.optionsWrapperService.rowDataModel === FuiRowModel.CLIENT_SIDE;
+  }
+
   isMultisort(): boolean {
     return this.sortService.isMultiSort();
   }
@@ -347,7 +539,6 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
 
     if (!this.rowModel.isClientSideRowModel()) {
       this.stateService.setLoading();
-      this.stateService.setRefreshing();
     }
 
     // TODO: Make the shift key a variable that can be changed by the developer in grid definition.
@@ -370,6 +561,20 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
 
   isDragging() {
     return this.dragging;
+  }
+
+  /**
+   * Each time we are triggering the option change we make sure that the dropdown menu is closed after the click.
+   * @private
+   */
+  private onSelectAllRowsChange(): void {
+    // Since we are disabling the option at the same time we're clicking on it the dropdown popover doesn't get closed.
+    // We then force the closure after row selection changes and reset the value to its initial value 100ms after.
+    this.forceDropdownClose = true;
+    setTimeout(() => {
+      this.forceDropdownClose = false;
+      this.cd.markForCheck();
+    }, 100);
   }
 
   private getInnerText(): string {

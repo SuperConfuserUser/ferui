@@ -5,12 +5,13 @@ import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, 
 import { FuiFormLayoutEnum } from '../../../forms/common/layout.enum';
 import { DomObserver, ObserverInstance } from '../../../utils/dom-observer/dom-observer';
 import { FuiCommonStrings } from '../../../utils/i18n/common-strings.service';
-import { FuiDatagridEvents, FuiFilterEvent, FuiPageChangeEvent, RowDataChanged, ServerSideRowDataChanged } from '../../events';
+import { FuiDatagridEvents, FuiPageChangeEvent, ServerSideRowDataChanged } from '../../events';
+import { DatagridStateService } from '../../services/datagrid-state.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiDatagridEventService } from '../../services/event.service';
+import { FuiDatagridRowSelectionService } from '../../services/selection/datagrid-row-selection.service';
 import { FuiPagerPage } from '../../types/pager';
 import { FuiRowModel } from '../../types/row-model.enum';
-import { ServerSideRowModelInterface } from '../../types/server-side-row-model';
 import { DatagridUtils } from '../../utils/datagrid-utils';
 import { orderByComparator } from '../../utils/sort';
 import { RowModel } from '../row-models/row-model';
@@ -21,11 +22,8 @@ import { RowModel } from '../row-models/row-model';
     <div class="container-fluid">
       <div class="row">
         <div class="col-auto">
-          <div unselectable="on" class="fui-datagrid-pager-total" *ngIf="totalRows !== null">
-            {{ totalRows }} {{ commonStrings.total }}
-          </div>
-          <div unselectable="on" class="fui-datagrid-pager-total" *ngIf="totalRows === null">
-            {{ startIndex + 1 }} to {{ endIndex }} of {{ serverSideTotalRows }}
+          <div unselectable="on" class="fui-datagrid-pager-total">
+            {{ getDatagridItemCountString() }}
           </div>
         </div>
         <div class="col">
@@ -45,8 +43,7 @@ import { RowModel } from '../row-models/row-model';
               *ngIf="displayedPages().length > 0"
               (click)="toPreviousPage()"
               [class.disabled]="isPageDisabled('previous')"
-              shape="fui-caret"
-              dir="left"
+              shape="fui-caret left"
             ></clr-icon>
             <div [hidden]="!withFooterPager" class="fui-datagrid-pagination-pages" *ngIf="displayedPages().length > 0">
               <div
@@ -65,8 +62,7 @@ import { RowModel } from '../row-models/row-model';
               *ngIf="displayedPages().length > 0"
               (click)="toNextPage()"
               [class.disabled]="isPageDisabled('next')"
-              shape="fui-caret"
-              dir="right"
+              shape="fui-caret right"
             ></clr-icon>
             <clr-icon
               [hidden]="!withFooterPager"
@@ -135,23 +131,21 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
     public commonStrings: FuiCommonStrings,
     private eventService: FuiDatagridEventService,
     private gridPanel: FuiDatagridService,
-    private rowModel: RowModel
+    private rowModel: RowModel,
+    private rowSelectionService: FuiDatagridRowSelectionService,
+    private stateService: DatagridStateService
   ) {
     this.subscriptions.push(
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED).subscribe(event => {
-        const ev: ServerSideRowDataChanged = event as ServerSideRowDataChanged;
-        if (ev.resultObject && ev.resultObject.total) {
-          this.totalRows = ev.resultObject.total;
-        }
-      }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_DATA_CHANGED).subscribe(event => {
-        const ev = event as RowDataChanged;
-        this.setTotalRows(ev);
-        this.resetPager();
-      }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_FILTER_CHANGED).subscribe(event => {
-        const ev: FuiFilterEvent = event as FuiFilterEvent;
-        this.setTotalRows(ev);
+      this.eventService
+        .listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED)
+        .subscribe((event: ServerSideRowDataChanged) => {
+          this.setTotalRows();
+          if (event.pageIndex === 0) {
+            this.resetPager();
+          }
+        }),
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_MODEL_UPDATED).subscribe(() => {
+        this.setTotalRows();
         this.resetPager();
       }),
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SORT_COLUMN_CHANGED).subscribe(() => {
@@ -164,7 +158,7 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
             this.gridPanel.virtualScrollViewport.vsChange.subscribe(pageInfo => {
               if (this.isServerSideRowModel()) {
                 this.startIndex = this.rowModel.getServerSideRowModel().offset;
-                this.endIndex = this.startIndex + this.rowModel.getServerSideRowModel().limit - 1; // The index is 0 based.
+                this.endIndex = this.startIndex + this.getLimit() - 1; // The index is 0 based.
               } else {
                 this.startIndex = pageInfo.startIndex;
                 this.endIndex = pageInfo.endIndex;
@@ -233,12 +227,11 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.rowModel.isServerSideRowModel() || this.rowModel.isInfiniteServerSideRowModel()) {
       // Both server-side and infinite-server-side row models are using the same behaviour.
-      const currentRowModel: ServerSideRowModelInterface = this.rowModel.getRowModel() as ServerSideRowModelInterface;
-      if (currentRowModel.limit && this.itemPerPagesList.indexOf(currentRowModel.limit) === -1) {
-        this.itemPerPagesList.push(currentRowModel.limit);
+      if (this.getLimit() && this.itemPerPagesList.indexOf(this.getLimit()) === -1) {
+        this.itemPerPagesList.push(this.getLimit());
         this.itemPerPagesList.sort(orderByComparator);
       }
-      this.itemPerPage = currentRowModel.limit;
+      this.itemPerPage = this.getLimit();
     }
     this.domObservers.push(
       DomObserver.observe(this.elementRef.nativeElement, (entries, observer) => {
@@ -276,8 +269,11 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
     if (this.gridPanel.virtualScrollViewport && page) {
       this.selectedPage = page;
       const isLastPage = !startIndex || this.lastPageIndex === page.index + 1;
-      if (this.isServerSideRowModel()) {
-        this.goToPage(false, page);
+      if (!this.isClientSideRowModel()) {
+        if (this.isServerSideRowModel()) {
+          this.stateService.setLoadingMore();
+        }
+        this.goToPage(!this.isServerSideRowModel(), page);
       } else {
         this.goToPage(true, page, isLastPage);
       }
@@ -437,6 +433,22 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
     this.pagerReset.emit(true);
   }
 
+  getDatagridItemCountString(): string {
+    if (this.totalRows !== null) {
+      if (this.rowSelectionService.initialized && this.rowSelectionService.getSelectionCount() > 0) {
+        return `${this.rowSelectionService.getSelectionCount()} selected of ${this.totalRows}`;
+      } else {
+        return `${this.totalRows} ${this.commonStrings.total}`;
+      }
+    } else {
+      if (this.rowSelectionService.initialized && this.rowSelectionService.getSelectionCount() > 0) {
+        return `${this.rowSelectionService.getSelectionCount()} selected of ${this.serverSideTotalRows}`;
+      } else {
+        return `${this.startIndex + 1} to ${this.endIndex} of ${this.serverSideTotalRows}`;
+      }
+    }
+  }
+
   /**
    *
    * @param index
@@ -448,16 +460,9 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
 
   /**
    *
-   * @param ev
    */
-  private setTotalRows(ev: RowDataChanged | FuiFilterEvent) {
-    if (ev.totalRows) {
-      this.totalRows = ev.totalRows;
-    } else if (ev.rowData) {
-      this.totalRows = ev.rowData.length;
-    } else {
-      this.totalRows = null;
-    }
+  private setTotalRows() {
+    this.totalRows = this.getRowCount();
   }
 
   /**
@@ -495,7 +500,7 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
       const startIdx: number = this.startIndex;
       const endIdx: number = this.endIndex;
       if (this.isInfiniteServerSideRowModel() && this.rowModel.getInfiniteServerSideRowModel()) {
-        const numberOfRowsInViewport: number = this.rowModel.getInfiniteServerSideRowModel().limit;
+        const numberOfRowsInViewport: number = this.getLimit();
         const maxReachedRowIndex: number = this.rowModel.getInfiniteServerSideRowModel().infiniteCache.maxReachedRowIndex;
         const totalPages: number = Math.ceil(maxReachedRowIndex / numberOfRowsInViewport) || 1;
 
@@ -512,11 +517,7 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
         }
       } else {
         this.pages = this.isServerSideRowModel() ? [...this.serverSidePages] : [];
-        this.addPage(
-          FuiDatagridPagerComponent.getPageNumberFromEndIndex(this.startIndex + 1, this.rowModel.getServerSideRowModel().limit),
-          startIdx,
-          endIdx
-        );
+        this.addPage(FuiDatagridPagerComponent.getPageNumberFromEndIndex(this.startIndex + 1, this.getLimit()), startIdx, endIdx);
       }
       this.maxPages = this.pages.length + 1 > this.maximumNumberOfPages ? this.maximumNumberOfPages : this.pages.length + 1;
     }
@@ -612,7 +613,7 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
         index: this.selectedPage.index + 1,
         value: this.selectedPage.value + 1,
         startIndex: this.selectedPage.endIndex + 1,
-        endIndex: this.selectedPage.endIndex + this.rowModel.getServerSideRowModel().limit,
+        endIndex: this.selectedPage.endIndex + this.getLimit(),
         serverSidePageLoaded: false
       };
     } else {
@@ -638,7 +639,7 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
     if (clientChange) {
       this.gridPanel.virtualScrollViewport.scrollToIndex(isLastPage ? page.endIndex : page.startIndex, true, 0, 0);
     } else if (this.isServerSideRowModel()) {
-      this.serverSidePageChange(page.startIndex, this.rowModel.getServerSideRowModel().limit);
+      this.serverSidePageChange(page.startIndex, this.getLimit());
     }
   }
 
@@ -648,5 +649,16 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
    */
   private isPageExist(index: number): boolean {
     return this.pages.findIndex(p => p.value === index) > -1;
+  }
+
+  private getRowCount(): number | null {
+    if (this.isClientSideRowModel()) {
+      return this.rowModel.getClientSideRowModel().getRowCount();
+    } else if (this.isInfiniteServerSideRowModel()) {
+      return this.rowModel.getInfiniteServerSideRowModel().totalRows;
+    } else if (this.isServerSideRowModel()) {
+      return this.rowModel.getServerSideRowModel().totalRows;
+    }
+    return null;
   }
 }

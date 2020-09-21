@@ -23,6 +23,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
+import { FeruiUtils } from '../../../utils/ferui-utils';
+
 import { NgDropdownPanelService, PanelDimensions } from './ng-dropdown-panel.service';
 import { DropdownPosition } from './ng-select.component';
 import { NgOption } from './ng-select.types';
@@ -50,7 +52,10 @@ const SCROLL_SCHEDULER = typeof requestAnimationFrame !== 'undefined' ? animatio
     <div *ngIf="footerTemplate" class="ng-dropdown-footer">
       <ng-container [ngTemplateOutlet]="footerTemplate" [ngTemplateOutletContext]="{ searchTerm: filterValue }"></ng-container>
     </div>
-  `
+  `,
+  host: {
+    '[class.fui-appendto-icon]': 'useIcon && appendTo'
+  }
 })
 export class NgDropdownPanelComponent implements OnInit, OnChanges, OnDestroy {
   @Output() readonly update = new EventEmitter<any[]>();
@@ -68,6 +73,7 @@ export class NgDropdownPanelComponent implements OnInit, OnChanges, OnDestroy {
   @Input() headerTemplate: TemplateRef<any>;
   @Input() footerTemplate: TemplateRef<any>;
   @Input() filterValue: string = null;
+  @Input() useIcon: boolean;
 
   @ViewChild('content', { read: ElementRef }) contentElementRef: ElementRef;
   @ViewChild('scroll', { read: ElementRef }) scrollElementRef: ElementRef;
@@ -384,6 +390,10 @@ export class NgDropdownPanelComponent implements OnInit, OnChanges, OnDestroy {
     this._parent.appendChild(this._dropdown);
   }
 
+  /**
+   * Update dropdown panel only when 'appendTo' is selected.
+   * @private
+   */
   private _updatePosition() {
     const select = this._select.getBoundingClientRect();
     const parent = this._parent.getBoundingClientRect();
@@ -392,8 +402,16 @@ export class NgDropdownPanelComponent implements OnInit, OnChanges, OnDestroy {
     this._setOffset(parent, select);
 
     this._dropdown.style.left = offsetLeft + 'px';
-    this._dropdown.style.width = select.width + 'px';
-    this._dropdown.style.minWidth = select.width + 'px';
+
+    // If we're using a custom table (like icons) for the select, we try to use the best width possible.
+    if (this.useIcon) {
+      const prefferedWidth = FeruiUtils.getPreferredWidthForItem(this._dropdown, this._parent);
+      this._dropdown.style.width = prefferedWidth + 'px';
+      this._dropdown.style.minWidth = prefferedWidth + 'px';
+    } else {
+      this._dropdown.style.width = select.width + 'px';
+      this._dropdown.style.minWidth = select.width + 'px';
+    }
   }
 
   private _setOffset(parent: ClientRect, select: ClientRect) {
