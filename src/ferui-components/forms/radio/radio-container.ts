@@ -16,9 +16,7 @@ import { RequiredControlService } from '../common/providers/required-control.ser
 @Component({
   selector: 'fui-radio-container',
   template: `
-    <ng-content select="label"></ng-content>
-    <label *ngIf="!label"></label>
-    <label *ngIf="!label"></label>
+    <ng-content select="[fuiLabel]"></ng-content>
     <div class="fui-control-container" [ngClass]="controlClass()">
       <ng-content select="fui-radio-wrapper"></ng-content>
       <div class="fui-radio-subtext-wrapper">

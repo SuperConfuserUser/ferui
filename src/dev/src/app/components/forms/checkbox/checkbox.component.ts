@@ -74,11 +74,11 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
       source: `
         <fui-checkbox-wrapper class="code">
           <input type="checkbox" fuiCheckbox name="two" [(ngModel)]="models.two" />
-          <label>Option 1</label>
+          <label fuiLabel>Option 1</label>
         </fui-checkbox-wrapper>
         <fui-checkbox-wrapper class="code">
           <input type="checkbox" fuiCheckbox name="twobis" [(ngModel)]="models.twobis" />
-          <label>Option 2</label>
+          <label fuiLabel>Option 2</label>
         </fui-checkbox-wrapper>`
     });
 
@@ -92,12 +92,12 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
       source: `
         <fui-checkbox-wrapper class="code">
           <input type="checkbox" fuiCheckbox name="three" [(ngModel)]="models.three"/>
-          <label>Option 1</label>
+          <label fuiLabel>Option 1</label>
         </fui-checkbox-wrapper>
         <fui-checkbox-container class="code">
           <fui-checkbox-wrapper>
             <input type="checkbox" fuiCheckbox name="threebis" required [(ngModel)]="models.threebis"/>
-            <label>Option 2</label>
+            <label fuiLabel>Option 2</label>
           </fui-checkbox-wrapper>
           <fui-control-error>This field is required!</fui-control-error>
         </fui-checkbox-container>`
@@ -114,12 +114,12 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
       source: `
         <fui-checkbox-wrapper>
           <input type="checkbox" [disabled]="params.disabled" fuiCheckbox name="four" [(ngModel)]="models.four"/>
-          <label>Option 1</label>
+          <label fuiLabel>Option 1</label>
         </fui-checkbox-wrapper>
         <fui-checkbox-container>
           <fui-checkbox-wrapper>
             <input type="checkbox" [disabled]="params.disabled" fuiCheckbox name="fourbis" [(ngModel)]="models.fourbis"/>
-            <label>Option 2</label>
+            <label fuiLabel>Option 2</label>
           </fui-checkbox-wrapper>
         </fui-checkbox-container>`
     });
@@ -147,16 +147,16 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
       source: `
         <fui-checkbox-wrapper>
           <input type="checkbox" fuiCheckbox name="fiveIndeterminate" [(ngModel)]="models.fiveIndeterminate" [indeterminate]="models.indeterminate" (change)="models.toggleAll()"/>
-          <label>Indeterminate (can be partially checked)</label>
+          <label fuiLabel>Indeterminate (can be partially checked)</label>
         </fui-checkbox-wrapper>
         <fui-checkbox-wrapper [ngStyle]="{ 'margin-left': '30px' }">
           <input type="checkbox" fuiCheckbox name="five" [(ngModel)]="models.five" (change)="models.shouldBeIndeterminate()"/>
-          <label>Option 1</label>
+          <label fuiLabel>Option 1</label>
         </fui-checkbox-wrapper>
         <fui-checkbox-container>
           <fui-checkbox-wrapper [ngStyle]="{ 'margin-left': '30px' }">
             <input type="checkbox" fuiCheckbox name="fivebis" [(ngModel)]="models.fivebis" (change)="models.shouldBeIndeterminate()"/>
-            <label>Option 2</label>
+            <label fuiLabel>Option 2</label>
           </fui-checkbox-wrapper>
         </fui-checkbox-container>`
     });

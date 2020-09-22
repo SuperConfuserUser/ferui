@@ -2,35 +2,11 @@ import { TestBed, async } from '@angular/core/testing';
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
+import { ClrIconModule } from '../../icon/icon.module';
 import { FuiCommonFormsModule } from '../common/common.module';
 import { IfErrorService } from '../common/if-error/if-error.service';
-
-import { NgControlService } from '../common/providers/ng-control.service';
 import { MarkControlService } from '../common/providers/mark-control.service';
-import { ClrIconModule } from '@ferui/components';
-
-export function ContainerNoLabelSpec(testContainer, testControl, testComponent): void {
-  describe('no label', () => {
-    let fixture, containerDE, containerEl;
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [ClrIconModule, FuiCommonFormsModule, FormsModule],
-        declarations: [testContainer, testControl, testComponent],
-        providers: [NgControl, NgControlService, IfErrorService, MarkControlService]
-      });
-      fixture = TestBed.createComponent(testComponent);
-
-      containerDE = fixture.debugElement.query(By.directive(testContainer));
-      containerEl = containerDE.nativeElement;
-    });
-
-    it('adds an empty label when instantiated', () => {
-      fixture.detectChanges();
-      const labels = containerEl.querySelectorAll('label');
-      expect(Array.prototype.filter.call(labels, label => label.textContent === '').length).toBeGreaterThanOrEqual(1);
-    });
-  });
-}
+import { NgControlService } from '../common/providers/ng-control.service';
 
 export function TemplateDrivenSpec(testContainer, testControl, testComponent, wrapperClass): void {
   fullSpec('template-driven', testContainer, testControl, testComponent, wrapperClass);
@@ -67,10 +43,12 @@ function fullSpec(description, testContainer, directives: any | any[], testCompo
       expect(container.subscriptions[0]).toBeTruthy();
     });
 
-    it('projects the label as first child', () => {
-      const label = containerEl.querySelector('label');
-      expect(label).toBeTruthy();
-      expect(label.previousElementSibling).toBeFalsy();
+    it('projects the label as first child if any', () => {
+      const label = containerEl.querySelector('[fuiLabel]');
+      if (label) {
+        expect(label).toBeTruthy();
+        expect(label.previousElementSibling).toBeFalsy();
+      }
     });
 
     it('projects the control inside of the wrapper', () => {
@@ -78,11 +56,11 @@ function fullSpec(description, testContainer, directives: any | any[], testCompo
     });
 
     it('sets error classes and displays the icon when invalid', () => {
-      expect(containerEl.querySelector('.fui-control-container').classList.contains('fui-error')).toBeFalse();
+      expect(containerEl.querySelector('.fui-control-container').classList.contains('fui-error')).toBeFalsy();
       expect(containerEl.querySelector('.fui-error-icon')).toBeFalsy();
       container.invalid = true;
       fixture.detectChanges();
-      expect(containerEl.querySelector('.fui-control-container').classList.contains('fui-error')).toBeTrue();
+      expect(containerEl.querySelector('.fui-control-container').classList.contains('fui-error')).toBeTruthy();
       expect(containerEl.querySelector('.fui-error-icon')).toBeTruthy();
     });
 
@@ -104,10 +82,10 @@ function fullSpec(description, testContainer, directives: any | any[], testCompo
     });
 
     it('tracks the validity of the form control', () => {
-      expect(container.invalid).toBeFalse();
+      expect(container.invalid).toBeFalsy();
       markControlService.markAsDirty();
       fixture.detectChanges();
-      expect(container.invalid).toBeTrue();
+      expect(container.invalid).toBeTruthy();
     });
 
     it('tracks the disabled state', async(() => {

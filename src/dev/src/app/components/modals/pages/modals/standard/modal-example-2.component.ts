@@ -26,7 +26,7 @@ import {
     </p>
     <form fuiForm novalidate>
       <fui-input-container>
-        <label>Username</label>
+        <label fuiLabel>Username</label>
         <input
           fuiInput
           name="username"
@@ -37,7 +37,7 @@ import {
         />
       </fui-input-container>
       <fui-password-container>
-        <label>Password</label>
+        <label fuiLabel>Password</label>
         <input
           fuiPassword
           name="password"
@@ -48,7 +48,7 @@ import {
         />
       </fui-password-container>
       <fui-password-container>
-        <label>Confirm password</label>
+        <label fuiLabel>Confirm password</label>
         <input
           fuiPassword
           name="passwordConfirm"
@@ -61,7 +61,7 @@ import {
         <fui-control-error *fuiIfError="'valuesEqual'"> The two passwords doesn't match. </fui-control-error>
       </fui-password-container>
       <fui-date-container>
-        <label>Birth Date</label>
+        <label fuiLabel>Birth Date</label>
         <input
           name="birthDate"
           type="date"

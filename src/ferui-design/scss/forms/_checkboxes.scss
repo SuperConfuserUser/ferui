@@ -5,7 +5,7 @@
   .fui-checkbox-wrapper {
     display: block;
     position: relative;
-    height: $checkbox-min-height;
+    height: $checkbox-min-height; // 20px
     width: auto;
     margin: 10px 0 0 0;
 
@@ -16,8 +16,7 @@
       width: $checkbox-min-height; // 20px
       border: 1px solid $gray-300;
       border-radius: 3px;
-      box-sizing: border-box;
-      content: '';
+      box-sizing: content-box; // This is important for good positioning of inner icons.
       top: 0;
       left: 0;
       display: inline-block;
@@ -28,16 +27,16 @@
         box-sizing: border-box;
         position: absolute;
         top: 0;
-        width: $checkmark-width;
-        height: 0.565rem;
-        left: calc((1.25rem - 0.5rem) / 2);
-        transform: translate(0, calc((1.15rem - 0.5rem) / 2));
+        width: $checkmark-width; // 8px
+        height: $checkmark-width; // 8px
+        left: $checkmark-left-value; // 6px
+        transform: translate(0, $checkmark-left-value);
         color: $white;
       }
       &.checked,
       &.indeterminate {
         background-color: $blue;
-        border: none;
+        border-color: $blue;
       }
     }
 
@@ -71,14 +70,20 @@
         + label {
           color: $gray-500 !important;
           cursor: default !important;
+        }
 
-          &::before {
-            background-color: $gray-200 !important;
-            border-color: $gray-400 !important;
+        ~ .checkbox-holder {
+          background-color: $gray-200 !important;
+          border-color: $gray-400 !important;
+
+          .fui-tick,
+          .fui-less {
+            fill: $gray-500 !important;
           }
 
-          &::after {
-            color: $gray-500 !important;
+          &.checked,
+          &.indeterminate {
+            border-color: $gray-400 !important;
           }
         }
       }

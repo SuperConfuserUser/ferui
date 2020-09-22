@@ -28,8 +28,7 @@ import { DateNavigationService } from './providers/date-navigation.service';
   template: `
     <div class="fui-control-container" [ngClass]="controlClass()">
       <div class="fui-date-wrapper">
-        <ng-content select="label" *ngIf="label"></ng-content>
-        <label *ngIf="!label"></label>
+        <ng-content select="[fuiLabel]"></ng-content>
         <ng-content select="[fuiDate]"></ng-content>
         <fui-datepicker-view-manager *fuiIfOpen fuiFocusTrap [appendTo]="appendTo"></fui-datepicker-view-manager>
         <label class="fui-control-icons">

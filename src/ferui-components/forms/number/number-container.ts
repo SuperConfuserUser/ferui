@@ -23,8 +23,7 @@ import { NumberIoService } from './providers/number-io.service';
   template: `
     <div class="fui-control-container" [ngClass]="controlClass()">
       <div class="fui-input-wrapper">
-        <ng-content select="label" *ngIf="label"></ng-content>
-        <label *ngIf="!label"></label>
+        <ng-content select="[fuiLabel]"></ng-content>
 
         <div class="input-number-wrapper">
           <ng-content select="[fuiNumber]"></ng-content>

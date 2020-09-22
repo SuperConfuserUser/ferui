@@ -19,7 +19,7 @@ import { FuiDatagridBaseFilter } from './base-filter';
       </div>
       <div [class.col-3]="isInRange()" [class.col-5]="!isInRange()">
         <fui-select-container>
-          <label></label>
+          <label fuiLabel></label>
           <fui-select
             fuiSelect
             name="fuiDatagridDateFilterType"
@@ -35,7 +35,7 @@ import { FuiDatagridBaseFilter } from './base-filter';
       </div>
       <div [class.col-3]="isInRange()" [class.col-4]="!isInRange()">
         <fui-date-container [appendTo]="'.fui-datagrid-filters-popover'">
-          <label>{{ isInRange() ? translate('filterBetween') : translate('filterOoo') }}</label>
+          <label fuiLabel>{{ isInRange() ? translate('filterBetween') : translate('filterOoo') }}</label>
           <input
             [layout]="fuiFormLayoutEnum.SMALL"
             name="fuiDatagridDateFilterSearch"
@@ -47,7 +47,7 @@ import { FuiDatagridBaseFilter } from './base-filter';
       </div>
       <div class="col-3" *ngIf="isInRange()">
         <fui-date-container [appendTo]="'.fui-datagrid-filters-popover'">
-          <label>{{ translate('filterAnd') }}</label>
+          <label fuiLabel>{{ translate('filterAnd') }}</label>
           <input
             [layout]="fuiFormLayoutEnum.SMALL"
             name="fuiDatagridDateFilterSearchTo"

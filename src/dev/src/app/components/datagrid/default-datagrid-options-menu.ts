@@ -9,7 +9,7 @@ import { FuiDatagridApiService, FuiDatagridColumnApiService, FuiDatagridComponen
       <div class="row">
         <div class="col col-auto" *ngIf="isInfiniteOrServerSideRowModel()">
           <fui-select-container>
-            <label>Bandwidth speed</label>
+            <label fuiLabel>Bandwidth speed</label>
             <fui-select
               fuiSelect
               [name]="bandwidthSpeedName"

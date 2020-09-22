@@ -2,15 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { IfErrorService } from '../common/if-error/if-error.service';
-import { NgControlService } from '../common/providers/ng-control.service';
-
+import { ClrIconModule } from '../../icon/icon.module';
 import { FuiCommonFormsModule } from '../common/common.module';
-import { WrappedFormControl } from '../common/wrapped-control';
-import { ControlIdService } from '../common/providers/control-id.service';
+import { IfErrorService } from '../common/if-error/if-error.service';
 import { ControlClassService } from '../common/providers/control-class.service';
+import { ControlIdService } from '../common/providers/control-id.service';
 import { MarkControlService } from '../common/providers/mark-control.service';
-import { ClrIconModule } from '@ferui/components';
+import { NgControlService } from '../common/providers/ng-control.service';
+import { WrappedFormControl } from '../common/wrapped-control';
 
 export function ControlStandaloneSpec(testComponent): void {
   describe('standalone use', () => {

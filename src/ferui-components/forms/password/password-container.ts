@@ -29,8 +29,7 @@ export function ToggleServiceProvider() {
   template: `
     <div class="fui-control-container" [ngClass]="controlClass()">
       <div class="fui-input-wrapper">
-        <ng-content select="label" *ngIf="label"></ng-content>
-        <label *ngIf="!label"></label>
+        <ng-content select="[fuiLabel]"></ng-content>
         <ng-content select="[fuiPassword]"></ng-content>
         <label class="fui-control-icons">
           <clr-icon *ngIf="!show && fuiToggle" shape="fui-eye" class="fui-input-group-icon-action" (click)="toggle()"></clr-icon>

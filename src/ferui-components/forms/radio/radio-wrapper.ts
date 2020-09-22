@@ -10,8 +10,7 @@ import { FuiFormLayoutService } from '../common/providers/form-layout.service';
   selector: 'fui-radio-wrapper',
   template: `
     <ng-content select="[fuiRadio]"></ng-content>
-    <ng-content select="label"></ng-content>
-    <label *ngIf="!label"></label>
+    <ng-content select="[fuiLabel]"></ng-content>
   `,
   host: {
     '[class.fui-radio-wrapper]': 'true'

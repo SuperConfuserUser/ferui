@@ -81,7 +81,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
       canDisable: false,
       source: `
         <fui-input-container #code>
-          <label>Full example</label>
+          <label fuiLabel>Full example</label>
           <input placeholder="With placeholder" fuiInput name="three" [(ngModel)]="models.three" required/>
           <fui-control-error>This field is required (this message overwrite any other ones)</fui-control-error>
         </fui-input-container>`
@@ -94,7 +94,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
       canDisable: true,
       source: `
         <fui-input-container #code>
-          <label>Full example (disabled)</label>
+          <label fuiLabel>Full example (disabled)</label>
           <input fuiInput name="four" [(ngModel)]="models.four" required [disabled]="params.disabled"/>
           <fui-control-error *fuiIfError="'required'">This field is required (this message overwrite any other ones)</fui-control-error>
         </fui-input-container>`
@@ -107,7 +107,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
       canDisable: true,
       source: `
         <fui-input-container #code>
-          <label>Full example (disabled, filled)</label>
+          <label fuiLabel>Full example (disabled, filled)</label>
           <input fuiInput name="five" [(ngModel)]="models.five" required [disabled]="params.disabled"/>
           <!-- All the validator messages are default ones -->
         </fui-input-container>`
@@ -119,7 +119,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
       canDisable: false,
       source: `
         <fui-input-container #code>
-          <label>Full example (multiple validators)</label>
+          <label fuiLabel>Full example (multiple validators)</label>
           <input fuiInput name="six" [(ngModel)]="models.six" required email/>
           <!-- All the validator messages are default ones -->
         </fui-input-container>`
@@ -131,7 +131,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
       canDisable: false,
       source: `
         <fui-input-container #code>
-          <label>Custom example (ipv4 validator)</label>
+          <label fuiLabel>Custom example (ipv4 validator)</label>
           <input fuiInput name="seven" [(ngModel)]="models.seven" required ipv4Address/>
           <fui-control-error *fuiIfError="'required'">
             This field is required (this message overwrite default require message)

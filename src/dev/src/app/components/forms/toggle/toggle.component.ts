@@ -27,42 +27,42 @@ export class ToggleComponent extends AbstractControlDemoComponent implements OnI
 
   inputTwoSource = `<fui-toggle-wrapper>
   <input type="checkbox" fuiToggle name="twoA" [(ngModel)]="models.twoA" />
-  <label>Toggle me</label>
+  <label fuiLabel>Toggle me</label>
 </fui-toggle-wrapper>
 <fui-toggle-wrapper>
-  <label>Toggle me too</label>
+  <label fuiLabel>Toggle me too</label>
   <input type="checkbox" fuiToggle name="twoB" [(ngModel)]="models.twoB" />
 </fui-toggle-wrapper>`;
 
   inputThreeSource = `<fui-toggle-container>
   <fui-toggle-wrapper>
     <input type="checkbox" fuiToggle name="threeA" [(ngModel)]="models.threeA" required>
-    <label>You must toggle me!</label>
+    <label fuiLabel>You must toggle me!</label>
   </fui-toggle-wrapper>
 </fui-toggle-container>
 <fui-toggle-container>
   <fui-toggle-wrapper>
     <input type="checkbox" fuiToggle name="threeB" [(ngModel)]="models.threeB" required>
-    <label>You must toggle me too!</label>
+    <label fuiLabel>You must toggle me too!</label>
   </fui-toggle-wrapper>
   <fui-control-error>Toggle me you must!</fui-control-error>
 </fui-toggle-container>
 <fui-toggle-container>
   <fui-toggle-wrapper>
     <input type="checkbox" fuiToggle name="threeC" [(ngModel)]="models.threeC" required>
-    <label>Toggle for pineapple on pizza</label>
+    <label fuiLabel>Toggle for pineapple on pizza</label>
   </fui-toggle-wrapper>
   <fui-control-error *fuiIfError="'required'">Pineapple belongs on pizza</fui-control-error>
 </fui-toggle-container>`;
 
   inputFourSource = `<fui-toggle-wrapper>
   <input type="checkbox" [disabled]="params.disabled" fuiToggle name="fourA" [(ngModel)]="models.fourA">
-  <label>Add avocado</label>
+  <label fuiLabel>Add avocado</label>
 </fui-toggle-wrapper>
 <fui-toggle-container>
   <fui-toggle-wrapper>
     <input type="checkbox" [disabled]="params.disabled" fuiToggle name="fourB" [(ngModel)]="models.fourB">
-    <label>Add bacon</label>
+    <label fuiLabel>Add bacon</label>
   </fui-toggle-wrapper>
 </fui-toggle-container>`;
 

@@ -42,7 +42,7 @@ export function DEFAULT_BOOLEAN_FORMATTER(value: string | boolean) {
             (ngModelChange)="onChange($event)"
             [(ngModel)]="model"
           />
-          <label>Truthy</label>
+          <label fuiLabel>Truthy</label>
         </fui-radio-wrapper>
       </div>
       <div class="col-3">
@@ -55,7 +55,7 @@ export function DEFAULT_BOOLEAN_FORMATTER(value: string | boolean) {
             (ngModelChange)="onChange($event)"
             [(ngModel)]="model"
           />
-          <label>Falsy</label>
+          <label fuiLabel>Falsy</label>
         </fui-radio-wrapper>
       </div>
       <div class="col-3"></div>

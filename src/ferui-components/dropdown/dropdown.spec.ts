@@ -207,7 +207,7 @@ export default function (): void {
         <clr-icon shape="caret down"></clr-icon>
       </button>
       <fui-dropdown-menu *fuiIfOpen>
-        <label class="dropdown-header">Header</label>
+        <label fuiLabel class="dropdown-header">Header</label>
         <a href="javascript://" fuiDropdownItem>Item</a>
         <a href="javascript://" class="disabled" fuiDropdownItem>Disabled Item</a>
         <fui-dropdown>

@@ -26,8 +26,7 @@ import { FuiSelectService } from './select.service';
       <div class="fui-select-wrapper">
         <ng-content select="[fuiSelectIcon]"></ng-content>
         <ng-content select="[fuiSelect]"></ng-content>
-        <ng-content select="label" *ngIf="label"></ng-content>
-        <label *ngIf="!label"></label>
+        <ng-content select="[fuiLabel]"></ng-content>
         <div class="select-arrow"></div>
         <label class="fui-control-icons">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>

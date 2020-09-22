@@ -39,8 +39,7 @@ export interface DatetimeInterface {
         [class.fui-datetime-3]="_numberOfControls === 3"
         [class.fui-datetime-2]="_numberOfControls === 2"
       >
-        <ng-content select="label" *ngIf="label"></ng-content>
-        <label *ngIf="!label"></label>
+        <ng-content select="[fuiLabel]"></ng-content>
         <ng-content select="[fuiDatetime]"></ng-content>
 
         <fui-date-container>

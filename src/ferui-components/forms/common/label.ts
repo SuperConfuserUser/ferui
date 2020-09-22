@@ -19,8 +19,12 @@ import { NgControlService } from './providers/ng-control.service';
 import { PlaceholderService } from './providers/placeholder.service';
 import { RequiredControlService } from './providers/required-control.service';
 
-// tslint:disable-next-line
-@Directive({ selector: 'label' })
+@Directive({
+  selector: '[fuiLabel]',
+  host: {
+    '[class.fui-label]': 'true'
+  }
+})
 export class FuiLabelDirective implements OnInit, OnDestroy {
   @HostBinding('attr.tabindex') tabindex: number = 0;
   @HostBinding('attr.for')
@@ -45,11 +49,7 @@ export class FuiLabelDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Only add the fui-control-label if it is inside a control container
-    // We also avoid all 'fui-control-icons' labels.
-    if (
-      !this.elementRef.nativeElement.classList.contains('fui-control-icons') &&
-      (this.controlIdService || this.ngControlService)
-    ) {
+    if (this.controlIdService || this.ngControlService) {
       this.init();
     }
     this._value.next(this.elementRef.nativeElement.innerText);

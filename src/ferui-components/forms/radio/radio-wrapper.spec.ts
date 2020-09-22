@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { WrapperContainerSpec, WrapperFullSpec, WrapperNoLabelSpec } from '../tests/wrapper.spec';
+import { WrapperContainerSpec, WrapperFullSpec } from '../tests/wrapper.spec';
 
 import { FuiRadioDirective } from './radio';
 import { FuiRadioContainerComponent } from './radio-container';
@@ -9,23 +9,12 @@ import { FuiRadioWrapperComponent } from './radio-wrapper';
 @Component({
   template: `
     <fui-radio-wrapper>
-      <label>Hello World</label>
+      <label fuiLabel>Hello World</label>
       <input type="radio" fuiRadio name="model" [(ngModel)]="model" />
     </fui-radio-wrapper>
   `
 })
 class FullTest {
-  model = '';
-}
-
-@Component({
-  template: `
-    <fui-radio-wrapper>
-      <input type="radio" fuiRadio name="model" [(ngModel)]="model" />
-    </fui-radio-wrapper>
-  `
-})
-class NoLabelTest {
   model = '';
 }
 
@@ -44,7 +33,6 @@ class ContainerTest {
 
 export default function (): void {
   describe('FuiRadioWrapperComponent', () => {
-    WrapperNoLabelSpec(FuiRadioWrapperComponent, FuiRadioDirective, NoLabelTest);
     WrapperFullSpec(FuiRadioWrapperComponent, FuiRadioDirective, FullTest, 'fui-radio-wrapper');
     WrapperContainerSpec(
       FuiRadioContainerComponent,
