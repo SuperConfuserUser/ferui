@@ -16,8 +16,7 @@ import { RequiredControlService } from '../common/providers/required-control.ser
 @Component({
   selector: 'fui-checkbox-container',
   template: `
-    <ng-content select="label"></ng-content>
-    <label *ngIf="!label"></label>
+    <ng-content select="[fuiLabel]"></ng-content>
     <div class="fui-control-container" [ngClass]="controlClass()">
       <ng-content select="fui-checkbox-wrapper"></ng-content>
       <div class="fui-checkbox-subtext-wrapper">

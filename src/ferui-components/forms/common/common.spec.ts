@@ -16,9 +16,9 @@ import { WrappedFormControl } from './wrapped-control';
 @Component({
   selector: 'generic-wrapper',
   template: `
-    <label id="container-view-label-before"></label>
+    <label fuiLabel id="container-view-label-before"></label>
     <ng-content></ng-content>
-    <label id="container-view-label-after"></label>
+    <label fuiLabel id="container-view-label-after"></label>
   `,
   providers: [ControlIdService]
 })
@@ -61,9 +61,9 @@ class NoWrapperWithId {}
 @Component({
   template: `
     <generic-wrapper>
-      <label id="test-view-label-before"></label>
+      <label fuiLabel id="test-view-label-before"></label>
       <input genericControl />
-      <label id="test-view-label-after"></label>
+      <label fuiLabel id="test-view-label-after"></label>
     </generic-wrapper>
   `
 })
@@ -72,9 +72,9 @@ class WithWrapperNoId {}
 @Component({
   template: `
     <generic-wrapper>
-      <label id="test-view-label-before"></label>
+      <label fuiLabel id="test-view-label-before"></label>
       <input genericControl id="hello" />
-      <label id="test-view-label-after"></label>
+      <label fuiLabel id="test-view-label-after"></label>
     </generic-wrapper>
   `
 })

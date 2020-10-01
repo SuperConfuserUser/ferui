@@ -106,7 +106,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       canDisable: false,
       source: `
           <fui-select-container #code>
-            <label>Select value</label>
+            <label fuiLabel>Select value</label>
             <fui-select
               fuiSelect
               name="country"
@@ -126,7 +126,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       canDisable: false,
       source: `
           <fui-select-container #code>
-            <label>Countries</label>
+            <label fuiLabel>Countries</label>
             <fui-select
               fuiSelect
               name="countries"
@@ -172,7 +172,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       canDisable: false,
       source: `
           <fui-select-container #code>
-            <label>Countries</label>
+            <label fuiLabel>Countries</label>
             <fui-select
               fuiSelect
               name="countriesSmall"
@@ -196,7 +196,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       canDisable: false,
       source: `
           <fui-select-container #code>
-            <label>Countries</label>
+            <label fuiLabel>Countries</label>
             <fui-select fuiSelect
               name="countriesSmallMultiple"
               [items]="params.countries"
@@ -221,7 +221,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
             awesomeness of ng-select though ;-)
           </p>
           <fui-select-container #code>
-            <label>City</label>
+            <label fuiLabel>City</label>
             <select placeholder="Please select a city"
               fuiSelect
               required

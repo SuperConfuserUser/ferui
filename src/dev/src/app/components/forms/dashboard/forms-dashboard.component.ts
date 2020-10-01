@@ -63,30 +63,30 @@ export class FormsDashboardComponent {
 </form>`;
   basicStructureExample = `<form fuiForm>
   <fui-input-container>
-    <label>Field 1 label</label>
+    <label fuiLabel>Field 1 label</label>
     <input fuiInput type="text" [(ngModel)]="model" name="example" />
   </fui-input-container>
   <fui-input-container>
-    <label>Field 2 label</label>
+    <label fuiLabel>Field 2 label</label>
     <input fuiInput type="text" [(ngModel)]="model" name="example" />
   </fui-input-container>
 </form>`;
   basicValidationExample = `<form fuiForm>
   <fui-input-container>
-    <label>Field 1 label</label>
+    <label fuiLabel>Field 1 label</label>
     <input fuiInput type="text" [(ngModel)]="model" name="example" required />
     <fui-control-error>Error message that appears after focus is lost and control is invalid</fui-control-error>
   </fui-input-container>
 </form>`;
   multipleErrorMsgExample = `<fui-input-container>
-  <label>Full example (multiple validators)</label>
+  <label fuiLabel>Full example (multiple validators)</label>
   <input fuiInput name="full" [(ngModel)]="model" required email/>
   <fui-control-error *fuiIfError="'required'">This field is required</fui-control-error>
   <fui-control-error *fuiIfError="'email'">You didn't type a valid email address</fui-control-error>
 </fui-input-container>`;
 
   defaultErrorMessages = `<fui-input-container>
-  <label>Full example</label>
+  <label fuiLabel>Full example</label>
   <input fuiInput name="full" [(ngModel)]="model" required email />
   <!-- All validator messages are default ones -->
 </fui-input-container>`;

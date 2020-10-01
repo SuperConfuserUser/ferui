@@ -37,7 +37,7 @@ class WidgetWithTextContent {}
         <fui-widget-subtitle>Widget subtitle</fui-widget-subtitle>
         <fui-widget-actions>
           <fui-date-container class="m-0">
-            <label>Start Date</label>
+            <label fuiLabel>Start Date</label>
             <input
               name="userDate"
               type="date"
@@ -51,7 +51,7 @@ class WidgetWithTextContent {}
       <fui-widget-body>
         <fui-checkbox-wrapper>
           <input type="checkbox" fuiCheckbox name="checkboxTwo" [(ngModel)]="models.checkbox" />
-          <label>Option 2</label>
+          <label fuiLabel>Option 2</label>
         </fui-checkbox-wrapper>
       </fui-widget-body>
       <fui-widget-footer>Widget footer</fui-widget-footer>

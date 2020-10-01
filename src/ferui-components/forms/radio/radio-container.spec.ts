@@ -1,27 +1,22 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { ContainerNoLabelSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
+import { ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
 
 import { FuiRadioDirective } from './radio';
 import { FuiRadioContainerComponent } from './radio-container';
 import { FuiRadioWrapperComponent } from './radio-wrapper';
 
 @Component({
-  template: ` <fui-radio-container></fui-radio-container> `
-})
-class NoLabelTest {}
-
-@Component({
   template: `
     <fui-radio-container>
-      <label>Hello World</label>
+      <label fuiLabel>Hello World</label>
       <fui-radio-wrapper>
-        <label>One</label>
+        <label fuiLabel>One</label>
         <input type="radio" fuiRadio name="model" required [(ngModel)]="model" value="one" />
       </fui-radio-wrapper>
       <fui-radio-wrapper>
-        <label>Two</label>
+        <label fuiLabel>Two</label>
         <input type="radio" fuiRadio name="model" required [(ngModel)]="model" value="two" [disabled]="disabled" />
       </fui-radio-wrapper>
       <fui-control-error>There was an error</fui-control-error>
@@ -38,13 +33,13 @@ class TemplateDrivenTest {
   template: `
     <form [formGroup]="form">
       <fui-radio-container>
-        <label>Hello World</label>
+        <label fuiLabel>Hello World</label>
         <fui-radio-wrapper>
-          <label>One</label>
+          <label fuiLabel>One</label>
           <input fuiRadio type="radio" formControlName="model" value="one" />
         </fui-radio-wrapper>
         <fui-radio-wrapper>
-          <label>Two</label>
+          <label fuiLabel>Two</label>
           <input fuiRadio type="radio" formControlName="model" value="two" />
         </fui-radio-wrapper>
         <fui-control-error>There was an error</fui-control-error>
@@ -61,7 +56,6 @@ class ReactiveTest {
 
 export default function (): void {
   describe('FuiRadioContainerComponent', () => {
-    ContainerNoLabelSpec(FuiRadioContainerComponent, [FuiRadioDirective, FuiRadioWrapperComponent], NoLabelTest);
     TemplateDrivenSpec(
       FuiRadioContainerComponent,
       [FuiRadioDirective, FuiRadioWrapperComponent],

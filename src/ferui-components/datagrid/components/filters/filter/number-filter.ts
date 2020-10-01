@@ -21,7 +21,7 @@ export interface INumberFilterParams extends IScalarFilterParams {
       </div>
       <div [class.col-3]="isInRange()" [class.col-5]="!isInRange()">
         <fui-select-container>
-          <label></label>
+          <label fuiLabel></label>
           <fui-select
             fuiSelect
             name="fuiDatagridNumberFilterType"
@@ -37,7 +37,7 @@ export interface INumberFilterParams extends IScalarFilterParams {
       </div>
       <div [class.col-3]="isInRange()" [class.col-4]="!isInRange()">
         <fui-input-container>
-          <label>{{ isInRange() ? translate('filterBetween') : translate('filterOoo') }}</label>
+          <label fuiLabel>{{ isInRange() ? translate('filterBetween') : translate('filterOoo') }}</label>
           <input
             [layout]="fuiFormLayoutEnum.SMALL"
             type="number"
@@ -51,7 +51,7 @@ export interface INumberFilterParams extends IScalarFilterParams {
       </div>
       <div class="col-3" *ngIf="isInRange()">
         <fui-input-container>
-          <label>{{ translate('filterAnd') }}</label>
+          <label fuiLabel>{{ translate('filterAnd') }}</label>
           <input
             [layout]="fuiFormLayoutEnum.SMALL"
             type="number"

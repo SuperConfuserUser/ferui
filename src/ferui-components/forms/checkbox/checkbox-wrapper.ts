@@ -14,8 +14,7 @@ import { FuiCheckboxService, FuiCheckboxStateEnum } from './checkbox.service';
   selector: 'fui-checkbox-wrapper',
   template: `
     <ng-content select="[fuiCheckbox]"></ng-content>
-    <ng-content select="label"></ng-content>
-    <label *ngIf="!label"></label>
+    <ng-content select="[fuiLabel]"></ng-content>
     <div
       class="checkbox-holder"
       [class.checked]="checkboxState === fuiCheckboxStateEnum.CHECKED"

@@ -65,7 +65,7 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
       canDisable: false,
       source: `
         <fui-password-container #code>
-          <label>Full example</label>
+          <label fuiLabel>Full example</label>
           <input placeholder="With placeholder" fuiPassword name="two" [(ngModel)]="models.two" required />
           <fui-control-error>This field is required (this message overwrite any other ones)</fui-control-error>
         </fui-password-container>`
@@ -78,7 +78,7 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
       canDisable: true,
       source: `
         <fui-password-container #code>
-          <label>Full example (disabled)</label>
+          <label fuiLabel>Full example (disabled)</label>
           <input fuiPassword name="three" [(ngModel)]="models.three" required [disabled]="params.disabled" />
           <fui-control-error *fuiIfError="'required'">
             This field is required (this message overwrite any other ones)
@@ -93,7 +93,7 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
       canDisable: true,
       source: `
         <fui-password-container>
-          <label>Full example (disabled, filled)</label>
+          <label fuiLabel>Full example (disabled, filled)</label>
           <input fuiPassword name="four" [(ngModel)]="models.four" required [disabled]="params.disabled"/>
           <!-- All the validator messages are default ones -->
         </fui-password-container>`

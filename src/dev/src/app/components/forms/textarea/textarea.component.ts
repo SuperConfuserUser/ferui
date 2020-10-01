@@ -77,7 +77,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
       canDisable: false,
       source: `
         <fui-textarea-container #code>
-          <label for="three">Full example</label>
+          <label fuiLabel for="three">Full example</label>
           <textarea placeholder="With placeholder" fuiTextarea id="three" name="three" [(ngModel)]="models.three" required></textarea>
         </fui-textarea-container>`
     });
@@ -88,7 +88,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
       canDisable: true,
       source: `
         <fui-textarea-container #code>
-          <label for="four">Full example (disabled)</label>
+          <label fuiLabel for="four">Full example (disabled)</label>
           <textarea fuiTextarea id="four" name="four" [(ngModel)]="models.four" required [disabled]="params.disabled"></textarea>
           <fui-control-error>This field is required</fui-control-error>
         </fui-textarea-container>`
@@ -100,7 +100,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
       canDisable: true,
       source: `
         <fui-textarea-container #code>
-          <label for="five">Full example (disabled, filled)</label>
+          <label fuiLabel for="five">Full example (disabled, filled)</label>
           <textarea fuiTextarea id="five" name="five" [(ngModel)]="models.five" required [disabled]="disabled"></textarea>
           <fui-control-error>This field is required</fui-control-error>
         </fui-textarea-container>`
@@ -111,7 +111,7 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
       canDisable: false,
       source: `
         <fui-textarea-container #code>
-          <label for="six">Full example (multiple validators)</label>
+          <label fuiLabel for="six">Full example (multiple validators)</label>
           <textarea fuiTextarea id="six" name="six" [(ngModel)]="models.six" required email></textarea>
           <fui-control-error *fuiIfError="'required'">This field is required</fui-control-error>
           <fui-control-error *fuiIfError="'email'">You didn't type an email address</fui-control-error>

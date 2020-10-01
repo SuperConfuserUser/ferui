@@ -10,8 +10,7 @@ import { FuiFormLayoutService } from '../common/providers/form-layout.service';
   selector: 'fui-toggle-wrapper',
   template: `
     <ng-content select="[fuiToggle]"></ng-content>
-    <ng-content select="label"></ng-content>
-    <label *ngIf="!label"></label>
+    <ng-content select="[fuiLabel]"></ng-content>
   `,
   host: {
     '[class.fui-toggle-wrapper]': 'true'

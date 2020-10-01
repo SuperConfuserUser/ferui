@@ -120,7 +120,7 @@ export class WidgetDemoComponent implements OnInit {
           </fui-widget-header>
           <fui-widget-body class="p-3">
             <fui-input-container>
-              <label>Enter your name</label>
+              <label fuiLabel>Enter your name</label>
               <input placeholder="With placeholder" fuiInput name="three" [(ngModel)]="models.three" required/>
               <fui-control-error>This field is required (this message overwrite any other ones)</fui-control-error>
             </fui-input-container>
@@ -142,7 +142,7 @@ export class WidgetDemoComponent implements OnInit {
             <fui-widget-subtitle>Ubuntu Linux (64 bits)</fui-widget-subtitle>
             <fui-widget-actions>
               <fui-date-container>
-                <label>Start Date</label>
+                <label fuiLabel>Start Date</label>
                 <input name="oneDate" type="date" placeholder="Choose a date from datepicker" [fuiDate]="params.dateType" [(ngModel)]="models.date"/>
               </fui-date-container>
             </fui-widget-actions>

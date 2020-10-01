@@ -9,40 +9,40 @@ import { PlaceholderService } from './providers/placeholder.service';
 import { RequiredControlService } from './providers/required-control.service';
 
 @Component({
-  template: ` <label></label> `
+  template: ` <label fuiLabel></label> `
 })
 class NoForTest {}
 
 @Component({
-  template: ` <label for="hello"></label> `
+  template: ` <label fuiLabel for="hello"></label> `
 })
 class ExplicitForTest {}
 
 @Component({
-  template: ` <div><label for="hello"></label></div> `,
+  template: ` <div><label fuiLabel for="hello"></label></div> `,
   providers: [ControlIdService]
 })
 class ContainerizedTest {}
 
 @Component({
-  template: ` <div><label for="hello"></label></div> `,
+  template: ` <div><label fuiLabel for="hello"></label></div> `,
   providers: [NgControlService]
 })
 class WrapperTest {}
 
 @Component({
-  template: ` <label for="hello" class="existing-class"></label> `
+  template: ` <label fuiLabel for="hello" class="existing-class"></label> `
 })
 class ExistingGridTest {}
 
 @Component({
-  template: ` <div><label for="hello"></label></div> `,
+  template: ` <div><label fuiLabel for="hello"></label></div> `,
   providers: [NgControlService]
 })
 class RequiredTest {}
 
 @Component({
-  template: ` <div><label></label></div> `,
+  template: ` <div><label fuiLabel></label></div> `,
   providers: [NgControlService]
 })
 class PlaceholderTest {}
@@ -127,7 +127,10 @@ export default function (): void {
     });
 
     it('leaves the grid classes untouched if they exist', function () {
-      TestBed.configureTestingModule({ declarations: [FuiLabelDirective, ExistingGridTest], providers: [ControlIdService] });
+      TestBed.configureTestingModule({
+        declarations: [FuiLabelDirective, ExistingGridTest],
+        providers: [ControlIdService]
+      });
       const fixture = TestBed.createComponent(ExistingGridTest);
       fixture.detectChanges();
       const label = fixture.nativeElement.querySelector('label');
@@ -135,7 +138,10 @@ export default function (): void {
     });
 
     it('leaves the for attribute untouched if it exists', function () {
-      TestBed.configureTestingModule({ declarations: [FuiLabelDirective, ExplicitForTest], providers: [ControlIdService] });
+      TestBed.configureTestingModule({
+        declarations: [FuiLabelDirective, ExplicitForTest],
+        providers: [ControlIdService]
+      });
       const fixture = TestBed.createComponent(ExplicitForTest);
       fixture.detectChanges();
       const label = fixture.nativeElement.querySelector('label');

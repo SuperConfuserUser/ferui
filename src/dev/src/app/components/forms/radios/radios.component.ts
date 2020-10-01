@@ -69,11 +69,11 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
       source: `
         <fui-radio-wrapper class="code">
           <input type="radio" fuiRadio name="two" value="yes" [(ngModel)]="models.two" />
-          <label>Option 1</label>
+          <label fuiLabel>Option 1</label>
         </fui-radio-wrapper>
         <fui-radio-wrapper class="code">
           <input type="radio" fuiRadio name="twobis" value="yes" [(ngModel)]="models.twobis" />
-          <label>Option 2</label>
+          <label fuiLabel>Option 2</label>
         </fui-radio-wrapper>`
     });
 
@@ -87,11 +87,11 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
         <fui-radio-container class="code">
           <fui-radio-wrapper>
             <input type="radio" fuiRadio name="option" required value="option1" [(ngModel)]="models.three" />
-            <label>Option 1</label>
+            <label fuiLabel>Option 1</label>
           </fui-radio-wrapper>
           <fui-radio-wrapper class="code">
             <input type="radio" fuiRadio name="option" required value="option2" [(ngModel)]="models.three" />
-            <label>Option 2</label>
+            <label fuiLabel>Option 2</label>
           </fui-radio-wrapper>
           <fui-control-error>This field is required!</fui-control-error>
         </fui-radio-container>`
@@ -107,11 +107,11 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
       source: `
       <fui-radio-wrapper class="code">
         <input type="radio" [disabled]="params.disabled" fuiRadio name="four" value="yes" [(ngModel)]="models.four" />
-        <label>Option 1</label>
+        <label fuiLabel>Option 1</label>
       </fui-radio-wrapper>
       <fui-radio-wrapper class="code">
         <input type="radio" [disabled]="params.disabled" fuiRadio name="four" value="no" [(ngModel)]="models.four" />
-        <label>Option 2</label>
+        <label fuiLabel>Option 2</label>
       </fui-radio-wrapper>`
     });
   }

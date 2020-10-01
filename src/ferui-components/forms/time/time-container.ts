@@ -40,8 +40,7 @@ export interface TimeInterface {
         [class.fui-time-2]="_numberOfControls === 2"
         [class.fui-time-1]="_numberOfControls === 1"
       >
-        <ng-content select="label" *ngIf="label"></ng-content>
-        <label *ngIf="!label"></label>
+        <ng-content select="[fuiLabel]"></ng-content>
 
         <ng-content select="[fuiTime]"></ng-content>
 

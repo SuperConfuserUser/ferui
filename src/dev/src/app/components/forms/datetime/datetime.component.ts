@@ -44,7 +44,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
             <span class="font-weight-bold">string</span>.
           </p>
           <fui-date-container>
-            <label>Start Date</label>
+            <label fuiLabel>Start Date</label>
             <input
               name="one"
               type="date"
@@ -71,7 +71,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
             the locale is <code>fr</code> the string will looks like <span class="font-weight-bold">'DD/MM/YYYY'</span>
           </p>
           <fui-date-container>
-            <label>Date</label>
+            <label fuiLabel>Date</label>
             <input name="two" fuiDate [(ngModel)]="model.two" />
           </fui-date-container>
         </default-template-content>
@@ -87,7 +87,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
         >
           <h5 #title>Default date input. <code>Without container</code>. Returning a <code>Date</code> object</h5>
           <fui-date-container>
-            <label>Date</label>
+            <label fuiLabel>Date</label>
             <input
               name="eight"
               type="date"
@@ -135,7 +135,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
         >
           <h5 #title>Error message handling (validation).</h5>
           <fui-date-container>
-            <label>Date (required)</label>
+            <label fuiLabel>Date (required)</label>
             <input
               name="fourteen"
               type="date"
@@ -202,7 +202,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
             <code>{{ locale }}</code> formatted string.
           </h5>
           <fui-time-container>
-            <label>Time picker</label>
+            <label fuiLabel>Time picker</label>
             <input type="time" step="1" name="five" fuiTime [(ngModel)]="model.five" />
           </fui-time-container>
         </default-template-content>
@@ -231,7 +231,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
         >
           <h5 #title>Time input displaying only hours and minutes.</h5>
           <fui-time-container [showSeconds]="false">
-            <label>Time picker</label>
+            <label fuiLabel>Time picker</label>
             <input
               type="time"
               placeholder="Select a time from selects"
@@ -253,7 +253,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
         >
           <h5 #title>Error message handling (validation).</h5>
           <fui-time-container>
-            <label>Time</label>
+            <label fuiLabel>Time</label>
             <input
               name="fifteen"
               type="time"
@@ -327,7 +327,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
         >
           <h5 #title>Required Datetime input <code>without seconds displayed</code>. Returning a Date object.</h5>
           <fui-datetime-container [showSeconds]="false">
-            <label>My datetime input</label>
+            <label fuiLabel>My datetime input</label>
             <input
               type="datetime-local"
               placeholder="This field is required"
@@ -352,7 +352,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
         >
           <h5 #title>Date component (small layout)</h5>
           <fui-date-container>
-            <label>My date input</label>
+            <label fuiLabel>My date input</label>
             <input
               [layout]="fuiFormLayoutEnum.SMALL"
               type="date"
@@ -402,16 +402,16 @@ export class DatetimeComponent extends AbstractControlDemoComponent implements O
   // Keep in mind that the order is important there !
   exampleCodes: Array<string> = [
     `<fui-date-container>
-  <label>Start Date</label>
+  <label fuiLabel>Start Date</label>
   <input name="one" type="date" placeholder="Choose a date from datepicker" [fuiDate]="modelTypeDate"
          [(ngModel)]="model.one"/>
 </fui-date-container>`,
     `<fui-date-container>
-  <label>Date</label>
+  <label fuiLabel>Date</label>
   <input name="two" fuiDate [(ngModel)]="model.two"/>
 </fui-date-container>`,
     `<fui-date-container>
-  <label>Date</label>
+  <label fuiLabel>Date</label>
   <input name="eight" type="date" placeholder="Choose a date from datepicker" [fuiDate]="modelTypeDate"
          [(ngModel)]="model.eight"/>
 </fui-date-container>`,
@@ -424,12 +424,12 @@ export class DatetimeComponent extends AbstractControlDemoComponent implements O
   <input type="time" step="1" name="four" fuiTime [(ngModel)]="model.four"/>
 </fui-time-container>`,
     `<fui-time-container>
-  <label>Time picker</label>
+  <label fuiLabel>Time picker</label>
   <input type="time" step="1" name="five" fuiTime [(ngModel)]="model.five"/>
 </fui-time-container>`,
     `<input type="time" step="1" name="six" [fuiTime]="modelTypeDate" [(ngModel)]="model.six"/>`,
     `<fui-time-container [showSeconds]="false">
-  <label>Time picker</label>
+  <label fuiLabel>Time picker</label>
   <input type="time" placeholder="Select a time from selects" name="sixbis" [fuiTime]="modelTypeDate"
          [(ngModel)]="model.sixbis"/>
 </fui-time-container>`,
@@ -441,21 +441,21 @@ export class DatetimeComponent extends AbstractControlDemoComponent implements O
   <input type="datetime-local" name="twelve" [fuiDatetime]="modelTypeDate" [(ngModel)]="model.twelve"/>
 </fui-datetime-container>`,
     `<fui-datetime-container [showSeconds]="false">
-  <label>My datetime input</label>
+  <label fuiLabel>My datetime input</label>
   <input type="datetime-local" placeholder="This field is required" required name="thirteen" [fuiDatetime]="modelTypeDate" [(ngModel)]="model.thirteen"/>
 </fui-datetime-container>`,
     `<fui-date-container>
-  <label>Date (required)</label>
+  <label fuiLabel>Date (required)</label>
   <input name="fourteen" type="date" required placeholder="Choose a date from datepicker" [fuiDate]="modelTypeDate"
          [(ngModel)]="model.fourteen"/>
 </fui-date-container>`,
     `<fui-time-container>
-  <label>Date (required)</label>
+  <label fuiLabel>Date (required)</label>
   <input name="fifteen" type="time" placeholder="Select a time from selects" required [fuiTime]="modelTypeDate"
          [(ngModel)]="model.fifteen"/>
 </fui-time-container>`,
     `<fui-date-container>
-  <label>My date input</label>
+  <label fuiLabel>My date input</label>
   <input [layout]="fuiFormLayoutEnum.SMALL" type="date" placeholder="Small layout" name="sixteen"
          [fuiDatetime]="modelTypeDate" [(ngModel)]="model.sixteen"/>
 </fui-date-container>`

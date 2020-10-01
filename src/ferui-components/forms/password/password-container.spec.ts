@@ -7,7 +7,7 @@ import { ClrIconModule } from '../../icon/icon.module';
 import { FuiCommonFormsModule } from '../common/common.module';
 import { IfErrorService } from '../common/if-error/if-error.service';
 import { NgControlService } from '../common/providers/ng-control.service';
-import { ContainerNoLabelSpec, ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
+import { ReactiveSpec, TemplateDrivenSpec } from '../tests/container.spec';
 
 import { FuiPasswordDirective } from './password';
 import { FuiPasswordContainerComponent } from './password-container';
@@ -16,7 +16,7 @@ import { FuiPasswordContainerComponent } from './password-container';
   template: `
     <fui-password-container [fuiToggle]="toggler">
       <input type="password" name="test" fuiPassword required [(ngModel)]="model" [disabled]="disabled" />
-      <label>Hello World</label>
+      <label fuiLabel>Hello World</label>
       <fui-control-error>Must be at least 5 characters</fui-control-error>
     </fui-password-container>
   `
@@ -29,19 +29,10 @@ class TemplateDrivenTest {
 
 @Component({
   template: `
-    <fui-password-container>
-      <input fuiPassword [(ngModel)]="model" />
-    </fui-password-container>
-  `
-})
-class NoLabelTest {}
-
-@Component({
-  template: `
     <form [formGroup]="form">
       <fui-password-container>
         <input fuiPassword formControlName="model" />
-        <label>Hello World</label>
+        <label fuiLabel>Hello World</label>
         <fui-control-error>Must be at least 5 characters</fui-control-error>
       </fui-password-container>
     </form>
@@ -56,7 +47,6 @@ class ReactiveTest {
 
 export default function (): void {
   describe('FuiPasswordContainerComponent', () => {
-    ContainerNoLabelSpec(FuiPasswordContainerComponent, FuiPasswordDirective, NoLabelTest);
     TemplateDrivenSpec(
       FuiPasswordContainerComponent,
       FuiPasswordDirective,

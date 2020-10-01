@@ -61,7 +61,7 @@ export function DEFAULT_TEXT_COMPARATOR(filter: string, value: any, filterText: 
       </div>
       <div class="col-5">
         <fui-select-container>
-          <label></label>
+          <label fuiLabel></label>
           <fui-select
             fuiSelect
             name="fuiDatagridTextFilterType"
@@ -77,7 +77,7 @@ export function DEFAULT_TEXT_COMPARATOR(filter: string, value: any, filterText: 
       </div>
       <div class="col-4">
         <fui-input-container>
-          <label>{{ translate('filterOoo') }}</label>
+          <label fuiLabel>{{ translate('filterOoo') }}</label>
           <input
             [layout]="fuiFormLayoutEnum.SMALL"
             type="text"
