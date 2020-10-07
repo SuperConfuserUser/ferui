@@ -154,9 +154,9 @@ export class FuiDatagridDateFilterComponent extends FuiDatagridBaseFilter<IDateF
 
   onFilterInputChanged(value: Date, type: string) {
     if (type === 'search') {
-      this.selectedSearch = value;
+      this.selectedSearch = this.cleanDate(value);
     } else {
-      this.selectedSearchTo = value;
+      this.selectedSearchTo = this.cleanDate(value);
     }
     this.onChange();
   }
@@ -218,12 +218,13 @@ export class FuiDatagridDateFilterComponent extends FuiDatagridBaseFilter<IDateF
 
   private defaultComparator(filterDate: Date, cellValue: any): number {
     //The default comparator assumes that the cellValue is a date
-    const cellAsDate: Date =
+    const cellAsDate: Date = this.cleanDate(
       cellValue instanceof Date
         ? cellValue
         : this.dateIOService.getDateValueFromDateOrString(
             this.dateIOService.convertDateStringToLocalString(cellValue, this.filterParams.dateFormat)
-          );
+          )
+    );
 
     if (cellAsDate < filterDate) {
       return -1;
@@ -267,5 +268,21 @@ export class FuiDatagridDateFilterComponent extends FuiDatagridBaseFilter<IDateF
       const actualComparator: Comparator<Date> = this.comparator();
       return actualComparator(filterValue, gridValue);
     };
+  }
+
+  /**
+   * We insure that the time part of the Date object is set to 0 for both filter value and cell value.
+   * @param value
+   * @private
+   */
+  private cleanDate(value?: Date): Date | null {
+    if (!value) {
+      return null;
+    }
+    value.setHours(0);
+    value.setMinutes(0);
+    value.setSeconds(0);
+    value.setMilliseconds(0);
+    return value;
   }
 }
