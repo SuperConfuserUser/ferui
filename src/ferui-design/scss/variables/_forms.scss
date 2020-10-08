@@ -18,8 +18,10 @@ $textarea-margin: calc(#{$controls-filled-padding} + 2px);
 $checkbox-min-height: 1.25rem !default; // 20px
 $checkmark-width: 0.5rem !default; // 8px
 $radiomark-width: 0.375rem !default; // 6px
-$checkmark-left-value: calc((#{$checkbox-min-height} - #{$checkmark-width}) / 2); // 6px
+// $checkmark-left-value => 5px (for checkboxes, we need to remove 1px because we have a 1px border.)
+$checkmark-left-value: calc(((#{$checkbox-min-height} - #{$checkmark-width}) / 2) - 1px);
 $radiocircle-left-value: calc((#{$checkbox-min-height - #{$radiomark-width}}) / 2); // 7px
+$radio-checkbox-label-left-value: 0.4375rem; // 7px
 $toggle-min-height: 1.625rem !default; // 26px
 $toggle-min-width: 2.5rem !default; // 40px
 

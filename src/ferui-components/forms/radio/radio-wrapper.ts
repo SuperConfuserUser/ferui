@@ -11,6 +11,7 @@ import { FuiFormLayoutService } from '../common/providers/form-layout.service';
   template: `
     <ng-content select="[fuiRadio]"></ng-content>
     <ng-content select="[fuiLabel]"></ng-content>
+    <label *ngIf="!label"></label>
   `,
   host: {
     '[class.fui-radio-wrapper]': 'true'
