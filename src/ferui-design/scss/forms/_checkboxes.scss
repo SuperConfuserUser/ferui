@@ -16,7 +16,7 @@
       width: $checkbox-min-height; // 20px
       border: 1px solid $gray-300;
       border-radius: 3px;
-      box-sizing: content-box; // This is important for good positioning of inner icons.
+      box-sizing: border-box;
       top: 0;
       left: 0;
       display: inline-block;
@@ -29,7 +29,7 @@
         top: 0;
         width: $checkmark-width; // 8px
         height: $checkmark-width; // 8px
-        left: $checkmark-left-value; // 6px
+        left: $checkmark-left-value; // 5px
         transform: translate(0, $checkmark-left-value);
         color: $white;
       }
@@ -51,22 +51,24 @@
       opacity: 0;
       padding: 0;
       margin: 0;
+      cursor: pointer;
 
       + label {
         color: $gray-900;
-        font-size: 14px;
+        font-size: $font-size-base; // 14px
         cursor: pointer;
         box-sizing: border-box;
         display: block;
         position: relative;
         user-select: none;
         min-height: $checkbox-min-height;
-        padding-left: 27px;
+        padding-left: calc(#{$checkbox-min-height} + #{$radio-checkbox-label-left-value});
         line-height: $checkbox-min-height;
-        font-weight: normal;
+        font-weight: $font-weight-base;
       }
 
       &[disabled] {
+        cursor: default !important;
         + label {
           color: $gray-500 !important;
           cursor: default !important;

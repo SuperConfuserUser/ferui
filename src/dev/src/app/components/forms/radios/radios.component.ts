@@ -35,8 +35,7 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
   model = {
     one: '',
     two: true,
-    twobis: '',
-    three: 'option2',
+    three: '',
     four: 'yes'
   };
 
@@ -62,18 +61,17 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
     this.inputTwo = new DemoComponentData({
       title: `<h5>Radio with label :</h5>`,
       models: {
-        two: this.model.two,
-        twobis: this.model.twobis
+        two: this.model.two
       },
       canDisable: false,
       source: `
         <fui-radio-wrapper class="code">
           <input type="radio" fuiRadio name="two" value="yes" [(ngModel)]="models.two" />
-          <label fuiLabel>Option 1</label>
+          <label fuiLabel>Option 1 (yes)</label>
         </fui-radio-wrapper>
         <fui-radio-wrapper class="code">
-          <input type="radio" fuiRadio name="twobis" value="yes" [(ngModel)]="models.twobis" />
-          <label fuiLabel>Option 2</label>
+          <input type="radio" fuiRadio name="two" value="no" [(ngModel)]="models.two" />
+          <label fuiLabel>Option 2 (no)</label>
         </fui-radio-wrapper>`
     });
 
@@ -89,7 +87,7 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
             <input type="radio" fuiRadio name="option" required value="option1" [(ngModel)]="models.three" />
             <label fuiLabel>Option 1</label>
           </fui-radio-wrapper>
-          <fui-radio-wrapper class="code">
+          <fui-radio-wrapper>
             <input type="radio" fuiRadio name="option" required value="option2" [(ngModel)]="models.three" />
             <label fuiLabel>Option 2</label>
           </fui-radio-wrapper>

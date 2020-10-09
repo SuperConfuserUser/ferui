@@ -7,6 +7,28 @@ import { FuiCommonFormsModule } from '../common/common.module';
 import { IfErrorService } from '../common/if-error/if-error.service';
 import { NgControlService } from '../common/providers/ng-control.service';
 
+export function WrapperNoLabelSpec(testContainer, testControl, testComponent): void {
+  describe('no label', () => {
+    let fixture, containerDE, containerEl;
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [ClrIconModule, FuiCommonFormsModule, FormsModule],
+        declarations: [testContainer, testControl, testComponent],
+        providers: [NgControl, NgControlService, IfErrorService]
+      });
+      fixture = TestBed.createComponent(testComponent);
+      containerDE = fixture.debugElement.query(By.directive(testContainer));
+      containerEl = containerDE.nativeElement;
+    });
+
+    it('adds an empty label when no label is provided', () => {
+      fixture.detectChanges();
+      const labels = containerEl.querySelectorAll('label');
+      expect(Array.prototype.filter.call(labels, label => label.textContent === '').length).toBe(1);
+    });
+  });
+}
+
 export function WrapperFullSpec(testContainer, testControl, testComponent, wrapperClass): void {
   describe('full example', () => {
     let fixture, containerDE, containerEl;
