@@ -708,7 +708,12 @@ $form-validation-states: map-merge(
 // Warning: Avoid customizing these values. They're used for a bird's eye view
 // of components dependent on the z-axis and are designed to all work together.
 
+$zindex-label: 990 !default;
 $zindex-dropdown: 1000 !default;
+// Form controls error icons need to be visible all the time and appearing above any dropdown.
+$zindex-controls-icons: $zindex-dropdown + 1;
+// Form select labels need to be visible all the time and appearing above any dropdown and error icons.
+$zindex-select-label: $zindex-controls-icons + 1;
 $zindex-sticky: 1020 !default;
 $zindex-fixed: 1030 !default;
 $zindex-modal-backdrop: 1040 !default;
@@ -1148,15 +1153,6 @@ $print-body-min-width: map-get($grid-breakpoints, 'lg') !default;
 //
 
 $fui-font-path: '../font-files' !default;
-
-$zindex-label: 990 !default;
-$zindex-dropdown: 1001 !default;
-$zindex-sticky: 1020 !default;
-$zindex-fixed: 1030 !default;
-$zindex-modal-backdrop: 1040 !default;
-$zindex-modal: 1050 !default;
-$zindex-popover: 1060 !default;
-$zindex-tooltip: 1070 !default;
 
 $fui-popover-box-shadow-color: rgba($gray-900, 0.25);
 $fui-button-horizontal-padding: 0.5rem !default;

@@ -1,14 +1,8 @@
-import { Subscription } from 'rxjs';
-
-import { Component, ContentChild, Input, OnDestroy } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 
 import { IfOpenService } from '../../utils/conditional/if-open.service';
-import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
+import { FuiFormAbstractContainer } from '../common/abstract-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
-import { FuiLabelDirective } from '../common/label';
-import { FuiFormLayoutEnum } from '../common/layout.enum';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { ControlIdService } from '../common/providers/control-id.service';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
@@ -31,15 +25,15 @@ import { DateNavigationService } from './providers/date-navigation.service';
         <ng-content select="[fuiLabel]"></ng-content>
         <ng-content select="[fuiDate]"></ng-content>
         <fui-datepicker-view-manager *fuiIfOpen fuiFocusTrap [appendTo]="appendTo"></fui-datepicker-view-manager>
-        <label class="fui-control-icons">
+        <clr-icon
+          *ngIf="!invalid"
+          class="fui-calendar-icon-wrapper"
+          (click)="toggleDatepicker($event)"
+          shape="fui-calendar"
+          aria-hidden="true"
+        ></clr-icon>
+        <label class="fui-control-icons" tabindex="0">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon
-            *ngIf="!invalid"
-            class="fui-calendar-icon-wrapper"
-            (click)="toggleDatepicker($event)"
-            shape="fui-calendar"
-            aria-hidden="true"
-          ></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -64,54 +58,28 @@ import { DateNavigationService } from './providers/date-navigation.service';
     FuiFormLayoutService
   ],
   host: {
-    '[class.fui-form-control-disabled]': 'control?.disabled',
+    '[class.fui-form-control-disabled]': 'ngControl?.disabled',
     '[class.fui-form-control]': 'true',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
+    '[class.fui-date-container]': 'true',
+    '[class.fui-form-control-small]': 'controlLayout() === fuiFormLayoutEnum.SMALL'
   }
 })
-export class FuiDateContainerComponent implements DynamicWrapper, OnDestroy {
-  _dynamic: boolean = false;
-  invalid: boolean = false;
-  control: NgControl;
-
+export class FuiDateContainerComponent extends FuiFormAbstractContainer {
   @Input() appendTo: string;
 
-  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
-
-  private focus: boolean = false;
-  private subscriptions: Subscription[] = [];
-
   constructor(
-    private ifErrorService: IfErrorService,
-    private controlClassService: ControlClassService,
-    private ngControlService: NgControlService,
-    private focusService: FocusService,
-    private ifOpenService: IfOpenService,
-    private dateNavigationService: DateNavigationService,
-    private dateFormControlService: DateFormControlService,
-    private datepickerEnabledService: DatepickerEnabledService,
-    public formLayoutService: FuiFormLayoutService
+    ifErrorService: IfErrorService,
+    controlClassService: ControlClassService,
+    ngControlService: NgControlService,
+    focusService: FocusService,
+    formLayoutService: FuiFormLayoutService,
+    cd: ChangeDetectorRef,
+    protected ifOpenService: IfOpenService,
+    protected dateNavigationService: DateNavigationService,
+    protected dateFormControlService: DateFormControlService,
+    protected datepickerEnabledService: DatepickerEnabledService
   ) {
-    this.subscriptions.push(
-      this.ngControlService.controlChanges.subscribe(control => {
-        if (control) {
-          this.control = control;
-        }
-      })
-    );
-    this.subscriptions.push(
-      this.ifErrorService.statusChanges.subscribe(invalid => {
-        this.invalid = invalid;
-      })
-    );
-    this.subscriptions.push(
-      this.focusService.focusChange.subscribe(state => {
-        if (!this.ifOpenService.open) {
-          this.focus = state;
-          this.toggleDatepicker(null);
-        }
-      })
-    );
+    super(ifErrorService, controlClassService, ngControlService, focusService, formLayoutService, cd);
     this.subscriptions.push(
       this.ifOpenService.openChange.subscribe(open => {
         if (open) {
@@ -122,10 +90,6 @@ export class FuiDateContainerComponent implements DynamicWrapper, OnDestroy {
         }
       })
     );
-  }
-
-  controlLayout(): FuiFormLayoutEnum {
-    return this.formLayoutService.layout;
   }
 
   isEnabled(): boolean {
@@ -142,18 +106,11 @@ export class FuiDateContainerComponent implements DynamicWrapper, OnDestroy {
     }
   }
 
-  controlClass() {
-    return this.controlClassService.controlClass(
-      this.invalid,
-      FormControlClass.extractControlClass(this.control, this.label, this.focus)
-    );
-  }
-
-  /**
-   * Unsubscribe from subscriptions.
-   */
-  ngOnDestroy() {
-    this.subscriptions.map(sub => sub.unsubscribe());
+  protected onFocusChange(state: boolean) {
+    if (this.ifOpenService && !this.ifOpenService.open) {
+      this.focus = state;
+      this.toggleDatepicker(null);
+    }
   }
 
   /**

@@ -67,23 +67,6 @@
           border-color: $gray-500;
         }
       }
-
-      &.fui-touched,
-      &.fui-dirty {
-        .fui-textarea-wrapper {
-          textarea {
-            &:focus {
-              ~ .fui-subtext-wrapper {
-                .fui-subtext:first-child {
-                  visibility: visible;
-                  opacity: 1;
-                  transition-delay: 0s;
-                }
-              }
-            }
-          }
-        }
-      }
     }
   }
 }

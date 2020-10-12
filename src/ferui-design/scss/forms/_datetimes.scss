@@ -36,6 +36,31 @@
       background-color: $gray-200;
       color: $gray-500;
     }
+
+    & ~ .fui-calendar-icon-wrapper {
+      color: $gray-500;
+      position: absolute;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      top: calc(50% - (#{$controls-icons-max-width} / 2));
+      left: calc(100% - (#{$controls-padding} + #{$controls-icons-max-width}));
+      width: $controls-icons-max-width;
+      height: $controls-icons-max-width;
+      margin: 0;
+      cursor: pointer;
+      line-height: normal;
+      z-index: $zindex-controls-icons;
+    }
+  }
+
+  .fui-form-control-small {
+    input.fui-input-date ~ .fui-calendar-icon-wrapper {
+      top: calc(50% - (#{$controls-small-icons-width} / 2));
+      left: calc(100% - (#{$controls-small-padding} + #{$controls-small-icons-width}));
+      width: $controls-small-icons-width;
+      height: $controls-small-icons-width;
+    }
   }
 
   .fui-control-container {
@@ -67,44 +92,12 @@
       }
     }
 
-    &.fui-touched,
-    &.fui-dirty,
-    &:not(.fui-empty) {
+    &.fui-touched.fui-error,
+    &.fui-dirty.fui-error {
       .fui-time-wrapper {
         .fui-select:last-of-type {
           .ng-arrow-wrapper {
             display: none;
-          }
-        }
-      }
-    }
-
-    &.fui-touched,
-    &.fui-dirty {
-      .fui-datetime,
-      .fui-time,
-      .fui-date {
-        &:focus {
-          ~ .fui-subtext-wrapper {
-            .fui-subtext:first-child {
-              visibility: visible;
-              opacity: 1;
-              transition-delay: 0s;
-            }
-          }
-        }
-      }
-
-      &.fui-control-focus {
-        .fui-datetime,
-        .fui-time,
-        .fui-date {
-          ~ .fui-subtext-wrapper {
-            .fui-subtext:first-child {
-              visibility: visible;
-              opacity: 1;
-              transition-delay: 0s;
-            }
           }
         }
       }
@@ -160,6 +153,10 @@
   .fui-select-container.fui-form-control.fui-datetime-container {
     .fui-control-container {
       .fui-datetime-wrapper {
+        .fui-form-control:not(:last-child) {
+          margin: 0 !important;
+        }
+
         .fui-datetime {
           @include hideOriginalControl();
         }
@@ -368,6 +365,19 @@
 
   .fui-select-container.fui-form-control.fui-time-container {
     .fui-control-container {
+      .ng-select {
+        &.ng-select-filtered,
+        .ng-has-value {
+          .ng-value-container {
+            .ng-input {
+              > input {
+                @include ng-select-input-with-label();
+              }
+            }
+          }
+        }
+      }
+
       &.fui-no-label {
         .ng-select {
           &.ng-select-filtered,
@@ -378,14 +388,6 @@
 
             .ng-value {
               margin: calc(#{$controls-padding} + 3px) 0 0 !important;
-            }
-
-            .ng-value-container {
-              .ng-input {
-                > input {
-                  @include ng-select-input-without-label();
-                }
-              }
             }
           }
         }

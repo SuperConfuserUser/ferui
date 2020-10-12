@@ -1,13 +1,7 @@
-import { Subscription } from 'rxjs';
+import { AfterContentInit, ChangeDetectorRef, Component, ContentChild, OnInit } from '@angular/core';
 
-import { AfterContentInit, Component, ContentChild, OnDestroy, OnInit } from '@angular/core';
-import { NgControl } from '@angular/forms';
-
-import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
+import { FuiFormAbstractContainer } from '../common/abstract-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
-import { FuiLabelDirective } from '../common/label';
-import { FuiFormLayoutEnum } from '../common/layout.enum';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { ControlIdService } from '../common/providers/control-id.service';
 import { FocusService } from '../common/providers/focus.service';
@@ -28,7 +22,7 @@ import { FuiSelectService } from './select.service';
         <ng-content select="[fuiSelect]"></ng-content>
         <ng-content select="[fuiLabel]"></ng-content>
         <div class="select-arrow"></div>
-        <label class="fui-control-icons">
+        <label class="fui-control-icons" tabindex="0">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
@@ -40,8 +34,8 @@ import { FuiSelectService } from './select.service';
   host: {
     '[class.fui-form-control]': 'true',
     '[class.fui-select-container]': 'true',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
-    '[class.fui-form-control-disabled]': 'control?.disabled',
+    '[class.fui-form-control-small]': 'controlLayout() === fuiFormLayoutEnum.SMALL',
+    '[class.fui-form-control-disabled]': 'ngControl?.disabled',
     '[class.fui-select-icon]': 'selectIcon !== undefined'
   },
   providers: [
@@ -56,48 +50,21 @@ import { FuiSelectService } from './select.service';
     FuiFormLayoutService
   ]
 })
-export class FuiSelectContainerComponent implements DynamicWrapper, OnInit, OnDestroy, AfterContentInit {
-  invalid = false;
-  _dynamic = false;
-  control: NgControl;
-
-  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
+export class FuiSelectContainerComponent extends FuiFormAbstractContainer implements OnInit, AfterContentInit {
   @ContentChild(FuiSelectIconDirective) selectIcon: FuiSelectIconDirective;
 
-  private placeholder: string = null;
-  private focus: boolean = false;
-  private subscriptions: Subscription[] = [];
+  protected placeholder: string = null;
 
   constructor(
-    private ifErrorService: IfErrorService,
-    private controlClassService: ControlClassService,
-    private ngControlService: NgControlService,
-    private focusService: FocusService,
-    private selectService: FuiSelectService,
-    public formLayoutService: FuiFormLayoutService
+    ifErrorService: IfErrorService,
+    controlClassService: ControlClassService,
+    ngControlService: NgControlService,
+    focusService: FocusService,
+    formLayoutService: FuiFormLayoutService,
+    cd: ChangeDetectorRef,
+    protected selectService: FuiSelectService
   ) {
-    this.subscriptions.push(
-      this.ifErrorService.statusChanges.subscribe(invalid => {
-        this.invalid = invalid;
-      })
-    );
-    this.subscriptions.push(
-      this.ngControlService.controlChanges.subscribe(control => {
-        this.control = control;
-      })
-    );
-    this.subscriptions.push(
-      this.focusService.focusChange.subscribe(state => {
-        this.focus = state;
-      })
-    );
-  }
-
-  controlClass() {
-    return this.controlClassService.controlClass(
-      this.invalid,
-      FormControlClass.extractControlClass(this.control, this.label, this.focus)
-    );
+    super(ifErrorService, controlClassService, ngControlService, focusService, formLayoutService, cd);
   }
 
   ngOnInit(): void {
@@ -118,12 +85,6 @@ export class FuiSelectContainerComponent implements DynamicWrapper, OnInit, OnDe
           }
         })
       );
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.subscriptions) {
-      this.subscriptions.forEach(sub => sub.unsubscribe());
     }
   }
 
@@ -167,9 +128,5 @@ export class FuiSelectContainerComponent implements DynamicWrapper, OnInit, OnDe
         })
       );
     }
-  }
-
-  controlLayout(): FuiFormLayoutEnum {
-    return this.formLayoutService.layout;
   }
 }
