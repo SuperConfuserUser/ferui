@@ -10,6 +10,7 @@ import {
   FuiDatagridSortDirections,
   FuiFieldTypes,
   FuiRowModel,
+  FuiRowSelectionEnum,
   IDatagridResultObject,
   IDateFilterParams,
   IServerSideDatasource,
@@ -37,6 +38,8 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
         <div class="mb-4" style="width: 100%;">
           <fui-datagrid
             #datagrid1
+            [checkboxSelection]="true"
+            [rowSelection]="rowSelectionEnum.MULTIPLE"
             [maxDisplayedRows]="itemPerPage"
             [datasource]="dataSource"
             [defaultColDefs]="defaultColumnDefs"
@@ -59,6 +62,7 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
         <div class="mb-4" style="width: 100%;">
           <fui-datagrid
             #datagrid2
+            [rowSelection]="rowSelectionEnum.SINGLE"
             [datasource]="dataSource2"
             [defaultColDefs]="defaultColumnDefs"
             [columnDefs]="columnDefs"
@@ -80,7 +84,7 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
             height="24"
             [attr.alt]="value"
             [title]="value"
-            [attr.src]="'https://www.countryflags.io/' + row.country_code + '/shiny/24.png'"
+            [attr.src]="'https://www.countryflags.io/' + row.data.country_code + '/shiny/24.png'"
           />
           {{ value }}
         </ng-template>
@@ -190,6 +194,8 @@ export class DatagridServerSideComponent implements OnInit {
 
   @ViewChild('datagrid1') datagrid1: FuiDatagridComponent;
   @ViewChild('datagrid2') datagrid2: FuiDatagridComponent;
+
+  rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
 
   constructor(public rowDataService: RowDataApiService, public datagridService: DatagridService) {}
 

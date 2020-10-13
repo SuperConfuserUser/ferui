@@ -41,7 +41,9 @@ export class FuiDatagridFilterColumnVisibilityComponent implements OnInit, OnDes
 
   ngOnInit(): void {
     if (this.columnService) {
-      this.columns = [...this.columnService.getAllDisplayedColumns()].map(col => col.toJson());
+      this.columns = [...this.columnService.getAllDisplayedColumns()]
+        .filter(col => col.isLockVisible() === false)
+        .map(col => col.toJson());
       this.visibleColumns = [...this.columnService.getVisibleColumns()].map(col => col.toJson());
       this.subscriptions.push(
         this.eventService.listenToEvent(FuiDatagridEvents.EVENT_VISIBLE_CHANGED).subscribe(() => {

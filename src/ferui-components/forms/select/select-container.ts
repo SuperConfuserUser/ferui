@@ -134,6 +134,7 @@ export class FuiSelectContainerComponent implements DynamicWrapper, OnInit, OnDe
       }
       let isNgSelectOpen: boolean = false;
       if (this.selectIcon) {
+        this.selectService.fuiSelect.ngSelect.useIcon = true;
         this.subscriptions.push(
           this.selectIcon.onClick.subscribe(() => {
             if (isNgSelectOpen) {

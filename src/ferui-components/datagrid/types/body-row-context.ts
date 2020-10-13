@@ -1,12 +1,7 @@
+import { RowNode } from '../components/entities/row-node';
+
 export interface FuiDatagridBodyRowContext {
-  // The row height
-  rowHeight: number;
-  // The row Index
-  rowIndex: number;
-  // The row data. It will contains the API data for the specific row.
-  rowData: any;
-  // Whether or not it is the first row in the datagrid.
-  isFirstRow: boolean;
+  rowNode: RowNode;
   // If for any reason you need to know the top value of the specific row.
   // Can be useful if you're using custom action-menu dropdown.
   rowTopValue: number;

@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
 
-import { FuiDatagridEvents, FuiFilterEvent, FuiSortEvent, RowDataChanged } from '../../events';
+import { FeruiUtils } from '../../../utils/ferui-utils';
+import { Constants } from '../../constants';
+import { FuiDatagridEvents, FuiFilterEvent, FuiModelUpdatedEvent, FuiSortEvent, RowDataChanged } from '../../events';
 import { FuiDatagridApiService } from '../../services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../../services/datagrid-column-api.service';
 import { FuiDatagridFilterService } from '../../services/datagrid-filter.service';
 import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
-import { DatagridStateService } from '../../services/datagrid-state.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
+import { DatagridRowNodeManagerService } from '../../services/row/datagrid-row-node-manager.service';
+import { ChangedPath, RefreshModelParams } from '../../types/refresh-model-params';
+import { RowModelInterface } from '../../types/row-model';
+import { RowNode } from '../entities/row-node';
 
 @Injectable()
-export class FuiDatagridClientSideRowModel {
-  private _rowData: any[] = [];
-  private _originalRowData: any[] = [];
+export class FuiDatagridClientSideRowModel implements RowModelInterface {
+  private rowsToDisplay: RowNode[]; // the rows mapped to rows to display
 
   constructor(
     private filterService: FuiDatagridFilterService,
@@ -21,73 +25,147 @@ export class FuiDatagridClientSideRowModel {
     private eventService: FuiDatagridEventService,
     private gridApi: FuiDatagridApiService,
     private columnApi: FuiDatagridColumnApiService,
-    private stateService: DatagridStateService
+    private rowNodeManagerService: DatagridRowNodeManagerService
   ) {}
 
-  get originalRowData(): any[] {
-    return this._originalRowData;
-  }
-
-  set originalRowData(value: any[]) {
-    this._originalRowData = value;
-  }
-
-  get rowData(): any[] {
-    return this._rowData;
-  }
-
-  set rowData(value: any[]) {
-    if (!value || (value && value.length === 0)) {
-      this.filterService.rowData = [];
-      this._rowData = [];
-    } else {
-      this._rowData = value;
-      this.filterService.rowData = value;
-      if (this.originalRowData.length === 0) {
-        this.originalRowData = value;
-      }
-    }
+  /**
+   * Set the rowData for the grid.
+   * @param rowData
+   */
+  setRowData(rowData: any[]) {
+    this.rowNodeManagerService.setRowData(rowData);
     const event: RowDataChanged = {
       type: FuiDatagridEvents.EVENT_ROW_DATA_CHANGED,
-      rowData: this._rowData,
       api: this.gridApi,
       columnApi: this.columnApi
     };
     this.eventService.dispatchEvent(event);
-    this.doFilter();
+
+    this.refreshModel({
+      step: Constants.STEP_EVERYTHING,
+      newData: true
+    });
   }
 
-  doFilter(): void {
-    this.filterService.filter();
-    this._rowData = this.filterService.filteredData;
-    this.originalRowData = this._rowData;
+  /**
+   * Get a copy of all RowNode loaded indexed by their own ID.
+   */
+  getCopyOfNodesMap(): { [id: string]: RowNode } {
+    return this.rowNodeManagerService.getCopyOfNodesMap();
+  }
+
+  /**
+   * Get the list of all nodes to display on screen.
+   */
+  getRowNodesToDisplay(): RowNode[] {
+    return this.rowsToDisplay;
+  }
+
+  /**
+   * Get the total amount of rows.
+   */
+  getTotalRowCount(): number {
+    return Object.keys(this.getCopyOfNodesMap()).length;
+  }
+
+  /**
+   * Get the amount of rows to be displayed. This count take the filters into account when getTotalRowCount() doesn't.
+   */
+  getRowCount(): number {
+    if (this.rowsToDisplay) {
+      return this.rowsToDisplay.length;
+    }
+
+    return 0;
+  }
+
+  /**
+   * Check whether or not we have filters.
+   */
+  hasFilters(): boolean {
+    return this.filterService.hasFilters();
+  }
+
+  /**
+   * This method gets called each time we want to refresh the displayed rows.
+   * It will run the filter/sort/rendering states depending on the RefreshModelParams.step asked.
+   * @param params
+   */
+  refreshModel(params: RefreshModelParams): void {
+    const changedPath: ChangedPath = {
+      rowNodes: params.keepRenderedRows
+        ? this.rowsToDisplay
+        : FeruiUtils.flattenObject(this.rowNodeManagerService.getCopyOfNodesMap())
+    };
+
+    // Fallthrough in below switch is on purpose,
+    // eg if STEP_FILTER, then all steps below this step get done
+    // tslint:disable
+    switch (params.step) {
+      case Constants.STEP_EVERYTHING:
+      case Constants.STEP_FILTER:
+        this.doFilter(changedPath);
+      case Constants.STEP_SORT:
+        this.doSort(changedPath);
+      case Constants.STEP_MAP:
+        this.doRowsToDisplay(changedPath);
+    }
+    // tslint:enable
+    const event: FuiModelUpdatedEvent = {
+      type: FuiDatagridEvents.EVENT_MODEL_UPDATED,
+      api: this.gridApi,
+      columnApi: this.columnApi,
+      newData: params.newData
+    };
+    this.eventService.dispatchEvent(event);
+  }
+
+  /**
+   * Filter the rows.
+   * @param changedPath
+   * @private
+   */
+  private doFilter(changedPath: ChangedPath): void {
+    if (!changedPath.rowNodes) {
+      return;
+    }
+    this.filterService.filter(changedPath);
     const event: FuiFilterEvent = {
       api: null,
       columnApi: this.columnApi,
-      rowData: this._rowData,
       type: FuiDatagridEvents.EVENT_FILTER_CHANGED
     };
     this.eventService.dispatchEvent(event);
   }
 
-  getTotalRows() {
-    return this.rowData.length;
-  }
-
-  doSort(): void {
-    if (!this.sortService.hasSortingColumns()) {
-      this._rowData = this.originalRowData;
-      this.sortService.rows = this.originalRowData;
-    } else {
-      this.sortService.rows = this.filterService.filteredData;
-      this._rowData = this.sortService.sortedRows;
+  /**
+   * Sort the rows
+   * @param changedPath
+   * @private
+   */
+  private doSort(changedPath: ChangedPath): void {
+    if (!changedPath.rowNodes) {
+      return;
     }
+    this.sortService.sort(changedPath);
     const event: FuiSortEvent = {
       api: this.gridApi,
       columnApi: this.columnApi,
-      sortedRows: this._rowData,
       type: FuiDatagridEvents.EVENT_SORT_CHANGED
     };
     this.eventService.dispatchEvent(event);
+  }
+
+  /**
+   * Render the rows.
+   * @param changedPath
+   * @private
+   */
+  private doRowsToDisplay(changedPath: ChangedPath): void {
+    if (!changedPath.rowNodes) {
+      this.rowsToDisplay = [];
+      return;
+    }
+    this.rowsToDisplay = changedPath.rowNodes;
   }
 }

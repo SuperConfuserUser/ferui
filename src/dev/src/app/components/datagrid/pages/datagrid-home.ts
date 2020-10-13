@@ -147,6 +147,86 @@ import { Component } from '@angular/core';
 
           <pre><code [languages]="['typescript']" [highlight]="datagridActionMenuContextCode"></code></pre>
 
+          <h2 id="datagrid-row-selection" class="mt-4">Row selection</h2>
+
+          <p>Select a row by clicking on it. Selecting a row will remove any previous selection.</p>
+
+          <p>Configure row selection with the following properties:</p>
+
+          <ul>
+            <li>
+              <code>rowSelection</code>: Type of row selection, set to either <code>'single'</code> or <code>'multiple'</code> to
+              enable selection. <code>'single'</code> will use single row selection, such that when you select a row, any
+              previously selected row gets unselected. <code>'multiple'</code> allows multiple rows to be selected at the same
+              time.
+            </li>
+            <li>
+              <code>rowMultiSelectWithClick</code>: Set to <code>true</code> to allow multiple rows to be selected with clicks.
+              For example, if you click to select one row and then click to select another row, the first row will stay selected
+              as well. Clicking a selected row in this mode will deselect the row. This is useful for touch devices.
+            </li>
+            <li>
+              <code>suppressRowClickSelection</code>: If <code>true</code>, rows won't be selected when clicked. Use, for example,
+              when you want checkbox selection, and don't want to also select the row when the row is clicked.
+            </li>
+          </ul>
+
+          <p>Here is the rowSelectionEnum interface:</p>
+          <pre><code [languages]="['typescript']" [highlight]="datagridrowSelectionEnumCode"></code></pre>
+
+          <p>
+            When you pass data to the grid, it wraps each data item in a node object. This is explained in the section Client-Side
+            Row Model. When you query for the selected rows, there are two method types: ones that return nodes, and ones that
+            return data items. To get the selected nodes / rows from the grid, use the following API methods:
+          </p>
+
+          <ul>
+            <li><code>datagrid.getSelectedNodes()</code>: Returns an array of the selected nodes.</li>
+            <li><code>datagrid.getSelectedRows()</code>: Returns an array of data from the selected rows.</li>
+          </ul>
+
+          <h4 class="mt-4">Checkbox selection</h4>
+
+          <p>
+            To include checkbox selection, just set the attribute <code>'checkboxSelection'</code> to <code>true</code>
+            on datagrid definition. It will automatically add a new column on the left of the grid.
+          </p>
+
+          <p>
+            It is possible to have a checkbox in the header for selection. To configure the column to have a checkbox, set
+            <code>headerSelect</code> to <code>true</code> on datagrid definition.
+          </p>
+
+          <p>
+            The header select will also contains a dropdown containing all possible actions. By default for
+            <code>ClientSideRowModel</code> we can select or deselect everything but for <code>ServerSideRowModel</code> and
+            <code>InfiniteRowModel</code> we can only select the loaded rows or deselect everything.
+          </p>
+
+          <h4 class="mt-4">Specify Selectable Rows</h4>
+
+          <p>
+            It is possible to specify which rows can be selected via the <code>isRowSelectable(rowNode)</code>
+            callback function. This function will be called internally and the RowNode will be passed as attribute.
+          </p>
+
+          <p>
+            For instance if we only wanted to allow rows where the 'year' property is less than 2007, we could implement the
+            following:
+          </p>
+          <p>In your component you can create the function</p>
+          <pre><code [languages]="['typescript']" [highlight]="datagridSpecifyRowsCode"></code></pre>
+          <p>Then pass it to the datagrid</p>
+          <pre><code [languages]="['html']" [highlight]="datagridSpecifyRowsHtmlCode"></code></pre>
+
+          <h4 class="mt-4">Providing Node IDs</h4>
+
+          <p>
+            Providing node IDs is optional. If you provide your own node IDs (using the <code>getRowNodeId()</code> callback) then
+            you must make sure that the rows have unique IDs across your entire data set. This means all nodes must have unique
+            IDs. This is because the grid uses node IDs internally and requires them to be unique.
+          </p>
+
           <h2 id="datagrid-api" class="mt-4">Datagrid API</h2>
 
           <p>There is the list of all <code>fui-datagrid</code> attributes and what they do.</p>
@@ -284,6 +364,62 @@ import { Component } from '@angular/core';
                   display within the grid.
                 </td>
               </tr>
+              <tr>
+                <td><code>[rowSelection]</code></td>
+                <td>FuiRowSelectionEnum</td>
+                <td>
+                  If you want to enable the row selection feature, set to either <code>'single'</code> or
+                  <code>'multiple'</code> to enable selection. <code>'single'</code> will use single row selection, such that when
+                  you select a row, any previously selected row gets unselected. <code>'multiple'</code> allows multiple rows to
+                  be selected at the same time.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>[rowMultiSelectWithClick]</code></td>
+                <td>boolean</td>
+                <td>
+                  Set to <code>true</code> to allow multiple rows to be selected with clicks. For example, if you click to select
+                  one row and then click to select another row, the first row will stay selected as well. Clicking a selected row
+                  in this mode will deselect the row. This is useful for touch devices.
+                </td>
+              </tr>
+              <tr>
+                <td><code>[suppressRowClickSelection]</code></td>
+                <td>boolean</td>
+                <td>
+                  If <code>true</code>, rows won't be selected when clicked. Use, for example, when you want checkbox selection,
+                  and don't want to also select the row when the row is clicked.
+                </td>
+              </tr>
+              <tr>
+                <td><code>[checkboxSelection]</code></td>
+                <td>boolean</td>
+                <td>If <code>true</code>, each rows will have their own checkox for selection.</td>
+              </tr>
+              <tr>
+                <td><code>[headerSelect]</code></td>
+                <td>boolean</td>
+                <td>If <code>true</code>, the 'select all' checkbox will appear in the selection column.</td>
+              </tr>
+              <tr>
+                <td><code>[isRowSelectable]</code></td>
+                <td>function</td>
+                <td>
+                  Whether we want to enable row selection for the specified row or not. This function will be called internally
+                  and the RowNode will be passed as attribute.
+                </td>
+              </tr>
+              <tr>
+                <td><code>[getRowNodeId]</code></td>
+                <td>function</td>
+                <td>
+                  Providing node IDs is optional. If you provide your own node IDs (using the
+                  <code>getRowNodeId()</code> callback) then you must make sure that the rows have unique IDs across your entire
+                  data set. This means all nodes must have unique IDs. This is because the grid uses node IDs internally and
+                  requires them to be unique.
+                </td>
+              </tr>
             </tbody>
           </table>
 
@@ -377,6 +513,22 @@ import { Component } from '@angular/core';
                   and bind whatever external context menu plugin. All information about the current cell and the row will be
                   shared through this event.<br />
                   <pre><code [languages]="['typescript']"  [highlight]="cellContextMenuEventCode"></code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td><code>(onRowSelected)</code></td>
+                <td><code>EventEmitter&lt;RowSelectedEvent&gt;</code></td>
+                <td>
+                  Each time a user select a row, the event is triggered.<br />
+                  <pre><code [languages]="['typescript']"  [highlight]="rowSelectedEventCode"></code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td><code>(onSelectionChanged)</code></td>
+                <td><code>EventEmitter&lt;SelectionChangedEvent&gt;</code></td>
+                <td>
+                  Each time a user select a row or select all rows from the header select option, the event is triggered.<br />
+                  <pre><code [languages]="['typescript']"  [highlight]="selectionChangedEventCode"></code></pre>
                 </td>
               </tr>
             </tbody>
@@ -833,24 +985,44 @@ export class DatagridHomeComponent {
 
   datagridActionMenuContextCode: string = jsBeautify.js(`
   export interface FuiDatagridBodyRowContext {
-    // The row height in px
-    rowHeight: number;
-    // The row Index
-    rowIndex: number;
-    // The row data. It will contains the API data for the specific row.
-    rowData: any;
-    // Whether or not it is the first row in the datagrid.
-    isFirstRow: boolean;
-    // If for any reason you need to know the top value of the specific row.
-    // Can be useful if you're using custom action-menu dropdown.
-    rowTopValue: number;
-    // If you want to append the action-menu to a different container, like the body or whatever else.
-    // By default, the action-menu will automatically assign this property to body.
-    appendTo: string;
-    // Callback for when the dropdown menu is opening. Useful for adding extra design to the row (i.e: hovering state).
-    onDropdownOpen?: (isOpen: boolean) => void;
-    // This will force the action menu to close its dropdown (if any).
-    forceClose?: boolean;
-  }
-  `);
+  rowNode: RowNode;
+  // If for any reason you need to know the top value of the specific row.
+  // Can be useful if you're using custom action-menu dropdown.
+  rowTopValue: number;
+  // If you want to append the action-menu to a different container, like the body or whatever else.
+  // By default, the action-menu will automatically assign this property to body.
+  appendTo: string;
+  // Callback for when the dropdown menu is opening. Useful for adding extra design to the row (i.e: hovering state).
+  onDropdownOpen?: (isOpen: boolean) => void;
+  // This will force the action menu to close its dropdown (if any).
+  forceClose?: boolean;
+}`);
+
+  datagridSpecifyRowsCode: string = `isRowSelectable = (rowNode) => {
+  return rowNode.data ? rowNode.data.year < 2007 : false;
+};`;
+
+  datagridSpecifyRowsHtmlCode: string = `<fui-datagrid
+  (...)
+  [isRowSelectable]="isRowSelectable">
+</fui-datagrid>`;
+
+  datagridrowSelectionEnumCode: string = `enum FuiRowSelectionEnum {
+  SINGLE = 'single',
+  MULTIPLE = 'multiple'
+}`;
+
+  rowSelectedEventCode: string = `interface RowSelectedEvent {
+  rowNode: RowNode;
+  api: FuiDatagridApiService;
+  columnApi: FuiDatagridColumnApiService;
+  type: string;
+}`;
+
+  selectionChangedEventCode: string = `interface SelectionChangedEvent {
+  selectedItems: { [key: string]: RowNode };
+  api: FuiDatagridApiService;
+  columnApi: FuiDatagridColumnApiService;
+  type: string;
+}`;
 }

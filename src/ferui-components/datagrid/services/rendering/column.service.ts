@@ -12,6 +12,7 @@ import {
 import { DatagridUtils } from '../../utils/datagrid-utils';
 import { FuiDatagridApiService } from '../datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../datagrid-column-api.service';
+import { FuiDatagridOptionsWrapperService } from '../datagrid-options-wrapper.service';
 import { FuiDatagridEventService } from '../event.service';
 
 import { AutoWidthCalculator } from './autoWidthCalculator';
@@ -28,7 +29,8 @@ export class FuiColumnService {
     private gridApi: FuiDatagridApiService,
     private columnApi: FuiDatagridColumnApiService,
     private eventService: FuiDatagridEventService,
-    private autoWidthColumnService: AutoWidthCalculator
+    private autoWidthColumnService: AutoWidthCalculator,
+    private datagridOptionsWrapper: FuiDatagridOptionsWrapperService
   ) {}
 
   moveColumns(columnsToMoveKeys: (string | Column)[], toIndex: number): void {
@@ -364,13 +366,19 @@ export class FuiColumnService {
       this.getVisibleColumns().map(key => this.getGridColumn(key))
     );
     const gridWidth: number = eBodyContainer.parentElement.clientWidth;
+
     // If there is spare space, we will assign this space to all column equally.
     if (visibleColumnsTotalWidth < gridWidth) {
+      const columnsToResize: number = this.datagridOptionsWrapper.isCheckboxSelection()
+        ? keys.filter(col => this.getGridColumn(col).getColId() !== 'datagridSelectionField').length
+        : keys.length;
       const sparedSpace: number = gridWidth - visibleColumnsTotalWidth;
-      const preferredWidthByColumn: number = sparedSpace / keys.length;
+      const preferredWidthByColumn: number = sparedSpace / columnsToResize;
       this.actionOnGridColumns(keys, (column: Column): boolean => {
-        const newWidth = this.normaliseColumnWidth(column, column.getActualWidth() + preferredWidthByColumn);
-        column.setActualWidth(newWidth);
+        if (column.getColId() !== 'datagridSelectionField') {
+          const newWidth = this.normaliseColumnWidth(column, column.getActualWidth() + preferredWidthByColumn);
+          column.setActualWidth(newWidth);
+        }
         return true;
       });
     }

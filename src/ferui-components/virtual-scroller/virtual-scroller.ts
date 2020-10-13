@@ -21,6 +21,7 @@ import {
 
 import * as tween from '@tweenjs/tween.js';
 
+import { FeruiUtils } from '../utils/ferui-utils';
 import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
 
 import {
@@ -286,7 +287,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
     this.resizeBypassRefreshThreshold = options.resizeBypassRefreshThreshold;
     this.modifyOverflowStyleOfParentScroll = options.modifyOverflowStyleOfParentScroll;
     this.stripedTable = options.stripedTable;
-    this.pxErrorValue = options.pxErrorValue !== undefined && options.pxErrorValue !== null ? options.pxErrorValue : 1;
+    this.pxErrorValue = !FeruiUtils.isNullOrUndefined(options.pxErrorValue) ? options.pxErrorValue : 0;
     this.horizontal = false;
     this.resetWrapGroupDimensions();
   }
@@ -1235,7 +1236,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       Math.min(Math.max(scrollPercentage * dimensions.pageCount_fractional, 0), dimensions.pageCount_fractional) *
       dimensions.itemsPerPage;
 
-    const maxStart = dimensions.itemCount - dimensions.itemsPerPage - this.pxErrorValue;
+    const maxStart = dimensions.itemCount - dimensions.itemsPerPage;
     let arrayStartIndex = Math.min(Math.floor(startingArrayIndexFractional), maxStart);
     arrayStartIndex -= arrayStartIndex % dimensions.itemsPerWrapGroup; // round down to start of wrapGroup
 
@@ -1246,7 +1247,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       }
     }
 
-    let arrayEndIndex = Math.ceil(startingArrayIndexFractional) + dimensions.itemsPerPage - this.pxErrorValue;
+    let arrayEndIndex = Math.ceil(startingArrayIndexFractional) + dimensions.itemsPerPage;
     const endIndexWithinWrapGroup = (arrayEndIndex + 1) % dimensions.itemsPerWrapGroup;
 
     if (endIndexWithinWrapGroup > 0) {
@@ -1260,12 +1261,12 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       arrayEndIndex = 0;
     }
 
-    arrayStartIndex = Math.min(Math.max(arrayStartIndex, 0), dimensions.itemCount - this.pxErrorValue);
-    arrayEndIndex = Math.min(Math.max(arrayEndIndex, 0), dimensions.itemCount - this.pxErrorValue);
+    arrayStartIndex = Math.min(Math.max(arrayStartIndex, 0), dimensions.itemCount);
+    arrayEndIndex = Math.min(Math.max(arrayEndIndex, 0), dimensions.itemCount);
 
     const bufferSize = this.bufferAmount * dimensions.itemsPerWrapGroup;
-    const startIndexWithBuffer = Math.min(Math.max(arrayStartIndex - bufferSize, 0), dimensions.itemCount - this.pxErrorValue);
-    const endIndexWithBuffer = Math.min(Math.max(arrayEndIndex + bufferSize, 0), dimensions.itemCount - this.pxErrorValue);
+    const startIndexWithBuffer = Math.min(Math.max(arrayStartIndex - bufferSize, 0), dimensions.itemCount);
+    const endIndexWithBuffer = Math.min(Math.max(arrayEndIndex + bufferSize, 0), dimensions.itemCount);
 
     return {
       startIndex: arrayStartIndex,
@@ -1300,7 +1301,7 @@ export class FuiVirtualScrollerComponent implements OnInit, OnChanges, OnDestroy
       startIndexWithBuffer: pageInfo.startIndexWithBuffer,
       endIndexWithBuffer: pageInfo.endIndexWithBuffer,
       padding: Math.round(newPadding),
-      scrollLength: Math.round(newScrollLength),
+      scrollLength: Math.round(newScrollLength) - this.pxErrorValue,
       scrollStartPosition: pageInfo.scrollStartPosition,
       scrollEndPosition: pageInfo.scrollEndPosition,
       maxScrollPosition: pageInfo.maxScrollPosition

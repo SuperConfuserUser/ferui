@@ -26,4 +26,11 @@
       display: none !important;
     }
   }
+
+  .ng-dropdown-panel.fui-appendto-icon {
+    width: auto !important;
+    border: 1px solid $gray-300 !important;
+    border-radius: $border-radius !important;
+    box-shadow: 0 4px 6px 0 rgba(54, 71, 82, 0.12);
+  }
 }

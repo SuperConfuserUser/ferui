@@ -1,14 +1,13 @@
 import { Observable, Subject } from 'rxjs';
 
+import { FeruiUtils } from '../../../../utils/ferui-utils';
 import { FuiDatagridEvents, ServerSideRowDataChanged } from '../../../events';
+import { FuiDatagridOptionsWrapperService } from '../../../services/datagrid-options-wrapper.service';
 import { DatagridStateService } from '../../../services/datagrid-state.service';
 import { FuiDatagridEventService } from '../../../services/event.service';
-import { IServerSideDatasource, IServerSideGetRowsParams } from '../../../types/server-side-row-model';
-
-export interface RowNode {
-  id: string;
-  data: any;
-}
+import { IDatagridResultObject, IServerSideDatasource, IServerSideGetRowsParams } from '../../../types/server-side-row-model';
+import { DatagridUtils } from '../../../utils/datagrid-utils';
+import { RowNode } from '../../entities/row-node';
 
 export enum InfiniteBlockState {
   STATE_EMPTY = 'empty',
@@ -30,8 +29,19 @@ export class InfiniteBlock {
   private state: InfiniteBlockState = InfiniteBlockState.STATE_EMPTY;
   private infiniteBlockSub: Subject<InfiniteBlock> = new Subject<InfiniteBlock>();
 
-  constructor(private eventService: FuiDatagridEventService, private stateService: DatagridStateService) {}
+  constructor(
+    private eventService: FuiDatagridEventService,
+    private stateService: DatagridStateService,
+    private optionsWrapper: FuiDatagridOptionsWrapperService
+  ) {}
 
+  /**
+   * Init the block by setting its offset/limit and datasource..
+   * @param offset
+   * @param limit
+   * @param datasource
+   * @param params
+   */
   init(offset: number, limit: number, datasource: IServerSideDatasource, params: IServerSideGetRowsParams) {
     this.offset = offset;
     this.limit = limit;
@@ -44,14 +54,23 @@ export class InfiniteBlock {
     });
   }
 
+  /**
+   * Return all blocks (loaded/error/loading).
+   */
   infiniteBlockObservable(): Observable<InfiniteBlock> {
     return this.infiniteBlockSub.asObservable();
   }
 
+  /**
+   * Get the current state of this block.
+   */
   getState(): InfiniteBlockState {
     return this.state;
   }
 
+  /**
+   * Load data from datasource for this specific block.
+   */
   loadFromDatasource(): Promise<RowNode[]> {
     if (this.datasource) {
       return this.datasource.getRows
@@ -94,10 +113,16 @@ export class InfiniteBlock {
     return Promise.resolve([]);
   }
 
-  private dispatchEvent(resultObject) {
+  /**
+   * Dispatch the EVENT_SERVER_ROW_DATA_CHANGED event when we've loaded all rows.
+   * @param resultObject
+   * @private
+   */
+  private dispatchEvent(resultObject: IDatagridResultObject | null) {
     const event: ServerSideRowDataChanged = {
       type: FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED,
-      resultObject: resultObject,
+      rowNodes: this.rowNodes,
+      total: resultObject === null ? null : FeruiUtils.isNullOrUndefined(resultObject.total) ? null : resultObject.total,
       api: null,
       columnApi: null,
       pageIndex: this.blockNumber
@@ -105,15 +130,23 @@ export class InfiniteBlock {
     this.eventService.dispatchEvent(event);
   }
 
+  /**
+   * Map every data to be a RowNode object.
+   * @param data
+   * @private
+   */
   private setRowNodes(data: any[]): void {
     if (data.length === 0) {
       this.rowNodes = [];
     } else {
-      this.rowNodes = data.map((obj, idx) => {
-        return {
-          id: obj.id ? obj.id : idx === 0 ? this.offset : idx * this.offset,
-          data: obj
-        };
+      this.rowNodes = data.map(obj => {
+        const rowNode = new RowNode(this.optionsWrapper, this.eventService);
+        const hasRowNodeIdFunc =
+          !FeruiUtils.isNullOrUndefined(this.optionsWrapper.getRowNodeIdFunc()) &&
+          typeof this.optionsWrapper.getRowNodeIdFunc() === 'function';
+        const rowId = hasRowNodeIdFunc ? this.optionsWrapper.getRowNodeIdFunc()(obj) : DatagridUtils.findId(obj);
+        rowNode.setDataAndId(obj, rowId);
+        return rowNode;
       });
     }
   }

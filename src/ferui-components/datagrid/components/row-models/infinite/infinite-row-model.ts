@@ -17,6 +17,7 @@ import {
   ServerSideRowModelInterface,
   SortModel
 } from '../../../types/server-side-row-model';
+import { RowNode } from '../../entities/row-node';
 
 import { InfiniteCache } from './infinite-cache';
 
@@ -45,6 +46,10 @@ export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
     private stateService: DatagridStateService
   ) {}
 
+  /**
+   * Init the row model
+   * @param datasource
+   */
   init(datasource: IServerSideDatasource): void {
     if (this.initialized) {
       return;
@@ -59,7 +64,8 @@ export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
       this.infiniteMaxSurroundingBlocksInCache,
       this.infiniteInitialBlocksCount,
       this.eventService,
-      this.stateService
+      this.stateService,
+      this.optionsWrapper
     );
     this.infiniteCache.init(this.limit, this.datasource, this.getParams());
 
@@ -68,6 +74,9 @@ export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
     this.isReady.emit(true);
   }
 
+  /**
+   * Reset all listeners and destroys all cache & blocks.
+   */
   destroy(): void {
     if (this.infiniteCache) {
       this.infiniteCache.destroy();
@@ -75,16 +84,34 @@ export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
     }
   }
 
+  /**
+   * Load more blocks.
+   * @param blockNumber
+   * @param forceUpdate
+   */
   loadBlocks(blockNumber: number, forceUpdate: boolean = false): void {
     this.setParams();
     this.infiniteCache.setParams(this.getParams());
     this.infiniteCache.loadBlocks(blockNumber, this.limit, this.datasource, forceUpdate);
   }
 
-  getDisplayedRows(): Observable<any[]> {
+  /**
+   * Get currently loaded blocks (blocks that have the 'loaded' state).
+   */
+  getCurrentlyLoadedRows(): RowNode[] {
+    return this.infiniteCache.getCurrentlyLoadedRows();
+  }
+
+  /**
+   * Get the observable of rows to be displayed.
+   */
+  getDisplayedRows(): Observable<RowNode[]> {
     return this.infiniteCache.getRows();
   }
 
+  /**
+   * Check whether or not the cache has at least one loading block (the state is loading).
+   */
   hasLoadingBlock(): boolean {
     if (this.infiniteCache) {
       return this.infiniteCache.hasLoadingBlock();
@@ -92,6 +119,9 @@ export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
     return false;
   }
 
+  /**
+   * Reset the row model.
+   */
   reset(): void {
     if (this.infiniteCache) {
       this.infiniteCache.clear();
@@ -100,6 +130,11 @@ export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
     this.totalRows = null;
   }
 
+  /**
+   * Refresh the row model.
+   * @param limit
+   * @param datasource
+   */
   refresh(limit: number, datasource?: IServerSideDatasource): void {
     this.reset();
     this.limit = limit;
@@ -109,10 +144,34 @@ export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
     this.loadBlocks(0, true);
   }
 
+  /**
+   * Get the total amount of rows. If the server gives us this info, then this function will indeed return the total amount of
+   * rows expected from the API. Otherwise, it will just return the currently loaded rows count.
+   */
+  getRowCount(): number | null {
+    return this.totalRows;
+  }
+
+  /**
+   * Check whether or not we have active filters.
+   */
+  hasFilters(): boolean {
+    return this.filterService.hasFilters();
+  }
+
+  /**
+   * Get server params.
+   * @private
+   */
   private getParams(): IServerSideGetRowsParams {
     return this.params;
   }
 
+  /**
+   * Set server params.
+   * @param params
+   * @private
+   */
   private setParams(params?: IServerSideGetRowsParams): void {
     if (this.limit === undefined || this.limit === null) {
       this.limit = this.optionsWrapper.getItemPerPage();

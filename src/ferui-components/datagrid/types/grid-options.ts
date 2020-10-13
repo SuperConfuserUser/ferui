@@ -1,3 +1,4 @@
+import { RowNode } from '../components/entities/row-node';
 import { FuiDatagridApiService } from '../services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../services/datagrid-column-api.service';
 
@@ -5,7 +6,15 @@ import { FuiColumnDefinitions } from './column-definitions';
 import { GetContextMenuItems } from './context-menu-items';
 import { FuiIconDefinitions } from './icon-definitions';
 import { FuiRowModel } from './row-model.enum';
-import { FuiRowSelection } from './row-selection.enum';
+import { FuiRowSelectionEnum } from './row-selection.enum';
+
+export interface IsRowSelectable {
+  (row: RowNode): boolean;
+}
+
+export interface GetRowNodeIdFunc {
+  (data: any): string;
+}
 
 export interface FuiGridOptions {
   // columns definition.
@@ -17,8 +26,22 @@ export interface FuiGridOptions {
   // specific column types containing properties that column definitions can inherit.
   columnTypes?: any;
 
-  // Type of FuiRowSelection, set to either 'single' or 'multiple'.
-  rowSelection?: FuiRowSelection;
+  // Whether or not we want to display the select all checkbox in the header section.
+  headerSelect?: boolean;
+
+  // Type of FuiRowSelectionEnum, set to either 'single' or 'multiple'.
+  rowSelection?: FuiRowSelectionEnum;
+
+  // Boolean or Function. Set to true (or return true from function) to render a selection checkbox in the first column.
+  checkboxSelection?: boolean;
+
+  rowMultiSelectWithClick?: boolean;
+
+  suppressRowClickSelection?: boolean;
+
+  rowDeselection?: boolean;
+
+  isRowSelectable?: IsRowSelectable;
 
   // The height for the row containing the column label header. If not specified the default is 40px
   headerHeight?: number;
@@ -56,4 +79,7 @@ export interface FuiGridOptions {
   infiniteMaxSurroundingBlocksInCache?: number;
 
   infiniteInitialBlocksCount?: number;
+
+  // Get the unique identifier for the specific node data.
+  getRowNodeId?: GetRowNodeIdFunc;
 }

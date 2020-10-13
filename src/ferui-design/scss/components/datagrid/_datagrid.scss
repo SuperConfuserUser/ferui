@@ -39,7 +39,15 @@
     align-items: center;
     align-content: center;
     z-index: $zindex-dropdown - 1;
-    background: $gray-100;
+    background-color: $gray-100;
+
+    &.fui-row-selected {
+      background-color: $blue-selected-hover;
+
+      &:hover {
+        background-color: $blue-selected-hover;
+      }
+    }
 
     &.fui-datagrid-action-menu-visible {
       display: flex;
@@ -307,6 +315,10 @@
 
                     overflow: hidden;
 
+                    .fui-datagrid-selection-box {
+                      margin-top: 0.875rem !important;
+                    }
+
                     &.fui-datagrid-column-visible {
                       visibility: visible;
                       opacity: 1;
@@ -399,6 +411,12 @@
                       }
                     }
 
+                    &.lock-position {
+                      .fui-datagrid-header-cell-resize {
+                        cursor: default;
+                      }
+                    }
+
                     .fui-datagrid-header-cell-resize {
                       position: absolute;
                       z-index: 4;
@@ -408,6 +426,48 @@
                       right: -4px;
                       cursor: col-resize;
                       height: 100%;
+                    }
+
+                    &.checkbox-column {
+                      padding-right: 0;
+
+                      .fui-datagrid-select-all-options-wrapper {
+                        display: inline-block;
+
+                        .fui-checkbox-wrapper {
+                          display: inline-block;
+                          float: left;
+                          width: 20px;
+                          max-width: 20px;
+                        }
+
+                        .fui-datagrid-select-all-select {
+                          display: inline-block;
+
+                          .btn {
+                            padding: 0 0 0 5px !important;
+                            .fui-caret {
+                              width: 9px;
+                              height: 9px;
+                              fill: $gray-500;
+                              vertical-align: baseline !important;
+                            }
+                            &:hover {
+                              .fui-caret {
+                                fill: $gray-900;
+                              }
+                            }
+                          }
+                        }
+                      }
+
+                      &::after {
+                        display: none;
+                      }
+
+                      .fui-datagrid-header-cell-resize {
+                        display: none;
+                      }
                     }
                   }
                 }
@@ -517,8 +577,9 @@
                     &.selectable.selected {
                       background-color: $blue-selected;
 
-                      &:hover {
-                        background-color: $blue-selected;
+                      &:hover,
+                      &.hovered {
+                        background-color: $blue-selected-hover;
                       }
                     }
 
@@ -537,6 +598,7 @@
                         height: 16px;
                         color: $red;
                       }
+
                       .fui-error-message {
                         display: inline-block;
                         padding-left: map_get($spacers, 2); // 10px
@@ -571,6 +633,10 @@
                       &.fui-datagrid-column-visible {
                         visibility: visible;
                         opacity: 1;
+                      }
+
+                      .fui-datagrid-selection-box {
+                        margin-top: 0.8125rem !important;
                       }
                     }
                   }

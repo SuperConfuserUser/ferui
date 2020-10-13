@@ -8,6 +8,7 @@ import {
   FuiDatagridSortDirections,
   FuiFieldTypes,
   FuiRowModel,
+  FuiRowSelectionEnum,
   IDatagridResultObject,
   IDateFilterParams,
   IServerSideDatasource,
@@ -55,6 +56,8 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
         <div class="mb-4" style="width: 100%;">
           <fui-datagrid
             #datagrid1
+            [checkboxSelection]="true"
+            [rowSelection]="rowSelectionEnum.MULTIPLE"
             [fixedHeight]="withFixedHeight"
             [withHeader]="withHeader"
             [withFooter]="withFooter"
@@ -80,6 +83,8 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
         <div class="mb-4" style="width: 100%;">
           <fui-datagrid
             #datagrid2
+            [checkboxSelection]="true"
+            [rowSelection]="rowSelectionEnum.SINGLE"
             [rowDataModel]="rowDataModel"
             [datasource]="dataSource2"
             [defaultColDefs]="defaultColumnDefs"
@@ -99,6 +104,7 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
         <div class="mb-4" style="width: 100%;">
           <fui-datagrid
             #datagrid3
+            [rowSelection]="rowSelectionEnum.MULTIPLE"
             [rowDataModel]="rowDataModel"
             [datasource]="dataSource3"
             [defaultColDefs]="defaultColumnDefs"
@@ -125,7 +131,7 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
             height="24"
             [attr.alt]="value"
             [title]="value"
-            [attr.src]="'https://www.countryflags.io/' + row.country_code + '/shiny/24.png'"
+            [attr.src]="'https://www.countryflags.io/' + row.data.country_code + '/shiny/24.png'"
           />
           {{ value }}
         </ng-template>
@@ -184,7 +190,9 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
 
   networkBandwith: number = 260;
 
-  constructor(public rowDataService: RowDataApiService, public datagridService: DatagridService) {}
+  rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
+
+  constructor(private rowDataService: RowDataApiService, public datagridService: DatagridService) {}
 
   networkBandwithChange(value) {
     this.networkBandwith = value;

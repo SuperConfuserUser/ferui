@@ -1,5 +1,7 @@
 import { Column } from '../components/entities/column';
+import { RowNode } from '../components/entities/row-node';
 import { FuiFieldTypes } from '../types/field-types.enum';
+import { ChangedPath } from '../types/refresh-model-params';
 import { FuiDatagridSortDirections } from '../types/sort-directions.enum';
 
 /**
@@ -52,10 +54,10 @@ export function orderByComparator(a: any, b: any): number {
 
 /**
  * Sort all rows without touching the original array.
- * @param rows
+ * @param changedPath
  * @param columns
  */
-export function sortRows(rows: any[], columns: Column[]): any[] {
+export function sortRows(changedPath: ChangedPath, columns: Column[]): void {
   if (columns.length > 1) {
     // sort each columns by their sorting order (if multiple column sorting)
     columns.sort((a: Column, b: Column) => {
@@ -74,14 +76,19 @@ export function sortRows(rows: any[], columns: Column[]): any[] {
    * record the row ordering of results from prior sort operations (if applicable)
    * this is necessary to guarantee stable sorting behavior
    */
-  const rowToIndexMap = new Map<any, number>();
-  rows.forEach((row, index) => rowToIndexMap.set(row, index));
+  const rowToIndexMap = new Map<RowNode, number>();
+  changedPath.rowNodes.forEach((row, index) => rowToIndexMap.set(row, index));
 
-  const temp = [...rows];
+  const temp = [...changedPath.rowNodes];
 
   function manageFieldType(field, column) {
     if (column.sortType && column.sortType === FuiFieldTypes.DATE && !(field[column.getColId()] instanceof Date)) {
-      return new Date(field[column.getColId()]);
+      const date = new Date(field[column.getColId()]);
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      return date;
     } else if (column.sortType && column.sortType === FuiFieldTypes.NUMBER) {
       return Number(field[column.getColId()]);
     } else {
@@ -89,10 +96,10 @@ export function sortRows(rows: any[], columns: Column[]): any[] {
     }
   }
 
-  return temp.sort((a: any, b: any) => {
+  changedPath.rowNodes = temp.sort((a: RowNode, b: RowNode) => {
     for (const column of columns) {
-      const propA = manageFieldType(a, column);
-      const propB = manageFieldType(b, column);
+      const propA = manageFieldType(a.data, column);
+      const propB = manageFieldType(b.data, column);
 
       const comparison =
         column.getSort() !== FuiDatagridSortDirections.DESC

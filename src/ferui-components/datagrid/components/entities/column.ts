@@ -1,5 +1,6 @@
 import { Injectable, TemplateRef } from '@angular/core';
 
+import { FeruiUtils } from '../../../utils/ferui-utils';
 import { ColumnEvent, FuiDatagridEvents } from '../../events';
 import { FuiDatagridApiService } from '../../services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../../services/datagrid-column-api.service';
@@ -45,6 +46,7 @@ export class Column {
   private lockVisible: boolean;
   private minWidth: number;
   private maxWidth: number;
+  private checkboxSelection: boolean;
 
   // Properties for getters/setters
   private _sortOrder: number;
@@ -174,7 +176,13 @@ export class Column {
     this.colId = colId;
     this.lockPosition = colDef.lockPosition === true;
     this.lockVisible = colDef.lockVisible === true;
+    this.checkboxSelection = colDef.checkboxSelection === true;
 
+    // If we don't have either colId or field, we generate a unique ID for it.
+    if (!this.field && !this.colId) {
+      this.field = FeruiUtils.generateUniqueId('fuiDatagridColumn', '');
+      this.colId = FeruiUtils.generateUniqueId('fuiDatagridColumn', '');
+    }
     // sorting
     this.sortable = colDef.sortable;
     this.sort = colDef.sort || FuiDatagridSortDirections.NONE;
@@ -210,6 +218,10 @@ export class Column {
 
     // Add the column to the sorting service in case the column has initial sorting.
     this.sortService.addSortingColumn(this);
+  }
+
+  isCheckboxSelection(): boolean {
+    return this.checkboxSelection;
   }
 
   isMultisort(): boolean {

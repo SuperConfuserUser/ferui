@@ -1,11 +1,10 @@
 import { FuiBodyCellComponent } from './components/body/body-cell';
-import { FuiBodyRowComponent } from './components/body/body-row';
 import { Column } from './components/entities/column';
+import { RowNode } from './components/entities/row-node';
 import { FuiDatagridApiService } from './services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from './services/datagrid-column-api.service';
 import { DragItem, DragSource, HDirection, VDirection } from './types/drag-and-drop';
 import { FuiPagerPage } from './types/pager';
-import { IDatagridResultObject } from './types/server-side-row-model';
 
 // --------------*/
 // * BASIC EVENTS */
@@ -23,13 +22,14 @@ export interface FuiDatagridEvent extends DatagridEvent {
 // * ROW EVENTS */
 // -------------*/
 export interface RowEvent extends DatagridEvent {
-  rowNode: FuiBodyRowComponent;
-  rowData: any;
-  rowIndex: number;
-  event?: Event | null;
+  rowNode: RowNode;
 }
 
 export interface RowSelectedEvent extends RowEvent {}
+
+export interface SelectionChangedEvent extends DatagridEvent {
+  selectedItems: { [key: string]: RowNode };
+}
 
 export interface RowClickedEvent extends RowEvent {}
 
@@ -76,9 +76,11 @@ export interface ColumnVisibleEvent extends ColumnEvent {
 // --------------*/
 // * DATAGRID EVENTS */
 // -------------*/
-export interface FuiSortEvent extends FuiDatagridEvent {
-  sortedRows: any[];
+export interface FuiModelUpdatedEvent extends FuiDatagridEvent {
+  newData?: boolean;
 }
+
+export interface FuiSortEvent extends FuiDatagridEvent {}
 
 export interface FuiSortColumnsEvent extends FuiDatagridEvent {
   sortedColumns: any[];
@@ -103,20 +105,15 @@ export interface DraggingEvent {
 
 export interface DragEvent extends FuiDatagridEvent {}
 
-export interface RowDataChanged extends FuiDatagridEvent {
-  rowData: any[];
-  totalRows?: number;
-}
+export interface RowDataChanged extends FuiDatagridEvent {}
 
 export interface ServerSideRowDataChanged extends FuiDatagridEvent {
-  resultObject: IDatagridResultObject;
+  rowNodes: RowNode[];
+  total?: number;
   pageIndex?: number;
 }
 
-export interface FuiFilterEvent extends FuiDatagridEvent {
-  rowData: any[];
-  totalRows?: number;
-}
+export interface FuiFilterEvent extends FuiDatagridEvent {}
 
 export interface FuiDatagridBodyScrollEvent extends FuiDatagridEvent {
   scrollEvent: Event;
@@ -128,11 +125,17 @@ export interface BodyScrollEvent extends FuiDatagridEvent {
   top: number;
 }
 
+export interface DatagridOnResizeEvent {
+  width: number; // Value in px of the current datagrid width
+  height: number; // Value in px of the current datagrid height
+}
+
 export class FuiDatagridEvents {
   public static EVENT_CELL_CLICKED = 'cellClicked';
   public static EVENT_CELL_DOUBLE_CLICKED = 'cellDoubleClicked';
   public static EVENT_CELL_CONTEXT_MENU = 'cellContextMenu';
   public static EVENT_ROW_SELECTED = 'rowSelected';
+  public static EVENT_SELECTION_CHANGED = 'selectionChanged';
   public static EVENT_ROW_CLICKED = 'rowClicked';
   public static EVENT_ROW_DOUBLE_CLICKED = 'rowDoubleClicked';
 
@@ -163,6 +166,8 @@ export class FuiDatagridEvents {
   public static EVENT_SORT_CHANGED = 'sortChanged';
   public static EVENT_SORT_COLUMN_CHANGED = 'sortColumnChanged';
 
+  public static EVENT_MODEL_UPDATED = 'modelUpdateChanged';
+
   // + toolpanel, for gui updates
   public static EVENT_VALUE_CHANGED = 'columnValueChanged';
   // When the row data is updated, we trigger this event.
@@ -175,9 +180,4 @@ export class FuiDatagridEvents {
   public static EVENT_PAGER_SELECTED_PAGE = 'pagerSelectedPage';
 
   public static EVENT_DISPLAYED_COLUMNS_WIDTH_CHANGED = 'displayedColumnsWidthChanged';
-}
-
-export interface DatagridOnResizeEvent {
-  width: number; // Value in px of the current datagrid width
-  height: number; // Value in px of the current datagrid height
 }

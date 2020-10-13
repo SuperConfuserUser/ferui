@@ -125,4 +125,23 @@ export class DatagridUtils extends FeruiUtils {
     }
     return asString;
   }
+
+  /**
+   * This function will return the id from the object. You can specify a field ID in order to retrieve it from the object.
+   * Otherwise, it will try the most common 'fieldID' and if none is found, we then use the JSON stringify function to
+   * generate a unique ID from the object. The last method (JSON.stringify) is not recommended at all for performance reasons
+   * and if you have duplicated rows, it won't be unique.
+   * @param fieldId
+   * @param object
+   */
+  static findId(object: any, fieldId: string = null): string | null {
+    if (!object) {
+      return null;
+    }
+    if (fieldId) {
+      return object[fieldId];
+    }
+    const id: string = object.id || object.uuid || object.guid;
+    return id ? id : JSON.stringify(object).replace(/\s/gim, '');
+  }
 }

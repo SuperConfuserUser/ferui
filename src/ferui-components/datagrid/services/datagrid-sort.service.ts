@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Column } from '../components/entities/column';
 import { FuiDatagridEvents, FuiSortColumnsEvent } from '../events';
+import { ChangedPath } from '../types/refresh-model-params';
 import { FuiDatagridSortDirections } from '../types/sort-directions.enum';
 import { sortRows } from '../utils/sort';
 
@@ -14,8 +15,6 @@ export class FuiDatagridSortService {
   private _sortingColumns: Array<Column> = [];
   private _initialSortingColumns: Column[] = [];
   private _sortingColumnInitialized: boolean = false;
-  private _rows: Array<any>[];
-  private _sortedRows: Array<any> = [];
 
   constructor(
     private eventService: FuiDatagridEventService,
@@ -69,31 +68,11 @@ export class FuiDatagridSortService {
     }
   }
 
-  get sortedRows(): Array<any> {
-    return this._sortedRows;
-  }
-
-  set sortedRows(value: Array<any>) {
-    this._sortedRows = value;
-  }
-
-  get rows(): Array<any> {
-    return this._rows;
-  }
-
-  set rows(value: Array<any>) {
-    this._rows = [...value];
-    this.sortedRows = this.sortRows();
-  }
-
-  sortRows(): Array<any> {
-    if (!this.rows) {
-      return [];
+  sort(changedPath: ChangedPath): void {
+    if (!changedPath.rowNodes || !this.hasSortingColumns()) {
+      return;
     }
-    if (!this.hasSortingColumns()) {
-      return [...this.rows];
-    }
-    return sortRows(this.rows, this.sortingColumns);
+    sortRows(changedPath, this.sortingColumns);
   }
 
   updateColumn(column: Column): void {

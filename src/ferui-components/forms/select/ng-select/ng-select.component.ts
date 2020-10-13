@@ -83,6 +83,21 @@ export type GroupValueFn = (key: string | object, children: any[]) => string | o
   }
 })
 export class NgSelectComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit, ControlValueAccessor {
+  // output events
+  /* tslint:disable */
+  @Output('blur') readonly blurEvent = new EventEmitter();
+  @Output('focus') readonly focusEvent = new EventEmitter();
+  @Output('change') readonly changeEvent = new EventEmitter();
+  @Output('open') readonly openEvent = new EventEmitter();
+  @Output('close') readonly closeEvent = new EventEmitter();
+  @Output('scroll') readonly scroll = new EventEmitter<{ start: number; end: number }>();
+  /* tslint:enable */
+  @Output('search') readonly searchEvent = new EventEmitter<{ term: string; items: any[] }>();
+  @Output('clear') readonly clearEvent = new EventEmitter();
+  @Output('add') readonly addEvent = new EventEmitter();
+  @Output('remove') readonly removeEvent = new EventEmitter();
+  @Output('scrollToEnd') readonly scrollToEnd = new EventEmitter();
+
   @Input() bindLabel: string;
   @Input() bindValue: string;
   @Input() markFirst = true;
@@ -94,6 +109,7 @@ export class NgSelectComponent implements OnInit, OnDestroy, OnChanges, AfterVie
   @Input() clearAllText: string;
   @Input() dropdownPosition: DropdownPosition = 'auto';
   @Input() appendTo: string;
+  @Input() useIcon: boolean = false;
   @Input() loading = false;
   @Input() closeOnSelect = true;
   @Input() hideSelected = false;
@@ -120,20 +136,6 @@ export class NgSelectComponent implements OnInit, OnDestroy, OnChanges, AfterVie
   @Input() @HostBinding('class.ng-select-searchable') searchable = true;
   @Input() @HostBinding('class.ng-select-clearable') clearable = true;
   @Input() @HostBinding('class.ng-select-opened') isOpen = false;
-  // output events
-  /* tslint:disable */
-  @Output('blur') readonly blurEvent = new EventEmitter();
-  @Output('focus') readonly focusEvent = new EventEmitter();
-  @Output('change') readonly changeEvent = new EventEmitter();
-  @Output('open') readonly openEvent = new EventEmitter();
-  @Output('close') readonly closeEvent = new EventEmitter();
-  @Output('scroll') readonly scroll = new EventEmitter<{ start: number; end: number }>();
-  /* tslint:enable */
-  @Output('search') readonly searchEvent = new EventEmitter<{ term: string; items: any[] }>();
-  @Output('clear') readonly clearEvent = new EventEmitter();
-  @Output('add') readonly addEvent = new EventEmitter();
-  @Output('remove') readonly removeEvent = new EventEmitter();
-  @Output('scrollToEnd') readonly scrollToEnd = new EventEmitter();
   // custom templates
   @ContentChild(NgOptionTemplateDirective, { read: TemplateRef }) optionTemplate: TemplateRef<any>;
   @ContentChild(NgOptgroupTemplateDirective, { read: TemplateRef }) optgroupTemplate: TemplateRef<any>;

@@ -1,4 +1,4 @@
-export enum FuiRowSelection {
+export enum FuiRowSelectionEnum {
   SINGLE = 'single',
   MULTIPLE = 'multiple'
 }

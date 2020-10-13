@@ -123,7 +123,7 @@ import { IDatagridRowData, RowDataApiService } from '../server-side-api/datagrid
             height="24"
             [attr.alt]="value"
             [title]="value"
-            [attr.src]="'https://www.countryflags.io/' + row.country_code + '/shiny/24.png'"
+            [attr.src]="'https://www.countryflags.io/' + row.data.country_code + '/shiny/24.png'"
           />
           {{ value }}
         </ng-template>
