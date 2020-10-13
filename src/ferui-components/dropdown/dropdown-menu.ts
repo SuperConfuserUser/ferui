@@ -48,7 +48,7 @@ export class FuiDropdownMenuComponent extends AbstractPopover implements OnInit,
     super(injector, parentHost, null, extraLeft);
 
     if (!nested) {
-      // Default positioning for normal dropdown is bottom-right
+      // Default positioning for normal dropdown is bottom-left
       this._position = 'bottom-left';
       this.anchorPoint = Point.BOTTOM_LEFT;
       this.popoverPoint = Point.LEFT_TOP;

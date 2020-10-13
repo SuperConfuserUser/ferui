@@ -85,7 +85,6 @@ export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
   /*
    * Fallback to hide when *clrIfOpen is not being used
    */
-
   @HostBinding('class.is-off-screen')
   get isOffScreen() {
     return !this.ifOpenService.open;

@@ -26,7 +26,7 @@ export class Popover {
     anchor: any,
     anchorAlign: Point,
     popoverAlign: Point,
-    { offsetX = 0, offsetY = 0, useAnchorParent = false }: PopoverOptions = {}
+    { offsetX = 0, offsetY = 0, useAnchorParent = false, enableAnchorStaticPositioning = true }: PopoverOptions = {}
   ): Observable<any> {
     // TODO: we are assuming here that the popover is inside or next to the anchor.
     // We'd need to go up the popover tree too otherwise
@@ -35,8 +35,11 @@ export class Popover {
     if (useAnchorParent) {
       anchor = anchor.parentNode;
     }
-    // explicitly override anchor's style to static
-    anchor.style.position = 'static';
+    // explicitly override anchor's style to static by default
+    // set this property to false and bypass if the static style is causing positioning issues for the anchor element
+    if (enableAnchorStaticPositioning) {
+      anchor.style.position = 'static';
+    }
 
     const anchorRect = anchor.getBoundingClientRect();
     const popoverRect = this.element.getBoundingClientRect();

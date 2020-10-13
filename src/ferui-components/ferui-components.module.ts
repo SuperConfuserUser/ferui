@@ -8,6 +8,7 @@ import { ClrIconModule } from './icon/icon.module';
 import { FuiModalsModule } from './modals/modals.module';
 import { FuiTabsModule } from './tabs/tabs.module';
 import { FuiToastNotificationModule } from './toast-notification/toast-notification.module';
+import { FuiTooltipModule } from './tooltip/tooltip.module';
 import { TreeViewModule } from './tree-view/tree-view.module';
 import { FuiUnselectableModule } from './unselectable/unselectable.module';
 import { FuiVirtualScrollerModule } from './virtual-scroller/virtual-scroller.module';
@@ -26,7 +27,8 @@ import { FuiWidgetModule } from './widget/widget.module';
     FuiWidgetModule,
     FuiAlertsModule,
     FuiModalsModule,
-    FuiToastNotificationModule
+    FuiToastNotificationModule,
+    FuiTooltipModule
   ]
 })
 export class FeruiModule {}

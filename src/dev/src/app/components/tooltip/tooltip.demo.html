@@ -1,0 +1,763 @@
+<h1 class="mt-4">FerUI Tooltip Component</h1>
+<hr />
+<fui-tabs>
+  <fui-tab title="Documentation" [active]="true">
+    <div class="container-fluid tooltip-demo" title="">
+      <div class="row" style="max-width: 1200px">
+        <div class="col-12">
+          <h2>Overview</h2>
+          <p>
+            A tooltip is a user-triggered UI element that displays supplementary information. The FerUI tooltip is a directive
+            that generates a tooltip message on mouse hover or focus events for the paired element. Tooltips may also be closed
+            with the 'ESC' key.
+          </p>
+          <p>Some UI guidelines for tooltips include:</p>
+          <ul>
+            <li>Provide brief and helpful content inside the tooltip. Lengthy content is no longer a ‘tip’, so keep it brief.</li>
+            <li>Don’t use tooltips for information that is vital to task completion.</li>
+            <li>Position tooltips so they don’t block related content.</li>
+          </ul>
+          <div class="alert alert-primary alert-flex" role="alert">
+            <div class="fui-alert-body-wrapper">
+              Many examples and different cases are demonstrated the separate <code>examples</code> section.
+            </div>
+          </div>
+
+          <h2>Table of Contents</h2>
+          <ol>
+            <li><a href="#usage">Usage</a></li>
+            <li><a href="#api">Public API</a></li>
+            <li><a href="#interfaces">Interfaces and Types</a></li>
+            <li><a href="#style">Style</a></li>
+            <li><a href="#special">Special Cases</a></li>
+          </ol>
+
+          <h2 id="usage" class="internal-anchor">Usage</h2>
+          <p>Requires: Import <code>FeruiModule</code> to your app or ngModule.</p>
+          <p>
+            Add a FerUI tooltip to HTML elements or custom components using the
+            <code fuiTooltip="I'm a default tooltip!">fuiTooltip</code> selector to assign content. As an attribute directive, it
+            must be used with another element. Optionally, customize the FerUi tooltip with the
+            <code
+              fuiTooltip="I'm a customized tooltip!"
+              [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.PRIMARY, placement: FuiTooltipPlacementEnum.BOTTOM }"
+              >fuiTooltipConfig</code
+            >
+            input. Hover over or tab through code styled text in this paragraph to see the tooltip in action. (Click text first to
+            set general focus and make tabbing easier.)
+          </p>
+          <pre><code [languages]="['html']" [highlight]="usageHtmlExample"></code></pre>
+
+          <h2 id="api" class="internal-anchor">Public API</h2>
+          <p>Selectors and input bindings directly available to the user.</p>
+          <table class="fui-table mb-4">
+            <thead>
+              <tr>
+                <th width="200">Property</th>
+                <th width="275">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>[fuiTooltip]</code></td>
+                <td>
+                  string | <br />
+                  TemplateRef&lt;any&gt; | <br />
+                  <a href="#component-type">TooltipComponentTypeContent</a>
+                </td>
+                <td>
+                  <b>[Mandatory]</b> The content to be displayed by the tooltip. This may be a string, HTML, template, or
+                  component. Components used for tooltip content should be available to the FuiTooltipDirective as an entry
+                  component in your ngModule.
+                </td>
+              </tr>
+              <tr>
+                <td><code>[fuiTooltipConfig]</code></td>
+                <td><a href="#tooltip-config">FuiTooltipConfig</a></td>
+                <td><b>[Optional]</b> A configuration object used to customize the tooltip.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2 id="interfaces" class="internal-anchor">Interfaces and Types</h2>
+          <p>Details for various interfaces and type aliases you may come across when using the FerUi tooltip.</p>
+
+          <h4 id="component-type" class="internal-anchor">TooltipComponentTypeContent</h4>
+          <p>Object used to configure component type content for the tooltip.</p>
+          <fui-tabs>
+            <fui-tab [title]="'Documentation'" [active]="true">
+              <table class="fui-table mb-4">
+                <thead>
+                  <tr>
+                    <th width="200">Property</th>
+                    <th width="275">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>component</code></td>
+                    <td>Type&lt;any&gt;</td>
+                    <td>
+                      <strong>[Mandatory]</strong> The component to generate for the tooltip content. This would simply be the
+                      name of your component.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>input</code></td>
+                    <td>{{ '{ [key: string]: any }' }}</td>
+                    <td>
+                      <strong>[Optional]</strong> Any additional input values for this component. This object will pass values by
+                      key (input name) to the component instance.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </fui-tab>
+            <fui-tab [title]="'Interface'">
+              <pre><code [languages]="['typescript']" [highlight]="tooltipComponentTypeContentExample"></code></pre>
+            </fui-tab>
+          </fui-tabs>
+          <div class="alert alert-warning alert-flex" role="alert">
+            <div class="fui-alert-icon-wrapper">
+              <clr-icon class="fui-alert-icon" shape="fui-error"></clr-icon>
+            </div>
+            <div class="fui-alert-body-wrapper">
+              Component type content is dynamically compiled, so don't forget to add the component to your ngModule
+              <code>entryComponents</code> section.
+            </div>
+          </div>
+
+          <h4 id="tooltip-config" class="internal-anchor">FuiTooltipConfig</h4>
+          <p>
+            An optional configuration object for customizing the tooltip. The configured properties will override default values.
+          </p>
+          <fui-tabs>
+            <fui-tab [title]="'Documentation'" [active]="true">
+              <table class="fui-table mb-4">
+                <thead>
+                  <tr>
+                    <th width="200">Property</th>
+                    <th width="275">Type</th>
+                    <th>Description</th>
+                    <th width="200">Default Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>offset</code></td>
+                    <td>number</td>
+                    <td>
+                      <strong>[Optional]</strong> The distance that the tooltip will be placed from its parent element in pixels.
+                    </td>
+                    <td>{{ TOOLTIP_DEFAULT_CONFIG.offset }}</td>
+                  </tr>
+                  <tr>
+                    <td><code>placement</code></td>
+                    <td><a href="#tooltip-placement">FuiTooltipPlacementEnum</a></td>
+                    <td>
+                      <strong>[Optional]</strong> The placement of the tooltip relative to its parent element. The tooltip will
+                      reposition to another placement if it does not fit the current view.
+                    </td>
+                    <td>FuiTooltipPlacementEnum.TOP</td>
+                  </tr>
+                  <tr>
+                    <td><code>cssClass</code></td>
+                    <td><a href="#tooltip-themes">FuiTooltipThemeEnum</a> | string</td>
+                    <td>
+                      <strong>[Optional]</strong> The pre-built theme classes or any custom CSS classes to apply to the tooltip.
+                      Multiple class names are allowed and should be space separated in the string.
+                    </td>
+                    <td>FuiTooltipThemeEnum.INFO</td>
+                  </tr>
+                  <tr>
+                    <td><code>tooltipStyle</code></td>
+                    <td>string</td>
+                    <td>
+                      <strong>[Optional]</strong> Any additional styling to apply to the tooltip. Use the HTML/CSS inline style
+                      format.
+                    </td>
+                    <td>null</td>
+                  </tr>
+                  <tr>
+                    <td><code>arrow</code></td>
+                    <td>boolean | string</td>
+                    <td>
+                      <strong>[Optional]</strong> A boolean value determines whether to show the default arrow, and a string value
+                      is for custom svg arrows. Be sure to also update arrowSize as needed for final scaling. Use SVG width,
+                      height and viewBox attributes for more consistency.
+                    </td>
+                    <td>{{ TOOLTIP_DEFAULT_CONFIG.arrow }}</td>
+                  </tr>
+                  <tr>
+                    <td><code>arrowSize</code></td>
+                    <td><a href="#arrow-size">ArrowSize</a></td>
+                    <td><strong>[Optional]</strong> The tooltip arrow size in pixels.</td>
+                    <td>
+                      {{ '{ width: '}}{{ TOOLTIP_DEFAULT_CONFIG.arrowSize.width }}{{', height: '}}{{
+                      TOOLTIP_DEFAULT_CONFIG.arrowSize.height }}{{' }' }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>isDisabled</code></td>
+                    <td>boolean</td>
+                    <td><strong>[Optional]</strong> Whether the tooltip should be disabled and not react to any events.</td>
+                    <td>{{ TOOLTIP_DEFAULT_CONFIG.isDisabled }}</td>
+                  </tr>
+                  <tr>
+                    <td><code>fixedParent</code></td>
+                    <td>boolean</td>
+                    <td>
+                      <strong>[Optional]</strong> Whether the tooltip's parent element is <code>position: fixed</code>. This
+                      allows the tooltip to be positioned accurately. The special cases section includes an
+                      <a href="#fixed-demo">example</a>.
+                    </td>
+                    <td>{{ TOOLTIP_DEFAULT_CONFIG.fixedParent }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </fui-tab>
+            <fui-tab [title]="'Interface'">
+              <pre><code [languages]="['typescript']" [highlight]="fuiTooltipConfigInterfaceExample"></code></pre>
+            </fui-tab>
+            <fui-tab [title]="'Default'">
+              <pre><code [languages]="['typescript']" [highlight]="fuiTooltipConfigDefaultsExample"></code></pre>
+            </fui-tab>
+          </fui-tabs>
+
+          <h4 id="tooltip-placement" class="internal-anchor">FuiTooltipPlacementEnum</h4>
+          <p>
+            Placement options for the tooltip relative to its paired element. The default is
+            <code>FuiTooltip.TOP</code>.
+          </p>
+          <pre><code [languages]="['typescript']" [highlight]="tooltipPlacementTypeExample"></code></pre>
+
+          <h4 id="tooltip-themes" class="internal-anchor">FuiTooltipThemeEnum</h4>
+          <p>
+            Available pre-built theme classes that may be assigned to the tooltip. These are similar to the FerUi alert and button
+            themes. The default is <code>FuiFuiTooltipPlacementEnum.INFO</code>.
+          </p>
+          <pre><code [languages]="['typescript']" [highlight]="tooltipThemesTypeExample"></code></pre>
+
+          <h4 id="arrow-size" class="internal-anchor">ArrowSize</h4>
+          <p>
+            Object used to configure the tooltip arrow's size. The default is
+            <code
+              >{{ '{ width: '}}{{ TOOLTIP_DEFAULT_CONFIG.arrowSize.width }}{{', height: '}}{{
+              TOOLTIP_DEFAULT_CONFIG.arrowSize.height }}{{' }' }}</code
+            >.
+          </p>
+          <fui-tabs>
+            <fui-tab [title]="'Documentation'" [active]="true">
+              <table class="fui-table mb-4">
+                <thead>
+                  <tr></tr>
+                  <tr>
+                    <th width="200">Property</th>
+                    <th width="275">Type</th>
+                    <th>Description</th>
+                    <th width="200">Default Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>width</code></td>
+                    <td>number</td>
+                    <td><strong>[Mandatory]</strong> The width of the tooltip arrow in pixels.</td>
+                    <td>{{ TOOLTIP_DEFAULT_CONFIG.arrowSize.width }}</td>
+                  </tr>
+                  <tr>
+                    <td><code>height</code></td>
+                    <td>number</td>
+                    <td><strong>[Mandatory]</strong> The height of the tooltip arrow in pixels.</td>
+                    <td>{{ TOOLTIP_DEFAULT_CONFIG.arrowSize.height }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </fui-tab>
+            <fui-tab [title]="'Interface'">
+              <pre><code [languages]="['typescript']" [highlight]="arrowSizeInterfaceExample"></code></pre>
+            </fui-tab>
+
+            <h2 id="style" class="internal-anchor">Style</h2>
+            <p>
+              All FerUi tooltips have a base <code>.fui-tooltip</code> class. Then, the theme or custom class(es) is added. CSS
+              classes are assigned in HTML format (e.g. <code>'fui-tooltip tooltip-info'</code>). Some inline style is also
+              generated to position the tooltip.
+            </p>
+            <p>
+              Any custom classes or styling assigned via FuiTooltipConfig will be applied according to typical CSS cascade rules
+              (source order, specificity, importance). SVG style attributes like <code>fill</code> will be passed to the tooltip's
+              SVG arrow.
+            </p>
+            <pre><code [languages]="['typescript']" [highlight]="defaultStyleCssExample"></code></pre>
+            <div class="alert alert-info alert-flex" role="alert">
+              <div class="fui-alert-icon-wrapper">
+                <clr-icon class="fui-alert-icon" shape="fui-help"></clr-icon>
+              </div>
+              <div class="fui-alert-body-wrapper">
+                The default z-index value is designed to work within the overall FerUI design framework along with other carefully
+                established z-indexes. This value may need to be updated to work well within other existing systems and projects.
+                Simply override the
+                <code>.fui-tooltip z-index</code> attribute in a global stylesheet.
+              </div>
+            </div>
+            <div class="alert alert-warning alert-flex" role="alert">
+              <div class="fui-alert-icon-wrapper">
+                <clr-icon class="fui-alert-icon" shape="fui-error"></clr-icon>
+              </div>
+              <div class="fui-alert-body-wrapper">
+                Angular styles are scoped to a single component by default. Make sure any custom CSS classes are available to the
+                TooltipComponent. They should be included in a global stylesheet, exposed to the global style scope via
+                <code>encapsulation: ViewEncapsulation.None</code>, or another method. Be careful to manage your global CSS
+                classes well.
+              </div>
+            </div>
+
+            <h2 id="special" class="internal-anchor">Special Cases</h2>
+            <h4>Disabled Elements</h4>
+            <p>
+              Some browsers (Chrome) may not allow events on disabled elements, so the tooltip won't trigger. Add the tooltip to a
+              wrapper around the disabled element instead.
+            </p>
+            <div class="bd-example mb-4">
+              <button type="button" class="btn btn-primary" [disabled]="true" fuiTooltip="Nope!">Disabled</button>
+              <span fuiTooltip="I'm a workaround!">
+                <button type="button" class="btn btn-primary" [disabled]="true">Disabled</button>
+              </span>
+            </div>
+            <pre><code [languages]="['html']" [highlight]="disabledSpecialCaseExample"></code></pre>
+
+            <h4 id="fixed-demo" class="internal-anchor">Fixed Positioned Parents</h4>
+            <p>
+              If the parent element of the tooltip directive is <code>position: fixed</code>, the tooltip will need to be
+              configured for accurate positioning. Just set the <code>fuiTooltipconfig.fixedParent</code> property to
+              <code>true</code>. In the demo below (visible when toggled), test tooltips with and without the fix by hovering on
+              the buttons and scrolling.
+            </p>
+            <fui-toggle-wrapper class="mb-4">
+              <label fuiLabel>View Fixed Position Demo</label>
+              <input type="checkbox" fuiToggle name="fixedDemoToggle" [(ngModel)]="enableFixedDemo" />
+            </fui-toggle-wrapper>
+            <div *ngIf="enableFixedDemo" class="window-position window-centered bd-example">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                fuiTooltip="Fix me!"
+                [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.SECONDARY }"
+              >
+                Unfixed
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                fuiTooltip="I'm fixed!"
+                [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.SECONDARY, fixedParent: true }"
+              >
+                Fixed
+              </button>
+            </div>
+            <pre><code [languages]="['html']" [highlight]="fixedSpecialCaseExample"></code></pre>
+          </fui-tabs>
+        </div>
+      </div>
+    </div>
+  </fui-tab>
+
+  <fui-tab title="Examples">
+    <div class="container-fluid tooltip-demo" title="">
+      <div class="row" style="max-width: 1200px">
+        <div class="col-12">
+          <h2>Table of Contents</h2>
+          <ol>
+            <li><a href="#content">Content Types</a></li>
+            <li><a href="#placement">Placement and Auto Repositioning</a></li>
+            <li><a href="#themes">Themes</a></li>
+            <li><a href="#custom-styling">Classes and Styling</a></li>
+            <li><a href="#arrow">Arrow Options</a></li>
+            <li><a href="#disable">Enable or Disable</a></li>
+          </ol>
+
+          <h2 id="content" class="internal-anchor">Content Types</h2>
+          <p>
+            Tooltip content is assigned directly with the <code>fuiTooltip</code> selector. Content may be a string, HTML,
+            template or component. Components used for tooltip content should be available to the FuiTooltipDirective as an entry
+            component in your ngModule. Component type content may also receive input values as shown in the 'Advanced Component'
+            button.
+          </p>
+          <div class="bd-example mb-4">
+            <button type="button" class="btn btn-primary" fuiTooltip="I'm a string!">Plain Text</button>
+            <button type="button" class="btn btn-primary" fuiTooltip="I'm <strong>strong</strong>! 💪">HTML Content</button>
+            <button type="button" class="btn btn-primary" [fuiTooltip]="myTemplate">Template</button>
+            <button type="button" class="btn btn-primary" [fuiTooltip]="myComponentContent">Component</button>
+            <button type="button" class="btn btn-primary" [fuiTooltip]="myAdvancedComponentContent">Advanced Component</button>
+            <ng-template #myTemplate>
+              <div>I'm a <em>template</em>!</div>
+            </ng-template>
+          </div>
+          <fui-tabs>
+            <fui-tab [title]="'HTML'" [active]="true">
+              <pre><code [languages]="['html']" [highlight]="contentHtmlExample"></code></pre>
+            </fui-tab>
+            <fui-tab [title]="'Typescript'">
+              <pre><code [languages]="['typescript']" [highlight]="contentTypescriptExample"></code></pre>
+            </fui-tab>
+          </fui-tabs>
+
+          <h2 id="placement" class="internal-anchor">Placement</h2>
+          <p>
+            Tooltip placement is assigned via <code>fuiTooltipConfig.placement</code> and will be placed on '{{
+            TOOLTIP_DEFAULT_CONFIG.placement }}' by default. The tooltip may be placed in the following positions relative to its
+            paired element (from the <code>FuiTooltipPlacementEnum</code> enum):
+          </p>
+          <ul>
+            <li><code>TOP</code></li>
+            <li><code>BOTTOM</code></li>
+            <li><code>RIGHT</code></li>
+            <li><code>LEFT</code></li>
+          </ul>
+          <div class="bd-example mb-4">
+            <button type="button" class="btn btn-primary" fuiTooltip="Hi five!">Default</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="Up high!"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.TOP }"
+            >
+              Top
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="Down low!"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.BOTTOM }"
+            >
+              Bottom
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="To the side!"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.RIGHT }"
+            >
+              Right
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="Too slow!"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.LEFT }"
+            >
+              Left
+            </button>
+          </div>
+          <pre><code [languages]="['html']" [highlight]="placementHtmlExample"></code></pre>
+
+          <h4>Auto Repositioning</h4>
+          <p>
+            If the tooltip does not fit the current view with the default or assigned placement, it will be repositioned. Tooltips
+            in the demo below (visible when toggled) are configured with placements that match their button label. The demo
+            buttons are placed in extreme positions, so their tooltips will be automatically repositioned for visibility.
+          </p>
+          <fui-toggle-wrapper class="mb-4">
+            <label fuiLabel>View Reposition Demo</label>
+            <input type="checkbox" fuiToggle name="repositionToggle" [(ngModel)]="enableRepositionDemo" />
+          </fui-toggle-wrapper>
+
+          <pre><code [languages]="['html']" [highlight]="repositionHtmlExample"></code></pre>
+
+          <div *ngIf="enableRepositionDemo">
+            <button
+              type="button"
+              class="btn btn-secondary window-position window-centered"
+              fuiTooltip="I'm reasonably placed!"
+              [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.SECONDARY, fixedParent: true }"
+            >
+              Default
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-secondary window-position window-top"
+              [fuiTooltip]="edgeCaseMessage"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.TOP, cssClass: FuiTooltipThemeEnum.SECONDARY, fixedParent: true }"
+            >
+              Top
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary window-position window-bottom"
+              [fuiTooltip]="edgeCaseMessage"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.BOTTOM, cssClass: FuiTooltipThemeEnum.SECONDARY, fixedParent: true }"
+            >
+              Bottom
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary window-position window-left"
+              [fuiTooltip]="edgeCaseMessage"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.LEFT, cssClass: FuiTooltipThemeEnum.SECONDARY, fixedParent: true }"
+            >
+              Left
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary window-position window-right"
+              [fuiTooltip]="edgeCaseMessage"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.RIGHT, cssClass: FuiTooltipThemeEnum.SECONDARY, fixedParent: true }"
+            >
+              Right
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-secondary window-position window-top-left"
+              [fuiTooltip]="cornerCaseMessage"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.TOP, cssClass: FuiTooltipThemeEnum.SECONDARY, fixedParent: true }"
+            >
+              Top
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary window-position window-top-right"
+              [fuiTooltip]="cornerCaseMessage"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.RIGHT, cssClass: FuiTooltipThemeEnum.SECONDARY, fixedParent: true }"
+            >
+              Right
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary window-position window-bottom-right"
+              [fuiTooltip]="cornerCaseMessage"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.BOTTOM, cssClass: FuiTooltipThemeEnum.SECONDARY, fixedParent: true }"
+            >
+              Bottom
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary window-position window-bottom-left"
+              [fuiTooltip]="cornerCaseMessage"
+              [fuiTooltipConfig]="{ placement: FuiTooltipPlacementEnum.LEFT, cssClass: FuiTooltipThemeEnum.SECONDARY, fixedParent: true }"
+            >
+              Left
+            </button>
+          </div>
+
+          <h2 id="themes" class="internal-anchor">Themes</h2>
+          <p>
+            Pre-built themes may be assigned to the tooltip via <code>fuiTooltipConfig.cssClass</code> and has
+            <code>FuiTooltipThemeEnum.INFO</code> styling by default. These are similar to other FerUi themes such as those for
+            the alert and button components which include (from the <code>FuiTooltipThemeEnum</code> enum):
+          </p>
+          <ul>
+            <li><code>PRIMARY</code></li>
+            <li><code>SECONDARY</code></li>
+            <li><code>SUCCESS</code></li>
+            <li><code>DANGER</code></li>
+            <li><code>WARNING</code></li>
+            <li><code>INFO</code></li>
+            <li><code>LIGHT</code></li>
+            <li><code>DARK</code></li>
+          </ul>
+          <div class="bd-example mb-4">
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="I'm first!"
+              [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.PRIMARY }"
+            >
+              Primary
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              fuiTooltip="I'm second!"
+              [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.SECONDARY }"
+            >
+              Secondary
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              fuiTooltip="I'm successful!"
+              [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.SUCCESS }"
+            >
+              Success
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              fuiTooltip="Uh oh!"
+              [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.DANGER }"
+            >
+              Danger
+            </button>
+            <button
+              type="button"
+              class="btn btn-warning"
+              fuiTooltip="I'm warning you!"
+              [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.WARNING }"
+            >
+              Warning
+            </button>
+            <button
+              type="button"
+              class="btn btn-info"
+              fuiTooltip="I'm informative!"
+              [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.INFO }"
+            >
+              Info
+            </button>
+            <button
+              type="button"
+              class="btn btn-light"
+              fuiTooltip="I'm bright! 😎"
+              [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.LIGHT }"
+            >
+              Light
+            </button>
+            <button
+              type="button"
+              class="btn btn-dark"
+              fuiTooltip="I'm dark! 🤩"
+              [fuiTooltipConfig]="{ cssClass: FuiTooltipThemeEnum.DARK }"
+            >
+              Dark
+            </button>
+          </div>
+          <pre><code [languages]="['html']" [highlight]="themesHtmlExample"></code></pre>
+
+          <h2 id="custom-styling" class="internal-anchor">Classes and Styling</h2>
+          <p>
+            Custom tooltip classes and styles may be assigned via <code>fuiTooltipConfig.cssClass</code> and
+            <code>fuiTooltipConfig.style</code>. Multiple class names are allowed and should be space separated just like how
+            multiple HTML classes are assigned. Also use the HTML/CSS inline style format for custom styles. SVG style attributes
+            such as <code>fill</code> will be passed to the tooltip's SVG arrow.
+          </p>
+          <p>
+            Make sure any custom CSS classes are available to the TooltipComponent. They should be included in a global
+            stylesheet, exposed to the global style scope via <code>encapsulation: ViewEncapsulation.None</code>, or another
+            method. Be careful to manage your global CSS classes well. The <code>ViewEncapsulation</code> method is used here,
+            since this is only for demonstration purposes.
+          </p>
+          <div class="bd-example mb-4">
+            <button type="button" class="btn btn-primary" fuiTooltip="I'm basic!">Default</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="I'm classy!"
+              [fuiTooltipConfig]="{ cssClass: 'pretty-tooltip', arrow: false}"
+            >
+              Class
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="I'm classier! 🦄"
+              [fuiTooltipConfig]="{ cssClass: 'pretty-tooltip fancy-tooltip' }"
+            >
+              Classes
+            </button>
+            <button type="button" class="btn btn-primary" fuiTooltip="I'm stylish!" [fuiTooltipConfig]="myStyleConfig">
+              Style
+            </button>
+          </div>
+          <fui-tabs>
+            <fui-tab [title]="'HTML'" [active]="true">
+              <pre><code [languages]="['html']" [highlight]="customStyleHtmlExample"></code></pre>
+            </fui-tab>
+            <fui-tab [title]="'CSS'">
+              <pre><code [languages]="['typescript']" [highlight]="customStyleCssExample"></code></pre>
+            </fui-tab>
+            <fui-tab [title]="'Typescript'">
+              <pre><code [languages]="['typescript']" [highlight]="customStyleTypescriptExample"></code></pre>
+            </fui-tab>
+          </fui-tabs>
+
+          <h2 id="arrow" class="internal-anchor">Arrow Options</h2>
+          <p>
+            Tooltip arrows may be configured via <code>fuiTooltipConfig.arrow</code> and <code>fuiTooltipConfig.arrowSize</code>.
+            By default, the arrow is displayed at {{ TOOLTIP_DEFAULT_CONFIG.arrowSize.height }} pixels high and {{
+            TOOLTIP_DEFAULT_CONFIG.arrowSize.width }} pixels wide. A boolean value determines whether to show the default arrow,
+            and a string value will be used for custom svg arrows. When using a custom arrow, be sure to also update
+            <code>fuiTooltipConfig.arrowSize</code> as needed for final scaling and use SVG width, height and viewBox attributes
+            for even more consistency.
+          </p>
+          <p>
+            Tooltip arrows may be styled with SVG attributes in custom CSS classes (e.g. <code>fancy-tooltip</code> in the
+            <a href="#custom-styling">styling section</a>), styles (e.g. <code>myStyleConfig</code> in the
+            <a href="#custom-styling">styling section</a>) or inline (examples right below).
+          </p>
+          <div class="bd-example mb-4">
+            <button type="button" class="btn btn-primary" fuiTooltip="I have a good point!">Default</button>
+            <button type="button" class="btn btn-primary" fuiTooltip="I'm pointless!" [fuiTooltipConfig]="{ arrow: false }">
+              None
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="I'm bigger!"
+              [fuiTooltipConfig]="{ arrowSize: { width: 10, height: 15 } }"
+            >
+              Resized
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="I have borders!"
+              [fuiTooltipConfig]="{ cssClass: 'border-tooltip', arrow: myCustomArrow }"
+            >
+              Custom
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="I'm very custom!"
+              [fuiTooltipConfig]="{ cssClass: 'best-tooltip', arrow: myVeryCustomArrow, arrowSize: { width: 10, height: 10 } }"
+            >
+              Very Custom
+            </button>
+          </div>
+          <fui-tabs>
+            <fui-tab [title]="'HTML'" [active]="true">
+              <pre><code [languages]="['html']" [highlight]="arrowHtmlExample"></code></pre>
+            </fui-tab>
+            <fui-tab [title]="'CSS'">
+              <pre><code [languages]="['typescript']" [highlight]="arrowCssExample"></code></pre>
+            </fui-tab>
+            <fui-tab [title]="'Typescript'">
+              <pre><code [languages]="['typescript']" [highlight]="arrowTypescriptExample"></code></pre>
+            </fui-tab>
+          </fui-tabs>
+
+          <h2 id="disable" class="internal-anchor">Enable or Disable</h2>
+          <p>The tooltip can be enabled or disabled via <code>fuiTooltipConfig.isDisabled</code>. It is enabled by default.</p>
+          <fui-toggle-wrapper class="mb-4">
+            <label fuiLabel>Disable Toggleable Tooltip</label>
+            <input type="checkbox" fuiToggle name="disableToggle" [(ngModel)]="toggleDisableDemo" />
+          </fui-toggle-wrapper>
+          <div class="bd-example mb-4">
+            <button type="button" class="btn btn-primary" fuiTooltip="I'm enabled!">Default</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              fuiTooltip="I'm enabled!"
+              [fuiTooltipConfig]="{ isDisabled: toggleDisableDemo }"
+            >
+              Toggleable
+            </button>
+          </div>
+          <fui-tabs>
+            <fui-tab [title]="'HTML'" [active]="true">
+              <pre><code [languages]="['html']" [highlight]="disableHtmlExample"></code></pre>
+            </fui-tab>
+            <fui-tab [title]="'Typescript'">
+              <pre><code [languages]="['typescript']" [highlight]="disableTypescriptExample()"></code></pre>
+            </fui-tab>
+          </fui-tabs>
+        </div>
+      </div>
+    </div>
+  </fui-tab>
+</fui-tabs>
