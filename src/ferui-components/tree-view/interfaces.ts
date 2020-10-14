@@ -30,6 +30,10 @@ export interface TreeNodeDataRetriever<T> {
   getIconTemplate?(): TemplateRef<any>;
   // If developer wishes to give us a template ref we shall render this template in the view
   getNodeTemplate?(): TemplateRef<any>;
+  // If developer is using multi-select feature and wants to disable or make tree nodes unselectable
+  isNodeUnselectable?(node: TreeNodeData<T>): boolean;
+  // Optional Tree Node ID getter if dev wants to specify each tree node id
+  getTreeNodeId?(data: TreeNodeData<T>): string;
 }
 
 /**
@@ -63,7 +67,9 @@ export interface TreeViewEvent<T> {
 export enum TreeViewEventType {
   NODE_CLICKED = 'node_clicked',
   NODE_EXPANDED = 'node_expanded',
-  NODE_COLLAPSED = 'node_collapsed'
+  NODE_COLLAPSED = 'node_collapsed',
+  NODE_CHECKED = 'node_checked',
+  NODE_UNCHECKED = 'node_unchecked'
 }
 
 /**
@@ -80,6 +86,12 @@ export interface TreeViewConfiguration {
   bufferAmount?: number;
   // Optional limit config for server side paging params, use iland virtual scroller as default
   limit?: number;
+  // Optional param to use Tree View selection feature - dev can choose Multiple or Single selection type
+  nodeSelection?: FuiTreeviewNodeSelectionEnum;
+  // Optional auto-check for selection feature, server side tree view will always be false
+  autoCheck?: boolean;
+  // Optional param on Server Side selection feature, if user wants to visually check/disable children when checking parent, default true
+  serverSideDisableChildren?: boolean;
 }
 
 /**
@@ -103,6 +115,7 @@ export interface TreeViewAutoNodeSelector<T> {
  * Tree Node Interface
  */
 export interface TreeNode<T> {
+  id: string;
   data: TreeNodeData<T>;
   selected: boolean;
   expanded: boolean;
@@ -112,6 +125,9 @@ export interface TreeNode<T> {
   showLoader: boolean;
   loadError: boolean;
   width?: number;
+  checked?: boolean;
+  indeterminate?: boolean;
+  disabled?: boolean;
 }
 
 /**
@@ -120,4 +136,12 @@ export interface TreeNode<T> {
 export interface TreeNodeEvent<T> {
   getNode(): TreeNode<T>;
   getType(): TreeViewEventType;
+}
+
+/**
+ * Fui Tree View Node Selection enum
+ */
+export enum FuiTreeviewNodeSelectionEnum {
+  SINGLE = 'SINGLE', // On selection feature, this will only allow user to check one node at a time
+  MULTIPLE = 'MULTIPLE'
 }

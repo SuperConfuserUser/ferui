@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import { FeruiModule } from '@ferui/components';
 
+import { TreeViewCheckboxDemoComponent } from './tree-view-checkbox-demo';
 import { TreeViewClientSideDemoComponent } from './tree-view-client-side-demo';
 import { TreeViewDashboardDemoComponent } from './tree-view-dashboard-demo';
 import { TreeViewOverviewDemoComponent } from './tree-view-overview-demo';
@@ -16,7 +17,8 @@ const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
   TreeViewClientSideDemoComponent,
   TreeViewServerSideDemoComponent,
   TreeViewOverviewDemoComponent,
-  TreeViewDashboardDemoComponent
+  TreeViewDashboardDemoComponent,
+  TreeViewCheckboxDemoComponent
 ];
 
 @NgModule({

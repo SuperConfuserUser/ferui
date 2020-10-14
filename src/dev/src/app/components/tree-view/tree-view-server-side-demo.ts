@@ -104,9 +104,7 @@ import {
           [config]="{ height: '300px', width: '250px' }"
         ></fui-tree-view>
         <ng-template #treeViewTemplate let-node="node">
-          <span class="directory-label">
-            {{ node.data.nodeLabel }}
-          </span>
+          <span class="directory-label">{{ node.data.nodeLabel }}</span>
         </ng-template>
       </div>
       <div class="code-example">

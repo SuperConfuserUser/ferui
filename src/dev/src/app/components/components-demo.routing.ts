@@ -31,6 +31,7 @@ import { TabsDemoComponent } from './tabs/tabs.demo';
 import { ToastNotificationDashboardDemoComponent } from './toast-notification/toast-notification-dashboard-demo';
 import { ToastNotificationOverviewDemoComponent } from './toast-notification/toast-notification-overview';
 import { TooltipDemoComponent } from './tooltip/tooltip.demo';
+import { TreeViewCheckboxDemoComponent } from './tree-view/tree-view-checkbox-demo';
 import { TreeViewClientSideDemoComponent } from './tree-view/tree-view-client-side-demo';
 import { TreeViewDashboardDemoComponent } from './tree-view/tree-view-dashboard-demo';
 import { TreeViewOverviewDemoComponent } from './tree-view/tree-view-overview-demo';
@@ -89,7 +90,8 @@ export const COMPONENTS_ROUTES: Routes = [
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
           { path: 'dashboard', component: TreeViewDashboardDemoComponent },
           { path: 'client-side', component: TreeViewClientSideDemoComponent },
-          { path: 'server-side', component: TreeViewServerSideDemoComponent }
+          { path: 'server-side', component: TreeViewServerSideDemoComponent },
+          { path: 'treeview-selection', component: TreeViewCheckboxDemoComponent }
         ]
       },
       {

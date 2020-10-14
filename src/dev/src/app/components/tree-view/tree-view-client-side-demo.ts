@@ -76,10 +76,7 @@ import { NonRootTreeNode, TreeNodeData, TreeNodeDataRetriever, TreeViewAutoNodeS
     </ng-template>
 
     <ng-template #template let-node="node">
-      <span>
-        {{ node.data.nodeLabel }}
-        <clr-icon class="fui-add-icon" shape="fui-screenshot"></clr-icon>
-      </span>
+      <span>{{ node.data.nodeLabel }}<clr-icon class="fui-add-icon" shape="fui-screenshot"></clr-icon></span>
     </ng-template>
   `,
   styles: [
@@ -108,12 +105,17 @@ import { NonRootTreeNode, TreeNodeData, TreeNodeDataRetriever, TreeViewAutoNodeS
         width: 12px;
         margin-bottom: 2px;
         transform: rotate(180deg);
+        margin-right: -2px;
       }
       .fui-add-icon {
         height: 12px;
         width: 12px;
         margin-bottom: 2px;
         transform: rotate(90deg);
+        margin-right: -2px;
+      }
+      .fui-add-icon[shape='fui-screenshot'] {
+        margin-left: 5px;
       }
     `
   ]
