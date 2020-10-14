@@ -39,6 +39,7 @@ export class FuiDatepickerViewManagerComponent extends AbstractPopover implement
     this.anchorPoint = Point.BOTTOM_LEFT;
     this.popoverPoint = Point.LEFT_TOP;
     this.closeOnOutsideClick = true;
+    this.popoverOptions.enableAnchorStaticPositioning = false;
   }
 
   /**

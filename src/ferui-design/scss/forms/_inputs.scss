@@ -65,23 +65,6 @@
           }
         }
       }
-
-      &.fui-touched,
-      &.fui-dirty {
-        .fui-input-wrapper {
-          input:not([type='checkbox']):not([type='radio']):not(.fui-layout-small) {
-            &:focus {
-              ~ .fui-subtext-wrapper {
-                .fui-subtext:first-child {
-                  visibility: visible;
-                  opacity: 1;
-                  transition-delay: 0s;
-                }
-              }
-            }
-          }
-        }
-      }
     }
   }
 }

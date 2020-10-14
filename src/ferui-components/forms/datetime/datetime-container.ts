@@ -1,14 +1,9 @@
-import { Subscription } from 'rxjs';
-
-import { Component, ContentChild, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
+import { FuiFormAbstractContainer } from '../common/abstract-container';
 import { FuiDatetimeModelTypes } from '../common/datetime-model-types.enum';
 import { IfErrorService } from '../common/if-error/if-error.service';
-import { FuiLabelDirective } from '../common/label';
-import { FuiFormLayoutEnum } from '../common/layout.enum';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { ControlIdService } from '../common/providers/control-id.service';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
@@ -64,9 +59,8 @@ export interface DatetimeInterface {
           />
         </fui-time-container>
 
-        <label class="fui-control-icons">
+        <label class="fui-control-icons" tabindex="0">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -92,117 +86,48 @@ export interface DatetimeInterface {
     '[class.fui-datetime-container]': 'true',
     '[class.fui-form-control]': 'true',
     '[class.fui-select-container]': 'true',
-    '[class.fui-form-control-disabled]': 'control?.disabled',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
+    '[class.fui-form-control-disabled]': 'ngControl?.disabled',
+    '[class.fui-form-control-small]': 'controlLayout() === fuiFormLayoutEnum.SMALL'
   }
 })
-export class FuiDatetimeContainerComponent implements DynamicWrapper, OnInit, OnDestroy {
-  _dynamic = false;
+export class FuiDatetimeContainerComponent extends FuiFormAbstractContainer implements OnInit {
   _numberOfControls: number = 4;
   _dateModelType: FuiDatetimeModelTypes = FuiDatetimeModelTypes.DATE;
-  control: NgControl;
-  invalid = false;
-
-  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
-  @ViewChild(FuiTimeDirective) fuiTime: FuiTimeDirective;
-  @ViewChild(FuiDateDirective) fuiDate: FuiDateDirective;
-
   modelType: FuiDatetimeModelTypes;
   model: DatetimeInterface = {
     date: null,
     time: null
   };
 
+  @ViewChild(FuiTimeDirective) fuiTime: FuiTimeDirective;
+  @ViewChild(FuiDateDirective) fuiDate: FuiDateDirective;
+
   @Input() twentyFourHourFormat: boolean = false;
   @Input() showHours: boolean = true;
   @Input() showMinutes: boolean = true;
   @Input() showSeconds: boolean = true;
 
-  private focus: boolean = false;
-  private initialFocus: boolean = true;
+  protected initialFocus: boolean = true;
   // When a user manually focus the field or using tab.
-  private userFocused: boolean = false;
-  private subscriptions: Subscription[] = [];
+  protected userFocused: boolean = false;
 
   constructor(
-    private ifErrorService: IfErrorService,
-    private controlClassService: ControlClassService,
-    private ngControlService: NgControlService,
-    private focusService: FocusService,
-    private datetimeIOService: DatetimeIOService,
-    private dateFormControlService: DateFormControlService,
-    private datetimeFormControlService: DatetimeFormControlService,
-    public formLayoutService: FuiFormLayoutService
+    ifErrorService: IfErrorService,
+    controlClassService: ControlClassService,
+    ngControlService: NgControlService,
+    focusService: FocusService,
+    formLayoutService: FuiFormLayoutService,
+    cd: ChangeDetectorRef,
+    protected datetimeIOService: DatetimeIOService,
+    protected dateFormControlService: DateFormControlService,
+    protected datetimeFormControlService: DatetimeFormControlService
   ) {
-    this.subscriptions.push(
-      this.ifErrorService.statusChanges.subscribe(invalid => {
-        this.invalid = invalid;
-      })
-    );
-    this.subscriptions.push(
-      this.focusService.focusChange.subscribe(state => {
-        this.focus = state;
-        if (state) {
-          if (!this.userFocused) {
-            this.fuiDate.focusService.focused = true;
-          }
-          this.dateFormControlService.markAsTouched();
-        } else if (!this.initialFocus) {
-          if (this.ifErrorService) {
-            this.ifErrorService.triggerStatusChange();
-          }
-        }
-        this.initialFocus = false;
-        this.userFocused = false;
-      })
-    );
-    this.subscriptions.push(
-      this.ngControlService.controlChanges.subscribe(control => {
-        if (control) {
-          this.control = control;
-          this.subscriptions.push(
-            this.control.valueChanges.subscribe((value: string | Date) => {
-              const datetime: Date = value instanceof Date ? value : value ? new Date(value) : null;
-              this.initModels(datetime);
-            })
-          );
-        }
-      })
-    );
+    super(ifErrorService, controlClassService, ngControlService, focusService, formLayoutService, cd);
     this.subscriptions.push(
       this.datetimeFormControlService.modelTypeChange.subscribe((modelType: FuiDatetimeModelTypes) => {
         this.modelType = modelType;
       })
     );
-  }
-
-  controlLayout(): FuiFormLayoutEnum {
-    return this.formLayoutService.layout;
-  }
-
-  controlClass() {
-    return this.controlClassService.controlClass(
-      this.invalid,
-      FormControlClass.extractControlClass(this.control, this.label, this.focus)
-    );
-  }
-
-  childModelChange(type: string, value: Date): void {
-    if (!type || !value) {
-      return null;
-    }
-    const currentDate: Date | string = this.control.control.value || '';
-    const datetime: Date = currentDate instanceof Date ? currentDate : new Date(currentDate);
-    if (type === 'date') {
-      datetime.setDate(value.getDate());
-      datetime.setMonth(value.getMonth());
-      datetime.setFullYear(value.getFullYear());
-    } else {
-      datetime.setHours(value.getHours());
-      datetime.setMinutes(value.getMinutes());
-      datetime.setSeconds(value.getSeconds());
-    }
-    this.writeControlValue(datetime);
   }
 
   ngOnInit(): void {
@@ -237,10 +162,52 @@ export class FuiDatetimeContainerComponent implements DynamicWrapper, OnInit, On
     }
   }
 
-  ngOnDestroy() {
-    if (this.subscriptions) {
-      this.subscriptions.map(sub => sub.unsubscribe());
+  childModelChange(type: string, value: Date): void {
+    if (!type || !value) {
+      return null;
     }
+    const currentDate: Date | string = this.ngControl.control.value || '';
+    const datetime: Date = currentDate instanceof Date ? currentDate : new Date(currentDate);
+    if (type === 'date') {
+      datetime.setDate(value.getDate());
+      datetime.setMonth(value.getMonth());
+      datetime.setFullYear(value.getFullYear());
+    } else {
+      datetime.setHours(value.getHours());
+      datetime.setMinutes(value.getMinutes());
+      datetime.setSeconds(value.getSeconds());
+    }
+    this.writeControlValue(datetime);
+  }
+
+  protected onNgControlChange(control: NgControl) {
+    if (control) {
+      this.ngControl = control;
+      if (this.ngControlValueChangeSub) {
+        this.ngControlValueChangeSub.unsubscribe();
+      }
+      this.ngControlValueChangeSub = this.ngControl.valueChanges.subscribe((value: string | Date) => {
+        const datetime: Date = value instanceof Date ? value : value ? new Date(value) : null;
+        this.initModels(datetime);
+        this.cd.markForCheck();
+      });
+    }
+  }
+
+  protected onFocusChange(state: boolean) {
+    super.onFocusChange(state);
+    if (state) {
+      if (!this.userFocused) {
+        this.fuiDate.focusService.focused = true;
+      }
+      this.dateFormControlService.markAsTouched();
+    } else if (!this.initialFocus) {
+      if (this.ifErrorService) {
+        this.ifErrorService.triggerStatusChange();
+      }
+    }
+    this.initialFocus = false;
+    this.userFocused = false;
   }
 
   private initModels(datetime: Date): void {
@@ -249,15 +216,15 @@ export class FuiDatetimeContainerComponent implements DynamicWrapper, OnInit, On
   }
 
   private writeControlValue(value: Date): void {
-    if (this.control) {
+    if (this.ngControl) {
       this.dateFormControlService.markAsDirty();
       if (this.modelType === FuiDatetimeModelTypes.DATE) {
-        this.control.valueAccessor.writeValue(value);
-        this.control.control.setValue(value);
+        this.ngControl.valueAccessor.writeValue(value);
+        this.ngControl.control.setValue(value);
       } else {
         const dateStr: string = this.datetimeIOService.toLocaleDisplayFormatString(value);
-        this.control.valueAccessor.writeValue(dateStr);
-        this.control.control.setValue(dateStr);
+        this.ngControl.valueAccessor.writeValue(dateStr);
+        this.ngControl.control.setValue(dateStr);
       }
     }
   }

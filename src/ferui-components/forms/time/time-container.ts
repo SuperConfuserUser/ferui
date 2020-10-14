@@ -1,14 +1,9 @@
-import { Subscription } from 'rxjs';
-
-import { AfterViewInit, Component, ContentChild, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
 import { FuiCommonStrings } from '../../utils/i18n/common-strings.service';
+import { FuiFormAbstractContainer } from '../common/abstract-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
-import { FuiLabelDirective } from '../common/label';
-import { FuiFormLayoutEnum } from '../common/layout.enum';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { ControlIdService } from '../common/providers/control-id.service';
 import { DateFormControlService } from '../common/providers/date-form-control.service';
@@ -91,9 +86,8 @@ export interface TimeInterface {
           <ng-template ng-option-tmp ng-label-tmp let-item="item"> {{ item }} s</ng-template>
         </fui-select>
 
-        <label class="fui-control-icons">
+        <label class="fui-control-icons" tabindex="0">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -105,8 +99,8 @@ export interface TimeInterface {
     '[class.fui-time-container]': 'true',
     '[class.fui-form-control]': 'true',
     '[class.fui-select-container]': 'true',
-    '[class.fui-form-control-disabled]': 'control?.disabled',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
+    '[class.fui-form-control-disabled]': 'ngControl?.disabled',
+    '[class.fui-form-control-small]': 'controlLayout() === fuiFormLayoutEnum.SMALL'
   },
   providers: [
     IfErrorService,
@@ -123,23 +117,17 @@ export interface TimeInterface {
     FuiFormLayoutService
   ]
 })
-export class FuiTimeContainerComponent implements DynamicWrapper, AfterViewInit, OnInit, OnDestroy {
-  _dynamic = false;
+export class FuiTimeContainerComponent extends FuiFormAbstractContainer implements OnInit {
   _numberOfControls = 3;
-  control: NgControl;
-  invalid = false;
-
   model: TimeInterface = {
     hour: null,
     minute: null,
     second: null
   };
-
   hoursList: Array<number> = [];
   minutesList: Array<number> = [];
   secondsList: Array<number> = [];
 
-  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
   @ViewChildren('selectElement') selectElements: QueryList<NgSelectComponent>;
 
   @Input() twentyFourHourFormat: boolean = false;
@@ -147,70 +135,25 @@ export class FuiTimeContainerComponent implements DynamicWrapper, AfterViewInit,
   @Input() showMinutes: boolean = true;
   @Input() showSeconds: boolean = true;
 
-  private focus: boolean = false;
   // When a user focus the field using a click on the select or by using tab.
-  private selectFocus: boolean = false;
-  private subscriptions: Subscription[] = [];
+  protected selectFocus: boolean = false;
 
   constructor(
+    ifErrorService: IfErrorService,
+    controlClassService: ControlClassService,
+    ngControlService: NgControlService,
+    focusService: FocusService,
+    formLayoutService: FuiFormLayoutService,
+    cd: ChangeDetectorRef,
     public commonStrings: FuiCommonStrings,
-    private ifErrorService: IfErrorService,
-    private controlClassService: ControlClassService,
-    private ngControlService: NgControlService,
-    private focusService: FocusService,
-    private timeIOService: TimeIOService,
-    private timeSelectionService: TimeSelectionService,
-    private dateFormControlService: DateFormControlService,
-    public formLayoutService: FuiFormLayoutService
+    protected timeIOService: TimeIOService,
+    protected timeSelectionService: TimeSelectionService,
+    protected dateFormControlService: DateFormControlService
   ) {
-    this.subscriptions.push(
-      this.ifErrorService.statusChanges.subscribe(invalid => {
-        this.invalid = invalid;
-      })
-    );
-    this.subscriptions.push(
-      this.ngControlService.controlChanges.subscribe(control => {
-        this.control = control;
-        if (this.control) {
-          this.subscriptions.push(
-            this.control.valueChanges.subscribe((value: string | Date) => {
-              this.updateSelects(this.getControlTime(value));
-            })
-          );
-        }
-      })
-    );
-    this.subscriptions.push(
-      this.focusService.focusChange.subscribe(state => {
-        this.focus = state;
-        if (state === false && this.selectFocus) {
-          this.dateFormControlService.markAsTouched();
-          if (this.ifErrorService) {
-            this.ifErrorService.triggerStatusChange();
-          }
-        }
-        if (state === true && !this.selectFocus) {
-          this.selectElements.first.open();
-        }
-        if (this.selectFocus) {
-          this.selectFocus = false;
-        }
-      })
-    );
+    super(ifErrorService, controlClassService, ngControlService, focusService, formLayoutService, cd);
     this.timeSelectionService.selectedTimeChange.subscribe((timeModel: TimeModel) => {
       this.updateSelects(timeModel);
     });
-  }
-
-  controlLayout(): FuiFormLayoutEnum {
-    return this.formLayoutService.layout;
-  }
-
-  controlClass() {
-    return this.controlClassService.controlClass(
-      this.invalid,
-      FormControlClass.extractControlClass(this.control, this.label, this.focus)
-    );
   }
 
   updateTime(hour?: number, minute?: number, second?: number): void {
@@ -242,8 +185,6 @@ export class FuiTimeContainerComponent implements DynamicWrapper, AfterViewInit,
     this.selectFocus = true;
     this.focusService.focused = false;
   }
-
-  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     // If we set all three attributes to false, we then only display the hours.
@@ -278,9 +219,33 @@ export class FuiTimeContainerComponent implements DynamicWrapper, AfterViewInit,
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.subscriptions) {
-      this.subscriptions.map(sub => sub.unsubscribe());
+  protected onFocusChange(state: boolean) {
+    this.focus = state;
+    if (state === false && this.selectFocus) {
+      this.dateFormControlService.markAsTouched();
+      if (this.ifErrorService) {
+        this.ifErrorService.triggerStatusChange();
+      }
+    }
+    if (state === true && !this.selectFocus) {
+      this.selectElements.first.open();
+    }
+    if (this.selectFocus) {
+      this.selectFocus = false;
+    }
+  }
+
+  protected onNgControlChange(control: NgControl) {
+    if (control) {
+      this.ngControl = control;
+      if (this.ngControlValueChangeSub) {
+        this.ngControlValueChangeSub.unsubscribe();
+      }
+      this.ngControlValueChangeSub = this.ngControl.valueChanges.subscribe(value => {
+        this.updateSelects(this.getControlTime(value));
+        // This is important for controlClass() to run when the value of the input changes.
+        this.cd.markForCheck();
+      });
     }
   }
 
@@ -297,8 +262,8 @@ export class FuiTimeContainerComponent implements DynamicWrapper, AfterViewInit,
   }
 
   private getControlTime(value?: string | Date): TimeModel | null {
-    if (this.control) {
-      value = value || this.control.value;
+    if (this.ngControl) {
+      value = value || this.ngControl.value;
       let date: Date;
       if (value instanceof Date) {
         date = value;

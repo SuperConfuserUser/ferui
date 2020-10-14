@@ -4,7 +4,7 @@
 @include exports('forms.selects-default') {
   .fui-select-container.fui-form-control {
     .fui-control-label:not(.fui-control-icons) {
-      z-index: $zindex-dropdown + 1 !important;
+      z-index: $zindex-select-label !important;
     }
 
     .fui-control-container {
@@ -12,23 +12,6 @@
         .fui-select-wrapper {
           select {
             padding: $controls-padding 3rem 0 $controls-padding !important;
-          }
-        }
-      }
-
-      &.fui-touched,
-      &.fui-dirty {
-        .fui-select-wrapper {
-          select {
-            &:focus {
-              ~ .fui-subtext-wrapper {
-                .fui-subtext:first-child {
-                  visibility: visible;
-                  opacity: 1;
-                  transition-delay: 0s;
-                }
-              }
-            }
           }
         }
       }
@@ -42,7 +25,7 @@
 
         .select-arrow {
           display: none;
-          z-index: $zindex-label;
+          z-index: $zindex-controls-icons;
 
           &::after {
             pointer-events: none;
@@ -76,14 +59,6 @@
 
           &:focus {
             border-color: $gray-500;
-
-            ~ .fui-subtext-wrapper {
-              .fui-subtext {
-                visibility: visible !important;
-                opacity: 1 !important;
-                transition-delay: 0s !important;
-              }
-            }
           }
 
           &[disabled] {
@@ -176,7 +151,7 @@
             }
 
             .ng-value {
-              margin: calc(#{$controls-padding} + 3px) 0 0 !important;
+              margin: calc(#{$controls-padding} + 3px) 0 0;
             }
 
             .ng-input {
@@ -258,7 +233,7 @@
               padding: calc(#{$controls-padding} + 8px) $controls-padding 0 $controls-padding;
 
               .ng-value {
-                margin: 0 5px 0 0;
+                margin: 0 5px 0 0 !important;
               }
 
               .ng-input {
@@ -373,17 +348,6 @@
               @include font-icon($icon-content-arrow, $select-arrow-size);
               vertical-align: top;
               transform: rotate(90deg);
-            }
-          }
-        }
-
-        &.ng-select-focused,
-        &.ng-select-opened {
-          ~ .fui-subtext-wrapper {
-            .fui-subtext {
-              visibility: visible !important;
-              opacity: 1 !important;
-              transition-delay: 0s !important;
             }
           }
         }

@@ -1,13 +1,9 @@
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import { Component, ContentChild, Inject, InjectionToken, Input, OnDestroy } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { ChangeDetectorRef, Component, Inject, InjectionToken, Input } from '@angular/core';
 
-import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
+import { FuiFormAbstractContainer } from '../common/abstract-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
-import { FuiLabelDirective } from '../common/label';
-import { FuiFormLayoutEnum } from '../common/layout.enum';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { ControlIdService } from '../common/providers/control-id.service';
 import { FocusService } from '../common/providers/focus.service';
@@ -31,7 +27,7 @@ export function ToggleServiceProvider() {
       <div class="fui-input-wrapper">
         <ng-content select="[fuiLabel]"></ng-content>
         <ng-content select="[fuiPassword]"></ng-content>
-        <label class="fui-control-icons">
+        <label class="fui-control-icons" tabindex="0">
           <clr-icon *ngIf="!show && fuiToggle" shape="fui-eye" class="fui-input-group-icon-action" (click)="toggle()"></clr-icon>
           <clr-icon
             *ngIf="show && fuiToggle"
@@ -41,7 +37,6 @@ export function ToggleServiceProvider() {
           ></clr-icon>
 
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-          <clr-icon *ngIf="!invalid && control?.value" class="fui-validate-icon" shape="fui-tick" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
@@ -51,8 +46,8 @@ export function ToggleServiceProvider() {
   `,
   host: {
     '[class.fui-form-control]': 'true',
-    '[class.fui-form-control-disabled]': 'control?.disabled',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL'
+    '[class.fui-form-control-disabled]': 'ngControl?.disabled',
+    '[class.fui-form-control-small]': 'controlLayout() === fuiFormLayoutEnum.SMALL'
   },
   providers: [
     IfErrorService,
@@ -66,10 +61,7 @@ export function ToggleServiceProvider() {
     FuiFormLayoutService
   ]
 })
-export class FuiPasswordContainerComponent implements DynamicWrapper, OnDestroy {
-  invalid = false;
-  control: NgControl;
-  _dynamic = false;
+export class FuiPasswordContainerComponent extends FuiFormAbstractContainer {
   show = false;
   focus = false;
 
@@ -85,55 +77,22 @@ export class FuiPasswordContainerComponent implements DynamicWrapper, OnDestroy 
     return this._toggle;
   }
 
-  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
-
   private _toggle = true;
-  private subscriptions: Subscription[] = [];
 
   constructor(
-    private ifErrorService: IfErrorService,
-    private controlClassService: ControlClassService,
-    private ngControlService: NgControlService,
-    private focusService: FocusService,
-    public formLayoutService: FuiFormLayoutService,
+    ifErrorService: IfErrorService,
+    controlClassService: ControlClassService,
+    ngControlService: NgControlService,
+    focusService: FocusService,
+    formLayoutService: FuiFormLayoutService,
+    cd: ChangeDetectorRef,
     @Inject(ToggleService) private toggleService: BehaviorSubject<boolean>
   ) {
-    this.subscriptions.push(
-      this.ifErrorService.statusChanges.subscribe(invalid => {
-        this.invalid = invalid;
-      })
-    );
-    this.subscriptions.push(
-      this.ngControlService.controlChanges.subscribe(control => {
-        this.control = control;
-      })
-    );
-    this.subscriptions.push(
-      this.focusService.focusChange.subscribe(state => {
-        this.focus = state;
-      })
-    );
-  }
-
-  controlLayout(): FuiFormLayoutEnum {
-    return this.formLayoutService.layout;
+    super(ifErrorService, controlClassService, ngControlService, focusService, formLayoutService, cd);
   }
 
   toggle() {
     this.show = !this.show;
     this.toggleService.next(this.show);
-  }
-
-  controlClass() {
-    return this.controlClassService.controlClass(
-      this.invalid,
-      FormControlClass.extractControlClass(this.control, this.label, this.focus)
-    );
-  }
-
-  ngOnDestroy() {
-    if (this.subscriptions) {
-      this.subscriptions.map(sub => sub.unsubscribe());
-    }
   }
 }

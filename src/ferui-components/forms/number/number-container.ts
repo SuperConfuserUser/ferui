@@ -1,13 +1,7 @@
-import { Subscription } from 'rxjs';
+import { ChangeDetectorRef, Component } from '@angular/core';
 
-import { Component, ContentChild, OnDestroy } from '@angular/core';
-import { NgControl } from '@angular/forms';
-
-import { FormControlClass } from '../../utils/form-control-class/form-control-class';
-import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
+import { FuiFormAbstractContainer } from '../common/abstract-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
-import { FuiLabelDirective } from '../common/label';
-import { FuiFormLayoutEnum } from '../common/layout.enum';
 import { ControlClassService } from '../common/providers/control-class.service';
 import { ControlIdService } from '../common/providers/control-id.service';
 import { FocusService } from '../common/providers/focus.service';
@@ -38,7 +32,7 @@ import { NumberIoService } from './providers/number-io.service';
           </div>
         </div>
 
-        <label class="fui-control-icons">
+        <label class="fui-control-icons" tabindex="0">
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error [on]="invalid">
@@ -50,7 +44,7 @@ import { NumberIoService } from './providers/number-io.service';
   host: {
     '[class.fui-form-control-number]': 'true',
     '[class.fui-form-control]': 'true',
-    '[class.fui-form-control-small]': 'controlLayout() === formLayoutService.fuiFormLayoutEnum.SMALL',
+    '[class.fui-form-control-small]': 'controlLayout() === fuiFormLayoutEnum.SMALL',
     '[class.fui-form-control-disabled]': 'ngControl?.disabled'
   },
   providers: [
@@ -65,46 +59,17 @@ import { NumberIoService } from './providers/number-io.service';
     NumberIoService
   ]
 })
-export class FuiNumberContainerComponent implements DynamicWrapper, OnDestroy {
-  _dynamic = false;
-  invalid = false;
-  ngControl: NgControl;
-
-  @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
-
-  private focus: boolean = false;
-  private subscriptions: Subscription[] = [];
-
+export class FuiNumberContainerComponent extends FuiFormAbstractContainer {
   constructor(
-    private ifErrorService: IfErrorService,
-    private controlClassService: ControlClassService,
-    private ngControlService: NgControlService,
-    private focusService: FocusService,
-    public formLayoutService: FuiFormLayoutService,
+    ifErrorService: IfErrorService,
+    controlClassService: ControlClassService,
+    ngControlService: NgControlService,
+    focusService: FocusService,
+    formLayoutService: FuiFormLayoutService,
+    cd: ChangeDetectorRef,
     private numberIOService: NumberIoService
   ) {
-    this.subscriptions.push(
-      this.ifErrorService.statusChanges.subscribe(invalid => {
-        this.invalid = invalid;
-      })
-    );
-    this.subscriptions.push(
-      this.ngControlService.controlChanges.subscribe(control => {
-        this.ngControl = control;
-      })
-    );
-    this.subscriptions.push(
-      this.focusService.focusChange.subscribe(state => {
-        this.focus = state;
-      })
-    );
-  }
-
-  controlClass(): string {
-    return this.controlClassService.controlClass(
-      this.invalid,
-      FormControlClass.extractControlClass(this.ngControl, this.label, this.focus)
-    );
+    super(ifErrorService, controlClassService, ngControlService, focusService, formLayoutService, cd);
   }
 
   increment(): void {
@@ -119,15 +84,5 @@ export class FuiNumberContainerComponent implements DynamicWrapper, OnDestroy {
       return;
     }
     this.ngControl.control.setValue(this.numberIOService.decrement());
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscriptions) {
-      this.subscriptions.map(sub => sub.unsubscribe());
-    }
-  }
-
-  controlLayout(): FuiFormLayoutEnum {
-    return this.formLayoutService.layout;
   }
 }
