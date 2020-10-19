@@ -92,8 +92,8 @@ import { IDatagridRowData, RowDataApiService } from '../server-side-api/datagrid
 
         <ng-template
           #actionMenu
-          let-rowIndex="rowIndex"
-          let-rowData="rowData"
+          let-rowIndex="rowNode.rowIndex"
+          let-rowData="rowNode.data"
           let-onDropdownOpen="onDropdownOpen"
           let-forceClose="forceClose"
           let-appendTo="appendTo"

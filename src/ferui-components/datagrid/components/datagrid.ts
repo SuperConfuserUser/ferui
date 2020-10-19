@@ -1238,7 +1238,6 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     // We do not reset the sorting columns by default, only if the dev decide to.
     if (resetSorting) {
-      this.setupColumns();
       this.sortService.resetColumnsSortOrder();
     }
     this.datagridPager.resetPager();
@@ -1443,6 +1442,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     this.datagridOptionsWrapper.setGridOption('defaultColDef', this.defaultColDefs);
     this.datagridOptionsWrapper.setGridOption('headerHeight', this.headerHeight);
     this.datagridOptionsWrapper.setGridOption('rowHeight', this.rowHeight);
+    this.columns = [];
 
     const defaultColDef: FuiColumnDefinitions = {
       resizable: true,
