@@ -978,6 +978,13 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Return grid row data (not RowNodes). It will take the filter/sort into account.
+   */
+  getGridData<T = any>(): T[] {
+    return this.rowModel.getDisplayedRows().map(rowNode => rowNode.data);
+  }
+
+  /**
    * Get the grid API.
    */
   getGridApi(): FuiDatagridApiService {

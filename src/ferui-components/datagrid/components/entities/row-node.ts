@@ -6,7 +6,7 @@ import { FuiDatagridRowNode } from '../../types/datagrid-row-node-interface';
 import { FuiRowSelectionEnum } from '../../types/row-selection.enum';
 
 export class RowNode implements FuiDatagridRowNode {
-  private _data: any[];
+  private _data: any;
   private _id: string;
   private _rowHeight: number;
   private _rowIndex: number;
@@ -18,7 +18,7 @@ export class RowNode implements FuiDatagridRowNode {
 
   constructor(private datagridOptionsWrapper: FuiDatagridOptionsWrapperService, private eventService: FuiDatagridEventService) {}
 
-  get data(): any[] {
+  get data(): any {
     return this._data;
   }
 

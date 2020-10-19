@@ -50,6 +50,7 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
             <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="logRowsSelection()">
               Display rowNode selection in browser console
             </button>
+            <button class="btn btn-info ml-2 mr-2 btn-sm" (click)="logRowData()">Display rowNode data in browser console</button>
           </fui-demo-datagrid-option-menu>
 
           <div class="container-fluid mt-2">
@@ -471,5 +472,9 @@ export class DatagridClientSideComponent implements OnInit {
 
   logRowDataSelection(): void {
     console.log(this.datagrid.getSelectedRows());
+  }
+
+  logRowData(): void {
+    console.log('RowNode Data ::: ', this.datagrid.getGridData());
   }
 }
