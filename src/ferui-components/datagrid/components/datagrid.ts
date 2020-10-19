@@ -1449,7 +1449,11 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
       lockPosition: false,
       lockVisible: false
     };
-    if (this.datagridOptionsWrapper.isCheckboxSelection()) {
+    if (
+      (this.datagridOptionsWrapper.getRowSelection() === FuiRowSelectionEnum.SINGLE ||
+        this.datagridOptionsWrapper.getRowSelection() === FuiRowSelectionEnum.MULTIPLE) &&
+      this.datagridOptionsWrapper.isCheckboxSelection()
+    ) {
       this.columns = [
         {
           checkboxSelection: true,
