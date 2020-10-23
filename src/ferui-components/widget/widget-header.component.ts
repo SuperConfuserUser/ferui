@@ -14,7 +14,7 @@ import { FuiWidgetSubtitleComponent } from './widget-subtitle.component';
       <ng-content select="fui-widget-subtitle"></ng-content>
     </div>
     <div class="fui-widget-header-right-cell">
-      <ng-content select="fui-widget-actions"></ng-content>
+      <ng-content select="fui-widget-action"></ng-content>
     </div>
   `
 })

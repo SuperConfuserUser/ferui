@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { FuiWidgetActionsComponent } from './widget-actions.component';
+import { FuiWidgetActionComponent } from './widget-action.component';
 import { FuiWidgetBodyComponent } from './widget-body.component';
 import { FuiWidgetFooterComponent } from './widget-footer.component';
 import { FuiWidgetHeaderComponent } from './widget-header.component';
@@ -16,7 +16,7 @@ import { FuiWidgetComponent } from './widget.component';
     FuiWidgetHeaderComponent,
     FuiWidgetTitleComponent,
     FuiWidgetSubtitleComponent,
-    FuiWidgetActionsComponent,
+    FuiWidgetActionComponent,
     FuiWidgetBodyComponent,
     FuiWidgetFooterComponent
   ],
@@ -25,7 +25,7 @@ import { FuiWidgetComponent } from './widget.component';
     FuiWidgetHeaderComponent,
     FuiWidgetTitleComponent,
     FuiWidgetSubtitleComponent,
-    FuiWidgetActionsComponent,
+    FuiWidgetActionComponent,
     FuiWidgetBodyComponent,
     FuiWidgetFooterComponent
   ]

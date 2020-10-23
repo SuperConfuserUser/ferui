@@ -27,7 +27,7 @@ import { DemoComponentData } from '../../utils/demo-component-data';
             This is pretty simple, you just need to transclude your content into each specific sub-components
             (<code>&lt;fui-widget-header&gt;</code>, <code>&lt;fui-widget-header&gt;</code>,
             <code>&lt;fui-widget-title&gt;</code>, <code>&lt;fui-widget-subtitle&gt;</code>,
-            <code>&lt;fui-widget-actions&gt;</code>, <code>&lt;fui-widget-body&gt;</code>, <code>&lt;fui-widget-footer&gt;</code>)
+            <code>&lt;fui-widget-action&gt;</code>, <code>&lt;fui-widget-body&gt;</code>, <code>&lt;fui-widget-footer&gt;</code>)
             in order to generate a well formatted widget. (see the
             <a class="text-primary" (click)="selectedTab = 'examples'">Example section</a> for more info).
           </p>
@@ -72,10 +72,12 @@ import { DemoComponentData } from '../../utils/demo-component-data';
                 </td>
               </tr>
               <tr>
-                <td><code>&lt;fui-widget-actions&gt;</code></td>
+                <td><code>&lt;fui-widget-action&gt;</code></td>
                 <td>
                   <b>(Optional)</b> This tag must be declared within a <code>&lt;fui-widget-header&gt;</code> tag. It allows you
-                  to set an action section for your widget header.
+                  to set an action section for your widget header.<br />
+                  Note: Multiple tags may be used to set more than one action in the widget header. By default, using many actions
+                  at very narrow widths can cause display issues. Customize overflow or other styling as needed.
                 </td>
               </tr>
               <tr>
@@ -117,6 +119,7 @@ export class WidgetDemoComponent implements OnInit {
         <fui-widget>
           <fui-widget-header>
             <fui-widget-title>Summary widget</fui-widget-title>
+            <fui-widget-subtitle>Ubuntu Linux (64 bits)</fui-widget-subtitle>
           </fui-widget-header>
           <fui-widget-body class="p-3">
             <fui-input-container>
@@ -132,20 +135,62 @@ export class WidgetDemoComponent implements OnInit {
 
     this.examples.push(
       new DemoComponentData({
-        title: 'Widget with header and actions',
+        title: 'Widget with header and an action',
         models: { date: new Date() },
         params: { dateType: FuiDatetimeModelTypes.DATE },
         source: `
         <fui-widget>
           <fui-widget-header>
             <fui-widget-title>Summary widget</fui-widget-title>
-            <fui-widget-subtitle>Ubuntu Linux (64 bits)</fui-widget-subtitle>
-            <fui-widget-actions>
+            <fui-widget-action>
               <fui-date-container>
                 <label fuiLabel>Start Date</label>
                 <input name="oneDate" type="date" placeholder="Choose a date from datepicker" [fuiDate]="params.dateType" [(ngModel)]="models.date"/>
               </fui-date-container>
-            </fui-widget-actions>
+            </fui-widget-action>
+          </fui-widget-header>
+          <fui-widget-body class="p-3">
+            My Widget Body
+          </fui-widget-body>
+        </fui-widget>
+      `
+      })
+    );
+
+    this.examples.push(
+      new DemoComponentData({
+        title: 'Widget with multiple actions',
+        source: `
+        <fui-widget>
+          <fui-widget-header>
+            <fui-widget-title>Summary widget</fui-widget-title>
+              <fui-widget-action>
+                <a href="#">link</a>
+              </fui-widget-action>
+              <fui-widget-action>
+                <fui-dropdown>
+                  <button class="btn btn-outline-primary" fuiDropdownTrigger>
+                     Filter
+                      <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
+                  </button>
+                  <fui-dropdown-menu *fuiIfOpen>
+                    <button fuiDropdownItem>Filter 1</button>
+                    <button fuiDropdownItem>Filter 2</button>
+                  </fui-dropdown-menu>
+                </fui-dropdown>
+              </fui-widget-action>
+              <fui-widget-action>
+                <fui-dropdown>
+                  <button class="btn btn-outline-primary" fuiDropdownTrigger>
+                      Dropdown
+                      <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
+                  </button>
+                  <fui-dropdown-menu *fuiIfOpen>
+                    <button fuiDropdownItem>Action 1</button>
+                    <button fuiDropdownItem>Action 2</button>
+                  </fui-dropdown-menu>
+                </fui-dropdown>
+              </fui-widget-action>
           </fui-widget-header>
           <fui-widget-body class="p-3">
             My Widget Body
@@ -183,7 +228,7 @@ export class WidgetDemoComponent implements OnInit {
           <fui-widget-header class="border-bottom-0">
             <fui-widget-title>Dev and Staging VM</fui-widget-title>
             <fui-widget-subtitle>Ubuntu Linux (64 bits)</fui-widget-subtitle>
-            <fui-widget-actions>
+            <fui-widget-action>
               <fui-dropdown>
                 <button class="btn btn-outline-primary" fuiDropdownTrigger>
                     Dropdown
@@ -209,7 +254,7 @@ export class WidgetDemoComponent implements OnInit {
                     <div fuiDropdownItem>Link 2</div>
                 </fui-dropdown-menu>
               </fui-dropdown>
-            </fui-widget-actions>
+            </fui-widget-action>
           </fui-widget-header>
           <fui-widget-body class="p-3">
             <fui-date-container>
