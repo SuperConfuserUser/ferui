@@ -1311,7 +1311,8 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
    * Export grid to CSV file.
    */
   exportGrid() {
-    const serializer: GridSerializer<any> = new GridSerializer<any>(this.getVisibleColumns(), this.displayedRows);
+    const displayedRowsData: any[] = this.displayedRows.map(it => it.data);
+    const serializer: GridSerializer<any> = new GridSerializer<any>(this.getVisibleColumns(), displayedRowsData);
     const csvCreator: CsvCreator = new CsvCreator(this.exportDownloader, serializer, this.datagridOptionsWrapper);
     csvCreator.export(this.exportParams);
   }
