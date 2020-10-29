@@ -14,3 +14,4 @@ export * from './datagrid/index';
 export * from './toast-notification/index';
 export * from './alerts/index';
 export * from './modals/index';
+export * from './tooltip/index';
