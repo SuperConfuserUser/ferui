@@ -6,7 +6,7 @@ import { FuiCheckboxDirective, FuiCheckboxWrapperComponent } from '../forms/chec
 import { FuiDatetimeModelTypes } from '../forms/common/datetime-model-types.enum';
 import { FuiDateContainerComponent, FuiDateDirective } from '../forms/date/index';
 
-import { FuiWidgetActionsComponent } from './widget-actions.component';
+import { FuiWidgetActionComponent } from './widget-action.component';
 import { FuiWidgetBodyComponent } from './widget-body.component';
 import { FuiWidgetFooterComponent } from './widget-footer.component';
 import { FuiWidgetHeaderComponent } from './widget-header.component';
@@ -35,7 +35,7 @@ class WidgetWithTextContent {}
       <fui-widget-header>
         <fui-widget-title>Widget title</fui-widget-title>
         <fui-widget-subtitle>Widget subtitle</fui-widget-subtitle>
-        <fui-widget-actions>
+        <fui-widget-action>
           <fui-date-container class="m-0">
             <label fuiLabel>Start Date</label>
             <input
@@ -46,7 +46,7 @@ class WidgetWithTextContent {}
               [(ngModel)]="models.date"
             />
           </fui-date-container>
-        </fui-widget-actions>
+        </fui-widget-action>
       </fui-widget-header>
       <fui-widget-body>
         <fui-checkbox-wrapper>
@@ -160,12 +160,12 @@ export default function (): void {
           expect(elmt).toBeDefined();
         });
 
-        it('FuiWidgetActionsComponent directive is created', () => {
-          const elmt = fixture.debugElement.query(By.directive(FuiWidgetActionsComponent));
+        it('FuiWidgetActionComponent directive is created', () => {
+          const elmt = fixture.debugElement.query(By.directive(FuiWidgetActionComponent));
           expect(elmt).toBeDefined();
         });
 
-        it('FuiWidgetActionsComponent directive contains a component', () => {
+        it('FuiWidgetActionComponent directive contains a component', () => {
           let elmt = fixture.debugElement.query(By.directive(FuiDateContainerComponent));
           expect(elmt).toBeDefined();
           elmt = fixture.debugElement.query(By.directive(FuiDateDirective));
