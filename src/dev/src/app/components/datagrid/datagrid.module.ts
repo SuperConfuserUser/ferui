@@ -15,11 +15,9 @@ import { DatagridHomeComponent } from './pages/datagrid-home';
 import { DatagridInfiniteServerSideComponent } from './pages/datagrid-infinite-server-side.component';
 import { DatagridServerSideComponent } from './pages/datagrid-server-side.component';
 import { DatagridTreeviewInfiniteServerSideComponent } from './pages/datagrid-treeview.component';
-import { SafeHTML } from './safe-html.pipe';
 import { RowDataApiService } from './server-side-api/datagrid-row.service';
 
 const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
-  SafeHTML,
   DatagridDemoComponent,
   DatagridClientSideComponent,
   DatagridServerSideComponent,

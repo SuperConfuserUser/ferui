@@ -1,0 +1,11 @@
+@import '../../variables';
+@import '../../mixins';
+
+@include exports('hilitor') {
+  .fui-hilitor-search-term {
+    display: inline;
+    padding: 3px 0;
+    background-color: rgba(3, 166, 255, 0.2);
+    @include border-radius(2px);
+  }
+}

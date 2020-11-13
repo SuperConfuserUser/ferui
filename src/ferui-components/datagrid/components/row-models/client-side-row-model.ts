@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { FeruiUtils } from '../../../utils/ferui-utils';
 import { Constants } from '../../constants';
-import { FuiDatagridEvents, FuiFilterEvent, FuiModelUpdatedEvent, FuiSortEvent, RowDataChanged } from '../../events';
+import { FuiDatagridEvents, FuiFilterEvent, FuiModelUpdatedEvent, FuiSortEvent } from '../../events';
 import { FuiDatagridApiService } from '../../services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../../services/datagrid-column-api.service';
 import { FuiDatagridFilterService } from '../../services/datagrid-filter.service';
@@ -34,13 +34,6 @@ export class FuiDatagridClientSideRowModel implements RowModelInterface {
    */
   setRowData(rowData: any[]) {
     this.rowNodeManagerService.setRowData(rowData);
-    const event: RowDataChanged = {
-      type: FuiDatagridEvents.EVENT_ROW_DATA_CHANGED,
-      api: this.gridApi,
-      columnApi: this.columnApi
-    };
-    this.eventService.dispatchEvent(event);
-
     this.refreshModel({
       step: Constants.STEP_EVERYTHING,
       newData: true

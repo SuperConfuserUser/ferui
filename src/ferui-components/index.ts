@@ -15,3 +15,5 @@ export * from './toast-notification/index';
 export * from './alerts/index';
 export * from './modals/index';
 export * from './tooltip/index';
+export * from './filters/index';
+export * from './pipes/index';

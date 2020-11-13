@@ -19,11 +19,14 @@ import { InputsComponent } from './inputs/inputs.component';
 import { NumberComponent } from './number/number';
 import { PasswordComponent } from './password/password.component';
 import { RadiosComponent } from './radios/radios.component';
+import { DemoCustomGenderFilterComponent } from './search/filters/custom-gender-filter.component';
+import { SearchDemoComponent } from './search/search.demo';
 import { SelectsComponent } from './select/selects.component';
 import { TextareaComponent } from './textarea/textarea.component';
 import { ToggleComponent } from './toggle/toggle.component';
 
 export const FUI_DEMO_FROMS_DIRECTIVES: Type<any>[] = [
+  DemoCustomGenderFilterComponent,
   DefaultTemplateWrapperComponent,
   DefaultTemplateContentComponent,
   FormsDashboardComponent,
@@ -37,12 +40,14 @@ export const FUI_DEMO_FROMS_DIRECTIVES: Type<any>[] = [
   PasswordComponent,
   ToggleComponent,
   FormsLandingComponent,
-  FormsDashboardComponent
+  FormsDashboardComponent,
+  SearchDemoComponent
 ];
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, UtilsModule, FeruiModule, HighlightModule],
   declarations: [FUI_DEMO_FROMS_DIRECTIVES],
-  exports: [FUI_DEMO_FROMS_DIRECTIVES, RouterModule]
+  exports: [FUI_DEMO_FROMS_DIRECTIVES, RouterModule],
+  entryComponents: [DemoCustomGenderFilterComponent]
 })
 export class FormsDemoModule {}

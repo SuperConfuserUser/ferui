@@ -1,0 +1,176 @@
+@import '../../variables';
+@import '../../mixins';
+
+@include exports('components.fui-filter') {
+  .fui-filter {
+    position: relative;
+    display: flex;
+    border: none;
+    height: auto;
+    width: 100%;
+    flex-flow: column nowrap;
+
+    .fui-filter-header {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 35px;
+
+      .fui-filter-header-label {
+        color: $gray-500 !important;
+        font-size: $font-size-base;
+        margin: 0 !important;
+      }
+
+      .fui-filters-container {
+        position: relative;
+        display: flex;
+        height: 100%;
+        width: auto;
+        justify-content: flex-start;
+        align-items: center;
+
+        .fui-filter-trigger {
+          display: none;
+          cursor: pointer;
+          border-width: 1px 1px 1px 0;
+          border-style: solid;
+          border-color: $gray-300;
+          border-radius: 0 $border-radius $border-radius 0;
+          padding: 0 10px;
+          justify-content: space-between;
+          align-items: center;
+          background-color: $white;
+          font-size: $font-size-sm;
+          color: $gray-500;
+          text-align: left;
+          margin: 0;
+          width: 140px;
+          height: 35px;
+
+          &.is-open {
+            background-color: $gray-100;
+            color: $gray-900;
+          }
+
+          .fui-filter-label {
+            display: inline-block;
+            color: inherit;
+            padding-right: 7px;
+          }
+
+          .fui-filter-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            color: inherit;
+          }
+
+          &:hover {
+            .fui-filter-label,
+            .fui-filter-icon {
+              color: $gray-900 !important;
+              fill: $gray-900 !important;
+            }
+          }
+
+          &.has-active-filters {
+            .fui-filter-label {
+              color: $blue;
+            }
+
+            .fui-filter-icon {
+              .fui-filter-icon-circle {
+                color: $blue;
+              }
+            }
+          }
+        }
+
+        .fui-filter-search {
+          position: relative;
+          display: inline-block;
+          margin: 0;
+          padding: 0;
+
+          > input {
+            margin: 0;
+            width: 280px;
+            height: 35px;
+            font-size: $font-size-sm;
+            color: $gray-500;
+            text-align: left;
+
+            display: inline-block;
+            border: 1px solid $gray-300;
+            border-radius: $border-radius;
+            padding: 0 25px 0 30px;
+            @include setPlaceholderStyle($gray-500, $font-size-sm);
+
+            &:focus {
+              border: 1px solid $gray-500 !important;
+              color: $gray-900;
+            }
+
+            &::-webkit-search-cancel-button {
+              -webkit-appearance: none;
+              display: none;
+            }
+          }
+        }
+
+        &.fui-filter-with-filters {
+          .fui-filter-search {
+            input.fui-search {
+              border-width: 1px !important;
+              width: 140px !important;
+              border-color: $gray-300 !important;
+              border-style: solid !important;
+              border-radius: $border-radius 0 0 $border-radius !important;
+            }
+          }
+
+          .fui-filter-trigger {
+            display: flex;
+          }
+
+          &:not(.fui-filter-with-search) {
+            .fui-filter-trigger {
+              background-color: inherit;
+              border: none !important;
+              width: auto !important;
+              padding-right: 0 !important;
+              font-weight: $font-weight-bold;
+
+              &.is-open {
+                background-color: inherit !important;
+              }
+
+              &.has-active-filters {
+                .fui-filter-label {
+                  color: $blue;
+                }
+
+                &:hover,
+                &.is-open {
+                  .fui-filter-label {
+                    color: $blue-hover !important;
+                  }
+                  .fui-filter-icon {
+                    color: $gray-500 !important;
+                    fill: $gray-500 !important;
+                    .fui-filter-icon-circle {
+                      color: $blue;
+                      fill: $blue;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

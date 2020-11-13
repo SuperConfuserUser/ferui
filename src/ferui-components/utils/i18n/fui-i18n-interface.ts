@@ -1,0 +1,33 @@
+export interface FuiI18nStrings {
+  loadingOoo: string;
+  empty: string;
+  equals: string;
+  notEqual: string;
+  lessThan: string;
+  greaterThan: string;
+  inRange: string;
+  lessThanOrEqual: string;
+  greaterThanOrEqual: string;
+  filterOoo: string;
+  filters: string;
+  displayedFilterName: string;
+  contains: string;
+  notContains: string;
+  startsWith: string;
+  endsWith: string;
+  searchOoo: string;
+  selectAll: string;
+  cancel: string;
+  applyFilter: string;
+  clearFilter: string;
+  clearAllFilters: string;
+  fields: string;
+  andCondition: string;
+  orCondition: string;
+  filterType: string;
+  filterBetween: string;
+  filterAnd: string;
+  truthy: string;
+  falsy: string;
+  globalSearch: string;
+}

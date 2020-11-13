@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn } from '@angular/forms';
 
-export function valuesEqualValidator(valueToCompare: any): ValidatorFn {
+function valuesEqualValidator(valueToCompare: any): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     // We let another validator taking care of empty values
     if (!control.value) {

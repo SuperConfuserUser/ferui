@@ -11,6 +11,7 @@ import { DatagridTreeviewInfiniteServerSideComponent } from './datagrid/pages/da
 import { ComponentsDashboardComponent } from './default/default.component';
 import { DropdownDemoComponent } from './dropdown/dropdown.demo';
 import { DropdownExampleComponent } from './dropdown/pages/dropdown-example';
+import { FilterDemoComponent } from './filter/filter.demo';
 import { CheckboxComponent } from './forms/checkbox/checkbox.component';
 import { FormsDashboardComponent } from './forms/dashboard/forms-dashboard.component';
 import { DatetimeComponent } from './forms/datetime/datetime.component';
@@ -19,6 +20,7 @@ import { InputsComponent } from './forms/inputs/inputs.component';
 import { NumberComponent } from './forms/number/number';
 import { PasswordComponent } from './forms/password/password.component';
 import { RadiosComponent } from './forms/radios/radios.component';
+import { SearchDemoComponent } from './forms/search/search.demo';
 import { SelectsComponent } from './forms/select/selects.component';
 import { TextareaComponent } from './forms/textarea/textarea.component';
 import { ToggleComponent } from './forms/toggle/toggle.component';
@@ -47,23 +49,6 @@ export const COMPONENTS_ROUTES: Routes = [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview', component: ComponentsDashboardComponent },
       {
-        path: 'forms',
-        component: FormsLandingComponent,
-        children: [
-          { path: '', redirectTo: 'overview', pathMatch: 'full' },
-          { path: 'overview', component: FormsDashboardComponent },
-          { path: 'inputs', component: InputsComponent },
-          { path: 'number', component: NumberComponent },
-          { path: 'datetimes', component: DatetimeComponent },
-          { path: 'passwords', component: PasswordComponent },
-          { path: 'textareas', component: TextareaComponent },
-          { path: 'checkboxes', component: CheckboxComponent },
-          { path: 'radios', component: RadiosComponent },
-          { path: 'selects', component: SelectsComponent },
-          { path: 'toggles', component: ToggleComponent }
-        ]
-      },
-      {
         path: 'datagrid',
         component: DatagridDemoComponent,
         children: [
@@ -84,14 +69,25 @@ export const COMPONENTS_ROUTES: Routes = [
         ]
       },
       {
-        path: 'treeview',
-        component: TreeViewOverviewDemoComponent,
+        path: 'filter',
+        component: FilterDemoComponent
+      },
+      {
+        path: 'forms',
+        component: FormsLandingComponent,
         children: [
-          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-          { path: 'dashboard', component: TreeViewDashboardDemoComponent },
-          { path: 'client-side', component: TreeViewClientSideDemoComponent },
-          { path: 'server-side', component: TreeViewServerSideDemoComponent },
-          { path: 'treeview-selection', component: TreeViewCheckboxDemoComponent }
+          { path: '', redirectTo: 'overview', pathMatch: 'full' },
+          { path: 'overview', component: FormsDashboardComponent },
+          { path: 'inputs', component: InputsComponent },
+          { path: 'number', component: NumberComponent },
+          { path: 'datetimes', component: DatetimeComponent },
+          { path: 'passwords', component: PasswordComponent },
+          { path: 'textareas', component: TextareaComponent },
+          { path: 'checkboxes', component: CheckboxComponent },
+          { path: 'radios', component: RadiosComponent },
+          { path: 'selects', component: SelectsComponent },
+          { path: 'toggles', component: ToggleComponent },
+          { path: 'search', component: SearchDemoComponent }
         ]
       },
       {
@@ -106,8 +102,8 @@ export const COMPONENTS_ROUTES: Routes = [
         ]
       },
       {
-        path: 'widget',
-        component: WidgetDemoComponent
+        path: 'tabs',
+        component: TabsDemoComponent
       },
       {
         path: 'toast-notification',
@@ -118,16 +114,27 @@ export const COMPONENTS_ROUTES: Routes = [
         ]
       },
       {
-        path: 'tabs',
-        component: TabsDemoComponent
+        path: 'tooltip',
+        component: TooltipDemoComponent
+      },
+      {
+        path: 'treeview',
+        component: TreeViewOverviewDemoComponent,
+        children: [
+          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+          { path: 'dashboard', component: TreeViewDashboardDemoComponent },
+          { path: 'client-side', component: TreeViewClientSideDemoComponent },
+          { path: 'server-side', component: TreeViewServerSideDemoComponent },
+          { path: 'treeview-selection', component: TreeViewCheckboxDemoComponent }
+        ]
       },
       {
         path: 'virtual-scroller',
         component: VirtualScrollerDemoComponent
       },
       {
-        path: 'tooltip',
-        component: TooltipDemoComponent
+        path: 'widget',
+        component: WidgetDemoComponent
       }
     ]
   }

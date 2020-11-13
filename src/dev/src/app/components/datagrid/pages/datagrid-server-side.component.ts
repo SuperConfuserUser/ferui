@@ -90,7 +90,7 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
         </ng-template>
 
         <ng-template #userAgentRenderer let-value="value">
-          <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | safeHtml"> </span>
+          <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | fuiSafeHtml"> </span>
         </ng-template>
       </fui-tab>
       <fui-tab [title]="'Documentation'">

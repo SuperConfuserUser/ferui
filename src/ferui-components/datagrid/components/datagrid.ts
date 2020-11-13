@@ -39,8 +39,10 @@ import {
   ColumnVisibleEvent,
   DatagridOnResizeEvent,
   FuiDatagridEvents,
+  FuiModelUpdatedEvent,
   FuiPageChangeEvent,
   RowClickedEvent,
+  RowDataChanged,
   RowDoubleClickedEvent,
   RowSelectedEvent,
   SelectionChangedEvent,
@@ -288,6 +290,8 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() readonly onCellContextmenu: EventEmitter<CellContextMenuEvent> = new EventEmitter<CellContextMenuEvent>();
   @Output() readonly onRowSelected: EventEmitter<RowSelectedEvent> = new EventEmitter<RowSelectedEvent>();
   @Output() readonly onSelectionChanged: EventEmitter<SelectionChangedEvent> = new EventEmitter<SelectionChangedEvent>();
+  @Output() readonly onRowDataChanged: EventEmitter<RowDataChanged> = new EventEmitter<RowDataChanged>();
+  @Output() readonly onVerticalScrollChanged: EventEmitter<Event> = new EventEmitter<Event>();
 
   //////////// Default Grid params ////////////
   @Input() withHeader: boolean = true;
@@ -302,7 +306,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Input() columnDefs: FuiColumnDefinitions[] = [];
   @Input() defaultColDefs: FuiColumnDefinitions = {};
-  @Input() trackByFn: TrackByFunction<any>;
+  @Input() trackByFn: TrackByFunction<RowNode>;
 
   ///////////// Grid export params /////////////
   @Input() exportParams: BaseExportParams;
@@ -900,9 +904,9 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_COLUMN_MOVED).subscribe(() => {
         this.cd.markForCheck();
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_MODEL_UPDATED).subscribe(() => {
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_MODEL_UPDATED).subscribe((event: FuiModelUpdatedEvent) => {
         if (this.isClientSideRowModel()) {
-          this.renderGridRows();
+          this.renderGridRows(null, event.newData);
         }
       })
     );
@@ -1053,13 +1057,14 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param index
    * @param instructor
    */
-  rowTrackByFn(index: number, instructor: any): any {
+  rowTrackByFn(index: number, instructor: RowNode): any {
     if (this.trackByFn) {
       return this.trackByFn(index, instructor);
     }
     // We try to get identity from most common identifier if we can.
-    if (instructor.id || instructor.guid || instructor.uuid) {
-      return instructor.id || instructor.guid || instructor.uuid;
+    // Since we have a RowNode object, we can directly use its id attribute.
+    if (instructor.id) {
+      return instructor.id;
     } else {
       // Otherwise, we just return the whole object.
       return instructor;
@@ -1095,16 +1100,18 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Render all rows depending on the selected RowModel.
    * @param event
+   * @param redraw
    */
-  renderGridRows(event?: ServerSideRowDataChanged): void {
+  renderGridRows(event?: ServerSideRowDataChanged, redraw?: boolean): void {
     this.calculateSizes();
     if (this.isClientSideRowModel()) {
-      this.displayedRows = this.clientSideRowModel.getRowNodesToDisplay();
-      this.totalRows = this.clientSideRowModel.getRowCount();
-      if (!this.isLoading && this.totalRows === 0) {
-        this.isEmptyData = true;
-      } else if (!this.isLoading && this.totalRows > 0) {
-        this.isEmptyData = false;
+      if (redraw) {
+        this.displayedRows = [];
+        setTimeout(() => {
+          this.renderClientSideGridRows();
+        }, 50);
+      } else {
+        this.renderClientSideGridRows();
       }
     } else if (this.isServerSideRowModel()) {
       if (event) {
@@ -1192,6 +1199,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     }
+    this.onVerticalScrollChanged.emit(event);
   }
 
   /**
@@ -1335,6 +1343,26 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
       return this.rowSelectionService.getSelectedRows();
     }
     return null;
+  }
+
+  /**
+   * Render the rows for client side row model.
+   * @private
+   */
+  private renderClientSideGridRows() {
+    this.displayedRows = this.clientSideRowModel.getRowNodesToDisplay();
+    this.totalRows = this.clientSideRowModel.getRowCount();
+    if (!this.isLoading && this.totalRows === 0) {
+      this.isEmptyData = true;
+    } else if (!this.isLoading && this.totalRows > 0) {
+      this.isEmptyData = false;
+    }
+    const rowDataChangedEvent: RowDataChanged = {
+      type: FuiDatagridEvents.EVENT_ROW_DATA_CHANGED,
+      api: this.gridApi,
+      columnApi: this.columnApi
+    };
+    this.onRowDataChanged.emit(rowDataChangedEvent);
   }
 
   /**

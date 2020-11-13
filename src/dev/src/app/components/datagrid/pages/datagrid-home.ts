@@ -776,7 +776,7 @@ export class DatagridHomeComponent {
                       (ngModelChange)="onChange($event, browser)"
                       [(ngModel)]="modelValues[browser]"
                     />
-                    <label [title]="browser" [innerHTML]="datagridService.getIconFor(browser) | safeHtml"></label>
+                    <label [title]="browser" [innerHTML]="datagridService.getIconFor(browser) | fuiSafeHtml"></label>
                   </fui-checkbox-wrapper>
                 </div>
               </div>
