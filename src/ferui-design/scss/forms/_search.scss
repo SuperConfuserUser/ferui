@@ -1,0 +1,257 @@
+@import '../_variables.scss';
+@import '../_mixins.scss';
+
+@include exports('forms.input-search') {
+  $search-padding-left: calc(#{$controls-padding} + #{$controls-icons-max-width} + #{$controls-small-padding});
+  $search-small-padding-left: calc(
+    #{$controls-small-padding} + #{$controls-small-icons-width} + (#{$controls-small-padding} / 2)
+  );
+
+  // Small version for control.
+  .fui-form-control.fui-form-control-small.fui-form-control-search {
+    .fui-control-container.fui-search-container {
+      .fui-input-wrapper {
+        > input.fui-search {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          width: 100%;
+          border: 1px solid $gray-300;
+          font-family: inherit;
+          padding: $controls-small-padding 2rem $controls-small-padding $search-small-padding-left;
+          height: $default-control-small-height;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-normal;
+          background-color: $white;
+          color: $gray-900;
+          @include border-radius(3px);
+          @include no-placeholder();
+        }
+
+        .fui-search-icon {
+          top: calc(50% - (#{$controls-small-icons-width} / 2));
+          left: $controls-small-padding;
+          width: $controls-small-icons-width;
+          height: $controls-small-icons-width;
+        }
+
+        .fui-control-label:not(.fui-control-icons) {
+          left: $search-small-padding-left !important;
+        }
+      }
+
+      &:not(.fui-empty).fui-pristine,
+      &:not(.fui-empty).fui-touched,
+      &:not(.fui-empty).fui-dirty {
+        .fui-input-wrapper {
+          .fui-control-label.fui-label {
+            display: none !important;
+          }
+
+          input.fui-search {
+            padding: $controls-small-padding 3rem $controls-small-padding $search-small-padding-left !important;
+          }
+        }
+      }
+    }
+
+    &.fui-search-with-results {
+      .fui-search-container {
+        .fui-search-results-container {
+          .fui-search-results-wrapper,
+          .fui-search-results-loading-wrapper,
+          .fui-search-results-empty-wrapper {
+            margin-top: $controls-small-padding;
+            border-width: 1px !important;
+            border-color: $gray-300;
+            border-style: solid;
+            @include border-radius(3px);
+
+            .fui-search-results-default-template {
+              padding: $controls-small-padding $controls-small-padding * 2 !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Default version for control.
+  .fui-form-control.fui-form-control-search {
+    .fui-control-container.fui-search-container {
+      .fui-input-wrapper {
+        position: relative;
+
+        input[type='search']::-webkit-search-decoration,
+        input[type='search']::-webkit-search-cancel-button,
+        input[type='search']::-webkit-search-results-button,
+        input[type='search']::-webkit-search-results-decoration {
+          -webkit-appearance: none;
+        }
+
+        > input.fui-search:not(.fui-layout-small) {
+          padding-left: $search-padding-left !important;
+        }
+
+        .fui-control-label:not(.fui-control-icons) {
+          left: $search-padding-left !important;
+        }
+
+        .fui-search-icon {
+          position: absolute;
+          top: calc(50% - (#{$controls-icons-max-width} / 2));
+          left: $controls-padding;
+          width: $controls-icons-max-width;
+          height: $controls-icons-max-width;
+          fill: $gray-500;
+        }
+
+        .fui-search-clear-btn {
+          position: absolute;
+          display: block;
+          width: $controls-icons-default-width;
+          height: $controls-icons-default-width;
+          top: calc(50% - (#{$controls-icons-default-width} / 2));
+          right: $controls-padding;
+          border: none;
+          appearance: none;
+          -webkit-appearance: none;
+          background: none;
+          margin: 0;
+          padding: 0;
+
+          .fui-search-clear-icon {
+            display: block;
+            width: $controls-icons-default-width;
+            height: $controls-icons-default-width;
+            fill: $gray-500;
+          }
+
+          &:hover {
+            .fui-search-clear-icon {
+              fill: $gray-900;
+            }
+          }
+        }
+
+        &.fui-error {
+          .fui-control-icons {
+            right: calc(#{$controls-padding} + 20px);
+          }
+        }
+      }
+
+      &:not(.fui-empty).fui-pristine,
+      &:not(.fui-empty).fui-touched,
+      &:not(.fui-empty).fui-dirty {
+        .fui-input-wrapper {
+          .fui-control-label.fui-label {
+            display: none !important;
+          }
+
+          input.fui-search {
+            padding: $controls-padding 3rem $controls-padding $search-padding-left !important;
+          }
+        }
+      }
+    }
+
+    &.fui-search-with-results {
+      .fui-search-container {
+        .fui-input-wrapper {
+          input.fui-search:not(.fui-layout-small) {
+            // No borders when we have results.
+            @include border-bottom-radius(0);
+          }
+        }
+
+        .fui-search-results-container {
+          .fui-search-results-wrapper,
+          .fui-search-results-loading-wrapper,
+          .fui-search-results-empty-wrapper,
+          .fui-search-results-error-wrapper {
+            border-width: 0 1px 1px 1px;
+            border-color: $gray-300;
+            border-style: solid;
+            @include border-bottom-radius(3px);
+
+            .fui-search-results-default-template {
+              padding: $controls-padding;
+              max-height: 600px;
+              overflow: auto;
+            }
+          }
+
+          .fui-search-results-loading-wrapper,
+          .fui-search-results-empty-wrapper,
+          .fui-search-results-error-wrapper {
+            padding: $controls-padding;
+
+            .fui-search-loading-screen,
+            .fui-search-empty-screen,
+            .fui-search-error-screen {
+              display: flex;
+              flex-flow: column wrap;
+              justify-content: center;
+              align-items: center;
+              align-content: center;
+
+              width: 100%;
+              height: 100px;
+              min-height: 100px;
+              max-height: 100px;
+
+              .fui-search-loading-icon {
+                fill: $gray-500;
+                width: $controls-icons-max-width;
+                height: $controls-icons-max-width;
+                @include fui-spinning-animation();
+              }
+
+              .fui-body-empty-icon {
+                fill: $gray-500;
+                width: $controls-icons-empty-width;
+                height: $controls-icons-empty-width;
+              }
+
+              .fui-body-error-icon {
+                fill: $red;
+                width: $controls-icons-empty-width;
+                height: $controls-icons-empty-width;
+              }
+
+              .fui-body-empty-text,
+              .fui-body-error-text {
+                color: $gray-500;
+                line-height: 28px;
+              }
+            }
+          }
+
+          .fui-datagrid {
+            &.fui-datagrid-without-header {
+              .fui-datagrid-root-wrapper {
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                @include border-top-radius(0);
+              }
+            }
+
+            &.fui-datagrid-without-footer {
+              .fui-datagrid-root-wrapper {
+                border-bottom: none;
+              }
+            }
+
+            &.fui-datagrid-has-pager {
+              .fui-datagrid-pager {
+                border: none;
+                @include border-bottom-radius(3px);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

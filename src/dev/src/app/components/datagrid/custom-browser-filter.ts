@@ -8,34 +8,26 @@ export interface IBrowserFilterParams extends IComparableFilterParams {}
 
 @Component({
   selector: 'fui-datagrid-browser-filter',
-  template: `
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-3 fui-dg-filters-column-name" unselectable="on">
-          {{ getColumnName() }}
-        </div>
-        <div class="col-9">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-4" *ngFor="let browser of possibleValues">
-                <fui-checkbox-wrapper>
-                  <input
-                    type="checkbox"
-                    fuiCheckbox
-                    (ngModelChange)="onChange($event, browser)"
-                    [(ngModel)]="modelValues[browser]"
-                  />
-                  <label [title]="browser" [innerHTML]="datagridService.getIconFor(browser) | safeHtml"></label>
-                </fui-checkbox-wrapper>
-              </div>
-            </div>
+  template: ` <div class="row">
+    <div class="col-3 fui-dg-filters-column-name" unselectable="on">
+      {{ getColumnName() }}
+    </div>
+    <div class="col-9">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-4" *ngFor="let browser of possibleValues">
+            <fui-checkbox-wrapper>
+              <input type="checkbox" fuiCheckbox (ngModelChange)="onChange($event, browser)" [(ngModel)]="modelValues[browser]" />
+              <label fuiLabel [title]="browser" [innerHTML]="datagridService.getIconFor(browser) | fuiSafeHtml"></label>
+            </fui-checkbox-wrapper>
           </div>
         </div>
       </div>
     </div>
-  `,
+  </div>`,
   host: {
-    class: 'fui-datagrid-browser-filter'
+    '[class.fui-datagrid-browser-filter]': 'true',
+    '[class.container-fluid]': 'true'
   },
   styles: [
     `

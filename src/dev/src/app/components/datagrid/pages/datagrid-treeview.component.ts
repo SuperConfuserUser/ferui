@@ -133,7 +133,7 @@ import { IDatagridRowData, RowDataApiService } from '../server-side-api/datagrid
         </ng-template>
 
         <ng-template #userAgentRenderer let-value="value">
-          <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | safeHtml"> </span>
+          <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | fuiSafeHtml"> </span>
         </ng-template>
 
         <ng-template #idRenderer let-value="value">

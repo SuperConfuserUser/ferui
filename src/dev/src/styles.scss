@@ -4,18 +4,6 @@
 @import 'scss/mixins';
 @import 'scss/variables';
 
-.hljs {
-  padding: 10px;
-}
-
-.fui-navbar {
-  position: sticky;
-  top: 0;
-  z-index: $zindex-sticky;
-  max-height: 3rem;
-  height: 3rem;
-}
-
 .fui-sidebar {
   position: -webkit-sticky;
   position: sticky;
@@ -34,55 +22,70 @@
 
   .fui-search {
     padding-left: 30px !important;
+
     input {
       -webkit-appearance: none;
       -moz-appearance: none;
       border: none;
     }
   }
+
+  .demo-sidebar-menu {
+    padding: 0 20px;
+
+    .nav-pills,
+    .nav-link {
+      color: #252a3a;
+      text-transform: capitalize;
+
+      .fui-icon-caret {
+        fill: #252a3a;
+        transform: rotate(90deg);
+        width: 9px;
+        height: 9px;
+        margin-top: -3px;
+      }
+    }
+
+    .nav-pills .nav-link.active {
+      color: #03a6ff;
+      background: transparent;
+
+      .fui-icon-caret {
+        fill: #03a6ff;
+        transform: rotate(180deg);
+      }
+    }
+
+    .nav-link {
+      padding: 0.3rem 0.7rem;
+    }
+
+    > ul ul {
+      display: block;
+      overflow: hidden;
+      height: 0;
+      list-style-type: none;
+      padding-left: 1rem;
+    }
+
+    .nav-link.active + ul {
+      height: auto;
+      padding-left: 20px;
+    }
+  }
 }
 
-.demo-sidebar-menu {
-  padding: 0 20px;
+.fui-navbar {
+  position: sticky;
+  top: 0;
+  z-index: $zindex-sticky;
+  max-height: 3rem;
+  height: 3rem;
+}
 
-  .nav-pills,
-  .nav-link {
-    color: #252a3a;
-    text-transform: capitalize;
-
-    .fui-icon-caret {
-      fill: #252a3a;
-      transform: rotate(90deg);
-      width: 9px;
-      height: 9px;
-      margin-top: -3px;
-    }
-  }
-
-  .nav-pills .nav-link.active {
-    color: #03a6ff;
-    background: transparent;
-
-    .fui-icon-caret {
-      fill: #03a6ff;
-      transform: rotate(180deg);
-    }
-  }
-
-  .nav-link {
-    padding: 0.3rem 0.7rem;
-  }
-
-  > ul ul {
-    display: block;
-    overflow: hidden;
-    height: 0;
-  }
-
-  .nav-link.active + ul {
-    height: auto;
-    padding-left: 20px;
-  }
+.hljs {
+  padding: 10px;
 }
 
 .code-container {
@@ -185,4 +188,33 @@ pre {
       margin: 0.25rem 0;
     }
   }
+}
+
+* {
+  > .anchor-link {
+    font-size: inherit;
+    color: $blue;
+    cursor: pointer;
+
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &:hover > .anchor-link {
+    opacity: 0.5;
+    visibility: visible;
+
+    &:hover {
+      opacity: 1;
+      text-decoration: none;
+    }
+  }
+}
+
+ul ul,
+ol ol,
+ol ul,
+ul ol {
+  list-style-type: lower-alpha;
+  padding-left: 1rem;
 }

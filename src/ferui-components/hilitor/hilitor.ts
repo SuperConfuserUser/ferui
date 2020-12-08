@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class HilitorService {
   // private variables
   private readonly hiliteTag: string = 'MARK';
-  private readonly hiliteClass: string = 'fui-datagrid-search-term';
+  private readonly hiliteClass: string = 'fui-hilitor-search-term';
   private readonly skipTags: RegExp = new RegExp('^(?:' + this.hiliteTag + '|SCRIPT|FORM|SPAN)$');
 
   private targetNode: HTMLElement;

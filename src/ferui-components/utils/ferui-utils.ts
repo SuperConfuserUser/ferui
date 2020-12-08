@@ -155,8 +155,12 @@ export class FeruiUtils {
     return !isNaN(parseFloat(value)) && isFinite(value);
   }
 
-  static isObjectEmpty(object) {
-    return Object.keys(object).length === 0 && object.constructor === Object;
+  /**
+   * Check whether or not an object is empty. If object in null or undefined, this method will return true.
+   * @param object
+   */
+  static isObjectEmpty(object: any) {
+    return FeruiUtils.isNullOrUndefined(object) || (Object.keys(object).length === 0 && object.constructor === Object);
   }
 
   static toStringOrNull(value: any): string | null {

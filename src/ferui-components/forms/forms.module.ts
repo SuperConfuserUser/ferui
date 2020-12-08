@@ -10,6 +10,7 @@ import { FuiInputModule } from './input/input.module';
 import { FuiNumberModule } from './number/number.module';
 import { FuiPasswordModule } from './password/password.module';
 import { FuiRadioModule } from './radio/radio.module';
+import { FuiSearchModule } from './search/search.module';
 import { FuiSelectModule } from './select/select.module';
 import { FuiTextareaModule } from './textarea/textarea.module';
 import { FuiTimeModule } from './time/time.module';
@@ -30,7 +31,8 @@ import { FuiToggleModule } from './toggle/toggle.module';
     FuiTimeModule,
     FuiDatetimeModule,
     FuiNumberModule,
-    FuiToggleModule
+    FuiToggleModule,
+    FuiSearchModule
   ]
 })
 export class FuiFormsModule {}

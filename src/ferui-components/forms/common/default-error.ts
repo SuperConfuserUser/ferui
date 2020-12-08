@@ -7,14 +7,19 @@ import { Component, Input } from '@angular/core';
     <fui-control-error [displayOn]="condition" *fuiIfError="'ipv4Address'">This is not a valid IPV4-Address.</fui-control-error>
     <fui-control-error [displayOn]="condition" *fuiIfError="'ipv6Address'">This is not a valid IPV6-Address.</fui-control-error>
     <fui-control-error [displayOn]="condition" *fuiIfError="'ipAddress'">This is not a valid IP-Address.</fui-control-error>
-    <fui-control-error [displayOn]="condition" *fuiIfError="'required'">This field is required</fui-control-error>
-    <fui-control-error [displayOn]="condition" *fuiIfError="'email'">You didn't enter a valid email address</fui-control-error>
+    <fui-control-error [displayOn]="condition" *fuiIfError="'required'">This field is required.</fui-control-error>
+    <fui-control-error [displayOn]="condition" *fuiIfError="'email'">You didn't enter a valid email address.</fui-control-error>
     <fui-control-error [displayOn]="condition" *fuiIfError="'minLength'"
-      >String do not reach the minimum length</fui-control-error
+      >String do not reach the minimum length.</fui-control-error
     >
-    <fui-control-error [displayOn]="condition" *fuiIfError="'maxLength'">String is too long</fui-control-error>
-    <fui-control-error [displayOn]="condition" *fuiIfError="'min'">The number is less than minimum</fui-control-error>
-    <fui-control-error [displayOn]="condition" *fuiIfError="'max'">The number is higher than the maximum</fui-control-error>
+    <fui-control-error [displayOn]="condition" *fuiIfError="'maxLength'">String is too long.</fui-control-error>
+    <fui-control-error [displayOn]="condition" *fuiIfError="'min'">The number is less than minimum.</fui-control-error>
+    <fui-control-error [displayOn]="condition" *fuiIfError="'max'">The number is higher than the maximum.</fui-control-error>
+
+    <fui-control-error [displayOn]="condition" *fuiIfError="'valuesEqual'">The values are not equals.</fui-control-error>
+    <fui-control-error [displayOn]="condition" *fuiIfError="'greaterThan'"
+      >The value need to be higher than the initial one.</fui-control-error
+    >
   `,
   host: { '[class.fui-subtext-wrapper]': 'true' }
 })

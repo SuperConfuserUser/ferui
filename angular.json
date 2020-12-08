@@ -33,6 +33,11 @@
                 "output": "/"
               },
               {
+                "glob": "persons-data.json",
+                "input": "src/dev/src/app/components/forms/search",
+                "output": "/"
+              },
+              {
                 "glob": "**/*.*",
                 "input": "src/ferui-design/font-files",
                 "output": "/font-files"
