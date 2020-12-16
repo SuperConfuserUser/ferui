@@ -44,6 +44,7 @@ import {
       <h2>Server Side Non Root Tree View with adjustable width and adjustable padding</h2>
       <div class="demo-component expandable-width">
         <fui-tree-view
+          [loading]="treeDataRetrieverNonRootLoading"
           [treeNodeData]="nonRootServerSideTreeNodeData"
           [dataRetriever]="treeDataRetrieverNonRoot"
           [config]="{ height: '300px', limit: 10 }"
@@ -373,12 +374,24 @@ export class TreeViewServerSideDemoComponent implements OnInit {
   // Non Root Server Side
   nonRootServerSideTreeNodeData: NonRootTreeNode;
   nonRootServerSideDataRetriever: PagedTreeNodeDataRetriever<FoodNode>;
-
+  treeDataRetrieverNonRootLoading: boolean = true;
   treeDataRetrieverNonRoot = {
     hasChildNodes: (node: TreeNodeData<FoodNode>) => {
       return Promise.resolve(!!node.data.children && node.data.children.length > 0);
     },
     getPagedChildNodeData: (parent, params) => {
+      if (parent instanceof NonRootTreeNode) {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            this.treeDataRetrieverNonRootLoading = false;
+            resolve(
+              dataArrayExpandWidth.slice(params.offset, params.limit).map(it => {
+                return { data: it, nodeLabel: it.name };
+              })
+            );
+          }, 3000);
+        });
+      }
       return Promise.resolve(
         dataArrayExpandWidth.slice(params.offset, params.limit).map(it => {
           return { data: it, nodeLabel: it.name };
