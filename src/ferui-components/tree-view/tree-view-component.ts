@@ -166,6 +166,7 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
           this.selectNode(this.autoNodeSelector.autoSelectNode(this.scrollViewArray.map(it => it.data)));
         }
         this.scrollSubHandler();
+        this.cd.markForCheck();
       });
     } else {
       this.rootNode = this.createTreeNode(this.treeNodeData, null);
