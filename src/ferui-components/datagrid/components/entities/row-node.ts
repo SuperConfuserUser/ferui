@@ -104,7 +104,7 @@ export class RowNode implements FuiDatagridRowNode {
       console.warn('[Ferui Datagrid] Error: cannot select node until id for node is known');
       return;
     }
-    if (this.selectable) {
+    if (this.selectable && this._selected !== selected) {
       this._selected = selected;
       if (emitEvent) {
         const evt: RowSelectedEvent = {

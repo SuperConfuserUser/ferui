@@ -67,7 +67,12 @@ export interface FuiDatagridSelectAllOption {
             <button class="btn btn-link" fuiDropdownTrigger>
               <clr-icon class="fui-caret" shape="fui-caret down"></clr-icon>
             </button>
-            <fui-dropdown-menu fuiPosition="bottom-left" [appendTo]="'body'" *fuiIfOpen>
+            <fui-dropdown-menu
+              [class.fui-datagrid-dropdown]="true"
+              fuiPosition="bottom-left"
+              [appendTo]="dropdownAppendTo"
+              *fuiIfOpen
+            >
               <div
                 *ngFor="let option of selectAllOptions"
                 [class.disabled]="getDisableStateFor(option)"
@@ -130,6 +135,7 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
   selectAllOptions: FuiDatagridSelectAllOption[] = [];
   rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
   forceDropdownClose: boolean = false;
+  dropdownAppendTo: string = 'body';
 
   @Input() columnDefinition: FuiColumnDefinitions;
 
@@ -356,6 +362,13 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
           })
         );
       }
+    }
+
+    // If the Datagrid is within a FerUI modal, we append the dropdown menu within the modal instead of the body.
+    if (this.rowSelection === this.rowSelectionEnum.MULTIPLE && this.column.isCheckboxSelection() && this.hasHeaderSelect()) {
+      this.dropdownAppendTo = FeruiUtils.getClosestDomElement(this.element, 'fui-modal-anchor')
+        ? '.fui-modal-anchor.fui-modal-open'
+        : 'body';
     }
 
     this.cd.markForCheck();

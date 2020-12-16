@@ -655,4 +655,11 @@
       }
     }
   }
+
+  // If within a modal, we need to change the z-index of the dropdowns.
+  .fui-modal-anchor.fui-modal-open {
+    .fui-datagrid-dropdown {
+      z-index: $zindex-modal !important;
+    }
+  }
 }
