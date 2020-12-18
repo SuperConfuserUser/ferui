@@ -11,7 +11,7 @@ import { FuiFormLayoutService } from '../common/providers/form-layout.service';
   template: `
     <ng-content select="[fuiRadio]"></ng-content>
     <ng-content select="[fuiLabel]"></ng-content>
-    <label *ngIf="!label"></label>
+    <label [for]="controlIdService.idChange | async" *ngIf="!label"></label>
   `,
   host: {
     '[class.fui-radio-wrapper]': 'true'
@@ -22,7 +22,7 @@ export class FuiRadioWrapperComponent implements DynamicWrapper {
   _dynamic = false;
   @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
 
-  constructor(@Optional() public formLayoutService: FuiFormLayoutService) {}
+  constructor(@Optional() public formLayoutService: FuiFormLayoutService, public controlIdService: ControlIdService) {}
 
   controlLayout(): FuiFormLayoutEnum {
     if (!this.formLayoutService) {

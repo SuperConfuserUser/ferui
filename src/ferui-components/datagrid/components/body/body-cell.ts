@@ -37,6 +37,7 @@ import { RowNode } from '../entities/row-node';
       <input
         type="checkbox"
         fuiCheckbox
+        [name]="datagridId + 'MultipleSelection' + rowNode.id"
         [(ngModel)]="rowSelected"
         [disabled]="!rowNode.selectable"
         (ngModelChange)="rowSelectionMultipleChange($event)"
@@ -49,6 +50,7 @@ import { RowNode } from '../entities/row-node';
       <input
         type="radio"
         fuiRadio
+        [name]="datagridId + 'SingleSelection'"
         [value]="rowNode.id"
         [(ngModel)]="rowSelected"
         [disabled]="!rowNode.selectable"
@@ -84,6 +86,7 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
 
   // ngModel for selection checkbox and radio.
   rowSelected: boolean | string = null;
+  datagridId: string;
 
   // Default template variables.
   rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
@@ -165,6 +168,7 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
     this.width = this.column.getActualWidth();
     this.minWidth = this.column.getMinWidth();
     this.maxWidth = this.column.getMaxWidth();
+    this.datagridId = this.optionsWrapperService.getDatagridId();
 
     if (this.rowNode.rowHeight) {
       this.lineHeight = this.rowNode.rowHeight - 1;
@@ -217,24 +221,58 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
     }
   }
 
+  /**
+   * Select the row and add it to the global rowNode selection list.
+   * @param checked
+   */
   rowSelectionMultipleChange(checked: boolean): void {
+    // If we can select a row by clicking on it, we do not need to mark the row as selected since it will be handle by the parent
+    // row selection and we will get the event to update the this.rowSelected value. No need to send the event twice.
+    if (!this.optionsWrapperService.suppressRowClickSelection()) {
+      return;
+    }
     this.rowNode.setSelected(checked === true);
+    this.cd.markForCheck();
   }
 
+  /**
+   * Select the row and replace what is in the rowNode selection list. In this case, it can be only one selected item.
+   * @param rowId
+   */
   rowSelectionSingleChange(rowId: string): void {
+    // If we can select a row by clicking on it, we do not need to mark the row as selected since it will be handle by the parent
+    // row selection and we will get the event to update the this.rowSelected value. No need to send the event twice.
+    if (!this.optionsWrapperService.suppressRowClickSelection()) {
+      return;
+    }
     this.rowNode.setSelected(!(this.rowSelectionService.isNodeSelected(rowId) === true));
+    this.cd.markForCheck();
   }
 
+  /**
+   * When clicking on a selected radio it doesn't trigger the change (because it doesn't do any changes). So in that case,
+   * we need to force the de-selection when clicking on a selected radio.
+   */
   rowSelectionSingleClicked(): void {
+    // If we can select a row by clicking on it, we do not need to mark the row as selected since it will be handle by the parent
+    // row selection and we will get the event to update the this.rowSelected value. No need to send the event twice.
+    if (!this.optionsWrapperService.suppressRowClickSelection()) {
+      return;
+    }
     if (this.rowSelectionService.isNodeSelected(this.rowNode.id)) {
       this.rowNode.setSelected(false);
       this.rowSelected = null;
+      this.cd.markForCheck();
     }
   }
 
   private toggleRowSelection(): void {
     this.rowSelected =
-      this.rowNode.rowSelection === FuiRowSelectionEnum.SINGLE && this.rowNode.selected ? this.rowNode.id : this.rowNode.selected;
+      this.rowNode.rowSelection === FuiRowSelectionEnum.SINGLE
+        ? this.rowNode.selected
+          ? this.rowNode.id
+          : null
+        : this.rowNode.selected;
     this.cd.markForCheck();
   }
 }

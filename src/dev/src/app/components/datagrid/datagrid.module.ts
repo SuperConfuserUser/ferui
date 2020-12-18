@@ -15,6 +15,7 @@ import { DatagridHomeComponent } from './pages/datagrid-home';
 import { DatagridInfiniteServerSideComponent } from './pages/datagrid-infinite-server-side.component';
 import { DatagridServerSideComponent } from './pages/datagrid-server-side.component';
 import { DatagridTreeviewInfiniteServerSideComponent } from './pages/datagrid-treeview.component';
+import { DatagridModalTestingComponent } from './pages/modals/datagrid-modal-testing';
 import { RowDataApiService } from './server-side-api/datagrid-row.service';
 
 const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
@@ -25,13 +26,15 @@ const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
   DatagridTreeviewInfiniteServerSideComponent,
   DefaultDatagridOptionsMenuComponent,
   CustomBrowserFilterComponent,
-  DatagridHomeComponent
+  DatagridHomeComponent,
+  DatagridModalTestingComponent
 ];
 
 @NgModule({
   imports: [CommonModule, FormsModule, FeruiModule, RouterModule, HighlightModule],
   declarations: [FUI_DEMO_COMPONENTS_DIRECTIVES],
   exports: [FUI_DEMO_COMPONENTS_DIRECTIVES],
-  providers: [LocaleHelperService, DateIOService, RowDataApiService]
+  providers: [LocaleHelperService, DateIOService, RowDataApiService],
+  entryComponents: [DatagridModalTestingComponent]
 })
 export class DatagridDemoModule {}

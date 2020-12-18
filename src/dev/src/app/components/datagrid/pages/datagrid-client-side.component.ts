@@ -9,6 +9,7 @@ import {
   FuiDatagridComponent,
   FuiDatagridSortDirections,
   FuiFieldTypes,
+  FuiModalService,
   FuiRowModel,
   FuiRowSelectionEnum,
   IDateFilterParams
@@ -16,6 +17,8 @@ import {
 
 import { DatagridService } from '../datagrid.service';
 import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
+
+import { DatagridModalTestingComponent } from './modals/datagrid-modal-testing';
 
 @Component({
   template: `
@@ -51,6 +54,9 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
               Display rowNode selection in browser console
             </button>
             <button class="btn btn-info ml-2 mr-2 btn-sm" (click)="logRowData()">Display rowNode data in browser console</button>
+            <button class="btn btn-primary ml-2 mr-2 btn-sm" (click)="suppressRowClickSelection1 = !suppressRowClickSelection1">
+              {{ suppressRowClickSelection1 ? 'Enable row click selection' : 'Suppress row click selection' }}
+            </button>
           </fui-demo-datagrid-option-menu>
 
           <div class="container-fluid mt-2">
@@ -85,6 +91,7 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
           <fui-datagrid
             #datagrid
             [checkboxSelection]="true"
+            [suppressRowClickSelection]="suppressRowClickSelection1"
             [rowSelection]="rowSelectionEnum.MULTIPLE"
             [fixedHeight]="withFixedHeight"
             [exportParams]="exportParams"
@@ -200,9 +207,16 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
           <div class="mb-2">
             <h3>Synchronous row data</h3>
           </div>
+
+          <div class="mb-2">
+            <button class="btn btn-primary ml-2 mr-2 btn-sm" (click)="suppressRowClickSelection2 = !suppressRowClickSelection2">
+              {{ suppressRowClickSelection2 ? 'Enable row click selection' : 'Suppress row click selection' }}
+            </button>
+          </div>
           <fui-datagrid
             #datagrid2
             [checkboxSelection]="true"
+            [suppressRowClickSelection]="suppressRowClickSelection2"
             [rowSelection]="rowSelectionEnum.SINGLE"
             [withHeader]="withHeader2"
             [withFooter]="withFooter2"
@@ -214,6 +228,10 @@ import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
           >
           </fui-datagrid>
         </div>
+
+        <h4 class="mt-4 mb-4">Datagrid within a modal</h4>
+
+        <button class="btn btn-primary btn-lg" (click)="openTestModal()">Open testing modal</button>
       </fui-tab>
       <fui-tab [title]="'Documentation'">
         <p>
@@ -296,6 +314,9 @@ export class DatagridClientSideComponent implements OnInit {
   withFooterPager: boolean = true;
   withFixedHeight: boolean = false;
 
+  suppressRowClickSelection1: boolean = false;
+  suppressRowClickSelection2: boolean = false;
+
   rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
 
   exportParams: CsvExportParams = {
@@ -312,7 +333,11 @@ export class DatagridClientSideComponent implements OnInit {
   @ViewChild('countryRenderer') countryRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('datagrid') datagrid: FuiDatagridComponent;
 
-  constructor(@Inject(HttpClient) private http: HttpClient, public datagridService: DatagridService) {}
+  constructor(
+    @Inject(HttpClient) private http: HttpClient,
+    public datagridService: DatagridService,
+    private modalService: FuiModalService
+  ) {}
 
   ngOnInit(): void {
     const dateFilterParams: IDateFilterParams = {
@@ -476,5 +501,18 @@ export class DatagridClientSideComponent implements OnInit {
 
   logRowData(): void {
     console.log('RowNode Data ::: ', this.datagrid.getGridData());
+  }
+
+  openTestModal() {
+    this.modalService
+      .openModal<string>({
+        id: 'simpleWindow',
+        title: 'Simple example of Datagrid within a modal',
+        width: 700,
+        component: DatagridModalTestingComponent
+      })
+      .then(args => {
+        console.log('[modalService.openModal] openSimpleModal ::: submitted ::: ', args);
+      });
   }
 }
