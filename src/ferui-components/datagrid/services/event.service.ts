@@ -28,6 +28,10 @@ export class FuiDatagridEventService {
   flushListeners(): void {
     for (const listenersKey in this.listeners) {
       if (this.listeners.hasOwnProperty(listenersKey)) {
+        // Mark all observers subscription as completed to ensure we're killing them properly.
+        this.listeners[listenersKey].complete();
+        // The unsubscribe method in the Subject class doesn't actually unsubscribe anything.
+        // Instead, it marks the subject as `closed` and sets its internal array subscribed observers to `null`.
         this.listeners[listenersKey].unsubscribe();
       }
     }

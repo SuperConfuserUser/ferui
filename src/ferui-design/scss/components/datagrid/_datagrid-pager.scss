@@ -12,12 +12,20 @@
     border-style: solid;
     border-radius: 0 0 $border-radius $border-radius;
 
+    .container-fluid {
+      height: 100%;
+      .row {
+        height: 100%;
+      }
+    }
+
     &.fui-datagrid-hidden-pager {
       display: none !important;
     }
 
     .col-auto,
     .col {
+      height: 100%;
       padding-right: 15px;
       padding-left: 15px;
     }
@@ -77,9 +85,10 @@
     }
 
     .fui-datagrid-pager-total {
-      display: inline-block;
+      display: flex;
+      justify-content: center;
+      flex-flow: column wrap;
       height: 100%;
-      line-height: 50px;
       color: $gray-500;
       font-size: $font-size-sm;
     }

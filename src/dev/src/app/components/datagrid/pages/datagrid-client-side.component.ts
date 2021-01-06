@@ -1,3 +1,5 @@
+import { BehaviorSubject, Observable } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
@@ -12,13 +14,17 @@ import {
   FuiModalService,
   FuiRowModel,
   FuiRowSelectionEnum,
-  IDateFilterParams
+  IDateFilterParams,
+  RowNode
 } from '@ferui/components';
 
 import { DatagridService } from '../datagrid.service';
 import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
 
-import { DatagridModalTestingComponent } from './modals/datagrid-modal-testing';
+import { DatagridModalTestingComponent, SimpleModalRow } from './modals/datagrid-modal-testing';
+import { WizardSelectedNodes } from './modals/modals-interfaces';
+import { DatagridModalWizardStep1Component } from './modals/wizard-testing/datagrid-wizard-testing-step1';
+import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datagrid-wizard-testing-step2';
 
 @Component({
   template: `
@@ -31,32 +37,48 @@ import { DatagridModalTestingComponent } from './modals/datagrid-modal-testing';
             <button class="btn btn-warning btn-sm" (click)="withHeader = !withHeader">
               {{ withHeader ? 'Hide header' : 'Display header' }}
             </button>
-            <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFooter = !withFooter">
+            <button class="btn btn-warning ml-2 btn-sm" (click)="withFooter = !withFooter">
               {{ withFooter ? 'Hide footer' : 'Display footer' }}
             </button>
             <button
               *ngIf="withFooter"
-              class="btn btn-warning ml-2 mr-2 btn-sm"
+              class="btn btn-warning ml-2 btn-sm"
               (click)="withFooterItemPerPage = !withFooterItemPerPage"
             >
               {{ withFooterItemPerPage ? 'Hide Item per page' : 'Display Item per page' }}
             </button>
-            <button *ngIf="withFooter" class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFooterPager = !withFooterPager">
+            <button *ngIf="withFooter" class="btn btn-warning ml-2 btn-sm" (click)="withFooterPager = !withFooterPager">
               {{ withFooterPager ? 'Hide pager' : 'Display pager' }}
             </button>
-            <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFixedHeight = !withFixedHeight">
+            <button class="btn btn-warning ml-2 btn-sm" (click)="withFixedHeight = !withFixedHeight">
               {{ withFixedHeight ? 'Auto grid height' : 'Fixed grid height' }}
             </button>
-            <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="logRowDataSelection()">
+
+            <br />
+            <div style="display: block; width: 100%; height: 1px;" class="mt-2"></div>
+
+            <button class="btn btn-primary ml-0 btn-sm" (click)="logRowDataSelection()">
               Display rowData selection in browser console
             </button>
-            <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="logRowsSelection()">
+            <button class="btn btn-primary ml-2 btn-sm" (click)="logRowsSelection()">
               Display rowNode selection in browser console
             </button>
-            <button class="btn btn-info ml-2 mr-2 btn-sm" (click)="logRowData()">Display rowNode data in browser console</button>
-            <button class="btn btn-primary ml-2 mr-2 btn-sm" (click)="suppressRowClickSelection1 = !suppressRowClickSelection1">
+            <button class="btn btn-primary ml-2 btn-sm" (click)="suppressRowClickSelection1 = !suppressRowClickSelection1">
               {{ suppressRowClickSelection1 ? 'Enable row click selection' : 'Suppress row click selection' }}
             </button>
+            <button class="btn btn-sm btn-primary ml-2" (click)="storeSelection()">Store Selection</button>
+            <button
+              class="btn btn-sm btn-primary ml-2"
+              *ngIf="storedSelectionList && storedSelectionList.length > 0"
+              (click)="resetToInitialSelection()"
+            >
+              Use initial selection list
+            </button>
+
+            <br />
+            <div style="display: block; width: 100%; height: 1px;" class="mt-2"></div>
+
+            <button class="btn btn-info mr-2 btn-sm" (click)="logRowData()">Display rowNode data in browser console</button>
           </fui-demo-datagrid-option-menu>
 
           <div class="container-fluid mt-2">
@@ -90,6 +112,7 @@ import { DatagridModalTestingComponent } from './modals/datagrid-modal-testing';
         <div id="testgrid" class="mb-4" style="width: 100%;">
           <fui-datagrid
             #datagrid
+            [initialSelectedRows]="initialSelectionList$"
             [checkboxSelection]="true"
             [suppressRowClickSelection]="suppressRowClickSelection1"
             [rowSelection]="rowSelectionEnum.MULTIPLE"
@@ -232,6 +255,7 @@ import { DatagridModalTestingComponent } from './modals/datagrid-modal-testing';
         <h4 class="mt-4 mb-4">Datagrid within a modal</h4>
 
         <button class="btn btn-primary btn-lg" (click)="openTestModal()">Open testing modal</button>
+        <button class="btn btn-primary btn-lg ml-2" (click)="openTestWizard()">Open Datagrid selection wizard</button>
       </fui-tab>
       <fui-tab [title]="'Documentation'">
         <p>
@@ -316,6 +340,8 @@ export class DatagridClientSideComponent implements OnInit {
 
   suppressRowClickSelection1: boolean = false;
   suppressRowClickSelection2: boolean = false;
+  initialSelectionList$: Observable<RowNode[]>;
+  storedSelectionList: RowNode[] = [];
 
   rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
 
@@ -333,6 +359,14 @@ export class DatagridClientSideComponent implements OnInit {
   @ViewChild('countryRenderer') countryRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('datagrid') datagrid: FuiDatagridComponent;
 
+  // For this demo, we're using an observable to update the value to be sure to avoid natural change detection (aka CD).
+  // With natural CD, if we mutate the array, it won't be detected (for instance when we update the 'selected' state of a
+  // RowNode). If we un-select the previously selected row, then re-load the selection, it won't update the datagrid because for
+  // CD, there is no changes. When using Observable, we force this change to be detected at any time.
+  // In a real world implementation (within a wizard for instance) we won't need to use an observable, because we would re-load
+  // the whole datagrid in previous step and inject the initial selection. The CD will be notified of the change.
+  private initialSelectionListSub: BehaviorSubject<RowNode[]> = new BehaviorSubject<RowNode[]>([]);
+
   constructor(
     @Inject(HttpClient) private http: HttpClient,
     public datagridService: DatagridService,
@@ -343,6 +377,8 @@ export class DatagridClientSideComponent implements OnInit {
     const dateFilterParams: IDateFilterParams = {
       dateFormat: 'yyyy-mm-dd'
     };
+
+    this.initialSelectionList$ = this.initialSelectionListSub.asObservable();
 
     this.columnDefs = [
       {
@@ -395,7 +431,7 @@ export class DatagridClientSideComponent implements OnInit {
     this.columnDefsSynchronous = [
       { headerName: 'GUID', field: 'id' },
       { headerName: 'Name', field: 'name' },
-      { headerName: 'email', field: 'email' },
+      { headerName: 'Email', field: 'email' },
       { headerName: 'Address', field: 'address' }
     ];
 
@@ -491,6 +527,19 @@ export class DatagridClientSideComponent implements OnInit {
     this.datagrid.exportGrid();
   }
 
+  storeSelection() {
+    this.storedSelectionList = this.datagrid.getSelectedNodes();
+  }
+
+  resetToInitialSelection() {
+    // HACK ::: DEMO PAGE ONLY ::: We ensure that the selected nodes are selected.
+    // Because of javascript object mutation, the object list from 'this.storedSelectionList' will be mutated each time the
+    // datagrid selection objects get mutated. To be sure that our selected nodes are selected, we force it.
+    // This won't happen in a real world implementation.
+    this.storedSelectionList.forEach(rowNode => rowNode.setSelected(true, false));
+    this.initialSelectionListSub.next(this.storedSelectionList);
+  }
+
   logRowsSelection(): void {
     console.log(this.datagrid.getSelectedNodes());
   }
@@ -505,14 +554,38 @@ export class DatagridClientSideComponent implements OnInit {
 
   openTestModal() {
     this.modalService
-      .openModal<string>({
+      .openModal<SimpleModalRow[]>({
         id: 'simpleWindow',
         title: 'Simple example of Datagrid within a modal',
         width: 700,
         component: DatagridModalTestingComponent
       })
-      .then(args => {
+      .then((args: SimpleModalRow[]) => {
         console.log('[modalService.openModal] openSimpleModal ::: submitted ::: ', args);
+      });
+  }
+
+  openTestWizard() {
+    this.modalService
+      .openModal<WizardSelectedNodes>({
+        id: 'selectionModalTest',
+        title: 'Datagrid selection within a wizard',
+        width: 800,
+        wizardSteps: [
+          {
+            stepId: 'rowSelection',
+            label: 'Row selection',
+            component: DatagridModalWizardStep1Component
+          },
+          {
+            stepId: 'overview',
+            label: 'Overview',
+            component: DatagridModalWizardStep2Component
+          }
+        ]
+      })
+      .then(args => {
+        console.log('[modalService.openModal] selectionModalTest ::: submitted ::: ', args);
       });
   }
 }

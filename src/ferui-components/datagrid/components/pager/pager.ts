@@ -4,9 +4,9 @@ import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, 
 
 import { FuiFormLayoutEnum } from '../../../forms/common/layout.enum';
 import { DomObserver, ObserverInstance } from '../../../utils/dom-observer/dom-observer';
-import { FuiCommonStrings } from '../../../utils/i18n/common-strings.service';
+import { FuiI18nService } from '../../../utils/i18n/fui-i18n.service';
 import { FuiDatagridEvents, FuiPageChangeEvent, ServerSideRowDataChanged } from '../../events';
-import { DatagridStateService } from '../../services/datagrid-state.service';
+import { DatagridStateEnum, DatagridStateService } from '../../services/datagrid-state.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiDatagridRowSelectionService } from '../../services/selection/datagrid-row-selection.service';
@@ -22,9 +22,7 @@ import { RowModel } from '../row-models/row-model';
     <div class="container-fluid">
       <div class="row">
         <div class="col-auto">
-          <div unselectable="on" class="fui-datagrid-pager-total">
-            {{ getDatagridItemCountString() }}
-          </div>
+          <div unselectable="on" class="fui-datagrid-pager-total" [innerHTML]="getDatagridItemCountString()"></div>
         </div>
         <div class="col">
           <div class="fui-datagrid-pagination">
@@ -80,11 +78,13 @@ import { RowModel } from '../row-models/row-model';
             fuiSelect
             name="itemPerPageSelect"
             [clearable]="false"
-            placeholder="Item per page"
+            placeholder="{{ i18nService.keys.itemsPerPage }}"
             (ngModelChange)="updateLimit($event)"
             [(ngModel)]="itemPerPage"
           >
-            <ng-option *ngFor="let iPerPage of itemPerPagesList" [value]="iPerPage"> {{ iPerPage }} items per page </ng-option>
+            <ng-option *ngFor="let iPerPage of itemPerPagesList" [value]="iPerPage">
+              {{ iPerPage }} {{ i18nService.keys.itemsPerPage }}
+            </ng-option>
           </fui-select>
         </div>
       </div>
@@ -128,7 +128,7 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
 
   constructor(
     @Self() public elementRef: ElementRef,
-    public commonStrings: FuiCommonStrings,
+    public i18nService: FuiI18nService,
     private eventService: FuiDatagridEventService,
     private gridPanel: FuiDatagridService,
     private rowModel: RowModel,
@@ -433,19 +433,35 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
     this.pagerReset.emit(true);
   }
 
+  /**
+   * Get the info strings for Datagrid (total rows count, selected items count, filtered items count).
+   */
   getDatagridItemCountString(): string {
-    if (this.totalRows !== null) {
-      if (this.rowSelectionService.initialized && this.rowSelectionService.getSelectionCount() > 0) {
-        return `${this.rowSelectionService.getSelectionCount()} selected of ${this.totalRows}`;
-      } else {
-        return `${this.totalRows} ${this.commonStrings.total}`;
-      }
+    const hasSelection = this.rowSelectionService.initialized && this.rowSelectionService.getSelectionCount() > 0;
+    const hasFilters = this.rowModel.getRowModel().hasFilters();
+    const isLoading = this.stateService.hasState(DatagridStateEnum.LOADING);
+    const hasTotalRows = this.totalRows !== null;
+
+    const filteredRowsCount = hasTotalRows ? this.totalRows : this.serverSideTotalRows;
+    const totalRowsCount = this.isClientSideRowModel()
+      ? this.rowModel.getClientSideRowModel().getTotalRowCount()
+      : filteredRowsCount;
+
+    const totalString = `<span>${totalRowsCount} ${this.i18nService.keys.total}</span>`;
+    const totalFilteredString = `<span>${totalRowsCount} ${this.i18nService.keys.total} (${filteredRowsCount} ${this.i18nService.keys.filtered})</span>`;
+    const selectedString = `<span>${this.rowSelectionService.getSelectionCount()} ${this.i18nService.keys.selected}</span>`;
+    const serverSideString = `<span>${this.startIndex + 1} ${this.i18nService.keys.to} ${this.endIndex} ${
+      this.i18nService.keys.of
+    } ${filteredRowsCount}</span>`;
+
+    if (hasTotalRows) {
+      return hasSelection && !isLoading
+        ? selectedString + (hasFilters && this.isClientSideRowModel() ? totalFilteredString : totalString)
+        : hasFilters && this.isClientSideRowModel()
+        ? totalFilteredString
+        : totalString;
     } else {
-      if (this.rowSelectionService.initialized && this.rowSelectionService.getSelectionCount() > 0) {
-        return `${this.rowSelectionService.getSelectionCount()} selected of ${this.serverSideTotalRows}`;
-      } else {
-        return `${this.startIndex + 1} to ${this.endIndex} of ${this.serverSideTotalRows}`;
-      }
+      return hasSelection && !isLoading ? selectedString + serverSideString : serverSideString;
     }
   }
 

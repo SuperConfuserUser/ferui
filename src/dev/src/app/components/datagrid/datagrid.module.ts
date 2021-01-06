@@ -16,6 +16,8 @@ import { DatagridInfiniteServerSideComponent } from './pages/datagrid-infinite-s
 import { DatagridServerSideComponent } from './pages/datagrid-server-side.component';
 import { DatagridTreeviewInfiniteServerSideComponent } from './pages/datagrid-treeview.component';
 import { DatagridModalTestingComponent } from './pages/modals/datagrid-modal-testing';
+import { DatagridModalWizardStep1Component } from './pages/modals/wizard-testing/datagrid-wizard-testing-step1';
+import { DatagridModalWizardStep2Component } from './pages/modals/wizard-testing/datagrid-wizard-testing-step2';
 import { RowDataApiService } from './server-side-api/datagrid-row.service';
 
 const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
@@ -27,7 +29,9 @@ const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
   DefaultDatagridOptionsMenuComponent,
   CustomBrowserFilterComponent,
   DatagridHomeComponent,
-  DatagridModalTestingComponent
+  DatagridModalTestingComponent,
+  DatagridModalWizardStep1Component,
+  DatagridModalWizardStep2Component
 ];
 
 @NgModule({
@@ -35,6 +39,6 @@ const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
   declarations: [FUI_DEMO_COMPONENTS_DIRECTIVES],
   exports: [FUI_DEMO_COMPONENTS_DIRECTIVES],
   providers: [LocaleHelperService, DateIOService, RowDataApiService],
-  entryComponents: [DatagridModalTestingComponent]
+  entryComponents: [DatagridModalTestingComponent, DatagridModalWizardStep1Component, DatagridModalWizardStep2Component]
 })
 export class DatagridDemoModule {}

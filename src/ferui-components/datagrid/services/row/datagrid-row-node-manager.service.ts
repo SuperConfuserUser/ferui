@@ -34,17 +34,22 @@ export class DatagridRowNodeManagerService {
   /**
    * Set the rowData. This function will accept the raw data and map it to an array of RowNodes.
    * @param rowData
+   * @param selectedRows
    */
-  setRowData(rowData: any[]): RowNode[] {
+  setRowData(rowData: any[], selectedRows: RowNode[] = null): RowNode[] {
     this.nextId = 0;
     this.allNodesMap = {};
 
     if (!rowData) {
       return;
     }
+
     const rowNodes: RowNode[] = [];
     rowData.forEach(dataItem => {
-      const node = this.createNode(dataItem);
+      const node: RowNode = this.createNode(dataItem);
+      if (selectedRows && selectedRows.length > 0 && selectedRows.find(row => row.id === node.id)) {
+        node.setSelected(true);
+      }
       rowNodes.push(node);
     });
     return rowNodes;
