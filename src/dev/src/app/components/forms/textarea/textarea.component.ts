@@ -16,8 +16,8 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
             <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputSix"></demo-component>
             <div class="footer">
-              <button class="btn btn-primary" type="submit">
-                Submit [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()"
+              <button class="btn btn-primary" type="submit" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()">
+                Submit
               </button>
               <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
               <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>

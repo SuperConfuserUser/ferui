@@ -1,13 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'fui-control-error',
-  template: ` <ng-content></ng-content> `,
+  template: ` <ng-content></ng-content>`,
   host: {
-    '[class.fui-subtext]': 'true',
-    '[attr.hidden]': 'displayOn === false ? true : null'
+    '[class.fui-subtext]': 'true'
   }
 })
-export class FuiControlErrorComponent {
-  @Input() displayOn: boolean;
-}
+export class FuiControlErrorComponent {}

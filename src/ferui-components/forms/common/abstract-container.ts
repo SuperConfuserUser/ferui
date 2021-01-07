@@ -101,6 +101,7 @@ export abstract class FuiFormAbstractContainer implements DynamicWrapper, OnDest
    */
   protected onFocusChange(state: boolean) {
     this.focus = state;
+    this.cd.markForCheck();
   }
 
   /**
@@ -110,5 +111,6 @@ export abstract class FuiFormAbstractContainer implements DynamicWrapper, OnDest
    */
   protected onStatusChange(invalid: boolean) {
     this.invalid = invalid;
+    this.cd.markForCheck();
   }
 }

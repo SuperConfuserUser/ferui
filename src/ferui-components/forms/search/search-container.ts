@@ -49,7 +49,7 @@ import { FuiSearchService } from './providers/search.service';
       <label class="fui-control-icons" tabindex="0">
         <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
       </label>
-      <fui-default-control-error [on]="invalid">
+      <fui-default-control-error>
         <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
       </fui-default-control-error>
     </div>
