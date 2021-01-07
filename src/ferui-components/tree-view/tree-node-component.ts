@@ -18,6 +18,7 @@ import {
 } from '@angular/core';
 
 import { DomObserver, ObserverInstance } from '../utils/dom-observer/dom-observer';
+import { FeruiUtils } from '../utils/ferui-utils';
 import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
 
 import {
@@ -83,7 +84,7 @@ import { FuiTreeViewUtilsService } from './tree-view-utils-service';
         </span>
       </div>
     </div>
-    <div [style.margin-left.px]="padding + indentationPadding">
+    <div [style.margin-left.px]="padding + indentationPadding" #nodeError>
       <clr-icon *ngIf="node.showLoader" class="fui-loader-animation" shape="fui-spinner"></clr-icon>
       <clr-icon *ngIf="node.loadError" class="fui-error-icon" shape="fui-error" aria-hidden="true"></clr-icon>
       <span *ngIf="node.loadError" class="error-msg">Couldn't load content</span>
@@ -107,6 +108,8 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck, OnCh
 
   @ViewChild('nodetree', { read: ElementRef }) nodeTreeElement: ElementRef;
 
+  @ViewChild('nodeError', { read: ElementRef }) nodeErrorElement: ElementRef;
+
   // Hierarchical level to show parent-child relationship
   level: number = 0;
   // Indicates node can be expanded
@@ -118,6 +121,7 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck, OnCh
   selectionType: typeof FuiTreeviewNodeSelectionEnum = FuiTreeviewNodeSelectionEnum;
 
   private domObservers: ObserverInstance[] = [];
+  private errorWidthChange: boolean;
 
   constructor(
     @Self() private element: ElementRef,
@@ -183,6 +187,7 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck, OnCh
    * DoCheck needed since parent component constantly changes input {showLoader, loadError and selected} properties
    */
   ngDoCheck(): void {
+    this.handlePossibleNodeErrorWidth();
     this.cd.markForCheck();
   }
 
@@ -312,5 +317,30 @@ export class FuiTreeNodeComponent<T> implements OnInit, OnDestroy, DoCheck, OnCh
     return this.nodeTreeElement.nativeElement.children[1]
       ? this.nodeTreeElement.nativeElement.children[1].offsetWidth
       : this.nodeTreeElement.nativeElement.children[0].offsetWidth;
+  }
+
+  /**
+   * Handle any possible width change the tree node may need if the error message shows up
+   * Reset widths if previously changed by an error
+   */
+  private handlePossibleNodeErrorWidth(): void {
+    // XXX: FER-93 We need to change the way we display the treeNodes within the Treeview to rely on pure HTML + CSS
+    // The only part that should be added via JS is the padding left (since we need to know about the data hierarchy)
+    if (this.node.loadError && !this.errorWidthChange) {
+      const errorNodeWidth = FeruiUtils.getPreferredWidthForItem(
+        this.nodeErrorElement.nativeElement,
+        this.nodeTreeElement.nativeElement,
+        20 + this.padding + this.indentationPadding
+      );
+      if (errorNodeWidth > this.treeViewUtils.virtualScrollerWidth) {
+        this.node.width = this.treeViewUtils.virtualScrollerWidth = errorNodeWidth;
+        this.errorWidthChange = true;
+      }
+    } else if (!this.node.loadError && this.errorWidthChange) {
+      this.node.width = this.getNodeWidth() + (this.hasChildren ? 16 : 0) + this.padding + this.indentationPadding;
+      this.treeViewUtils.defaultScrollerWidth = Number(this.treeviewConfig.width);
+      this.treeViewUtils.treeViewScrollWidthChange.emit();
+      this.errorWidthChange = false;
+    }
   }
 }

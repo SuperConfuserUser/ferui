@@ -12,7 +12,7 @@ import { NonRootTreeNode, TreeNodeData, TreeNodeDataRetriever, TreeViewAutoNodeS
         <fui-tree-view
           [treeNodeData]="treeNodeData"
           [dataRetriever]="treeDataRetriever"
-          [config]="{ width: '250px', height: '300px' }"
+          [config]="{ width: '230px', height: '300px' }"
         ></fui-tree-view>
       </div>
       <div class="code-example">
@@ -342,6 +342,9 @@ export class TreeViewClientSideDemoComponent implements OnInit {
       return Promise.resolve(!!node.data.children && node.data.children.length > 0);
     },
     getChildNodeData: (node: TreeNodeData<FoodNode>) => {
+      if (node.data.name === 'Pumpkins') {
+        return Promise.reject({ message: 'Throwing error for Pumpkins folder' });
+      }
       return Promise.resolve(
         node.data.children.map(it => {
           return { data: it, nodeLabel: it.name };
@@ -479,7 +482,7 @@ const treeData: FoodNode = {
         },
         {
           name: 'Orange',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }]
+          children: [{ name: 'Pumpkins', children: [{ name: 'Pumpkin kid' }] }, { name: 'Carrots' }]
         }
       ]
     }
