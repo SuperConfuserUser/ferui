@@ -5,3 +5,4 @@ export * from './scrollbar-helper/scrollbar-helper.service';
 export * from './key-codes/key-codes';
 export * from './dynamic-component/index';
 export * from './ferui-utils';
+export * from './filter-comparator/index';

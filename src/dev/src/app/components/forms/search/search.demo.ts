@@ -151,7 +151,7 @@ import { SearchApiPersonJson, SearchApiService } from './search-api/search-api.s
                   the component which allows you to make requests to retrieve the results corresponding to the text you typed and
                   display them within a results container placeholder.<br />
                   By default we're adding a <b>150ms</b> debounce to the search to not make a request call on every characters
-                  typed. This can be override and even set to 0 if you want to.
+                  typed. This can be overridden and even set to 0 if wanted.
                 </p>
 
                 <p>
@@ -164,7 +164,15 @@ import { SearchApiPersonJson, SearchApiService } from './search-api/search-api.s
                 <pre><code [languages]="['typescript']" [highlight]="searchDatasourceExample"></code></pre>
 
                 <p>
-                  <b>Note</b>: For more information about those interfaces, please refer to the
+                  If using the search component along with filters for client-side data, use the
+                  <code>FuiFilterComparatorService</code> to apply filter selections to the results. More details on how to use
+                  this service with custom filters <a [routerLink] [fragment]="'filterComparatorService'">below</a>.
+                </p>
+
+                <pre><code [languages]="['typescript']" [highlight]="filterComparatorServiceUsageExample"></code></pre>
+
+                <p>
+                  <b>Note</b>: For more information about these interfaces, please refer to the
                   <a [routerLink] [fragment]="'interfaces'">Public Interfaces and Types</a> section of this documentation.
                 </p>
 
@@ -447,6 +455,27 @@ import { SearchApiPersonJson, SearchApiService } from './search-api/search-api.s
                   >" within our previous example, you'll see 10 results in total. But now, use the filters button, and chose to
                   filter by <b><i>Gender</i></b> and select only female, you now have only 5 items loaded in the Datagrid.
                 </p>
+
+                <h4 class="mt-3 mb-3">
+                  Customize the FuiFilterComparatorService
+                  <a [routerLink] [fragment]="'filterComparatorService'" class="anchor-link" id="filterComparatorService">#</a>
+                </h4>
+
+                <p>
+                  In the example right above, you'll notice that the '<b><i>gender</i></b
+                  >' filter is a <code>FuiFilterEnum.CUSTOM</code> type. Custom filters will require custom logic to handle
+                  filtering data properly. Create a new class that extends the <code>FuiFilterComparatorService</code>. Remember
+                  to provide it as needed. Use the new class to override any of the base methods. The
+                  <code>doesFilterPass</code> method is a good choice, since it determines behavior based on the filter type. Any
+                  other method may be overridden if you need to customize other behavior.
+                </p>
+                <pre><code [languages]="['typescript']" [highlight]="customFilterComparatorServiceExample"></code></pre>
+
+                <p>
+                  Then, use your new class in place of the <code>FuiFilterComparatorService</code> in the datasource's
+                  <code>getResults</code> property.
+                </p>
+                <pre><code [languages]="['typescript']" [highlight]="customFilterComparatorServiceUsageExample"></code></pre>
               </div>
             </div>
           </div>
@@ -514,6 +543,16 @@ export class SearchDemoComponent extends AbstractControlDemoComponent implements
           subscription.unsubscribe();
         }
       );
+    });
+  }
+};`;
+
+  filterComparatorServiceUsageExample = `const exampleDatasource: FuiSearchDatasource<T> = {
+  getResults: async(filterParams: FuiFilterGetDataInterface) => {
+    // Here, we are getting results from an API promise and then using the FuiFilterComparatorService to apply the filters
+    // from the filter component. This will return a FuiSearchResultsObject that can be used by the datasource.
+    return getApiData().then(results => {
+      return this.FuiFilterComparatorService.filterDataForDataSource<ResultType>(results, filterParams);
     });
   }
 };`;
@@ -624,6 +663,36 @@ let-updateSearchHighlightFn="updateSearchHighlight">
   favorite_animal: string;
   favorite_color: string;
 }`;
+
+  customFilterComparatorServiceExample = `export class DemoFilterService extends FuiFilterComparatorService {
+  // We override the base class's original method to handle a custom filter.
+  protected doesFilterPass(filter: FuiFilterModel, data: any): boolean {
+    const { filterType, field, filterValue } = filter;
+
+    // Check for the filter(s) that needs custom logic first.
+    // Two conditional statements are used for illustration purposes to show that 'gender' is a custom filter.
+    // Only one would really be needed, since there's only one custom filter and fields are unique in this case.
+    if (filterType === FuiFilterEnum.CUSTOM) {
+      // Mockup for the gender field.
+      if (field === 'gender') {
+        const filterValues: string[] = Object.keys(filterValue).filter(key => filterValue[key] === true);
+        return filterValues.some(value => this.textFilter(FuiFilterOptionsEnum.EQUALS, value, data));
+      }
+    } else {
+      // We're not changing anything else, so let the base method handle the rest of the filter types.
+      return super.doesFilterPass(filter, data);
+    }
+  }
+}`;
+
+  customFilterComparatorServiceUsageExample = `const exampleDatasource: FuiSearchDatasource<T> = {
+  getResults: async(filterParams: FuiFilterGetDataInterface) => {
+    // The base FuiFilterComparatorService is replaced by the new custom DemoFilterService
+    return getApiData().then(results => {
+      return this.DemoFilterService.filterDataForDataSource<ResultType>(results, filterParams);
+    });
+  }
+};`;
 
   model = {
     one: null,
