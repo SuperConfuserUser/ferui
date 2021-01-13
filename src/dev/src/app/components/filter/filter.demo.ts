@@ -240,8 +240,9 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
               </h4>
 
               <p>
-                The custom filter is the sixth type of filters. It allows you to create your own custom filter. That mean, you'll
-                be creating the custom component to be displayed within the popover filter list.
+                The custom filter is the sixth type of filters. It allows you to create your own custom filter. That means, you'll
+                be creating the custom component to be displayed within the popover filter list. If you're filtering client-side
+                data, you may also want to create and use a new class to customize the <code>FuiFilterComparatorService</code>.
               </p>
 
               <h5 class="mt-2 mb-2">Create the filter component</h5>
@@ -291,6 +292,19 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
 
               <pre><code [languages]="['typescript']" [highlight]="filterPersonFilterList"></code></pre>
 
+              <h5 class="mt-2 mb-2">Customizing the FuiFilterComparatorService</h5>
+
+              <p>
+                The <code>FuiFilterComparatorService</code> may be used to filter client-side results based on selections from
+                this filter component with the <code>filterData</code> or <code>filterDataForDataSource</code> methods. Custom
+                filters will require custom logic to handle filtering data properly. Create a new class that extends the
+                <code>FuiFilterComparatorService</code>. Remember to provide it as needed. Use the new class to override any of
+                the base methods. The <code>doesFilterPass</code> method is a good choice, since it determines behavior based on
+                the filter type. Any other method may be overridden if you need to customize other behavior.
+              </p>
+
+              <pre><code [languages]="['typescript']" [highlight]="customFilterComparatorServiceExample"></code></pre>
+
               <h4 class="mt-3 mb-3">
                 Add a title to your filters
                 <a [routerLink] [fragment]="'filterTitle'" class="anchor-link" id="filterTitle">#</a>
@@ -302,7 +316,7 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
                 <code>fuiFilterHeaderLabel</code> directive.
               </p>
 
-              <pre><code [languages]="['typescript']" [highlight]="filterPersonFilterList"></code></pre>
+              <pre><code [languages]="['html']" [highlight]="filterHeaderTitleExample"></code></pre>
 
               <p class="mb-3 mt-3">You can use a title when using both Global Search and Filters:</p>
 
@@ -671,6 +685,47 @@ export class DemoCustomGenderFilterComponent<
     super.setInitialValues();
   }
 }`;
+
+  customFilterComparatorServiceExample = `export class DemoFilterService extends FuiFilterComparatorService {
+  // We override the base class's original method to handle a custom filter.
+  protected doesFilterPass(filter: FuiFilterModel, data: any): boolean {
+    const { filterType, field, filterValue } = filter;
+
+    // Check for the filter(s) that needs custom logic first.
+    // Two conditional statements are used for illustration purposes to show that 'gender' is a custom filter.
+    // Only one would really be needed, since there's only one custom filter and fields are unique in this case.
+    if (filterType === FuiFilterEnum.CUSTOM) {
+      // Mockup for the gender field.
+      if (field === 'gender') {
+        const filterValues: string[] = Object.keys(filterValue).filter(key => filterValue[key] === true);
+        return filterValues.some(value => this.textFilter(FuiFilterOptionsEnum.EQUALS, value, data));
+      }
+    } else {
+      // We're not changing anything else, so let the base method handle the rest of the filter types.
+      return super.doesFilterPass(filter, data);
+    }
+  }
+}`;
+
+  filterHeaderTitleExample = `<!-- Global search and filters -->
+<fui-filter
+  [filterFields]="exampleFilters">
+  <h5 fuiFilterHeaderLabel>My custom title added in FuiFilterComponent header section.</h5>
+</fui-filter>
+
+<!-- Filters only -->
+<fui-filter
+  [withGlobalSearch]="false"
+  [filterFields]="exampleFilters">
+  <h5 fuiFilterHeaderLabel>My custom title added in FuiFilterComponent header section.</h5>
+</fui-filter>
+
+<!-- Global search only -->
+<fui-filter
+  [withFilters]="false"
+  [filterFields]="exampleFilters">
+  <h5 fuiFilterHeaderLabel>My custom title added in FuiFilterComponent header section.</h5>
+</fui-filter>`;
 
   filterComponentInterface = `interface FuiFilterComponentInterface<T, P extends FuiFilterParamsInterface<T>, F extends FuiFilterInterface<T, P>> {
   // Add or remove a filter from the selected filters list.

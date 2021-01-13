@@ -14,6 +14,7 @@ import { FuiTooltipModule } from './tooltip/tooltip.module';
 import { TreeViewModule } from './tree-view/tree-view.module';
 import { FuiUnselectableModule } from './unselectable/unselectable.module';
 import { FuiDynamicComponentModule } from './utils/dynamic-component/dynamic-component.module';
+import { FuiFilterComparatorService } from './utils/filter-comparator/fui-filter-comparator.service';
 import { FuiI18nService } from './utils/i18n/fui-i18n.service';
 import { FuiVirtualScrollerModule } from './virtual-scroller/virtual-scroller.module';
 import { FuiWidgetModule } from './widget/widget.module';
@@ -37,6 +38,6 @@ import { FuiWidgetModule } from './widget/widget.module';
     FuiTooltipModule,
     FuiFilterModule
   ],
-  providers: [FuiI18nService]
+  providers: [FuiI18nService, FuiFilterComparatorService]
 })
 export class FeruiModule {}

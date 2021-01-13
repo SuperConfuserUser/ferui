@@ -36,23 +36,12 @@ export class SearchApiService {
       // The timeout is only for testing purposes, we want to see the loading screen
       // each time we type something to emulate an API call.
       setTimeout(() => {
-        subject.next(this.filterResults(results, filterParams));
+        subject.next(this.demoFilterService.filterDataForDatasource<SearchApiPersonJson>(results, filterParams));
         // We unsubscribe just after getting the results.
         this.allResultsSubscription.unsubscribe();
       }, Math.random() * (1100 - 700) + 700); // The request will randomly takes between 700ms to 1099ms to resolve.
     });
     return subject.asObservable();
-  }
-
-  private filterResults(
-    results: SearchApiPersonJson[],
-    filterParams?: FuiFilterGetDataInterface
-  ): FuiSearchResultsObject<SearchApiPersonJson> {
-    const filteredResults: SearchApiPersonJson[] = this.demoFilterService.filterData(results, filterParams);
-    return {
-      results: filteredResults,
-      total: filteredResults.length
-    };
   }
 
   private getAllResults(): Observable<SearchApiPersonJson[]> {
