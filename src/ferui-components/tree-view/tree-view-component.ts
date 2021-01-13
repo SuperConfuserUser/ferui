@@ -20,6 +20,7 @@ import {
 
 import { DatagridUtils } from '../datagrid/utils/datagrid-utils';
 import { DomObserver, ObserverInstance } from '../utils/dom-observer/dom-observer';
+import { FeruiUtils } from '../utils/ferui-utils';
 import { ScrollbarHelper } from '../utils/scrollbar-helper/scrollbar-helper.service';
 import { FuiVirtualScrollerComponent } from '../virtual-scroller/virtual-scroller';
 
@@ -138,7 +139,9 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
   ngOnInit(): void {
     this.serverSideComponent = this.dataRetriever.hasOwnProperty('getPagedChildNodeData');
     if (this.config.nodeSelection) {
-      const autoCheck = this.serverSideComponent ? false : this.config.autoCheck || true;
+      const autoCheck = this.serverSideComponent
+        ? false
+        : FeruiUtils.isNullOrUndefined(this.config.autoCheck) || this.config.autoCheck;
       this.treeViewMultiSelectService.setAutoCheck(autoCheck);
       this.treeViewMultiSelectService.setNodeSelection(this.config.nodeSelection);
       if (this.serverSideComponent) {
