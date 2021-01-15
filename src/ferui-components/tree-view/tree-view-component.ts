@@ -541,16 +541,17 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
         this.cancelablePromises.pop();
       } catch (e) {
         this.cancelablePromises.pop();
-        firstNodeWithMoreChildrenToLoad.showLoader = false;
-        firstNodeWithMoreChildrenToLoad.loadError = firstNodeWithMoreChildrenToLoad.allChildrenLoaded = true;
-        this.cd.markForCheck();
-        throw e.message;
+        this.handleNodeError(firstNodeWithMoreChildrenToLoad, e);
       }
     } else {
-      newChildren = (await this.dataRetriever.getChildNodeData(firstNodeWithMoreChildrenToLoad.data)).map(it =>
-        this.createTreeNode(it, firstNodeWithMoreChildrenToLoad)
-      );
-      firstNodeWithMoreChildrenToLoad.allChildrenLoaded = true;
+      try {
+        newChildren = (await this.dataRetriever.getChildNodeData(firstNodeWithMoreChildrenToLoad.data)).map(it =>
+          this.createTreeNode(it, firstNodeWithMoreChildrenToLoad)
+        );
+        firstNodeWithMoreChildrenToLoad.allChildrenLoaded = true;
+      } catch (e) {
+        this.handleNodeError(firstNodeWithMoreChildrenToLoad, e);
+      }
     }
     if (
       (this.config.nodeSelection && firstNodeWithMoreChildrenToLoad.indeterminate) ||
@@ -603,6 +604,18 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
       this.nonRootArrayComplete = children.length < numberToLoad;
     }
     this.scrollPromise = false;
+  }
+
+  /**
+   * Handle node error to throw error message and stop loading state
+   * @param node {TreeNode<T> | null}
+   * @param error {Error}
+   */
+  private handleNodeError(node: TreeNode<T> | null, error: Error): void {
+    node.showLoader = false;
+    node.loadError = node.allChildrenLoaded = true;
+    this.cd.markForCheck();
+    throw error.message;
   }
 
   /**
