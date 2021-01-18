@@ -43,7 +43,7 @@ export class FuiModalStandardWindowCtrlImpl<I = any, CL = any, S = any, C = any>
     // Just log a warning in case of developer's mistake.
     if ((this.title || this.subtitle) && this.titleTemplate) {
       console.warn(
-        `[FerUI Modals] You have used either 'title' or/and 'subtitle' along with 'titleTemplate', only 'titleTemplate' will be used, the rest will be ignored.`
+        `[FerUI Modals] You have used either 'title' or/and 'subtitle' along with 'titleTemplate', only 'titleTemplate' will be used, the others will be ignored.`
       );
     }
 

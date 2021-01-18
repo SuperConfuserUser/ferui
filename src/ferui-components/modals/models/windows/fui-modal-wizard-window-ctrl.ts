@@ -50,11 +50,9 @@ export class FuiModalWizardWindowCtrlImpl<I = any, CL = any, N = any, B = any, S
     // Just log a warning in case of developer's mistake.
     if ((this.title || this.subtitle) && this.titleTemplate) {
       console.warn(
-        `[FerUI Modals] You have used either 'title' or/and 'subtitle' along with 'titleTemplate', only 'titleTemplate' will be used, the rest will be ignored.`
+        `[FerUI Modals] You have used either 'title' or/and 'subtitle' along with 'titleTemplate', only 'titleTemplate' will be used, the others will be ignored.`
       );
     }
-
-    this.withSubmitBtn = this.windowConfiguration.withSubmitBtn !== false; // True by default
     this.withCancelBtn = this.windowConfiguration.withCancelBtn === true; // False by default
     this.submitButton = this.windowConfiguration.submitButton || {
       label: 'Submit'
@@ -257,12 +255,12 @@ export class FuiModalWizardWindowCtrlImpl<I = any, CL = any, N = any, B = any, S
   }
 
   /**
-   * Handle buttons states. Depending on wich step the user is at, we hide/display/replace the buttons.
+   * Handle buttons states. Depending on which step the user is at, we hide/display/replace the buttons.
    */
   protected handleButtons(): void {
     this.withSubmitBtn = this.windowConfiguration.withSubmitBtn !== false && this.currentStepIndex === this.wizardSteps.length;
     this.withNextBtn = this.windowConfiguration.withNextBtn !== false && this.currentStepIndex < this.wizardSteps.length;
-    this.withBackBtn = this.currentStepIndex > 1;
+    this.withBackBtn = this.windowConfiguration.withBackBtn !== false && this.currentStepIndex > 1;
   }
 
   /**
