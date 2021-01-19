@@ -81,6 +81,7 @@
 
       &[disabled] {
         cursor: default !important;
+
         + label {
           color: $gray-500 !important;
           cursor: default !important;
@@ -100,6 +101,7 @@
 
   .fui-control-container {
     .fui-radio-subtext-wrapper {
+      display: none;
       padding: 5px 0 0 2px;
 
       .fui-subtext {
@@ -125,6 +127,10 @@
       }
 
       &.fui-error {
+        .fui-radio-subtext-wrapper {
+          display: block;
+        }
+
         .fui-radio-wrapper {
           .fui-control-label {
             &::before {

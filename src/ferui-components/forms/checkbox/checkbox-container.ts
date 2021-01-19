@@ -16,7 +16,7 @@ import { RequiredControlService } from '../common/providers/required-control.ser
       <ng-content select="fui-checkbox-wrapper"></ng-content>
       <div class="fui-checkbox-subtext-wrapper">
         <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-        <fui-default-control-error [on]="invalid">
+        <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
         </fui-default-control-error>
       </div>

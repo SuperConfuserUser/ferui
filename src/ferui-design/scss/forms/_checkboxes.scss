@@ -33,6 +33,7 @@
         transform: translate(0, $checkmark-left-value);
         color: $white;
       }
+
       &.checked,
       &.indeterminate {
         background-color: $blue;
@@ -69,6 +70,7 @@
 
       &[disabled] {
         cursor: default !important;
+
         + label {
           color: $gray-500 !important;
           cursor: default !important;
@@ -94,6 +96,7 @@
 
   .fui-control-container {
     .fui-checkbox-subtext-wrapper {
+      display: none;
       padding: 5px 0 0 2px;
 
       .fui-subtext {
@@ -119,11 +122,13 @@
       }
 
       &.fui-error {
+        .fui-checkbox-subtext-wrapper {
+          display: block;
+        }
+
         .fui-checkbox-wrapper {
-          .fui-control-label {
-            &::before {
-              border-color: $red;
-            }
+          .checkbox-holder {
+            border-color: $red;
           }
         }
       }

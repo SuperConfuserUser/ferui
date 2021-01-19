@@ -119,6 +119,7 @@
 
   .fui-control-container {
     .fui-toggle-subtext-wrapper {
+      display: none;
       padding: 5px 0 0 2px;
 
       .fui-subtext {
@@ -144,6 +145,10 @@
       }
 
       &.fui-error {
+        .fui-toggle-subtext-wrapper {
+          display: block;
+        }
+
         .fui-toggle-wrapper {
           .fui-control-label {
             &::before {
