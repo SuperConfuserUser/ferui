@@ -31,12 +31,15 @@ export class FuiDatagridClientSideRowModel implements RowModelInterface {
   /**
    * Set the rowData for the grid.
    * @param rowData
+   * @param selectedRows
+   * @param keepRenderedRows
    */
-  setRowData(rowData: any[]) {
-    this.rowNodeManagerService.setRowData(rowData);
+  setRowData(rowData: any[], selectedRows: RowNode[], keepRenderedRows: boolean = false) {
+    this.rowNodeManagerService.setRowData(rowData, selectedRows);
     this.refreshModel({
       step: Constants.STEP_EVERYTHING,
-      newData: true
+      newData: true,
+      keepRenderedRows: keepRenderedRows
     });
   }
 

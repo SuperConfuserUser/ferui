@@ -1,4 +1,6 @@
-import { Subscription } from 'rxjs';
+import { isArray } from 'util';
+
+import { Observable, Subscription, isObservable } from 'rxjs';
 
 import {
   AfterViewInit,
@@ -359,6 +361,20 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     this.datagridOptionsWrapper.setGridOption('isRowSelectable', valueFn);
   }
 
+  @Input() set initialSelectedRows(rowNodeSelection: RowNode[] | Observable<RowNode[]>) {
+    if (isObservable(rowNodeSelection)) {
+      if (!this._initialSelectedRowsSub) {
+        this._initialSelectedRowsSub = rowNodeSelection.subscribe(rowNodes => {
+          this.rowSelectionService.initSelectedNodes(rowNodes);
+          this.cd.markForCheck();
+        });
+      }
+    } else if (isArray(rowNodeSelection)) {
+      this.rowSelectionService.initSelectedNodes(rowNodeSelection);
+      this.cd.markForCheck();
+    }
+  }
+
   ////////////////////////////////////////////////////
 
   rootWrapperHeight: string = '100%';
@@ -400,6 +416,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   private defaultPagersHeight: number = 50;
   private _hasVerticalScroll: boolean = false;
   private _hasHorizontalScroll: boolean = false;
+  private _initialSelectedRowsSub: Subscription;
 
   constructor(
     @Self() private element: ElementRef,
@@ -540,13 +557,14 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     // Do nothing if the value is the same.
     if (
       ((value === 'refresh' || value === 'auto') && this.isFirstLoad()) ||
-      (value !== 'refresh' && value !== 'auto' && value === this._gridHeight)
+      (value !== 'refresh' && value !== 'auto' && value === this._gridHeight) ||
+      !value
     ) {
       return;
     }
     if (value === 'auto' || value === 'refresh') {
       // This value correspond to two rows of 50px. We will display the loading view.
-      const initialLoadHeight: number = this.isLoading ? 100 : 0;
+      const initialLoadHeight: number = this.isLoading && !this.stateService.hasState(DatagridStateEnum.REFRESHING) ? 100 : 0;
       const emptyDataHeight: number = !this.isLoading && this.isEmptyData ? 100 : 0;
       const maxDisplayedRows =
         this.maxDisplayedRows !== null ? this.maxDisplayedRows : this.datagridOptionsWrapper.getItemPerPage();
@@ -589,7 +607,13 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
               : serverSideRowModel.limit
             : minRowCount;
 
+        // When reseting the datagrid, we remove all data from the grid, and re-add them back after. So we might have 0 results
+        // at some points. We still want to display the loading though, but if initialLoadHeight === 0 and emptyDataHeight === 0
+        // we need to add 100px extra in this situation. This is the meaning of this variable.
+        const conditionalHeight: number = initialLoadHeight === 0 && emptyDataHeight === 0 && fullRowsCount === 0 ? 100 : 0;
+
         gridHeight =
+          conditionalHeight +
           fullRowsCount * this.rowHeight +
           this.headerHeight +
           emptyDataHeight +
@@ -637,24 +661,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   @Input()
   set rowData(rows: any[]) {
-    if (this.stateService.hasState(DatagridStateEnum.INITIALIZED) === true) {
-      this.clientSideRowModel.setRowData(rows);
-      this.totalRows = this.clientSideRowModel.getRowCount();
-      this.datagridOptionsWrapper.setGridOption('rowDataLength', this.totalRows);
-
-      if (!this.stateService.hasState(DatagridStateEnum.REFRESHING)) {
-        this.isEmptyData = this.totalRows === 0;
-      }
-
-      if (!this.isFirstLoad() && rows !== undefined) {
-        this.isLoading = false;
-      }
-      this.cd.markForCheck();
-    } else {
-      setTimeout(() => {
-        this.rowData = rows;
-      }, 10);
-    }
+    this.setRowData(rows);
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -766,33 +773,26 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // Track all events that needs to be output.
     this.subscriptions.push(
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_CLICKED).subscribe(event => {
-        const ev: RowClickedEvent = event as RowClickedEvent;
-        this.onRowClicked.emit(ev);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_CLICKED).subscribe((event: RowClickedEvent) => {
+        this.onRowClicked.emit(event);
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_DOUBLE_CLICKED).subscribe(event => {
-        const ev: RowDoubleClickedEvent = event as RowDoubleClickedEvent;
-        this.onRowDoubleClicked.emit(ev);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_DOUBLE_CLICKED).subscribe((event: RowDoubleClickedEvent) => {
+        this.onRowDoubleClicked.emit(event);
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_CELL_CLICKED).subscribe(event => {
-        const ev: CellClickedEvent = event as CellClickedEvent;
-        this.onCellClicked.emit(ev);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_CELL_CLICKED).subscribe((event: CellClickedEvent) => {
+        this.onCellClicked.emit(event);
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_CELL_DOUBLE_CLICKED).subscribe(event => {
-        const ev: CellDoubleClickedEvent = event as CellDoubleClickedEvent;
-        this.onCellDoubleClicked.emit(ev);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_CELL_DOUBLE_CLICKED).subscribe((event: CellDoubleClickedEvent) => {
+        this.onCellDoubleClicked.emit(event);
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_CELL_CONTEXT_MENU).subscribe(event => {
-        const ev: CellContextMenuEvent = event as CellContextMenuEvent;
-        this.onCellContextmenu.emit(ev);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_CELL_CONTEXT_MENU).subscribe((event: CellContextMenuEvent) => {
+        this.onCellContextmenu.emit(event);
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_SELECTED).subscribe(event => {
-        const ev: RowSelectedEvent = event as RowSelectedEvent;
-        this.onRowSelected.emit(ev);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_SELECTED).subscribe((event: RowSelectedEvent) => {
+        this.onRowSelected.emit(event);
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SELECTION_CHANGED).subscribe(event => {
-        const ev: SelectionChangedEvent = event as SelectionChangedEvent;
-        this.onSelectionChanged.emit(ev);
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SELECTION_CHANGED).subscribe((event: SelectionChangedEvent) => {
+        this.onSelectionChanged.emit(event);
       })
     );
 
@@ -868,10 +868,11 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
         this.cd.markForCheck();
         this.highlightSearchTerms();
       }),
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED).subscribe(event => {
-        const ev: ServerSideRowDataChanged = event as ServerSideRowDataChanged;
-        this.renderGridRows(ev);
-      }),
+      this.eventService
+        .listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED)
+        .subscribe((event: ServerSideRowDataChanged) => {
+          this.renderGridRows(event);
+        }),
 
       // All row-models
       this.eventService.listenToEvent(FuiDatagridEvents.EVENT_DISPLAYED_COLUMNS_WIDTH_CHANGED).subscribe(() => {
@@ -925,6 +926,9 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     // Destroy the selection service if needed.
     if (this.rowSelectionService.initialized) {
       this.rowSelectionService.destroy();
+    }
+    if (this._initialSelectedRowsSub) {
+      this._initialSelectedRowsSub.unsubscribe();
     }
   }
 
@@ -1061,14 +1065,8 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.trackByFn) {
       return this.trackByFn(index, instructor);
     }
-    // We try to get identity from most common identifier if we can.
-    // Since we have a RowNode object, we can directly use its id attribute.
-    if (instructor.id) {
-      return instructor.id;
-    } else {
-      // Otherwise, we just return the whole object.
-      return instructor;
-    }
+    // Since we have a RowNode object, we can directly use its id attribute. (it will always be set)
+    return instructor.id;
   }
 
   /**
@@ -1237,7 +1235,6 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     this.stateService.setRefreshing();
-    this.isLoading = true;
     // We reset all filters by default
     if (resetFilters) {
       this.filterService.resetFilters();
@@ -1251,18 +1248,23 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     this.datagridPager.resetPager();
 
     if (this.isClientSideRowModel()) {
-      // We store the original data in a new array.
-      let originalRowData: RowNode[] = [...this.clientSideRowModel.getRowNodesToDisplay()];
-      this.rowData = undefined;
+      let originalData: any[] = FeruiUtils.flattenObject(this.clientSideRowModel.getCopyOfNodesMap()).map(node => node.data);
+      // We reset the rowData
+      if (resetFilters || resetSorting) {
+        this.setRowData([]);
+      } else {
+        this.displayedRows = [];
+      }
+      this.isLoading = true;
       this.cd.markForCheck();
       setTimeout(() => {
-        this.rowData = [...originalRowData.map(row => row.data)];
-        // Clear the memory immediately once we've reassign the data.
-        originalRowData = undefined;
+        this.setRowData(originalData, !resetFilters && !resetSorting);
+        originalData = undefined;
         this.stateService.setRefreshed();
         this.cd.markForCheck();
       }, 50);
     } else if (this.isServerSideRowModel()) {
+      this.isLoading = true;
       this.serverSideRowModel
         .refresh(this.maxDisplayedRows, this.datasource)
         .then(() => {
@@ -1272,6 +1274,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
           this.stateService.setRefreshed();
         });
     } else if (this.isInfiniteServerSideRowModel()) {
+      this.isLoading = true;
       this.infiniteRowModel.refresh(this.maxDisplayedRows, this.datasource);
     }
   }
@@ -1502,5 +1505,32 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
         return { ...defaultColDef, ...this.defaultColDefs, ...colDef };
       })
     );
+  }
+
+  /**
+   *
+   * @param rows
+   * @param keepRenderedRows
+   * @private
+   */
+  private setRowData(rows: any, keepRenderedRows: boolean = false): void {
+    if (this.stateService.hasState(DatagridStateEnum.INITIALIZED)) {
+      this.clientSideRowModel.setRowData(rows, this.rowSelectionService.getSelectedNodes(), keepRenderedRows);
+      this.totalRows = this.clientSideRowModel.getRowCount();
+      this.datagridOptionsWrapper.setGridOption('rowDataLength', this.totalRows);
+
+      if (!this.stateService.hasState(DatagridStateEnum.REFRESHING)) {
+        this.isEmptyData = this.totalRows === 0;
+      }
+
+      if (!this.isFirstLoad() && rows !== undefined) {
+        this.isLoading = false;
+      }
+      this.cd.markForCheck();
+    } else {
+      setTimeout(() => {
+        this.setRowData(rows);
+      }, 10);
+    }
   }
 }

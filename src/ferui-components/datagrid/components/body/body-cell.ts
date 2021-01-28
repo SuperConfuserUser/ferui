@@ -266,13 +266,23 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
     }
   }
 
+  /**
+   * Handle the selection checkbox.
+   * @private
+   */
   private toggleRowSelection(): void {
+    // This will always be up-to-date and in-sync.
+    const isRowSelected = this.rowSelectionService.isNodeSelected(this.rowNode.id);
+    // We ensure that the current rowNode is in sync with rowSelectionService.
+    // Since the body cells are generated using *ngFor, when the parent array gets mutated, the children are not always
+    // up-to-date. So we fix that by setting the current rowNode to the right state.
+    if (isRowSelected !== this.rowNode.selected) {
+      // No need to send the selection event again since this method is already called when a selection change event occurs.
+      this.rowNode.setSelected(isRowSelected, false);
+    }
+    // For single selection, we use the rowNode ID when it is selected, but for multiple selection, we use a boolean.
     this.rowSelected =
-      this.rowNode.rowSelection === FuiRowSelectionEnum.SINGLE
-        ? this.rowNode.selected
-          ? this.rowNode.id
-          : null
-        : this.rowNode.selected;
+      this.rowNode.rowSelection === FuiRowSelectionEnum.SINGLE ? (isRowSelected ? this.rowNode.id : null) : isRowSelected;
     this.cd.markForCheck();
   }
 }

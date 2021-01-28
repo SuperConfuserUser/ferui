@@ -1,3 +1,5 @@
+import { BehaviorSubject, Observable } from 'rxjs';
+
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import {
@@ -12,7 +14,8 @@ import {
   IDatagridResultObject,
   IDateFilterParams,
   IServerSideDatasource,
-  IServerSideGetRowsParams
+  IServerSideGetRowsParams,
+  RowNode
 } from '@ferui/components';
 
 import { DatagridService } from '../datagrid.service';
@@ -51,12 +54,21 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
             <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFixedHeight = !withFixedHeight">
               {{ withFixedHeight ? 'Auto grid height' : 'Fixed grid height' }}
             </button>
+            <button class="btn btn-sm btn-primary ml-2" (click)="storeSelection()">Store Selection</button>
+            <button
+              class="btn btn-sm btn-primary ml-2"
+              *ngIf="storedSelectionList && storedSelectionList.length > 0"
+              (click)="resetToInitialSelection()"
+            >
+              Use initial selection list
+            </button>
           </fui-demo-datagrid-option-menu>
         </div>
         <div class="mb-4" style="width: 100%;">
           <fui-datagrid
             #datagrid1
             [checkboxSelection]="true"
+            [initialSelectedRows]="initialSelectionList$"
             [rowSelection]="rowSelectionEnum.MULTIPLE"
             [fixedHeight]="withFixedHeight"
             [withHeader]="withHeader"
@@ -191,6 +203,16 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
   networkBandwith: number = 260;
 
   rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
+  initialSelectionList$: Observable<RowNode[]>;
+  storedSelectionList: RowNode[] = [];
+
+  // For this demo, we're using an observable to update the value to be sure to avoid natural change detection (aka CD).
+  // With natural CD, if we mutate the array, it won't be detected (for instance when we update the 'selected' state of a
+  // RowNode). If we un-select the previously selected row, then re-load the selection, it won't update the datagrid because for
+  // CD, there is no changes. When using Observable, we force this change to be detected at any time.
+  // In a real world implementation (within a wizard for instance) we won't need to use an observable, because we would re-load
+  // the whole datagrid in previous step and inject the initial selection. The CD will be notified of the change.
+  private initialSelectionListSub: BehaviorSubject<RowNode[]> = new BehaviorSubject<RowNode[]>([]);
 
   constructor(private rowDataService: RowDataApiService, public datagridService: DatagridService) {}
 
@@ -199,6 +221,8 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initialSelectionList$ = this.initialSelectionListSub.asObservable();
+
     const dateFilterParams: IDateFilterParams = {
       dateFormat: 'yyyy-mm-dd'
     };
@@ -353,5 +377,18 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
         }
       };
     }
+  }
+
+  storeSelection() {
+    this.storedSelectionList = this.datagrid1.getSelectedNodes();
+  }
+
+  resetToInitialSelection() {
+    // HACK ::: DEMO PAGE ONLY ::: We ensure that the selected nodes are selected.
+    // Because of javascript object mutation, the object list from 'this.storedSelectionList' will be mutated each time the
+    // datagrid selection objects get mutated. To be sure that our selected nodes are selected, we force it.
+    // This won't happen in a real world implementation.
+    this.storedSelectionList.forEach(rowNode => rowNode.setSelected(true, false));
+    this.initialSelectionListSub.next(this.storedSelectionList);
   }
 }

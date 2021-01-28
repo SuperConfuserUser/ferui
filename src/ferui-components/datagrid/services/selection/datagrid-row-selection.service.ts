@@ -27,6 +27,21 @@ export class FuiDatagridRowSelectionService {
   ) {}
 
   /**
+   * Initialise the selected nodes.
+   * @param selectedNodes
+   */
+  initSelectedNodes(selectedNodes: RowNode[]): void {
+    if (!selectedNodes || (selectedNodes && selectedNodes.length === 0)) {
+      return;
+    }
+    selectedNodes.forEach(selectedNode => {
+      selectedNode.setSelected(true, false);
+      this.selectedNodes[selectedNode.id] = selectedNode;
+    });
+    this.dispatchRowSelectionChanged();
+  }
+
+  /**
    * Initialize the service.
    * @param rowSelection
    */
@@ -82,12 +97,7 @@ export class FuiDatagridRowSelectionService {
       this.selectedNodes[row.id] = row;
     });
     this.partialSelection = false;
-
-    const evt: SelectionChangedEvent = {
-      type: FuiDatagridEvents.EVENT_SELECTION_CHANGED,
-      selectedItems: this.selectedNodes
-    };
-    this.eventService.dispatchEvent(evt);
+    this.dispatchRowSelectionChanged();
   }
 
   /**
@@ -96,12 +106,7 @@ export class FuiDatagridRowSelectionService {
   deselectAll(): void {
     this.partialSelection = true;
     this.deselectRows();
-    const evt: SelectionChangedEvent = {
-      type: FuiDatagridEvents.EVENT_SELECTION_CHANGED,
-      selectedItems: this.selectedNodes
-    };
-
-    this.eventService.dispatchEvent(evt);
+    this.dispatchRowSelectionChanged();
   }
 
   /**
@@ -116,12 +121,7 @@ export class FuiDatagridRowSelectionService {
         row.setSelected(false, false);
         this.deselectNode(row);
       });
-    const evt: SelectionChangedEvent = {
-      type: FuiDatagridEvents.EVENT_SELECTION_CHANGED,
-      selectedItems: this.selectedNodes
-    };
-
-    this.eventService.dispatchEvent(evt);
+    this.dispatchRowSelectionChanged();
   }
 
   /**
@@ -136,12 +136,7 @@ export class FuiDatagridRowSelectionService {
         row.setSelected(true, false);
         this.selectNode(row);
       });
-    const evt: SelectionChangedEvent = {
-      type: FuiDatagridEvents.EVENT_SELECTION_CHANGED,
-      selectedItems: this.selectedNodes
-    };
-
-    this.eventService.dispatchEvent(evt);
+    this.dispatchRowSelectionChanged();
   }
 
   /**
@@ -256,6 +251,14 @@ export class FuiDatagridRowSelectionService {
     } else {
       this.deselectNode(rowNode);
     }
+    this.dispatchRowSelectionChanged();
+  }
+
+  /**
+   * Dispatch the EVENT_SELECTION_CHANGED event.
+   * @private
+   */
+  private dispatchRowSelectionChanged() {
     const evt: SelectionChangedEvent = {
       type: FuiDatagridEvents.EVENT_SELECTION_CHANGED,
       selectedItems: this.selectedNodes

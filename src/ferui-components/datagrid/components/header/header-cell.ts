@@ -24,7 +24,7 @@ import { FuiDatagridDragAndDropService } from '../../services/datagrid-drag-and-
 import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
 import { DatagridResizeParams, FuiDatagridResizeService } from '../../services/datagrid-resize.service';
 import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
-import { DatagridStateService } from '../../services/datagrid-state.service';
+import { DatagridStateEnum, DatagridStateService } from '../../services/datagrid-state.service';
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
@@ -152,6 +152,7 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
   private dragging: boolean = false;
   private dragSource: DragSource;
 
+  private _isLoadingSub: Subscription;
   private _role: string = 'presentation';
   private _width: number = 0;
   private _minWidth: number = 0;
@@ -339,15 +340,15 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
         options.push({ action: 'selectNone', label: 'None' });
 
         this.selectAllOptions = options;
+        this.cd.markForCheck();
+
+        // Subscriptions.
         this.subscriptions.push(
           this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SELECTION_CHANGED).subscribe(() => {
-            this.selectAll = this.rowSelectionService.getSelectionCount() > 0;
-            this.partialSelection = this.rowSelectionService.isPartialSelection();
-            this.cd.markForCheck();
+            this.handleCheckboxSelection();
           }),
           this.eventService.listenToEvent(FuiDatagridEvents.EVENT_FILTER_CHANGED).subscribe(() => {
-            this.selectAll = this.rowSelectionService.getSelectionCount() > 0;
-            this.partialSelection = this.rowSelectionService.isPartialSelection();
+            this.handleCheckboxSelection();
             if (this.rowModel.hasFilters()) {
               options.splice(
                 2,
@@ -418,6 +419,9 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
     if (this.destroyFunctions.length > 0) {
       this.dragAndDropService.removeDropTarget(this);
       this.destroyFunctions.forEach(func => func());
+    }
+    if (this._isLoadingSub) {
+      this._isLoadingSub.unsubscribe();
     }
   }
 
@@ -506,8 +510,7 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
       default:
         break;
     }
-    this.selectAll = this.rowSelectionService.getSelectionCount() > 0;
-    this.partialSelection = this.selectAll && this.rowSelectionService.isPartialSelection();
+    this.handleCheckboxSelection();
     this.onSelectAllRowsChange();
     this.cd.markForCheck();
   }
@@ -636,6 +639,40 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
       };
       this.dragAndDropService.addDragSource(this.dragSource, true);
       this.addDestroyFunc(() => this.dragAndDropService.removeDragSource(this.dragSource));
+    }
+  }
+
+  private isSelectAllChecked(): boolean {
+    return !this.stateService.hasState(DatagridStateEnum.LOADING) && this.rowSelectionService.getSelectionCount() > 0;
+  }
+
+  private isPartialSelectionChecked(): boolean {
+    return this.isSelectAllChecked() && this.rowSelectionService.isPartialSelection();
+  }
+
+  private handleCheckboxSelection() {
+    const handleSelectAllStatus: () => void = () => {
+      this.selectAll = this.isSelectAllChecked();
+      this.partialSelection = this.isPartialSelectionChecked();
+      this.cd.markForCheck();
+    };
+
+    if (this.stateService.hasState(DatagridStateEnum.LOADING)) {
+      if (!this._isLoadingSub) {
+        this.selectAll = false;
+        this.partialSelection = false;
+        this.cd.markForCheck();
+        this._isLoadingSub = this.stateService.getCurrentStates().subscribe(states => {
+          // Update the selectAll & partialSelection only when the data are loaded.
+          if (states.indexOf(DatagridStateEnum.LOADING) < 0) {
+            handleSelectAllStatus();
+            this._isLoadingSub.unsubscribe();
+            this._isLoadingSub = undefined;
+          }
+        });
+      }
+    } else {
+      handleSelectAllStatus();
     }
   }
 

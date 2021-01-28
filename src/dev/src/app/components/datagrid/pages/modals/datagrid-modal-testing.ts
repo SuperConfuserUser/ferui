@@ -1,25 +1,35 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 
 import {
   CsvExportParams,
   FUI_MODAL_CTRL_TOKEN,
   FUI_MODAL_WINDOW_CTRL_TOKEN,
   FuiColumnDefinitions,
+  FuiDatagridComponent,
   FuiModalCtrl,
   FuiModalStandardWindowCtrl,
   FuiModalStandardWindowScreen,
   FuiRowSelectionEnum
 } from '@ferui/components';
 
+export interface SimpleModalRow {
+  id: string;
+  name: string;
+  email: string;
+  address: string;
+}
+
 @Component({
   template: `
     <h4>Synchronous data in Modal</h4>
+    <p>Please select a row before submitting.</p>
     <fui-datagrid
+      #datagrid
       [checkboxSelection]="true"
-      [rowSelection]="rowSelectionEnum.MULTIPLE"
+      [rowSelection]="rowSelectionEnum.SINGLE"
       [withHeader]="true"
       [withFooter]="true"
-      [exportParams]="exportParams2"
+      [exportParams]="exportParams"
       [maxDisplayedRows]="itemPerPageSynchronous"
       [defaultColDefs]="defaultColumnDefs"
       [columnDefs]="columnDefsSynchronous"
@@ -31,14 +41,16 @@ import {
 export class DatagridModalTestingComponent implements OnInit, FuiModalStandardWindowScreen {
   params: string;
   resolves: string;
-  synchronousRowData: Array<any>;
-  columnDefsSynchronous: Array<FuiColumnDefinitions>;
+  synchronousRowData: SimpleModalRow[];
+  columnDefsSynchronous: FuiColumnDefinitions[];
   defaultColumnDefs: FuiColumnDefinitions;
-  exportParams2: CsvExportParams = {
+  exportParams: CsvExportParams = {
     fileName: 'ferUI-export-test-modal-2'
   };
   itemPerPageSynchronous: number = 5;
   rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
+
+  @ViewChild('datagrid') datagrid: FuiDatagridComponent;
 
   constructor(
     @Inject(FUI_MODAL_CTRL_TOKEN) public modalCtrl: FuiModalCtrl,
@@ -49,6 +61,13 @@ export class DatagridModalTestingComponent implements OnInit, FuiModalStandardWi
     // Lets be wild and update the window title dynamically.
     this.windowCtrl.title = 'My super wild title!';
     return Promise.resolve();
+  }
+
+  $onSubmit(event?: MouseEvent): Promise<SimpleModalRow[]> {
+    if (this.datagrid.getSelectedNodes() === null || this.datagrid.getSelectedNodes().length === 0) {
+      return Promise.reject('You need to select one row.');
+    }
+    return Promise.resolve(this.datagrid.getSelectedRows());
   }
 
   ngOnInit(): void {
