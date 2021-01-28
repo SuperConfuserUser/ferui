@@ -58,7 +58,7 @@ export class FuiFilterComparatorService {
       return filters.every(filter => {
         if (filter.filterType === FuiFilterEnum.GLOBAL_SEARCH) {
           return Object.values(data).some(value => {
-            return value === null ? false : this.doesFilterPass(filter, value);
+            return FUI_DEFAULT_TEXT_LOWERCASE_FORMATTER(value) === null ? false : this.doesFilterPass(filter, value);
           });
         } else {
           return this.doesFilterPass(filter, data[filter.field]);
