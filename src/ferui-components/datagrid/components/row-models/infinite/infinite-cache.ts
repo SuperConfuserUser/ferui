@@ -48,23 +48,24 @@ export class InfiniteCache {
       this.loadBlocks(0, this.limit, datasource);
 
       this.subscriptions.push(
-        this.eventService.listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED).subscribe(event => {
-          const ev: ServerSideRowDataChanged = event as ServerSideRowDataChanged;
-          if (ev.rowNodes && ev.rowNodes.length >= 0) {
-            const numberOfRows: number = ev.rowNodes.length;
-            if (numberOfRows > 0) {
-              const lastOffset: number = ev.pageIndex * this.limit + (numberOfRows - 1);
-              if (ev.total && ev.total > 0) {
-                this.maxReachedRowIndex = ev.total;
+        this.eventService
+          .listenToEvent(FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED)
+          .subscribe((ev: ServerSideRowDataChanged) => {
+            if (ev.rowNodes && ev.rowNodes.length >= 0) {
+              const numberOfRows: number = ev.rowNodes.length;
+              if (numberOfRows > 0) {
+                const lastOffset: number = ev.pageIndex * this.limit + numberOfRows;
+                if (ev.total && ev.total > 0) {
+                  this.maxReachedRowIndex = ev.total;
+                  this.reachedLastIndex = true;
+                } else if (lastOffset > this.maxReachedRowIndex) {
+                  this.maxReachedRowIndex = lastOffset;
+                }
+              } else {
                 this.reachedLastIndex = true;
-              } else if (lastOffset > this.maxReachedRowIndex) {
-                this.maxReachedRowIndex = lastOffset;
               }
-            } else {
-              this.reachedLastIndex = true;
             }
-          }
-        })
+          })
       );
     }
   }
