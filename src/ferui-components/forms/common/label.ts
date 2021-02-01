@@ -22,7 +22,8 @@ import { RequiredControlService } from './providers/required-control.service';
 @Directive({
   selector: '[fuiLabel]',
   host: {
-    '[class.fui-label]': 'true'
+    '[class.fui-label]': 'true',
+    '[class.fui-unselectable]': 'true' // Disallow text selection for fui-label
   }
 })
 export class FuiLabelDirective implements OnInit, OnDestroy {
