@@ -376,7 +376,7 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
         .updateRows(false, pageIndex)
         .then(resultObject => {
           if (resultObject.data === null) {
-            this.reachedLastPage(pageIndex.toString());
+            this.reachedLastPage(pageIndex.toLocaleString());
             this.toPreviousPage();
           }
           const currentPage = this.findPageFromStartIndex(pageIndex);
@@ -442,26 +442,35 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
     const isLoading = this.stateService.hasState(DatagridStateEnum.LOADING);
     const hasTotalRows = this.totalRows !== null;
 
-    const filteredRowsCount = hasTotalRows ? this.totalRows : this.serverSideTotalRows;
+    // If the datagrid is still loading, we remove the row count info.
+    if (isLoading) {
+      return '';
+    }
+
+    const endIndex = this.endIndex + (this.isServerSideRowModel() ? 1 : 0);
+    const filteredRowsCount = hasTotalRows ? this.totalRows.toLocaleString() : this.serverSideTotalRows;
     const totalRowsCount = this.isClientSideRowModel()
-      ? this.rowModel.getClientSideRowModel().getTotalRowCount()
+      ? this.rowModel.getClientSideRowModel().getTotalRowCount().toLocaleString()
       : filteredRowsCount;
 
+    // Strings to display
     const totalString = `<span>${totalRowsCount} ${this.i18nService.keys.total}</span>`;
     const totalFilteredString = `<span>${totalRowsCount} ${this.i18nService.keys.total} (${filteredRowsCount} ${this.i18nService.keys.filtered})</span>`;
-    const selectedString = `<span>${this.rowSelectionService.getSelectionCount()} ${this.i18nService.keys.selected}</span>`;
-    const serverSideString = `<span>${this.startIndex + 1} ${this.i18nService.keys.to} ${this.endIndex} ${
-      this.i18nService.keys.of
-    } ${filteredRowsCount}</span>`;
+    const selectedString = `<span>${this.rowSelectionService.getSelectionCount().toLocaleString()} ${
+      this.i18nService.keys.selected
+    }</span>`;
+    const serverSideString = `<span>${(this.startIndex + 1).toLocaleString()} ${
+      this.i18nService.keys.to
+    } ${endIndex.toLocaleString()} ${this.i18nService.keys.of} ${filteredRowsCount}</span>`;
 
-    if (hasTotalRows) {
-      return hasSelection && !isLoading
-        ? selectedString + (hasFilters && this.isClientSideRowModel() ? totalFilteredString : totalString)
-        : hasFilters && this.isClientSideRowModel()
+    if (hasTotalRows && this.isClientSideRowModel()) {
+      return hasSelection
+        ? selectedString + (hasFilters ? totalFilteredString : totalString)
+        : hasFilters
         ? totalFilteredString
         : totalString;
     } else {
-      return hasSelection && !isLoading ? selectedString + serverSideString : serverSideString;
+      return hasSelection ? selectedString + serverSideString : serverSideString;
     }
   }
 
@@ -529,7 +538,7 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
           }
         }
         if (this.rowModel.getInfiniteServerSideRowModel().infiniteCache.reachedLastIndex) {
-          this.reachedLastPage((maxReachedRowIndex + 1).toString());
+          this.reachedLastPage(maxReachedRowIndex.toLocaleString());
         }
       } else {
         this.pages = this.isServerSideRowModel() ? [...this.serverSidePages] : [];
