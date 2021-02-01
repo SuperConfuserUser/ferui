@@ -1,7 +1,8 @@
 import { BehaviorSubject } from 'rxjs';
 
-import { ChangeDetectorRef, Component, Inject, InjectionToken, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, ContentChild, Inject, InjectionToken, Input } from '@angular/core';
 
+import { FuiHelperDirective } from '../../helper/fui-helper-directive';
 import { FuiFormAbstractContainer } from '../common/abstract-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
 import { ControlClassService } from '../common/providers/control-class.service';
@@ -27,15 +28,24 @@ export function ToggleServiceProvider() {
       <div class="fui-input-wrapper">
         <ng-content select="[fuiLabel]"></ng-content>
         <ng-content select="[fuiPassword]"></ng-content>
-        <label class="fui-control-icons" tabindex="0">
-          <clr-icon *ngIf="!show && fuiToggle" shape="fui-eye" class="fui-input-group-icon-action" (click)="toggle()"></clr-icon>
+        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
+          <clr-icon
+            *ngIf="!show && fuiToggle"
+            shape="fui-eye"
+            class="fui-input-group-icon-action"
+            (click)="toggle()"
+            [class.has-fui-helper]="!!fuiHelper"
+          ></clr-icon>
           <clr-icon
             *ngIf="show && fuiToggle"
             shape="fui-eye-off"
             class="fui-input-group-icon-action"
             (click)="toggle()"
+            [class.has-fui-helper]="!!fuiHelper"
           ></clr-icon>
-
+          <div *ngIf="!invalid" [ngClass]="{ 'fui-input-group-icon-action': !!fuiHelper }">
+            <ng-content select="[fuiHelper]"></ng-content>
+          </div>
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error>
@@ -64,6 +74,8 @@ export function ToggleServiceProvider() {
 export class FuiPasswordContainerComponent extends FuiFormAbstractContainer {
   show = false;
   focus = false;
+
+  @ContentChild(FuiHelperDirective) fuiHelper: FuiHelperDirective;
 
   @Input('fuiToggle')
   set fuiToggle(state: boolean) {

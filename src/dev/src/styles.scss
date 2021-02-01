@@ -209,6 +209,14 @@ pre {
       text-decoration: none;
     }
   }
+
+  .fui-helper {
+    color: $gray-500;
+    &:hover,
+    &:focus {
+      color: $gray-900;
+    }
+  }
 }
 
 ul ul,

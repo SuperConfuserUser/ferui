@@ -5,7 +5,7 @@
   .fui-toggle-wrapper {
     display: block;
     position: relative;
-    height: $toggle-min-height;
+    min-height: $toggle-min-height;
     width: auto;
     margin: 10px 0 0 0;
 
@@ -34,7 +34,8 @@
         position: relative;
         user-select: none;
         min-height: $toggle-min-height;
-        line-height: $toggle-min-height;
+        line-height: $controls-icons-default-width;
+        padding-top: 2px;
         padding-left: 50px;
 
         &::before {
@@ -113,6 +114,18 @@
             background: $gray-200;
           }
         }
+      }
+    }
+
+    &.has-fui-helper {
+      display: flex;
+      input[type='checkbox'] + label {
+        display: inline-block;
+        margin-right: 0.4375rem;
+      }
+      .fui-helper {
+        flex-shrink: 0;
+        margin-top: 5px;
       }
     }
   }

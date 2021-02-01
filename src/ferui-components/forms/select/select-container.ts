@@ -1,5 +1,6 @@
 import { AfterContentInit, ChangeDetectorRef, Component, ContentChild, OnInit } from '@angular/core';
 
+import { FuiHelperDirective } from '../../helper/fui-helper-directive';
 import { FuiFormAbstractContainer } from '../common/abstract-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
 import { ControlClassService } from '../common/providers/control-class.service';
@@ -22,7 +23,8 @@ import { FuiSelectService } from './select.service';
         <ng-content select="[fuiSelect]"></ng-content>
         <ng-content select="[fuiLabel]"></ng-content>
         <div class="select-arrow"></div>
-        <label class="fui-control-icons" tabindex="0">
+        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
+          <ng-content *ngIf="!invalid" select="[fuiHelper]"></ng-content>
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error>
@@ -52,6 +54,7 @@ import { FuiSelectService } from './select.service';
 })
 export class FuiSelectContainerComponent extends FuiFormAbstractContainer implements OnInit, AfterContentInit {
   @ContentChild(FuiSelectIconDirective) selectIcon: FuiSelectIconDirective;
+  @ContentChild(FuiHelperDirective) fuiHelper: FuiHelperDirective;
 
   protected placeholder: string = null;
 
@@ -93,6 +96,7 @@ export class FuiSelectContainerComponent extends FuiFormAbstractContainer implem
       if (this.placeholder) {
         this.selectService.fuiSelect.ngSelect.placeholder = this.placeholder;
       }
+      this.selectService.fuiSelect.ngSelect.hasFuiHelper = !!this.fuiHelper;
       let isNgSelectOpen: boolean = false;
       if (this.selectIcon) {
         this.selectService.fuiSelect.ngSelect.useIcon = true;

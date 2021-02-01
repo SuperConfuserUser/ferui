@@ -51,6 +51,9 @@
       cursor: pointer;
       line-height: normal;
       z-index: $zindex-controls-icons;
+      &.has-fui-helper {
+        left: calc(100% - (#{$controls-padding} + #{$controls-icons-max-width} + 1.875rem));
+      }
     }
   }
 
@@ -60,6 +63,9 @@
       left: calc(100% - (#{$controls-small-padding} + #{$controls-small-icons-width}));
       width: $controls-small-icons-width;
       height: $controls-small-icons-width;
+      &.has-fui-helper {
+        left: calc(100% - (#{$controls-padding} + #{$controls-icons-max-width} + 1rem));
+      }
     }
   }
 

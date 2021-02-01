@@ -16,6 +16,7 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
             <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputSix"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputSeven"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputEight"></demo-component>
             <div class="footer">
               <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
                 Submit
@@ -42,7 +43,8 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
     four: '',
     five: 'Disabled with value',
     six: '',
-    seven: ''
+    seven: '',
+    eight: ''
   };
 
   inputOne: DemoComponentData;
@@ -52,6 +54,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
   inputFive: DemoComponentData;
   inputSix: DemoComponentData;
   inputSeven: DemoComponentData;
+  inputEight: DemoComponentData;
 
   constructor() {
     super();
@@ -84,6 +87,7 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
           <label fuiLabel>Full example</label>
           <input placeholder="With placeholder" fuiInput name="three" [(ngModel)]="models.three" required/>
           <fui-control-error>This field is required (this message overwrite any other ones)</fui-control-error>
+          <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
         </fui-input-container>`
     });
 
@@ -136,6 +140,18 @@ export class InputsComponent extends AbstractControlDemoComponent implements OnI
           <fui-control-error *fuiIfError="'required'">
             This field is required (this message overwrite default require message)
           </fui-control-error>
+        </fui-input-container>`
+    });
+
+    this.inputEight = new DemoComponentData({
+      title: `<h5 #title>Small layout</h5>`,
+      models: { eight: this.model.eight },
+      canDisable: false,
+      source: `
+        <fui-input-container #code>
+          <label fuiLabel>Small layout</label>
+          <input fuiInput name="eight" [layout]="'small'" [(ngModel)]="models.eight" required/>
+          <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
         </fui-input-container>`
     });
   }

@@ -15,13 +15,15 @@ export class ToggleComponent extends AbstractControlDemoComponent implements OnI
     threeB: null,
     threeC: false,
     fourA: true,
-    fourB: false
+    fourB: false,
+    five: false
   };
 
   inputOne: DemoComponentData;
   inputTwo: DemoComponentData;
   inputThree: DemoComponentData;
   inputFour: DemoComponentData;
+  inputFive: DemoComponentData;
 
   inputOneSource = `<input type="checkbox" fuiToggle name="one" [(ngModel)]="models.one" />`;
 
@@ -66,6 +68,15 @@ export class ToggleComponent extends AbstractControlDemoComponent implements OnI
   </fui-toggle-wrapper>
 </fui-toggle-container>`;
 
+  inputFiveSource = `
+  <fui-toggle-container>
+    <fui-toggle-wrapper [ngStyle]="{ width: '193px' }">
+      <input type="checkbox" fuiToggle name="five" [(ngModel)]="models.five">
+      <label fuiLabel>Add bacon, cilantro and cheese</label>
+      <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
+    </fui-toggle-wrapper>
+  </fui-toggle-container>`;
+
   constructor() {
     super();
   }
@@ -105,6 +116,13 @@ export class ToggleComponent extends AbstractControlDemoComponent implements OnI
       params: { disabled: this.disabled },
       canDisable: true,
       source: this.inputFourSource
+    });
+    this.inputFive = new DemoComponentData({
+      title: `<h5>Toggle with a long label and helper icon:`,
+      models: {
+        five: this.model.five
+      },
+      source: this.inputFiveSource
     });
   }
 }

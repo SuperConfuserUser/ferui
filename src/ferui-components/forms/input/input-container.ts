@@ -17,7 +17,8 @@ import { RequiredControlService } from '../common/providers/required-control.ser
       <div class="fui-input-wrapper">
         <ng-content select="[fuiLabel]"></ng-content>
         <ng-content select="[fuiInput]"></ng-content>
-        <label class="fui-control-icons" tabindex="0">
+        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
+          <ng-content *ngIf="!invalid" select="[fuiHelper]"></ng-content>
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error>
