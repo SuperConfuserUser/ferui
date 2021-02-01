@@ -233,8 +233,15 @@ export class FuiSearchContainerComponent<T = any> extends FuiFormAbstractContain
         clearTimeout(this.debouncedSearchHighlight);
       }
       this.debouncedSearchHighlight = setTimeout(() => {
-        this.hilitor.setTargetNode(this.searchResultsWrapperId);
-        this.toggleSearchHighlight(this.ngControl.value);
+        // If there is no results, we don't have any results wrapper anymore so we need to disable hilitor.
+        if (document.getElementById(this.searchResultsWrapperId)) {
+          // By default, if there is no HTML element found for 'searchResultsWrapperId', hilitor will use the body.
+          // That's the reason why we check if the element exist first.
+          this.hilitor.setTargetNode(this.searchResultsWrapperId);
+          this.toggleSearchHighlight(this.ngControl.value);
+        } else {
+          this.hilitor.remove();
+        }
       }, this.highlightDebounce);
     }
   }
