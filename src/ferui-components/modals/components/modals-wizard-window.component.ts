@@ -24,7 +24,7 @@ import { FuiModalAbstractWindowComponent } from './modals-abstract-window.compon
  * Modal window component class for Wizard type window.
  */
 @Component({
-  template: `<div
+  template: ` <div
     class="fui-modal-container fui-modal-wizard-window"
     [class.fui-modal-has-child-window-open]="windowCtrl.hasChildWindowOpen"
     [style.width.px]="windowCtrl.width"
@@ -35,7 +35,13 @@ import { FuiModalAbstractWindowComponent } from './modals-abstract-window.compon
       <div class="fui-modal-header-close">${FUI_MODAL_CLOSE_TPLT}</div>
     </div>
     <div class="fui-modal-body">
-      <div #wizardStepsContainer class="fui-modal-wizard-steps" [style.max-width.px]="wizardStepsWidth">
+      <div
+        #wizardStepsContainer
+        class="fui-modal-wizard-steps"
+        [style.max-width.px]="wizardStepsWidth"
+        [style.min-width.px]="wizardStepsWidth"
+        [style.width.px]="wizardStepsWidth"
+      >
         <ul>
           <li
             [class.clickable]="i < windowCtrl.currentStepIndex - 1"
@@ -43,7 +49,8 @@ import { FuiModalAbstractWindowComponent } from './modals-abstract-window.compon
             *ngFor="let step of windowCtrl.wizardSteps; let i = index"
             [class.selected]="i === windowCtrl.currentStepIndex - 1"
           >
-            {{ step.label }}
+            <span class="fui-modal-wizard-step-bullet"><span></span></span>
+            <span class="fui-modal-wizard-step-text">{{ step.label }}</span>
           </li>
         </ul>
       </div>
@@ -68,6 +75,9 @@ export class FuiModalWizardWindowComponent
   @ViewChild('wizardStepsContainer', { read: ElementRef }) wizardStepsContainer: ElementRef;
   private subscriptions: Subscription[] = [];
 
+  // default maximum width for wizard step wrapper.
+  private readonly wizardStepWrapperWidth: number = 200; // in px
+
   ngOnInit(): void {
     // We want to set a fixed width for the steps container (left wrapper of the wizard).
     // But since the steps list is fully compiled only after the viewInit lifecycle (thanks to the *ngFor loop in template) and
@@ -82,12 +92,19 @@ export class FuiModalWizardWindowComponent
       } else {
         liElement.classList.remove('selected');
       }
-      liElement.innerHTML = step.label;
+      const bullet = document.createElement('span');
+      bullet.classList.add('fui-modal-wizard-step-bullet');
+      bullet.appendChild(document.createElement('span'));
+      const label = document.createElement('span');
+      label.classList.add('fui-modal-wizard-step-text');
+      label.innerHTML = step.label;
+      liElement.append(bullet, label);
       ulElement.append(liElement);
     });
 
     // We use a 5px margin to be certain of the width needed (calculations varies depending on the browser you're using).
-    this.wizardStepsWidth = FeruiUtils.getPreferredWidthForItem(ulElement, this.wizardStepsContainer.nativeElement, 5);
+    const preferredWidth = FeruiUtils.getPreferredWidthForItem(ulElement, this.wizardStepsContainer.nativeElement, 5);
+    this.wizardStepsWidth = preferredWidth > this.wizardStepWrapperWidth ? this.wizardStepWrapperWidth : preferredWidth;
 
     // We render the first step at initialisation.
     this.renderStep(this.windowCtrl.currentStepIndex - 1);
