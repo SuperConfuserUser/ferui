@@ -94,7 +94,7 @@
           margin: 0;
           padding: 0;
 
-          > input {
+          input.fui-search {
             margin: 0;
             width: 280px;
             height: 35px;
@@ -128,6 +128,11 @@
               border-color: $gray-300 !important;
               border-style: solid !important;
               border-radius: $border-radius 0 0 $border-radius !important;
+
+              &:focus {
+                border: 1px solid $gray-500 !important;
+                color: $gray-900;
+              }
             }
           }
 

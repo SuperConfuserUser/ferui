@@ -1,6 +1,16 @@
 import { Subscription } from 'rxjs';
 
-import { AfterViewChecked, ElementRef, HostBinding, Injector, OnDestroy, Optional, Renderer2, SkipSelf } from '@angular/core';
+import {
+  AfterViewChecked,
+  ElementRef,
+  HostBinding,
+  InjectFlags,
+  Injector,
+  OnDestroy,
+  Optional,
+  Renderer2,
+  SkipSelf
+} from '@angular/core';
 
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 import { ESC } from '../../utils/key-codes/key-codes';
@@ -36,8 +46,8 @@ export abstract class AbstractPopover implements AfterViewChecked, OnDestroy {
     @Optional() forcedMarginTop: number,
     @Optional() forcedMarginLeft: number
   ) {
-    this.el = injector.get(ElementRef);
-    this.ifOpenService = injector.get(IfOpenService);
+    this.el = injector.get(ElementRef, null, InjectFlags.Self);
+    this.ifOpenService = injector.get(IfOpenService, null, InjectFlags.SkipSelf);
     this.renderer = injector.get(Renderer2);
     // Default anchor is the parent host
     this.anchorElem = parentHost.nativeElement;

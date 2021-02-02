@@ -51,6 +51,15 @@
           @include border-radius(3px);
           @include no-placeholder();
 
+          &:focus {
+            border-color: $gray-500;
+          }
+
+          &[disabled] {
+            background-color: $gray-200;
+            color: $gray-500;
+          }
+
           &[type='password'] {
             font-size: $font-size-base !important;
             font-weight: $font-weight-bold !important;

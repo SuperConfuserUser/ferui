@@ -161,14 +161,14 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  @HostListener('focus')
-  setFocusStates() {
-    this.setFocus(true);
+  @HostListener('focus', ['$event'])
+  setFocusStates(event: Event) {
+    this.setFocus(true, event);
   }
 
-  @HostListener('blur')
-  triggerValidation() {
-    this.setFocus(false);
+  @HostListener('blur', ['$event'])
+  triggerValidation(event: Event) {
+    this.setFocus(false, event);
     if (this.ifErrorService) {
       this.ifErrorService.triggerStatusChange();
     }
@@ -227,9 +227,15 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
     return !!this.ngControl;
   }
 
-  private setFocus(focus: boolean): void {
+  /**
+   * Handle the focus event.
+   * @param focus
+   * @param event
+   * @private
+   */
+  private setFocus(focus: boolean, event: Event): void {
     if (this.focusService) {
-      this.focusService.focused = focus;
+      this.focusService.toggleWithEvent(focus, event);
     }
   }
 }

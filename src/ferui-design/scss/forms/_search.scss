@@ -12,19 +12,10 @@
     .fui-control-container.fui-search-container {
       .fui-input-wrapper {
         > input.fui-search {
-          -webkit-appearance: none;
-          -moz-appearance: none;
-          width: 100%;
-          border: 1px solid $gray-300;
-          font-family: inherit;
           padding: $controls-small-padding 2rem $controls-small-padding $search-small-padding-left;
           height: $default-control-small-height;
           font-size: $font-size-sm;
           font-weight: $font-weight-normal;
-          background-color: $white;
-          color: $gray-900;
-          @include border-radius(3px);
-          @include no-placeholder();
         }
 
         .fui-search-icon {
@@ -157,10 +148,12 @@
 
     &.fui-search-with-results {
       .fui-search-container {
-        .fui-input-wrapper {
-          input.fui-search:not(.fui-layout-small) {
-            // No borders when we have results.
-            @include border-bottom-radius(0);
+        &:not(.fui-empty) {
+          .fui-input-wrapper {
+            input.fui-search:not(.fui-layout-small) {
+              // No bottom borders when we have results.
+              @include border-bottom-radius(0);
+            }
           }
         }
 

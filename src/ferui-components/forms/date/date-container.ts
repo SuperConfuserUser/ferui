@@ -92,10 +92,14 @@ export class FuiDateContainerComponent extends FuiFormAbstractContainer {
         } else {
           this.focus = false;
         }
+        this.cd.markForCheck();
       })
     );
   }
 
+  /**
+   * Whether or not datepicker is enabled.
+   */
   isEnabled(): boolean {
     return this.datepickerEnabledService.isEnabled;
   }
@@ -103,17 +107,23 @@ export class FuiDateContainerComponent extends FuiFormAbstractContainer {
   /**
    * Toggles the Datepicker Popover.
    */
-  toggleDatepicker(event: MouseEvent) {
+  toggleDatepicker(event: Event) {
     if (this.isEnabled()) {
       this.ifOpenService.toggleWithEvent(event);
       this.dateFormControlService.markAsTouched();
     }
   }
 
+  /**
+   * Override the default method. This will be called whenever the focus state changes.
+   * @param state
+   * @protected
+   */
   protected onFocusChange(state: boolean) {
     if (this.ifOpenService && !this.ifOpenService.open) {
       this.focus = state;
-      this.toggleDatepicker(null);
+      this.toggleDatepicker(this.focusService.originalEvent);
+      this.cd.markForCheck();
     }
   }
 

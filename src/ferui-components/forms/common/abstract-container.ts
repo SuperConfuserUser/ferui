@@ -91,6 +91,7 @@ export abstract class FuiFormAbstractContainer implements DynamicWrapper, OnDest
         // This is important for controlClass() to run when the value of the input changes.
         this.cd.markForCheck();
       });
+      this.cd.markForCheck();
     }
   }
 
