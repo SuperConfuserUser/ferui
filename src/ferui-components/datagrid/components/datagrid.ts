@@ -294,6 +294,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() readonly onSelectionChanged: EventEmitter<SelectionChangedEvent> = new EventEmitter<SelectionChangedEvent>();
   @Output() readonly onRowDataChanged: EventEmitter<RowDataChanged> = new EventEmitter<RowDataChanged>();
   @Output() readonly onVerticalScrollChanged: EventEmitter<Event> = new EventEmitter<Event>();
+  @Output() readonly onItemPerPageChanged: EventEmitter<number> = new EventEmitter<number>();
 
   //////////// Default Grid params ////////////
   @Input() withHeader: boolean = true;
@@ -1161,6 +1162,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     } else if (this.isInfiniteServerSideRowModel()) {
       this.infiniteRowModel.refresh(itemPerPage);
     }
+    this.onItemPerPageChanged.emit(itemPerPage);
   }
 
   /**

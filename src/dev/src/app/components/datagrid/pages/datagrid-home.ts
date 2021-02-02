@@ -531,6 +531,14 @@ import { Component } from '@angular/core';
                   <pre><code [languages]="['typescript']"  [highlight]="selectionChangedEventCode"></code></pre>
                 </td>
               </tr>
+              <tr>
+                <td><code>(onItemPerPageChanged)</code></td>
+                <td><code>EventEmitter&lt;number&gt;</code></td>
+                <td>
+                  Each time a user update the item per page, this event is triggered with the new selected amount of items
+                  displayed in the Datagrid.
+                </td>
+              </tr>
             </tbody>
           </table>
           <br />
