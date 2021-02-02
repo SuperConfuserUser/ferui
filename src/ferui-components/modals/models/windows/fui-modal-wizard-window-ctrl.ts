@@ -5,6 +5,7 @@ import { FuiModalWizardWindowComponent } from '../../components/modals-wizard-wi
 import {
   FUI_MODAL_CTRL_TOKEN,
   FUI_MODAL_WINDOW_CTRL_TOKEN,
+  FuiBaseModalWindowConfiguration,
   FuiModalButtonInterface,
   FuiModalCtrl,
   FuiModalWindowConfiguration,
@@ -35,40 +36,16 @@ export class FuiModalWizardWindowCtrlImpl<I = any, CL = any, N = any, B = any, S
   withNextBtn: boolean;
   withBackBtn: boolean;
   wizardSteps: FuiWizardStepConfiguration[];
-  currentStepIndex: number = 1;
+  disableStepsClick: boolean;
+  currentStepIndex: number = 0; // The current step the user is at. Start at 0.
   defaultLeftValue = 385;
 
   protected componentScreenInstance: FuiModalWizardWindowScreen<I, CL, N, B, S, C>;
 
   constructor(protected modalCtrl: FuiModalCtrl, public windowConfiguration: FuiModalWindowConfiguration) {
     super(modalCtrl, windowConfiguration);
-    // Standard config.
-    this.title = this.windowConfiguration.title || null;
-    this.subtitle = this.windowConfiguration.subtitle || null;
-    this.titleTemplate = this.windowConfiguration.titleTemplate || null;
-
-    // Just log a warning in case of developer's mistake.
-    if ((this.title || this.subtitle) && this.titleTemplate) {
-      console.warn(
-        `[FerUI Modals] You have used either 'title' or/and 'subtitle' along with 'titleTemplate', only 'titleTemplate' will be used, the others will be ignored.`
-      );
-    }
-    this.withCancelBtn = this.windowConfiguration.withCancelBtn === true; // False by default
-    this.submitButton = this.windowConfiguration.submitButton || {
-      label: 'Submit'
-    };
-    this.cancelButton = this.windowConfiguration.cancelButton || {
-      label: 'Cancel'
-    };
-    // Wizard config.
     this.wizardSteps = this.windowConfiguration.wizardSteps || [];
-    this.nextButton = this.windowConfiguration.nextButton || {
-      label: 'Next'
-    };
-    this.backButton = this.windowConfiguration.backButton || {
-      label: 'Back'
-    };
-    this.handleButtons();
+    this.handleTitlesAndButtons();
   }
 
   /**
@@ -255,12 +232,71 @@ export class FuiModalWizardWindowCtrlImpl<I = any, CL = any, N = any, B = any, S
   }
 
   /**
-   * Handle buttons states. Depending on which step the user is at, we hide/display/replace the buttons.
+   * Whether or not the user can go back.
+   * @param step
    */
-  protected handleButtons(): void {
-    this.withSubmitBtn = this.windowConfiguration.withSubmitBtn !== false && this.currentStepIndex === this.wizardSteps.length;
-    this.withNextBtn = this.windowConfiguration.withNextBtn !== false && this.currentStepIndex < this.wizardSteps.length;
-    this.withBackBtn = this.windowConfiguration.withBackBtn !== false && this.currentStepIndex > 1;
+  canGoBack(step: FuiWizardStepConfiguration): boolean {
+    return !FeruiUtils.isNullOrUndefined(step.disableStepsClick)
+      ? !step.disableStepsClick
+      : !this.windowConfiguration.disableStepsClick;
+  }
+
+  /**
+   * Handle buttons states. Depending on which step the user is at, we hide/display/replace the buttons.
+   * @protected
+   */
+  protected handleTitlesAndButtons(): void {
+    // If there is no steps configured, we do nothing.
+    if (this.wizardSteps.length === 0) {
+      return;
+    }
+
+    // Get the current step config.
+    const stepConfig = this.wizardSteps[this.currentStepIndex];
+
+    // Title configs.
+    this.title = this.getConfigValue(stepConfig, 'title') || null;
+    this.subtitle = this.getConfigValue(stepConfig, 'subtitle') || null;
+    this.titleTemplate = this.getConfigValue(stepConfig, 'titleTemplate') || null;
+
+    // Just log a warning in case of developer's mistake.
+    if ((this.title || this.subtitle) && this.titleTemplate) {
+      console.warn(
+        `[FerUI Modals] You have used either 'title' or/and 'subtitle' along with 'titleTemplate', only 'titleTemplate' will be used, the others will be ignored.`
+      );
+    }
+
+    // Buttons design
+    this.submitButton = this.getConfigValue(stepConfig, 'submitButton') || {
+      label: 'Submit'
+    };
+    this.cancelButton = this.getConfigValue(stepConfig, 'cancelButton') || {
+      label: 'Cancel'
+    };
+
+    this.nextButton = this.getConfigValue(stepConfig, 'nextButton') || {
+      label: 'Next'
+    };
+
+    this.backButton = this.getConfigValue(stepConfig, 'backButton') || {
+      label:
+        this.getClosestBackStep() !== this.currentStepIndex - 1 &&
+        this.wizardSteps[this.getClosestBackStep()] &&
+        !FeruiUtils.isNullOrUndefined(this.wizardSteps[this.getClosestBackStep()].label)
+          ? `Back to ${this.wizardSteps[this.getClosestBackStep()].label}`
+          : 'Back'
+    };
+
+    // Buttons configs
+    this.withCancelBtn = this.getConfigValue(stepConfig, 'withCancelBtn') === true; // False by default
+    this.withSubmitBtn =
+      this.getConfigValue(stepConfig, 'withSubmitBtn') !== false && this.currentStepIndex + 1 === this.wizardSteps.length;
+    this.withNextBtn =
+      this.getConfigValue(stepConfig, 'withNextBtn') !== false && this.currentStepIndex + 1 < this.wizardSteps.length;
+    this.withBackBtn = this.getConfigValue(stepConfig, 'withBackBtn') !== false && this.currentStepIndex + 1 > 1;
+
+    // Disable steps click.
+    this.disableStepsClick = !!this.getConfigValue(stepConfig, 'disableStepsClick'); // Default to false.
   }
 
   /**
@@ -268,8 +304,9 @@ export class FuiModalWizardWindowCtrlImpl<I = any, CL = any, N = any, B = any, S
    * @param args
    */
   protected goNext(args?: N): Promise<N> {
+    this.error = undefined;
     this.currentStepIndex = this.currentStepIndex + 1;
-    this.handleButtons();
+    this.handleTitlesAndButtons();
     this.modalCtrl.interactionSubjects[this.id].next({
       type: ModalWindowInteractionEnum.NEXT,
       args: args
@@ -279,16 +316,51 @@ export class FuiModalWizardWindowCtrlImpl<I = any, CL = any, N = any, B = any, S
 
   /**
    * Go to previous step and send the corresponding interaction event.
-   * @param args
-   * @param stepIndex (Optional) the step index we want to be back to
+   * @param args (Optional) The extra arguments (data) we want to transmit to the previous step.
+   * @param stepIndex (Optional) the step index we want to be back to (0 based index).
    */
   protected goBack(args?: B, stepIndex?: number): Promise<B> {
-    this.currentStepIndex = !FeruiUtils.isNullOrUndefined(stepIndex) ? stepIndex + 1 : this.currentStepIndex - 1;
-    this.handleButtons();
+    this.error = undefined;
+    const backStep = this.getClosestBackStep(stepIndex);
+    if (backStep === null) {
+      return Promise.reject(`Unable to go back.`);
+    }
+    this.currentStepIndex = backStep;
+    this.handleTitlesAndButtons();
     this.modalCtrl.interactionSubjects[this.id].next({
       type: ModalWindowInteractionEnum.BACK,
       args: args
     });
     return Promise.resolve(args);
+  }
+
+  /**
+   * Get the closest backable step.
+   * @param stepIndex (Optional) The Step index (0 based index)
+   * @private
+   */
+  private getClosestBackStep(stepIndex?: number): number | null {
+    const backStepIndex = !FeruiUtils.isNullOrUndefined(stepIndex) ? stepIndex : this.currentStepIndex - 1;
+    const wizardStep = this.wizardSteps[backStepIndex];
+    if (wizardStep && !this.canGoBack(wizardStep)) {
+      return this.getClosestBackStep(backStepIndex - 1);
+    } else {
+      return backStepIndex >= 0 ? backStepIndex : null;
+    }
+  }
+
+  /**
+   * Get config value from step or main window config.
+   * @param stepConfig
+   * @param propertyKey
+   * @private
+   */
+  private getConfigValue<K extends keyof FuiBaseModalWindowConfiguration>(
+    stepConfig: FuiWizardStepConfiguration,
+    propertyKey: K
+  ): FuiBaseModalWindowConfiguration[K] {
+    return stepConfig && !FeruiUtils.isNullOrUndefined(stepConfig[propertyKey])
+      ? stepConfig[propertyKey]
+      : this.windowConfiguration[propertyKey];
   }
 }

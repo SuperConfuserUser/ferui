@@ -11,7 +11,7 @@ interface StepsInterface {
 
 @Component({
   template: `
-    <h4>Modal wizard step 3</h4>
+    <h4>Modal wizard step 4</h4>
     <p>Params:</p>
     <pre><code [highlight]="params"></code></pre>
     <p>Resolves:</p>
@@ -20,7 +20,7 @@ interface StepsInterface {
     <pre><code [highlight]="sharedData"></code></pre>
   `
 })
-export class ModalWizard3Component implements OnInit, FuiModalWizardWindowScreen {
+export class ModalWizard4Component implements OnInit, FuiModalWizardWindowScreen {
   params: string;
   resolves: string;
   sharedData: string;
@@ -41,14 +41,19 @@ export class ModalWizard3Component implements OnInit, FuiModalWizardWindowScreen
   }
 
   $onBack(): Promise<StepsInterface> {
-    return Promise.resolve({ step1: 'My super data from step 1', step2: 'My super data from step 2' });
+    return Promise.resolve({
+      step1: 'My super data from step 1',
+      step2: 'My super data from step 2',
+      step3: 'My super data from step 3'
+    });
   }
 
   $onNext(): Promise<StepsInterface> {
     return Promise.resolve({
       step1: 'My super data from step 1',
       step2: 'My super data from step 2',
-      step3: 'My super data from step 3'
+      step3: 'My super data from step 3',
+      step4: 'My super data from step 4'
     });
   }
 }

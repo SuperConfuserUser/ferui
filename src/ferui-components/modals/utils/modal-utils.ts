@@ -1,5 +1,6 @@
 import { ComponentFactoryResolver, Injector, ViewContainerRef } from '@angular/core';
 
+import { FeruiUtils } from '../../utils/ferui-utils';
 import { FuiModalErrorWindowComponent } from '../components/modals-error-window.component';
 import { FuiModalErrorScreenComponent } from '../components/screens/modal-error-screen.component';
 import {
@@ -25,7 +26,13 @@ export class FuiModalUtils {
    * @param error Whether or not we want to get the error component. Default to false.
    */
   static getWindowTypeFromConfig(windowConfig: FuiModalWindowConfiguration, error: boolean = false): FuiModalWindowEnum {
-    if (error) {
+    if (
+      error ||
+      (FeruiUtils.isNullOrUndefined(windowConfig.component) &&
+        (FeruiUtils.isNullOrUndefined(windowConfig.wizardSteps) ||
+          (!FeruiUtils.isNullOrUndefined(windowConfig.wizardSteps) && windowConfig.wizardSteps.length === 0)))
+    ) {
+      // If there is  no component or wizardSteps sets, we display an error modal.
       return FuiModalWindowEnum.ERROR;
     } else if (windowConfig.wizardSteps) {
       return FuiModalWindowEnum.WIZARD;

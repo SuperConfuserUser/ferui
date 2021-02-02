@@ -155,7 +155,7 @@ export class FuiModalCtrlImpl implements FuiModalCtrl {
   private buildChildWindows(
     childWindowConfig: FuiModalWindowConfiguration,
     childWindows: { [id: string]: FuiModalWindowCtrl<FuiModalWindowScreen> } = {}
-  ): { [id: string]: FuiModalWindowCtrl<FuiModalWindowScreen> } {
+  ): { [id: string]: FuiModalWindowCtrl<FuiModalWindowScreen> } | null {
     if (childWindowConfig.childWindows && childWindowConfig.childWindows.length > 0) {
       childWindowConfig.childWindows.forEach(childWindowConfiguration => {
         childWindows[childWindowConfiguration.id] = FuiModalInstancesUtils.getWindowInstance(this, childWindowConfiguration);

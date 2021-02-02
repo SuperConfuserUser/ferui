@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, Self } from '@angular/core';
 
 export enum FuiAlertsTypes {
   PRIMARY = 'alert-primary',
@@ -60,6 +60,8 @@ export class FuiAlertsComponent implements OnInit {
   private _alertType: FuiAlertsTypes = FuiAlertsTypes.INFO;
   private defaultClasses: string = 'alert alert-flex';
 
+  constructor(@Self() private elementRef: ElementRef) {}
+
   ngOnInit(): void {
     this.buildClassList();
   }
@@ -68,7 +70,13 @@ export class FuiAlertsComponent implements OnInit {
    * Build the class list for the host.
    */
   buildClassList(): void {
-    const defaultClasses: string[] = [...this.defaultClasses.split(' '), this.alertType];
+    const originalClassList: DOMTokenList = this.elementRef.nativeElement.classList;
+    const defaultClasses: string[] = [
+      // We keep the possible classes that are already set by the dev.
+      ...originalClassList.value.split(' '),
+      ...this.defaultClasses.split(' '),
+      this.alertType
+    ];
     if (this.closable) {
       defaultClasses.push('alert-dismissible');
     }

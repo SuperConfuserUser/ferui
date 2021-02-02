@@ -119,13 +119,31 @@ import { Component } from '@angular/core';
             <a target="_blank" [routerLink]="['/components/modals/wizard']">Wizard</a> examples for more information.
           </p>
 
-          <h5 class="mt-4 mb-4">Modal Configuration object (<code>FuiModalWindowConfiguration</code>)</h5>
+          <h5 class="mt-4 mb-4">
+            Modal Configuration object (<code>FuiModalWindowConfiguration</code>)
+            <a [routerLink] [fragment]="'wizardWindowConfig'" class="anchor-link" id="wizardWindowConfig">#</a>
+          </h5>
 
           <p>
             The <code>FuiModalWindowConfiguration</code> object is the spearhead of the <code>FuiModalService</code>
             service. It contains all the configuration needed to open a modal with either one or multiple windows.
           </p>
           <pre><code [languages]="['typescript']" [highlight]="modalExample1"></code></pre>
+
+          <h5 class="mt-4 mb-4">
+            Wizard step Configuration object (<code>FuiWizardStepConfiguration</code>)
+            <a [routerLink] [fragment]="'wizardStepConfig'" class="anchor-link" id="wizardStepConfig">#</a>
+          </h5>
+
+          <p>
+            The <code>FuiWizardStepConfiguration</code> object is used by the wizard system to override the default window
+            configuration object or add specific configuration for a specific step.<br />
+            <b
+              >Every options in this configuration object will override their main window configuration
+              (<code>FuiModalWindowConfiguration</code>) counterparts!</b
+            >
+          </p>
+          <pre><code [languages]="['typescript']" [highlight]="modalExample14"></code></pre>
 
           <h5 class="mt-4 mb-4">
             Window initial Promises (<code>FuiModalWindowResolve</code> and <code>FuiModalWindowResolved</code>)
@@ -580,7 +598,7 @@ import { Component } from '@angular/core';
                     <td><code>string</code></td>
                     <td>
                       The sub-title text you want for the window.<br />
-                      WARNING: Use<code>subtitle</code> only if you also use <code>title</code> option. If you use
+                      WARNING: Use <code>subtitle</code> only if you also use <code>title</code> option. If you use
                       <code>titleTemplate</code> it will be ignored.
                     </td>
                   </tr>
@@ -709,6 +727,11 @@ import { Component } from '@angular/core';
                     <td><code>boolean</code></td>
                     <td>Whether or not you want to display the next button.</td>
                   </tr>
+                  <tr>
+                    <td>disableStepsClick</td>
+                    <td><code>boolean</code></td>
+                    <td>Disable the wizard steps click event. Useful when you want to prevent the user from going backward.</td>
+                  </tr>
                 </tbody>
               </table>
             </fui-tab>
@@ -816,6 +839,7 @@ export class ModalOverviewComponent {
   // Wizard config
   withNextBtn?: boolean; // Default to true (appear only if there is more steps after current one).
   withBackBtn?: boolean; // Default to true. (appear only if there is steps behind current one).
+  disableStepsClick?: boolean; // Default to false. Allow the dev to disable the steps click event.
   nextButton?: FuiModalButtonInterface; // Default label is 'Next'.
   backButton?: FuiModalButtonInterface; // Default label is 'Back'.
   wizardSteps?: FuiWizardStepConfiguration[];
@@ -1084,9 +1108,33 @@ interface FuiModalWindowResolved {
   nextButton?: FuiModalButtonInterface; // Custom design for the nextButton. Default label to 'Next'
   withNextBtn?: boolean; // True by default. Whether or not we want to display the next button.
   withBackBtn?: boolean; // True by default. Whether or not we want to display the back button.
+  disableStepsClick?: boolean; // Default to false. Allow the dev to disable the steps click event.
   $submit?(event: MouseEvent): Promise<S | CL>; // Submit the window workflow.
   $cancel?(event: MouseEvent): Promise<C | CL>; // Cancel the window workflow.
   $back?(event: MouseEvent, stepIndex?: number): Promise<B>; // Go to previous step.
   $next?(event: MouseEvent): Promise<N>; // Go to next step.
+}`;
+
+  modalExample14: string = `export interface FuiWizardStepConfiguration {
+  // Default config
+  title?: string; // If you want to set a title for your window
+  subtitle?: string; // If you want to set a sub-title for your window
+  titleTemplate?: TemplateRef<any>; // If you want something more complex, like adding an icon or whatever else just provide a titleTemplate.
+
+  // Standard config
+  withSubmitBtn?: boolean; // Default to true.
+  withCancelBtn?: boolean; // Default to false.
+  submitButton?: FuiModalButtonInterface; // Default label is 'Submit'.
+  cancelButton?: FuiModalButtonInterface; // Default label is 'Cancel'.
+
+  // Wizard config
+  withNextBtn?: boolean; // Default to true (appear only if there is more steps after current one).
+  withBackBtn?: boolean; // Default to true. (appear only if there is steps behind current one).
+  disableStepsClick?: boolean; // Default to false. Allow the dev to disable the steps click event.
+  nextButton?: FuiModalButtonInterface; // Default label is 'Next'.
+  backButton?: FuiModalButtonInterface; // Default label is 'Back'.
+  stepId: string; // The ID (unique identifier) for the current step.
+  label: string; // The label to be displayed in the steps section of the wizard (left menu)
+  component: Type<FuiModalWizardWindowScreen>; // The component (screen) to be compile for the step.
 }`;
 }

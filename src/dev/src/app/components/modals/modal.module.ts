@@ -23,6 +23,8 @@ import { ModalExample3Component } from './pages/modals/standard/modal-example-3.
 import { ModalWizard1Component } from './pages/modals/wizard/modal-wizard-1.component';
 import { ModalWizard2Component } from './pages/modals/wizard/modal-wizard-2.component';
 import { ModalWizard3Component } from './pages/modals/wizard/modal-wizard-3.component';
+import { ModalWizard4Component } from './pages/modals/wizard/modal-wizard-4.component';
+import { ModalWizard5Component } from './pages/modals/wizard/modal-wizard-5.component';
 
 const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
   ModalDemoComponent,
@@ -40,6 +42,8 @@ const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
   ModalWizard1Component,
   ModalWizard2Component,
   ModalWizard3Component,
+  ModalWizard4Component,
+  ModalWizard5Component,
   ModalHeadlessExample1Component
 ];
 
@@ -58,6 +62,8 @@ const FUI_DEMO_COMPONENTS_DIRECTIVES: Type<any>[] = [
     ModalWizard1Component,
     ModalWizard2Component,
     ModalWizard3Component,
+    ModalWizard4Component,
+    ModalWizard5Component,
     ModalHeadlessExample1Component
   ]
 })
