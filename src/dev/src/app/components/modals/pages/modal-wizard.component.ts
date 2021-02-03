@@ -105,12 +105,12 @@ export class ExampleWindowComponent implements FuiModalWizardWindowScreen {
             },
             {
               stepId: 'wizardStep2',
-              label: 'Wizard step 2',
+              label: 'Super long step label (Wizard step 2)',
               component: ModalWizard2Component
             },
             {
               stepId: 'wizardStep3',
-              label: 'Super long step label (Wizard step 3)',
+              label: 'Wizard step 3',
               component: ModalWizard3Component
             }
           ],
@@ -164,12 +164,12 @@ export class ExampleWindowComponent implements FuiModalWizardWindowScreen {
             },
             {
               stepId: 'wizardStep2',
-              label: 'Wizard step 2',
+              label: 'Super long step label (Wizard step 2)',
               component: ModalWizard2Component
             },
             {
               stepId: 'wizardStep3',
-              label: 'Super long step label (Wizard step 3)',
+              label: 'Wizard step 3',
               component: ModalWizard3Component
             }
           ],
@@ -258,12 +258,12 @@ openErrorWizardModal() {
             },
             {
               stepId: 'wizardStep2',
-              label: 'Wizard step 2',
+              label: 'Super long step label (Wizard step 2)',
               component: ModalWizard2Component
             },
             {
               stepId: 'wizardStep3',
-              label: 'Super long step label (Wizard step 3)',
+              label: 'Wizard step 3',
               component: ModalWizard3Component
             }
           ],
