@@ -7,7 +7,7 @@ import { DatagridStateService } from '../../../services/datagrid-state.service';
 import { FuiDatagridEventService } from '../../../services/event.service';
 import { IDatagridResultObject, IServerSideDatasource, IServerSideGetRowsParams } from '../../../types/server-side-row-model';
 import { DatagridUtils } from '../../../utils/datagrid-utils';
-import { RowNode } from '../../entities/row-node';
+import { FuiDatagridRowNode } from '../../entities/fui-datagrid-row-node';
 
 export enum InfiniteBlockState {
   STATE_EMPTY = 'empty',
@@ -20,7 +20,7 @@ export class InfiniteBlock {
   offset: number;
   limit: number;
   rowCount: number = 0;
-  rowNodes: RowNode[] = [];
+  rowNodes: FuiDatagridRowNode[] = [];
   error: any = null;
 
   private datasource: IServerSideDatasource;
@@ -71,7 +71,7 @@ export class InfiniteBlock {
   /**
    * Load data from datasource for this specific block.
    */
-  loadFromDatasource(): Promise<RowNode[]> {
+  loadFromDatasource(): Promise<FuiDatagridRowNode[]> {
     if (this.datasource) {
       return this.datasource.getRows
         .bind(this.datasource.context, this.params)()
@@ -131,7 +131,7 @@ export class InfiniteBlock {
   }
 
   /**
-   * Map every data to be a RowNode object.
+   * Map every data to be a FuiDatagridRowNode object.
    * @param data
    * @private
    */
@@ -140,7 +140,7 @@ export class InfiniteBlock {
       this.rowNodes = [];
     } else {
       this.rowNodes = data.map(obj => {
-        const rowNode = new RowNode(this.optionsWrapper, this.eventService);
+        const rowNode = new FuiDatagridRowNode(this.optionsWrapper, this.eventService);
         const hasRowNodeIdFunc =
           !FeruiUtils.isNullOrUndefined(this.optionsWrapper.getRowNodeIdFunc()) &&
           typeof this.optionsWrapper.getRowNodeIdFunc() === 'function';

@@ -25,30 +25,7 @@ import {
   orderByComparator
 } from '@ferui/components';
 
-export interface IDatagridRowData {
-  id: number;
-  username: string;
-  gender: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  age: number;
-  eye_color: string;
-  company: string;
-  address: string;
-  country: string;
-  country_code: string;
-  phone: string;
-  ip_address: string;
-  is_active: boolean;
-  is_registered: boolean;
-  avatar: string;
-  favourite_animal: string;
-  creation_date: string;
-  epoch_date: string | number;
-  favorite_movie: string;
-  user_agent: string;
-}
+import { DemoDatagrid10KDataInterface } from '../datagrid-data-interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -91,7 +68,7 @@ export class RowDataApiService {
     const subject = new Subject<IDatagridResultObject>();
 
     this.httpClient
-      .get<IDatagridRowData[]>(this.SERVER_URL)
+      .get<DemoDatagrid10KDataInterface[]>(this.SERVER_URL)
       .pipe(catchError(this.handleError))
       .subscribe(results => {
         if (groupByField) {

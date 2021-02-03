@@ -199,15 +199,16 @@ import { Component } from '@angular/core';
 
           <p>
             The header select will also contains a dropdown containing all possible actions. By default for
-            <code>ClientSideRowModel</code> we can select or deselect everything but for <code>ServerSideRowModel</code> and
+            <code>ClientSideRowModel</code> we can select or deselect everything but for <code>ServerSideRowModel</code>
+            and
             <code>InfiniteRowModel</code> we can only select the loaded rows or deselect everything.
           </p>
 
           <h4 class="mt-4">Specify Selectable Rows</h4>
 
           <p>
-            It is possible to specify which rows can be selected via the <code>isRowSelectable(rowNode)</code>
-            callback function. This function will be called internally and the RowNode will be passed as attribute.
+            It is possible to specify which rows can be selected via the <code>isRowSelectable(rowNode)</code> callback function.
+            This function will be called internally and the <code>FuiDatagridRowNode</code> will be passed as attribute.
           </p>
 
           <p>
@@ -222,9 +223,9 @@ import { Component } from '@angular/core';
           <h4 class="mt-4">Providing Node IDs</h4>
 
           <p>
-            Providing node IDs is optional. If you provide your own node IDs (using the <code>getRowNodeId()</code> callback) then
-            you must make sure that the rows have unique IDs across your entire data set. This means all nodes must have unique
-            IDs. This is because the grid uses node IDs internally and requires them to be unique.
+            Providing node IDs is optional. If you provide your own node IDs (using the <code>getRowNodeId()</code>
+            callback) then you must make sure that the rows have unique IDs across your entire data set. This means all nodes must
+            have unique IDs. This is because the grid uses node IDs internally and requires them to be unique.
           </p>
 
           <h2 id="datagrid-api" class="mt-4">Datagrid API</h2>
@@ -407,7 +408,7 @@ import { Component } from '@angular/core';
                 <td>function</td>
                 <td>
                   Whether we want to enable row selection for the specified row or not. This function will be called internally
-                  and the RowNode will be passed as attribute.
+                  and the <code>FuiDatagridRowNode</code> will be passed as attribute.
                 </td>
               </tr>
               <tr>
@@ -442,7 +443,7 @@ import { Component } from '@angular/core';
                 <td>
                   Each time the datagrid size (width and/or height) is updated, we're triggering this event.<br />
                   NOTE: Be careful when using this event when resizing the window, it will be triggered multiple times.<br />
-                  <pre><code [languages]="['typescript']"  [highlight]="datagridOnResizeEventCode"></code></pre>
+                  <pre><code [languages]="['typescript']" [highlight]="datagridOnResizeEventCode"></code></pre>
                 </td>
               </tr>
               <tr>
@@ -450,7 +451,7 @@ import { Component } from '@angular/core';
                 <td><code>EventEmitter&lt;ColumnEvent&gt;</code></td>
                 <td>
                   Each time one or multiple columns width are updated, we're triggering this event.<br />
-                  <pre><code [languages]="['typescript']"  [highlight]="columnEventCode"></code></pre>
+                  <pre><code [languages]="['typescript']" [highlight]="columnEventCode"></code></pre>
                 </td>
               </tr>
               <tr>
@@ -459,7 +460,7 @@ import { Component } from '@angular/core';
                 <td>
                   Similar to <code>(onColumnWidthChange)</code> but it is called only if the user is manually resizing one
                   column.<br />
-                  <pre><code [languages]="['typescript']"  [highlight]="columnResizedEventCode"></code></pre>
+                  <pre><code [languages]="['typescript']" [highlight]="columnResizedEventCode"></code></pre>
                 </td>
               </tr>
               <tr>
@@ -467,7 +468,7 @@ import { Component } from '@angular/core';
                 <td><code>EventEmitter&lt;ColumnVisibleEvent&gt;</code></td>
                 <td>
                   Each time the user is updating the column visibility (display or hide a column) we're triggering this event.
-                  <pre><code [languages]="['typescript']"  [highlight]="columnVisibleEventCode"></code></pre>
+                  <pre><code [languages]="['typescript']" [highlight]="columnVisibleEventCode"></code></pre>
                 </td>
               </tr>
               <tr>
@@ -483,7 +484,7 @@ import { Component } from '@angular/core';
                 <td><code>EventEmitter&lt;RowDoubleClickedEvent&gt;</code></td>
                 <td>
                   Same as <code>(onRowClicked)</code> except that is is triggered only if the user double click on the row.
-                  <pre><code [languages]="['typescript']"  [highlight]="rowDoubleClickedEventCode"></code></pre>
+                  <pre><code [languages]="['typescript']" [highlight]="rowDoubleClickedEventCode"></code></pre>
                 </td>
               </tr>
               <tr>
@@ -492,7 +493,7 @@ import { Component } from '@angular/core';
                 <td>
                   Each time the user click on a cell we're triggering this event.<br />
                   NOTE: The <code>(onRowClicked)</code> event will also be triggered when clicking on a cell.
-                  <pre><code [languages]="['typescript']"  [highlight]="cellClickedEventCode"></code></pre>
+                  <pre><code [languages]="['typescript']" [highlight]="cellClickedEventCode"></code></pre>
                 </td>
               </tr>
               <tr>
@@ -501,7 +502,7 @@ import { Component } from '@angular/core';
                 <td>
                   Same as <code>(onCellClicked)</code> except that is triggered only is the user double click on the cell.<br />
                   NOTE: The <code>(onRowDoubleClicked)</code> event will also be triggered when double clicking on a cell.
-                  <pre><code [languages]="['typescript']"  [highlight]="cellDoubleClickedEventCode"></code></pre>
+                  <pre><code [languages]="['typescript']" [highlight]="cellDoubleClickedEventCode"></code></pre>
                 </td>
               </tr>
               <tr>
@@ -512,7 +513,7 @@ import { Component } from '@angular/core';
                   context menu completely by preventing the <code>event</code> to be called. The dev would be able to customize
                   and bind whatever external context menu plugin. All information about the current cell and the row will be
                   shared through this event.<br />
-                  <pre><code [languages]="['typescript']"  [highlight]="cellContextMenuEventCode"></code></pre>
+                  <pre><code [languages]="['typescript']" [highlight]="cellContextMenuEventCode"></code></pre>
                 </td>
               </tr>
               <tr>
@@ -520,7 +521,7 @@ import { Component } from '@angular/core';
                 <td><code>EventEmitter&lt;RowSelectedEvent&gt;</code></td>
                 <td>
                   Each time a user select a row, the event is triggered.<br />
-                  <pre><code [languages]="['typescript']"  [highlight]="rowSelectedEventCode"></code></pre>
+                  <pre><code [languages]="['typescript']" [highlight]="rowSelectedEventCode"></code></pre>
                 </td>
               </tr>
               <tr>
@@ -528,7 +529,7 @@ import { Component } from '@angular/core';
                 <td><code>EventEmitter&lt;SelectionChangedEvent&gt;</code></td>
                 <td>
                   Each time a user select a row or select all rows from the header select option, the event is triggered.<br />
-                  <pre><code [languages]="['typescript']"  [highlight]="selectionChangedEventCode"></code></pre>
+                  <pre><code [languages]="['typescript']" [highlight]="selectionChangedEventCode"></code></pre>
                 </td>
               </tr>
             </tbody>
@@ -985,7 +986,7 @@ export class DatagridHomeComponent {
 
   datagridActionMenuContextCode: string = jsBeautify.js(`
   export interface FuiDatagridBodyRowContext {
-  rowNode: RowNode;
+  rowNode: FuiDatagridRowNode;
   // If for any reason you need to know the top value of the specific row.
   // Can be useful if you're using custom action-menu dropdown.
   rowTopValue: number;
@@ -998,7 +999,7 @@ export class DatagridHomeComponent {
   forceClose?: boolean;
 }`);
 
-  datagridSpecifyRowsCode: string = `isRowSelectable = (rowNode) => {
+  datagridSpecifyRowsCode: string = `isRowSelectable = (rowNode: FuiDatagridRowNode<DataType>) => {
   return rowNode.data ? rowNode.data.year < 2007 : false;
 };`;
 
@@ -1013,14 +1014,14 @@ export class DatagridHomeComponent {
 }`;
 
   rowSelectedEventCode: string = `interface RowSelectedEvent {
-  rowNode: RowNode;
+  rowNode: FuiDatagridRowNode;
   api: FuiDatagridApiService;
   columnApi: FuiDatagridColumnApiService;
   type: string;
 }`;
 
   selectionChangedEventCode: string = `interface SelectionChangedEvent {
-  selectedItems: { [key: string]: RowNode };
+  selectedItems: { [key: string]: FuiDatagridRowNode };
   api: FuiDatagridApiService;
   columnApi: FuiDatagridColumnApiService;
   type: string;

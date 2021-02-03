@@ -1,30 +1,30 @@
 import { Injectable } from '@angular/core';
 
 import { FeruiUtils } from '../../../utils/ferui-utils';
-import { RowNode } from '../../components/entities/row-node';
+import { FuiDatagridRowNode } from '../../components/entities/fui-datagrid-row-node';
 import { FuiDatagridOptionsWrapperService } from '../datagrid-options-wrapper.service';
 import { FuiDatagridEventService } from '../event.service';
 
 @Injectable()
 export class DatagridRowNodeManagerService {
   private nextId: number = 0;
-  private allNodesMap: { [id: string]: RowNode } = {};
+  private allNodesMap: { [id: string]: FuiDatagridRowNode } = {};
 
   constructor(private datagridOptionsWrapper: FuiDatagridOptionsWrapperService, private eventService: FuiDatagridEventService) {}
 
   /**
    * Get a copy of nodes map.
    */
-  getCopyOfNodesMap(): { [id: string]: RowNode } {
+  getCopyOfNodesMap(): { [id: string]: FuiDatagridRowNode } {
     return FeruiUtils.cloneObject(this.allNodesMap);
   }
 
   /**
-   * Create a RowNode object using the data from the API.
+   * Create a FuiDatagridRowNode object using the data from the API.
    * @param dataItem
    */
-  createNode(dataItem: any): RowNode {
-    const node = new RowNode(this.datagridOptionsWrapper, this.eventService);
+  createNode(dataItem: any): FuiDatagridRowNode {
+    const node = new FuiDatagridRowNode(this.datagridOptionsWrapper, this.eventService);
     node.setDataAndId(dataItem, this.nextId.toString());
     this.allNodesMap[node.id] = node;
     this.nextId++;
@@ -36,7 +36,7 @@ export class DatagridRowNodeManagerService {
    * @param rowData
    * @param selectedRows
    */
-  setRowData(rowData: any[], selectedRows: RowNode[] = null): RowNode[] {
+  setRowData(rowData: any[], selectedRows: FuiDatagridRowNode[] = null): FuiDatagridRowNode[] {
     this.nextId = 0;
     this.allNodesMap = {};
 
@@ -44,9 +44,9 @@ export class DatagridRowNodeManagerService {
       return;
     }
 
-    const rowNodes: RowNode[] = [];
+    const rowNodes: FuiDatagridRowNode[] = [];
     rowData.forEach(dataItem => {
-      const node: RowNode = this.createNode(dataItem);
+      const node: FuiDatagridRowNode = this.createNode(dataItem);
       if (selectedRows && selectedRows.length > 0 && selectedRows.find(row => row.id === node.id)) {
         node.setSelected(true);
       }

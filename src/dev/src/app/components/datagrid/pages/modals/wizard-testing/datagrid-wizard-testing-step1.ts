@@ -6,16 +6,16 @@ import {
   FilterType,
   FuiColumnDefinitions,
   FuiDatagridComponent,
+  FuiDatagridRowNode,
   FuiDatagridSortDirections,
   FuiFieldTypes,
   FuiModalWizardWindowCtrl,
   FuiModalWizardWindowScreen,
   FuiRowSelectionEnum,
-  IDateFilterParams,
-  RowNode
+  IDateFilterParams
 } from '@ferui/components';
 
-import { IDatagridRowData } from '../../../server-side-api/datagrid-row.service';
+import { DemoDatagrid10KDataInterface } from '../../../datagrid-data-interfaces';
 import { WizardSelectedNodes } from '../modals-interfaces';
 
 @Component({
@@ -38,10 +38,10 @@ import { WizardSelectedNodes } from '../modals-interfaces';
   `
 })
 export class DatagridModalWizardStep1Component implements FuiModalWizardWindowScreen, OnInit {
-  rowData: any[];
-  columnDefs: Array<FuiColumnDefinitions>;
+  rowData: DemoDatagrid10KDataInterface[];
+  columnDefs: FuiColumnDefinitions[];
   defaultColumnDefs: FuiColumnDefinitions;
-  initialSelectionList: RowNode[];
+  initialSelectionList: FuiDatagridRowNode<DemoDatagrid10KDataInterface>[];
   itemPerPage: number = 10;
   rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
 
@@ -90,14 +90,12 @@ export class DatagridModalWizardStep1Component implements FuiModalWizardWindowSc
       filter: true
     };
 
-    this.http.get(document.baseURI + '/datagrid-10k-data.min.json').subscribe((results: IDatagridRowData[]) => {
-      setTimeout(() => {
-        this.rowData = results;
-      }, 1000);
+    this.http.get(document.baseURI + '/datagrid-10k-data.min.json').subscribe((results: DemoDatagrid10KDataInterface[]) => {
+      this.rowData = results;
     });
   }
 
-  $onInit(args?: WizardSelectedNodes): Promise<unknown> {
+  $onInit(args?: WizardSelectedNodes<DemoDatagrid10KDataInterface>): Promise<unknown> {
     if (args && args.selectedNodes && args.selectedNodes.length > 0) {
       this.initialSelectionList = args.selectedNodes;
     } else {
@@ -106,8 +104,8 @@ export class DatagridModalWizardStep1Component implements FuiModalWizardWindowSc
     return Promise.resolve();
   }
 
-  $onNext(): Promise<WizardSelectedNodes> {
-    const selectedNodes: RowNode[] = this.datagrid.getSelectedNodes();
+  $onNext(): Promise<WizardSelectedNodes<DemoDatagrid10KDataInterface>> {
+    const selectedNodes: FuiDatagridRowNode<DemoDatagrid10KDataInterface>[] = this.datagrid.getSelectedNodes();
     if (selectedNodes.length === 0) {
       return Promise.reject('Please select at least one row.');
     } else {

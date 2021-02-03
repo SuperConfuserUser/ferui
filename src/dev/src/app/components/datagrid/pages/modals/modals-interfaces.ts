@@ -1,5 +1,5 @@
-import { RowNode } from '@ferui/components';
+import { FuiDatagridRowNode } from '@ferui/components';
 
-export interface WizardSelectedNodes {
-  selectedNodes: RowNode[];
+export interface WizardSelectedNodes<D = any> {
+  selectedNodes: FuiDatagridRowNode<D>[];
 }

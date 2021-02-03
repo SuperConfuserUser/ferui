@@ -9,17 +9,17 @@ import {
   FuiColumnDefinitions,
   FuiDatagridBodyCellContext,
   FuiDatagridComponent,
+  FuiDatagridRowNode,
   FuiDatagridSortDirections,
   FuiFieldTypes,
   FuiModalService,
   FuiRowModel,
   FuiRowSelectionEnum,
-  IDateFilterParams,
-  RowNode
+  IDateFilterParams
 } from '@ferui/components';
 
+import { DemoDatagrid10KDataInterface, DemoDatagridSynchronousDataInterface } from '../datagrid-data-interfaces';
 import { DatagridService } from '../datagrid.service';
-import { IDatagridRowData } from '../server-side-api/datagrid-row.service';
 
 import { DatagridModalTestingComponent, SimpleModalRow } from './modals/datagrid-modal-testing';
 import { WizardSelectedNodes } from './modals/modals-interfaces';
@@ -320,10 +320,10 @@ import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datag
   providers: [DatagridService]
 })
 export class DatagridClientSideComponent implements OnInit {
-  rowData: Array<any>;
-  synchronousRowData: Array<any>;
-  columnDefs: Array<FuiColumnDefinitions>;
-  columnDefsSynchronous: Array<FuiColumnDefinitions>;
+  rowData: DemoDatagrid10KDataInterface[];
+  synchronousRowData: DemoDatagridSynchronousDataInterface[];
+  columnDefs: FuiColumnDefinitions[];
+  columnDefsSynchronous: FuiColumnDefinitions[];
   defaultColumnDefs: FuiColumnDefinitions;
 
   itemPerPage: number = 10;
@@ -340,8 +340,8 @@ export class DatagridClientSideComponent implements OnInit {
 
   suppressRowClickSelection1: boolean = false;
   suppressRowClickSelection2: boolean = false;
-  initialSelectionList$: Observable<RowNode[]>;
-  storedSelectionList: RowNode[] = [];
+  initialSelectionList$: Observable<FuiDatagridRowNode<DemoDatagrid10KDataInterface>[]>;
+  storedSelectionList: FuiDatagridRowNode<DemoDatagrid10KDataInterface>[] = [];
 
   rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
 
@@ -361,11 +361,13 @@ export class DatagridClientSideComponent implements OnInit {
 
   // For this demo, we're using an observable to update the value to be sure to avoid natural change detection (aka CD).
   // With natural CD, if we mutate the array, it won't be detected (for instance when we update the 'selected' state of a
-  // RowNode). If we un-select the previously selected row, then re-load the selection, it won't update the datagrid because for
+  // FuiDatagridRowNode). If we un-select the previously selected row, then re-load the selection, it won't update the datagrid because for
   // CD, there is no changes. When using Observable, we force this change to be detected at any time.
   // In a real world implementation (within a wizard for instance) we won't need to use an observable, because we would re-load
   // the whole datagrid in previous step and inject the initial selection. The CD will be notified of the change.
-  private initialSelectionListSub: BehaviorSubject<RowNode[]> = new BehaviorSubject<RowNode[]>([]);
+  private initialSelectionListSub: BehaviorSubject<FuiDatagridRowNode<DemoDatagrid10KDataInterface>[]> = new BehaviorSubject<
+    FuiDatagridRowNode<DemoDatagrid10KDataInterface>[]
+  >([]);
 
   constructor(
     @Inject(HttpClient) private http: HttpClient,
@@ -494,7 +496,7 @@ export class DatagridClientSideComponent implements OnInit {
     this.withHeader2 = false;
     this.withFooter2 = false;
 
-    this.http.get(document.baseURI + '/datagrid-10k-data.min.json').subscribe((results: IDatagridRowData[]) => {
+    this.http.get(document.baseURI + '/datagrid-10k-data.min.json').subscribe((results: DemoDatagrid10KDataInterface[]) => {
       setTimeout(() => {
         this.rowData = results;
         // Test empty values.
@@ -549,7 +551,7 @@ export class DatagridClientSideComponent implements OnInit {
   }
 
   logRowData(): void {
-    console.log('RowNode Data ::: ', this.datagrid.getGridData());
+    console.log('FuiDatagridRowNode Data ::: ', this.datagrid.getGridData());
   }
 
   openTestModal() {
@@ -567,7 +569,7 @@ export class DatagridClientSideComponent implements OnInit {
 
   openTestWizard() {
     this.modalService
-      .openModal<WizardSelectedNodes>({
+      .openModal<WizardSelectedNodes<DemoDatagrid10KDataInterface>>({
         id: 'selectionModalTest',
         title: 'Datagrid selection within a wizard',
         width: 800,

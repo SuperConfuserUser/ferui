@@ -154,7 +154,7 @@ export class FuiDatagridOptionsWrapperService {
   }
 
   /**
-   * Return a function that accept a RowNode object as attribute and return whether or not the row is selected.
+   * Return a function that accept a FuiDatagridRowNode object as attribute and return whether or not the row is selected.
    */
   getIsRowSelectableFunc(): IsRowSelectable | undefined {
     return this.gridOptions.isRowSelectable;
@@ -175,7 +175,7 @@ export class FuiDatagridOptionsWrapperService {
   }
 
   /**
-   * Return a function that accept a RowNode.data object as attribute and return the ID provided by the devs to use for this node.
+   * Return a function that accept a FuiDatagridRowNode.data object as attribute and return the ID provided by the devs to use for this node.
    */
   getRowNodeIdFunc(): GetRowNodeIdFunc | undefined {
     return this.gridOptions.getRowNodeId;

@@ -1,7 +1,7 @@
-import { RowNode } from '../components/entities/row-node';
+import { FuiDatagridRowNode } from '../components/entities/fui-datagrid-row-node';
 
 export interface FuiDatagridBodyRowContext {
-  rowNode: RowNode;
+  rowNode: FuiDatagridRowNode;
   // If for any reason you need to know the top value of the specific row.
   // Can be useful if you're using custom action-menu dropdown.
   rowTopValue: number;

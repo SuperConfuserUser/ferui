@@ -12,11 +12,11 @@ import { FuiColumnService } from '../../services/rendering/column.service';
 import { DatagridRowNodeManagerService } from '../../services/row/datagrid-row-node-manager.service';
 import { ChangedPath, RefreshModelParams } from '../../types/refresh-model-params';
 import { RowModelInterface } from '../../types/row-model';
-import { RowNode } from '../entities/row-node';
+import { FuiDatagridRowNode } from '../entities/fui-datagrid-row-node';
 
 @Injectable()
 export class FuiDatagridClientSideRowModel implements RowModelInterface {
-  private rowsToDisplay: RowNode[]; // the rows mapped to rows to display
+  private rowsToDisplay: FuiDatagridRowNode[]; // the rows mapped to rows to display
 
   constructor(
     private filterService: FuiDatagridFilterService,
@@ -34,7 +34,7 @@ export class FuiDatagridClientSideRowModel implements RowModelInterface {
    * @param selectedRows
    * @param keepRenderedRows
    */
-  setRowData(rowData: any[], selectedRows: RowNode[], keepRenderedRows: boolean = false) {
+  setRowData(rowData: any[], selectedRows: FuiDatagridRowNode[], keepRenderedRows: boolean = false) {
     this.rowNodeManagerService.setRowData(rowData, selectedRows);
     this.refreshModel({
       step: Constants.STEP_EVERYTHING,
@@ -44,16 +44,16 @@ export class FuiDatagridClientSideRowModel implements RowModelInterface {
   }
 
   /**
-   * Get a copy of all RowNode loaded indexed by their own ID.
+   * Get a copy of all FuiDatagridRowNode loaded indexed by their own ID.
    */
-  getCopyOfNodesMap(): { [id: string]: RowNode } {
+  getCopyOfNodesMap(): { [id: string]: FuiDatagridRowNode } {
     return this.rowNodeManagerService.getCopyOfNodesMap();
   }
 
   /**
    * Get the list of all nodes to display on screen.
    */
-  getRowNodesToDisplay(): RowNode[] {
+  getRowNodesToDisplay(): FuiDatagridRowNode[] {
     return this.rowsToDisplay;
   }
 

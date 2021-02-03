@@ -24,8 +24,9 @@ import {
   TreeViewEvent
 } from '@ferui/components';
 
+import { DemoDatagrid10KDataInterface } from '../datagrid-data-interfaces';
 import { DatagridService } from '../datagrid.service';
-import { IDatagridRowData, RowDataApiService } from '../server-side-api/datagrid-row.service';
+import { RowDataApiService } from '../server-side-api/datagrid-row.service';
 
 @Component({
   styleUrls: ['./datagrid-treeview.component.scss'],
@@ -163,15 +164,17 @@ export class DatagridTreeviewInfiniteServerSideComponent implements OnInit {
   datagridHeight: number = null;
 
   // Tree view properties
-  treeNodeData: TreeNodeData<IDatagridRowData>;
+  treeNodeData: TreeNodeData<DemoDatagrid10KDataInterface>;
   treeViewConfiguration: TreeViewConfiguration = {};
-  treeDataArrayRetriever: PagedTreeNodeDataRetriever<IDatagridRowData>;
+  treeDataArrayRetriever: PagedTreeNodeDataRetriever<DemoDatagrid10KDataInterface>;
 
   // Selected country
   selectedCountry: string = 'Canada';
-  treeviewLoadedSubject: Subject<TreeNodeData<IDatagridRowData>> = new Subject<TreeNodeData<IDatagridRowData>>();
+  treeviewLoadedSubject: Subject<TreeNodeData<DemoDatagrid10KDataInterface>> = new Subject<
+    TreeNodeData<DemoDatagrid10KDataInterface>
+  >();
 
-  @ViewChild('treeView') treeView: FuiTreeViewComponent<IDatagridRowData>;
+  @ViewChild('treeView') treeView: FuiTreeViewComponent<DemoDatagrid10KDataInterface>;
   @ViewChild('treeViewIconTemplate') iconTemplate: TemplateRef<any>;
   @ViewChild('treeViewTemplate') nodeTemplate: TemplateRef<any>;
   @ViewChild('avatarRenderer') avatarRenderer: TemplateRef<FuiDatagridBodyCellContext>;
@@ -295,17 +298,17 @@ export class DatagridTreeviewInfiniteServerSideComponent implements OnInit {
 
     function pagedTreeNodeDataRetriever(
       server: DatagridTreeviewInfiniteServerSideComponent
-    ): PagedTreeNodeDataRetriever<IDatagridRowData> {
+    ): PagedTreeNodeDataRetriever<DemoDatagrid10KDataInterface> {
       return {
-        getChildNodeData: (parent: TreeNodeData<IDatagridRowData>) => void 0,
-        hasChildNodes: (node: TreeNodeData<IDatagridRowData>) => {
+        getChildNodeData: (parent: TreeNodeData<DemoDatagrid10KDataInterface>) => void 0,
+        hasChildNodes: (node: TreeNodeData<DemoDatagrid10KDataInterface>) => {
           return Promise.resolve(false);
         },
         async getPagedChildNodeData(
-          node: TreeNodeData<IDatagridRowData>,
+          node: TreeNodeData<DemoDatagrid10KDataInterface>,
           p: PagingParams
-        ): Promise<TreeNodeData<IDatagridRowData>[]> {
-          return new Promise<TreeNodeData<IDatagridRowData>[]>(resolve => {
+        ): Promise<TreeNodeData<DemoDatagrid10KDataInterface>[]> {
+          return new Promise<TreeNodeData<DemoDatagrid10KDataInterface>[]>(resolve => {
             const countrySortModel = {
               id: 'country',
               visible: true,
@@ -317,7 +320,18 @@ export class DatagridTreeviewInfiniteServerSideComponent implements OnInit {
               sortType: 'string'
             };
             server.rowDataService
-              .getRows({ request: { offset: p.offset, limit: p.limit, sortModel: [countrySortModel] } }, 0, false, 'country')
+              .getRows(
+                {
+                  request: {
+                    offset: p.offset,
+                    limit: p.limit,
+                    sortModel: [countrySortModel]
+                  }
+                },
+                0,
+                false,
+                'country'
+              )
               .subscribe(response => {
                 const rows = response.data.map(it => {
                   return {
@@ -344,7 +358,7 @@ export class DatagridTreeviewInfiniteServerSideComponent implements OnInit {
       };
     }
 
-    this.treeviewLoadedSubject.asObservable().subscribe((treenode: TreeNodeData<IDatagridRowData>) => {
+    this.treeviewLoadedSubject.asObservable().subscribe((treenode: TreeNodeData<DemoDatagrid10KDataInterface>) => {
       if (treenode) {
         setTimeout(() => {
           this.treeView.selectNode(treenode); // We select the first top node to show its data retrieval

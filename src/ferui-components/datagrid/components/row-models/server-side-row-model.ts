@@ -18,7 +18,7 @@ import {
   SortModel
 } from '../../types/server-side-row-model';
 import { DatagridUtils } from '../../utils/datagrid-utils';
-import { RowNode } from '../entities/row-node';
+import { FuiDatagridRowNode } from '../entities/fui-datagrid-row-node';
 
 @Injectable()
 export class FuiDatagridServerSideRowModel implements ServerSideRowModelInterface {
@@ -29,7 +29,7 @@ export class FuiDatagridServerSideRowModel implements ServerSideRowModelInterfac
   offset: number;
   limit: number;
   totalRows: number | null = null;
-  currentlyLoadedRows: RowNode[];
+  currentlyLoadedRows: FuiDatagridRowNode[];
 
   constructor(
     private sortService: FuiDatagridSortService,
@@ -114,10 +114,10 @@ export class FuiDatagridServerSideRowModel implements ServerSideRowModelInterfac
         .bind(this.datasource.context, params)()
         .then((resultObject: IDatagridResultObject) => {
           this.totalRows = !FeruiUtils.isNullOrUndefined(resultObject.total) ? resultObject.total : null;
-          const rowNodes: RowNode[] = [];
+          const rowNodes: FuiDatagridRowNode[] = [];
           if (resultObject && resultObject.data && resultObject.data.length > 0) {
             resultObject.data.forEach(rowData => {
-              const rowNode: RowNode = new RowNode(this.optionsWrapper, this.eventService);
+              const rowNode: FuiDatagridRowNode = new FuiDatagridRowNode(this.optionsWrapper, this.eventService);
               const hasRowNodeIdFunc =
                 !FeruiUtils.isNullOrUndefined(this.optionsWrapper.getRowNodeIdFunc()) &&
                 typeof this.optionsWrapper.getRowNodeIdFunc() === 'function';
