@@ -269,19 +269,29 @@
           align-items: center;
           align-content: center;
 
-          .fui-modal-header-title {
-            line-height: 20px;
-            color: inherit;
-            font-weight: $font-weight-bold;
-            font-size: $font-size-lg;
-          }
-
-          .fui-modal-header-subtitle {
-            line-height: 14px;
-            color: $gray-450;
-            font-size: $font-size-base;
-          }
+        .fui-modal-header-title {
+          line-height: 20px;
+          color: inherit;
+          font-weight: $font-weight-bold;
+          font-size: $font-size-lg;
+          max-width: calc(100% - 54px);
+          margin-right: -54px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
+
+        .fui-modal-header-subtitle {
+          line-height: 14px;
+          color: $gray-450;
+          font-size: $font-size-base;
+          max-width: calc(100% - 54px);
+          margin-right: -54px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
 
         .fui-modal-header-close {
           position: relative;

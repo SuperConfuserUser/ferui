@@ -84,7 +84,7 @@ import { ModalExample3Component } from './modals/standard/modal-example-3.compon
     <ng-template #testTitleTplt>
       <div class="fui-modal-header-title">
         <clr-icon shape="fui-document-list"></clr-icon>
-        This title illustrate a simple modal using 'titleTemplate'
+        This title illustrate a simple modal using 'titleTemplate' and a really long long long long title
       </div>
       <div class="fui-modal-header-subtitle">
         You can of course use the same FerUI classes as the regular modal for more convenience.
