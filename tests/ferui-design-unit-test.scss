@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+// We load the strict necessary here for running tests.
+@import '../../ferui-design/scss/functions';
+@import '../../ferui-design/scss/mixins';
+@import '../../ferui-design/scss/variables';
+
+// The ng-select component heavily depends on the style for its unit tests.
+@import '../../ferui-design/scss/forms/select/ng-select.component';
+
+@import '../../ferui-design/scss/bootstrap-45/utilities';

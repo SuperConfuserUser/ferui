@@ -64,7 +64,6 @@ export type GroupValueFn = (key: string | object, children: any[]) => string | o
 @Component({
   selector: 'ng-select, fui-select',
   templateUrl: './ng-select.component.html',
-  styleUrls: ['./ng-select.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
