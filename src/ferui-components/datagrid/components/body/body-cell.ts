@@ -25,7 +25,7 @@ import { FuiDatagridBodyCellContext } from '../../types/body-cell-context';
 import { FuiRowSelectionEnum } from '../../types/row-selection.enum';
 import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
 import { Column } from '../entities/column';
-import { RowNode } from '../entities/row-node';
+import { FuiDatagridRowNode } from '../entities/fui-datagrid-row-node';
 
 @Component({
   selector: 'fui-datagrid-body-cell',
@@ -82,7 +82,7 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
   @HostBinding('style.line-height.px') lineHeight: number = null;
 
   @Input() column: Column;
-  @Input() rowNode: RowNode;
+  @Input() rowNode: FuiDatagridRowNode;
 
   // ngModel for selection checkbox and radio.
   rowSelected: boolean | string = null;

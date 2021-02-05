@@ -7,7 +7,7 @@ import { DatagridStateService } from '../../../services/datagrid-state.service';
 import { FuiDatagridEventService } from '../../../services/event.service';
 import { IServerSideDatasource, IServerSideGetRowsParams } from '../../../types/server-side-row-model';
 import { DatagridUtils } from '../../../utils/datagrid-utils';
-import { RowNode } from '../../entities/row-node';
+import { FuiDatagridRowNode } from '../../entities/fui-datagrid-row-node';
 
 import { InfiniteBlock, InfiniteBlockState } from './infinite-block';
 
@@ -23,8 +23,8 @@ export class InfiniteCache {
   private blockLoadDebounceMillis: number = 50; // ms
   private subscriptions: Subscription[] = [];
   private loadedBlocksSubscriptions: Subscription[] = [];
-  private loadedBlocksSub: Subject<RowNode[]> = new Subject<RowNode[]>();
-  private rows: RowNode[] = [];
+  private loadedBlocksSub: Subject<FuiDatagridRowNode[]> = new Subject<FuiDatagridRowNode[]>();
+  private rows: FuiDatagridRowNode[] = [];
   private limit: number = 0;
 
   constructor(
@@ -111,7 +111,7 @@ export class InfiniteCache {
    * Return the currently loaded rows excluding the empty/error ones.
    * This is used by the selection service to select all loaded rows.
    */
-  getCurrentlyLoadedRows(): RowNode[] {
+  getCurrentlyLoadedRows(): FuiDatagridRowNode[] {
     return this.rows.filter(rowNode => {
       return !FeruiUtils.isNullOrUndefined(rowNode.data);
     });
@@ -120,7 +120,7 @@ export class InfiniteCache {
   /**
    * Get the rows observable that we're listening to in order to get the rows.
    */
-  getRows(): Observable<RowNode[]> {
+  getRows(): Observable<FuiDatagridRowNode[]> {
     return this.loadedBlocksSub.asObservable();
   }
 
@@ -232,10 +232,10 @@ export class InfiniteCache {
    * @param remove
    * @private
    */
-  private createDisplayedRowsArray(block: InfiniteBlock, rows: RowNode[] = [], remove: boolean = false): void {
+  private createDisplayedRowsArray(block: InfiniteBlock, rows: FuiDatagridRowNode[] = [], remove: boolean = false): void {
     if (rows.length === 0) {
       for (let i = 0; i < this.maxReachedRowIndex; i++) {
-        const emptyRow: RowNode = this.createEmptyRow(`${i}-empty-row`);
+        const emptyRow: FuiDatagridRowNode = this.createEmptyRow(`${i}-empty-row`);
         rows.push(emptyRow);
       }
     }
@@ -246,10 +246,10 @@ export class InfiniteCache {
       const errorRow = this.createErrorRow(`${startIndex}-error-block`, block.error);
       rows.splice(startIndex, block.limit, errorRow);
     } else {
-      const rowNodes: RowNode[] = block.rowNodes;
+      const rowNodes: FuiDatagridRowNode[] = block.rowNodes;
       let rowCount = 0;
       for (const row of rowNodes) {
-        const emptyRow: RowNode = this.createEmptyRow(`${rowCount}-${startIndex}-empty-row`);
+        const emptyRow: FuiDatagridRowNode = this.createEmptyRow(`${rowCount}-${startIndex}-empty-row`);
         const replace = remove ? emptyRow : row;
         rows.splice(startIndex + rowCount, 1, replace);
         rowCount++;
@@ -259,25 +259,25 @@ export class InfiniteCache {
   }
 
   /**
-   * Create an error RowNode.
+   * Create an error FuiDatagridRowNode.
    * @param id
    * @param error
    * @private
    */
-  private createErrorRow(id: string, error: string | Error): RowNode {
-    const errorRow: RowNode = new RowNode(this.optionsWrapper, this.eventService);
+  private createErrorRow(id: string, error: string | Error): FuiDatagridRowNode {
+    const errorRow: FuiDatagridRowNode = new FuiDatagridRowNode(this.optionsWrapper, this.eventService);
     errorRow.setDataAndId(null, id);
     errorRow.setError(error);
     return errorRow;
   }
 
   /**
-   * Create an empty RowNode.
+   * Create an empty FuiDatagridRowNode.
    * @param id
    * @private
    */
-  private createEmptyRow(id: string): RowNode {
-    const emptyRow: RowNode = new RowNode(this.optionsWrapper, this.eventService);
+  private createEmptyRow(id: string): FuiDatagridRowNode {
+    const emptyRow: FuiDatagridRowNode = new FuiDatagridRowNode(this.optionsWrapper, this.eventService);
     emptyRow.setDataAndId(null, id);
     return emptyRow;
   }

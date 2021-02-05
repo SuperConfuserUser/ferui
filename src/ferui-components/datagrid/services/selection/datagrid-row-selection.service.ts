@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { FeruiUtils } from '../../../utils/ferui-utils';
-import { RowNode } from '../../components/entities/row-node';
+import { FuiDatagridRowNode } from '../../components/entities/fui-datagrid-row-node';
 import { RowModel } from '../../components/row-models/row-model';
 import { FuiDatagridEvents, RowSelectedEvent, SelectionChangedEvent } from '../../events';
 import { FuiRowSelectionEnum } from '../../types/row-selection.enum';
@@ -16,7 +16,7 @@ export class FuiDatagridRowSelectionService {
   initialized: boolean = false;
   rowSelection: FuiRowSelectionEnum;
 
-  private selectedNodes: { [key: string]: RowNode } = {};
+  private selectedNodes: { [key: string]: FuiDatagridRowNode } = {};
   private subscriptions: Subscription[] = [];
   private partialSelection: boolean = true;
 
@@ -30,7 +30,7 @@ export class FuiDatagridRowSelectionService {
    * Initialise the selected nodes.
    * @param selectedNodes
    */
-  initSelectedNodes(selectedNodes: RowNode[]): void {
+  initSelectedNodes(selectedNodes: FuiDatagridRowNode[]): void {
     if (!selectedNodes || (selectedNodes && selectedNodes.length === 0)) {
       return;
     }
@@ -78,12 +78,12 @@ export class FuiDatagridRowSelectionService {
     if (this.rowModel.isClientSideRowModel() && this.rowModel.getRowModel().getRowCount() === 0) {
       return;
     }
-    let totalRows: RowNode[] = [];
+    let totalRows: FuiDatagridRowNode[] = [];
     if (this.rowModel.isClientSideRowModel()) {
-      const nodesMap: { [id: string]: RowNode } = this.rowModel.getClientSideRowModel().getCopyOfNodesMap();
+      const nodesMap: { [id: string]: FuiDatagridRowNode } = this.rowModel.getClientSideRowModel().getCopyOfNodesMap();
       for (const nodesMapKey in nodesMap) {
         if (nodesMap.hasOwnProperty(nodesMapKey)) {
-          const rowNode: RowNode = nodesMap[nodesMapKey];
+          const rowNode: FuiDatagridRowNode = nodesMap[nodesMapKey];
           if (rowNode.selectable) {
             totalRows.push(rowNode);
           }
@@ -168,8 +168,8 @@ export class FuiDatagridRowSelectionService {
   /**
    * Get the selected RowNodes.
    */
-  getSelectedNodes(): RowNode[] {
-    const selectedNodes: RowNode[] = [];
+  getSelectedNodes(): FuiDatagridRowNode[] {
+    const selectedNodes: FuiDatagridRowNode[] = [];
     for (const nodeId in this.selectedNodes) {
       if (this.selectedNodes.hasOwnProperty(nodeId)) {
         selectedNodes.push(this.selectedNodes[nodeId]);
@@ -211,7 +211,7 @@ export class FuiDatagridRowSelectionService {
    * @param rowNode
    * @private
    */
-  private selectNode(rowNode: RowNode): void {
+  private selectNode(rowNode: FuiDatagridRowNode): void {
     if (this.optionsWrapperService.getRowSelection() === FuiRowSelectionEnum.SINGLE) {
       this.deselectRows();
     }
@@ -225,11 +225,11 @@ export class FuiDatagridRowSelectionService {
   }
 
   /**
-   * Deselect a specific RowNode.
+   * Deselect a specific FuiDatagridRowNode.
    * @param rowNode
    * @private
    */
-  private deselectNode(rowNode: RowNode): void {
+  private deselectNode(rowNode: FuiDatagridRowNode): void {
     this.partialSelection = true;
     this.selectedNodes[rowNode.id] = undefined;
     delete this.selectedNodes[rowNode.id];

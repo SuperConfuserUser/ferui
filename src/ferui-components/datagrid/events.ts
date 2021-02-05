@@ -1,6 +1,6 @@
 import { FuiBodyCellComponent } from './components/body/body-cell';
 import { Column } from './components/entities/column';
-import { RowNode } from './components/entities/row-node';
+import { FuiDatagridRowNode } from './components/entities/fui-datagrid-row-node';
 import { FuiDatagridApiService } from './services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from './services/datagrid-column-api.service';
 import { DragItem, DragSource, HDirection, VDirection } from './types/drag-and-drop';
@@ -22,13 +22,13 @@ export interface FuiDatagridEvent extends DatagridEvent {
 // * ROW EVENTS */
 // -------------*/
 export interface RowEvent extends DatagridEvent {
-  rowNode: RowNode;
+  rowNode: FuiDatagridRowNode;
 }
 
 export interface RowSelectedEvent extends RowEvent {}
 
 export interface SelectionChangedEvent extends DatagridEvent {
-  selectedItems: { [key: string]: RowNode };
+  selectedItems: { [key: string]: FuiDatagridRowNode };
 }
 
 export interface RowClickedEvent extends RowEvent {}
@@ -108,7 +108,7 @@ export interface DragEvent extends FuiDatagridEvent {}
 export interface RowDataChanged extends FuiDatagridEvent {}
 
 export interface ServerSideRowDataChanged extends FuiDatagridEvent {
-  rowNodes: RowNode[];
+  rowNodes: FuiDatagridRowNode[];
   total?: number;
   pageIndex?: number;
 }

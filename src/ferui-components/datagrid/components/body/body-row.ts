@@ -24,7 +24,7 @@ import { FuiDatagridEventService } from '../../services/event.service';
 import { RowRendererService } from '../../services/rendering/row-renderer.service';
 import { FuiDatagridRowSelectionService } from '../../services/selection/datagrid-row-selection.service';
 import { Column } from '../entities/column';
-import { RowNode } from '../entities/row-node';
+import { FuiDatagridRowNode } from '../entities/fui-datagrid-row-node';
 
 import { FuiBodyCellComponent } from './body-cell';
 
@@ -52,7 +52,7 @@ export class FuiBodyRowComponent implements OnInit, OnDestroy {
   @Input()
   rowHeight: number = 0;
 
-  @Input() rowNode: RowNode;
+  @Input() rowNode: FuiDatagridRowNode;
   @Input() hasActionMenu: boolean;
 
   @ContentChildren(FuiBodyCellComponent) cells: QueryList<FuiBodyCellComponent>;

@@ -1,4 +1,4 @@
-import { RowNode } from '../components/entities/row-node';
+import { FuiDatagridRowNode } from '../components/entities/fui-datagrid-row-node';
 
 export interface RefreshModelParams {
   // how much of the pipeline to execute
@@ -8,5 +8,5 @@ export interface RefreshModelParams {
 }
 
 export interface ChangedPath {
-  rowNodes: RowNode[];
+  rowNodes: FuiDatagridRowNode[];
 }

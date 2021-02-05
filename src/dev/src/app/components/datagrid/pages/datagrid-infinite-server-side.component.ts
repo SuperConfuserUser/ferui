@@ -7,6 +7,7 @@ import {
   FuiColumnDefinitions,
   FuiDatagridBodyCellContext,
   FuiDatagridComponent,
+  FuiDatagridRowNode,
   FuiDatagridSortDirections,
   FuiFieldTypes,
   FuiRowModel,
@@ -14,8 +15,7 @@ import {
   IDatagridResultObject,
   IDateFilterParams,
   IServerSideDatasource,
-  IServerSideGetRowsParams,
-  RowNode
+  IServerSideGetRowsParams
 } from '@ferui/components';
 
 import { DatagridService } from '../datagrid.service';
@@ -203,16 +203,16 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
   networkBandwith: number = 260;
 
   rowSelectionEnum: typeof FuiRowSelectionEnum = FuiRowSelectionEnum;
-  initialSelectionList$: Observable<RowNode[]>;
-  storedSelectionList: RowNode[] = [];
+  initialSelectionList$: Observable<FuiDatagridRowNode[]>;
+  storedSelectionList: FuiDatagridRowNode[] = [];
 
   // For this demo, we're using an observable to update the value to be sure to avoid natural change detection (aka CD).
   // With natural CD, if we mutate the array, it won't be detected (for instance when we update the 'selected' state of a
-  // RowNode). If we un-select the previously selected row, then re-load the selection, it won't update the datagrid because for
+  // FuiDatagridRowNode). If we un-select the previously selected row, then re-load the selection, it won't update the datagrid because for
   // CD, there is no changes. When using Observable, we force this change to be detected at any time.
   // In a real world implementation (within a wizard for instance) we won't need to use an observable, because we would re-load
   // the whole datagrid in previous step and inject the initial selection. The CD will be notified of the change.
-  private initialSelectionListSub: BehaviorSubject<RowNode[]> = new BehaviorSubject<RowNode[]>([]);
+  private initialSelectionListSub: BehaviorSubject<FuiDatagridRowNode[]> = new BehaviorSubject<FuiDatagridRowNode[]>([]);
 
   constructor(private rowDataService: RowDataApiService, public datagridService: DatagridService) {}
 

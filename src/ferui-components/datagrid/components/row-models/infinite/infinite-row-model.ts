@@ -17,7 +17,7 @@ import {
   ServerSideRowModelInterface,
   SortModel
 } from '../../../types/server-side-row-model';
-import { RowNode } from '../../entities/row-node';
+import { FuiDatagridRowNode } from '../../entities/fui-datagrid-row-node';
 
 import { InfiniteCache } from './infinite-cache';
 
@@ -98,14 +98,14 @@ export class FuiDatagridInfinteRowModel implements ServerSideRowModelInterface {
   /**
    * Get currently loaded blocks (blocks that have the 'loaded' state).
    */
-  getCurrentlyLoadedRows(): RowNode[] {
+  getCurrentlyLoadedRows(): FuiDatagridRowNode[] {
     return this.infiniteCache.getCurrentlyLoadedRows();
   }
 
   /**
    * Get the observable of rows to be displayed.
    */
-  getDisplayedRows(): Observable<RowNode[]> {
+  getDisplayedRows(): Observable<FuiDatagridRowNode[]> {
     return this.infiniteCache.getRows();
   }
 

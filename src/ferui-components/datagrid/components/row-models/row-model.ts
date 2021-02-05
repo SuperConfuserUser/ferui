@@ -4,7 +4,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 
 import { FuiRowModel } from '../../types/row-model.enum';
 import { IServerSideDatasource, ServerSideRowModelInterface } from '../../types/server-side-row-model';
-import { RowNode } from '../entities/row-node';
+import { FuiDatagridRowNode } from '../entities/fui-datagrid-row-node';
 
 import { FuiDatagridClientSideRowModel } from './client-side-row-model';
 import { FuiDatagridInfinteRowModel } from './infinite/infinite-row-model';
@@ -54,7 +54,7 @@ export class RowModel {
   /**
    * Get all displayed rows.
    */
-  getDisplayedRows(): RowNode[] {
+  getDisplayedRows(): FuiDatagridRowNode[] {
     switch (this.rowModel) {
       case FuiRowModel.CLIENT_SIDE:
         return this.clientSideRowModel.getRowNodesToDisplay();

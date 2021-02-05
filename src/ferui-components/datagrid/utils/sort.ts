@@ -1,5 +1,5 @@
 import { Column } from '../components/entities/column';
-import { RowNode } from '../components/entities/row-node';
+import { FuiDatagridRowNode } from '../components/entities/fui-datagrid-row-node';
 import { FuiFieldTypes } from '../types/field-types.enum';
 import { ChangedPath } from '../types/refresh-model-params';
 import { FuiDatagridSortDirections } from '../types/sort-directions.enum';
@@ -76,7 +76,7 @@ export function sortRows(changedPath: ChangedPath, columns: Column[]): void {
    * record the row ordering of results from prior sort operations (if applicable)
    * this is necessary to guarantee stable sorting behavior
    */
-  const rowToIndexMap = new Map<RowNode, number>();
+  const rowToIndexMap = new Map<FuiDatagridRowNode, number>();
   changedPath.rowNodes.forEach((row, index) => rowToIndexMap.set(row, index));
 
   const temp = [...changedPath.rowNodes];
@@ -96,7 +96,7 @@ export function sortRows(changedPath: ChangedPath, columns: Column[]): void {
     }
   }
 
-  changedPath.rowNodes = temp.sort((a: RowNode, b: RowNode) => {
+  changedPath.rowNodes = temp.sort((a: FuiDatagridRowNode, b: FuiDatagridRowNode) => {
     for (const column of columns) {
       const propA = manageFieldType(a.data, column);
       const propB = manageFieldType(b.data, column);

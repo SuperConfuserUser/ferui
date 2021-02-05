@@ -2,11 +2,11 @@ import { FeruiUtils } from '../../../utils/ferui-utils';
 import { FuiDatagridEvents, RowSelectedEvent } from '../../events';
 import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-options-wrapper.service';
 import { FuiDatagridEventService } from '../../services/event.service';
-import { FuiDatagridRowNode } from '../../types/datagrid-row-node-interface';
+import { FuiDatagridRowNodeInterface } from '../../types/datagrid-row-node-interface';
 import { FuiRowSelectionEnum } from '../../types/row-selection.enum';
 
-export class RowNode implements FuiDatagridRowNode {
-  private _data: any;
+export class FuiDatagridRowNode<D = any> implements FuiDatagridRowNodeInterface<D> {
+  private _data: D;
   private _id: string;
   private _rowHeight: number;
   private _rowIndex: number;
@@ -18,7 +18,7 @@ export class RowNode implements FuiDatagridRowNode {
 
   constructor(private datagridOptionsWrapper: FuiDatagridOptionsWrapperService, private eventService: FuiDatagridEventService) {}
 
-  get data(): any {
+  get data(): D {
     return this._data;
   }
 
@@ -62,7 +62,7 @@ export class RowNode implements FuiDatagridRowNode {
     this._isFirstRow = value;
   }
 
-  setDataAndId(data: any[], id: string | undefined): void {
+  setDataAndId(data: D, id: string | undefined): void {
     this._data = data;
     this.setId(id);
     this.checkRowSelectable();

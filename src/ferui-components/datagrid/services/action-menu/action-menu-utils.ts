@@ -1,4 +1,4 @@
-import { RowNode } from '../../components/entities/row-node';
+import { FuiDatagridRowNode } from '../../components/entities/fui-datagrid-row-node';
 import { FuiDatagridBodyRowContext } from '../../types/body-row-context';
 
 /**
@@ -10,7 +10,7 @@ export class FuiActionMenuUtils {
    * This is used in place of the FuiDatagridBodyRow definition which is much more complex object.
    * This is for better memory consumption.
    */
-  static getContextForActionMenu(row: RowNode, rowTopValue: number): FuiDatagridBodyRowContext {
+  static getContextForActionMenu(row: FuiDatagridRowNode, rowTopValue: number): FuiDatagridBodyRowContext {
     return {
       rowNode: row,
       rowTopValue: rowTopValue,

@@ -83,7 +83,7 @@ import { ColumnUtilsService } from '../utils/column-utils.service';
 import { DatagridUtils } from '../utils/datagrid-utils';
 
 import { Column } from './entities/column';
-import { RowNode } from './entities/row-node';
+import { FuiDatagridRowNode } from './entities/fui-datagrid-row-node';
 import { FuiDatagridFiltersComponent } from './filters/filters';
 import { FuiDatagridPagerComponent } from './pager/pager';
 import { FuiDatagridClientSideRowModel } from './row-models/client-side-row-model';
@@ -309,7 +309,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Input() columnDefs: FuiColumnDefinitions[] = [];
   @Input() defaultColDefs: FuiColumnDefinitions = {};
-  @Input() trackByFn: TrackByFunction<RowNode>;
+  @Input() trackByFn: TrackByFunction<FuiDatagridRowNode>;
 
   ///////////// Grid export params /////////////
   @Input() exportParams: BaseExportParams;
@@ -362,7 +362,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
     this.datagridOptionsWrapper.setGridOption('isRowSelectable', valueFn);
   }
 
-  @Input() set initialSelectedRows(rowNodeSelection: RowNode[] | Observable<RowNode[]>) {
+  @Input() set initialSelectedRows(rowNodeSelection: FuiDatagridRowNode[] | Observable<FuiDatagridRowNode[]>) {
     if (isObservable(rowNodeSelection)) {
       if (!this._initialSelectedRowsSub) {
         this._initialSelectedRowsSub = rowNodeSelection.subscribe(rowNodes => {
@@ -401,7 +401,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   private _rowDataModel: FuiRowModel = FuiRowModel.CLIENT_SIDE;
   private _gridWidth: string = '100%';
   private _gridHeight: string = 'auto';
-  private _displayedRows: RowNode[] = [];
+  private _displayedRows: FuiDatagridRowNode[] = [];
   private _maxDisplayedRows: number = null;
   private _maxDisplayedRowsFirstLoad: boolean = true;
   private _totalRows: number = 0;
@@ -670,14 +670,14 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Gets the sorted rows.
    */
-  get displayedRows(): RowNode[] {
+  get displayedRows(): FuiDatagridRowNode[] {
     return this._displayedRows;
   }
 
   /**
    * Rows that are displayed in the table.
    */
-  set displayedRows(value: RowNode[]) {
+  set displayedRows(value: FuiDatagridRowNode[]) {
     this._displayedRows = value;
     this.cd.markForCheck();
   }
@@ -1062,11 +1062,11 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param index
    * @param instructor
    */
-  rowTrackByFn(index: number, instructor: RowNode): any {
+  rowTrackByFn(index: number, instructor: FuiDatagridRowNode): any {
     if (this.trackByFn) {
       return this.trackByFn(index, instructor);
     }
-    // Since we have a RowNode object, we can directly use its id attribute. (it will always be set)
+    // Since we have a FuiDatagridRowNode object, we can directly use its id attribute. (it will always be set)
     return instructor.id;
   }
 
@@ -1331,9 +1331,9 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Retrieve all selected RowNode. This is useful if you want to re-use the items within the grid.
+   * Retrieve all selected FuiDatagridRowNode. This is useful if you want to re-use the items within the grid.
    */
-  getSelectedNodes(): RowNode[] | null {
+  getSelectedNodes<D = any>(): FuiDatagridRowNode<D>[] | null {
     if (this.rowSelectionService && this.rowSelection) {
       return this.rowSelectionService.getSelectedNodes();
     }

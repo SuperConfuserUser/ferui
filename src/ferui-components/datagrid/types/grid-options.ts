@@ -1,4 +1,4 @@
-import { RowNode } from '../components/entities/row-node';
+import { FuiDatagridRowNode } from '../components/entities/fui-datagrid-row-node';
 import { FuiDatagridApiService } from '../services/datagrid-api.service';
 import { FuiDatagridColumnApiService } from '../services/datagrid-column-api.service';
 
@@ -9,7 +9,7 @@ import { FuiRowModel } from './row-model.enum';
 import { FuiRowSelectionEnum } from './row-selection.enum';
 
 export interface IsRowSelectable {
-  (row: RowNode): boolean;
+  (row: FuiDatagridRowNode): boolean;
 }
 
 export interface GetRowNodeIdFunc {
