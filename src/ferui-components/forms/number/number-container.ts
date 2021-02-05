@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ContentChild } from '@angular/core';
 
+import { FuiHelperDirective } from '../../helper/fui-helper-directive';
 import { FuiFormAbstractContainer } from '../common/abstract-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
 import { ControlClassService } from '../common/providers/control-class.service';
@@ -32,7 +33,10 @@ import { NumberIoService } from './providers/number-io.service';
           </div>
         </div>
 
-        <label class="fui-control-icons" tabindex="0">
+        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
+          <div *ngIf="!invalid" [ngClass]="{ 'adjust-margin-right fui-input-group-icon-action': !!fuiHelper }">
+            <ng-content select="[fuiHelper]"></ng-content>
+          </div>
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error>
@@ -60,6 +64,7 @@ import { NumberIoService } from './providers/number-io.service';
   ]
 })
 export class FuiNumberContainerComponent extends FuiFormAbstractContainer {
+  @ContentChild(FuiHelperDirective) fuiHelper: FuiHelperDirective;
   constructor(
     ifErrorService: IfErrorService,
     controlClassService: ControlClassService,

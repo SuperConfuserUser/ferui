@@ -79,6 +79,10 @@ export class TextareaComponent extends AbstractControlDemoComponent implements O
         <fui-textarea-container #code>
           <label fuiLabel for="three">Full example</label>
           <textarea placeholder="With placeholder" fuiTextarea id="three" name="three" [(ngModel)]="models.three" required></textarea>
+          <clr-icon fuiHelper shape="fui-auto-protected"
+                [ngStyle]="{color: 'blue'}"
+                [fuiTooltip]="'A very special textarea with a custom icon to show!'"
+                [fuiTooltipConfig]="{placement: 'right', arrow: false, tooltipStyle: 'color: red; background-color: ghostwhite;' }"></clr-icon>
         </fui-textarea-container>`
     });
     this.inputFour = new DemoComponentData({

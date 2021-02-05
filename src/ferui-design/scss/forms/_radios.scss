@@ -5,9 +5,20 @@
   .fui-radio-wrapper {
     display: block;
     position: relative;
-    height: 1.25rem;
+    min-height: 1.25rem;
     width: auto;
     margin: 10px 0 0 0;
+    &.has-fui-helper {
+      display: flex;
+      input[type='radio'] + label {
+        display: inline-block;
+        margin-right: 0.4375rem;
+      }
+      .fui-helper {
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+    }
 
     input[type='radio'] {
       box-sizing: border-box;
@@ -32,7 +43,8 @@
         user-select: none;
         min-height: $checkbox-min-height;
         padding-left: calc(#{$checkbox-min-height} + #{$radio-checkbox-label-left-value});
-        line-height: $checkbox-min-height;
+        line-height: $controls-icons-default-width;
+        padding-top: 2px;
         font-weight: $font-weight-base;
 
         &::before {

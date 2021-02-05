@@ -43,6 +43,12 @@
 
           margin-left: $controls-padding;
           cursor: pointer;
+          &.adjust-margin-right {
+            margin-right: $controls-padding;
+          }
+          .fui-helper {
+            margin-bottom: 3px;
+          }
         }
       }
 
@@ -75,9 +81,9 @@
             color: $red;
           }
 
-          &:focus-within ~ .fui-subtext-wrapper,
-          &:focus ~ .fui-subtext-wrapper,
-          &:hover ~ .fui-subtext-wrapper {
+          &.invalid:focus-within ~ .fui-subtext-wrapper,
+          &.invalid:focus ~ .fui-subtext-wrapper,
+          &.invalid:hover ~ .fui-subtext-wrapper {
             .fui-subtext:first-child {
               visibility: visible;
               opacity: 1;
@@ -192,6 +198,14 @@
 
           margin-left: $controls-small-padding;
           cursor: pointer;
+          &.has-fui-helper {
+            margin-right: 5px;
+          }
+        }
+        .fui-helper {
+          width: 0.75rem;
+          height: 0.75rem;
+          vertical-align: baseline;
         }
       }
 
@@ -222,9 +236,9 @@
             fill: $red;
           }
 
-          &:focus-within ~ .fui-subtext-wrapper,
-          &:focus ~ .fui-subtext-wrapper,
-          &:hover ~ .fui-subtext-wrapper {
+          &.invalid:focus-within ~ .fui-subtext-wrapper,
+          &.invalid:focus ~ .fui-subtext-wrapper,
+          &.invalid:hover ~ .fui-subtext-wrapper {
             .fui-subtext:first-child {
               visibility: visible;
               opacity: 1;

@@ -13,6 +13,7 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
             <demo-component [form]="demoForm" [componentData]="inputTwo"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputThree"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
           </demo-page>
         </fui-tab>
         <fui-tab [title]="'Documentation'">
@@ -36,13 +37,15 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
     one: '',
     two: true,
     three: '',
-    four: 'yes'
+    four: 'yes',
+    five: ''
   };
 
   inputOne: DemoComponentData;
   inputTwo: DemoComponentData;
   inputThree: DemoComponentData;
   inputFour: DemoComponentData;
+  inputFive: DemoComponentData;
 
   constructor() {
     super();
@@ -72,6 +75,7 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
         <fui-radio-wrapper class="code">
           <input type="radio" fuiRadio name="two" value="no" [(ngModel)]="models.two" />
           <label fuiLabel>Option 2 (no)</label>
+          <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
         </fui-radio-wrapper>`
     });
 
@@ -110,6 +114,23 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
       <fui-radio-wrapper class="code">
         <input type="radio" [disabled]="params.disabled" fuiRadio name="four" value="no" [(ngModel)]="models.four" />
         <label fuiLabel>Option 2</label>
+      </fui-radio-wrapper>`
+    });
+
+    this.inputFive = new DemoComponentData({
+      title: `<h5>Radio with a long label and the fui helper icon:</h5>`,
+      models: {
+        five: this.model.five
+      },
+      source: `
+      <fui-radio-wrapper class="code">
+        <input type="radio" fuiRadio name="five" value="yes" [(ngModel)]="models.five" />
+        <label fuiLabel>You can choose a small label</label>
+      </fui-radio-wrapper>
+      <fui-radio-wrapper class="code" [ngStyle]="{ 'width': '291px' }">
+        <input type="radio" fuiRadio name="five" value="no" [(ngModel)]="models.five" />
+        <label fuiLabel>You can choose a very long descriptive label with a helper icon</label>
+        <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
       </fui-radio-wrapper>`
     });
   }

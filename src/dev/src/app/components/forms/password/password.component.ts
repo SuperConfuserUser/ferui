@@ -13,6 +13,7 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
             <demo-component [form]="demoForm" [componentData]="inputTwo"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputThree"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
           </demo-page>
         </fui-tab>
         <fui-tab [title]="'Documentation'">
@@ -36,13 +37,15 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
     one: '',
     two: '',
     three: '',
-    four: 'Disabled with value'
+    four: 'Disabled with value',
+    five: ''
   };
 
   inputOne: DemoComponentData;
   inputTwo: DemoComponentData;
   inputThree: DemoComponentData;
   inputFour: DemoComponentData;
+  inputFive: DemoComponentData;
 
   constructor() {
     super();
@@ -68,6 +71,7 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
           <label fuiLabel>Full example</label>
           <input placeholder="With placeholder" fuiPassword name="two" [(ngModel)]="models.two" required />
           <fui-control-error>This field is required (this message overwrite any other ones)</fui-control-error>
+          <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
         </fui-password-container>`
     });
 
@@ -96,6 +100,18 @@ export class PasswordComponent extends AbstractControlDemoComponent implements O
           <label fuiLabel>Full example (disabled, filled)</label>
           <input fuiPassword name="four" [(ngModel)]="models.four" required [disabled]="params.disabled"/>
           <!-- All the validator messages are default ones -->
+        </fui-password-container>`
+    });
+
+    this.inputFive = new DemoComponentData({
+      title: `<h5>Label, wrapper, <span class="text-danger">required</span> validator, in small layout :</h5>`,
+      models: { five: this.model.five },
+      canDisable: false,
+      source: `
+        <fui-password-container>
+          <label fuiLabel>Small layout</label>
+          <input fuiPassword name="five" [(ngModel)]="models.five" required [layout]="'small'"/>
+          <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
         </fui-password-container>`
     });
   }

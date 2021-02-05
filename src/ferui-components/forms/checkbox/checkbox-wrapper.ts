@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs';
 
 import { ChangeDetectorRef, Component, ContentChild, OnDestroy, OnInit, Optional } from '@angular/core';
 
+import { FuiHelperDirective } from '../../helper/fui-helper-directive';
 import { DynamicWrapper } from '../../utils/host-wrapping/dynamic-wrapper';
 import { FuiLabelDirective } from '../common/label';
 import { FuiFormLayoutEnum } from '../common/layout.enum';
@@ -15,6 +16,7 @@ import { FuiCheckboxService, FuiCheckboxStateEnum } from './checkbox.service';
   template: `
     <ng-content select="[fuiCheckbox]"></ng-content>
     <ng-content select="[fuiLabel]"></ng-content>
+    <ng-content select="[fuiHelper]"></ng-content>
     <div
       class="checkbox-holder"
       [class.checked]="checkboxState === fuiCheckboxStateEnum.CHECKED"
@@ -25,7 +27,8 @@ import { FuiCheckboxService, FuiCheckboxStateEnum } from './checkbox.service';
     </div>
   `,
   host: {
-    '[class.fui-checkbox-wrapper]': 'true'
+    '[class.fui-checkbox-wrapper]': 'true',
+    '[class.has-fui-helper]': '!!fuiHelper'
   },
   providers: [ControlIdService, FuiCheckboxService]
 })
@@ -35,6 +38,7 @@ export class FuiCheckboxWrapperComponent implements DynamicWrapper, OnInit, OnDe
   fuiCheckboxStateEnum: typeof FuiCheckboxStateEnum = FuiCheckboxStateEnum;
 
   @ContentChild(FuiLabelDirective) label: FuiLabelDirective;
+  @ContentChild(FuiHelperDirective) fuiHelper: FuiHelperDirective;
 
   private checkboxStateSubscription: Subscription;
 

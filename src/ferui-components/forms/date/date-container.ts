@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, ContentChild, Input } from '@angular/core';
 
+import { FuiHelperDirective } from '../../helper/fui-helper-directive';
 import { IfOpenService } from '../../utils/conditional/if-open.service';
 import { FuiFormAbstractContainer } from '../common/abstract-container';
 import { IfErrorService } from '../common/if-error/if-error.service';
@@ -31,8 +32,10 @@ import { DateNavigationService } from './providers/date-navigation.service';
           (click)="toggleDatepicker($event)"
           shape="fui-calendar"
           aria-hidden="true"
+          [ngClass]="{ 'has-fui-helper': !!fuiHelper }"
         ></clr-icon>
-        <label class="fui-control-icons" tabindex="0">
+        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
+          <ng-content *ngIf="!invalid" select="[fuiHelper]"></ng-content>
           <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </label>
         <fui-default-control-error>
@@ -66,6 +69,7 @@ import { DateNavigationService } from './providers/date-navigation.service';
 })
 export class FuiDateContainerComponent extends FuiFormAbstractContainer {
   @Input() appendTo: string;
+  @ContentChild(FuiHelperDirective) fuiHelper: FuiHelperDirective;
 
   constructor(
     ifErrorService: IfErrorService,

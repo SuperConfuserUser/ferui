@@ -144,6 +144,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
               [fuiDate]="modelTypeDate"
               [(ngModel)]="model.fourteen"
             />
+            <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
           </fui-date-container>
         </default-template-content>
 
@@ -361,6 +362,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
               [fuiDate]="modelTypeDate"
               [(ngModel)]="model.sixteen"
             />
+            <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
           </fui-date-container>
         </default-template-content>
       </default-template-wrapper>

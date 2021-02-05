@@ -20,7 +20,10 @@ import { FuiPasswordContainerComponent, ToggleService } from './password-contain
 
 @Directive({
   selector: '[fuiPassword]',
-  host: { '[class.fui-input]': 'true' }
+  host: {
+    '[class.fui-input]': 'true',
+    '[class.fui-layout-small]': 'layout === fuiFormLayoutEnum.SMALL'
+  }
 })
 export class FuiPasswordDirective extends WrappedFormControl<FuiPasswordContainerComponent> implements OnInit, OnDestroy {
   protected index = 1;

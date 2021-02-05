@@ -5,6 +5,7 @@ import { FuiDatagridModule } from './datagrid/datagrid.module';
 import { FuiDropdownModule } from './dropdown/dropdown.module';
 import { FuiFilterModule } from './filters/filter.module';
 import { FuiFormsModule } from './forms/forms.module';
+import { FuiHelperModule } from './helper/helper.module';
 import { ClrIconModule } from './icon/icon.module';
 import { FuiModalsModule } from './modals/modals.module';
 import { FuiPipesModule } from './pipes/pipes.module';
@@ -36,7 +37,8 @@ import { FuiWidgetModule } from './widget/widget.module';
     FuiModalsModule,
     FuiToastNotificationModule,
     FuiTooltipModule,
-    FuiFilterModule
+    FuiFilterModule,
+    FuiHelperModule
   ],
   providers: [FuiI18nService, FuiFilterComparatorService]
 })

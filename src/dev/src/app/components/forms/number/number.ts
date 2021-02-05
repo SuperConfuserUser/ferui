@@ -80,6 +80,7 @@ export class NumberComponent extends AbstractControlDemoComponent implements OnI
           <label fuiLabel>Full example</label>
           <input placeholder="With placeholder" type="number" [step]="10" [min]="0" [max]="100" fuiNumber name="three" [(ngModel)]="models.three" required/>
           <fui-control-error *fuiIfError="'required'">This field is required (this message overwrite any other ones)</fui-control-error>
+          <clr-icon shape="fui-help" fuiHelper [fuiTooltip]="'A description of the number at hand'"></clr-icon>
         </fui-number-container>`
     });
 

@@ -96,6 +96,21 @@
         .ng-select {
           .ng-clear-wrapper {
             margin-right: $controls-padding !important;
+            &.has-fui-helper {
+              margin-right: $controls-icons-empty-width + 0.8125rem !important;
+            }
+          }
+          &.fui-layout-small {
+            .ng-clear-wrapper {
+              &.has-fui-helper {
+                margin-right: $controls-icons-empty-width + 0.35rem !important;
+              }
+              &::after {
+                font-size: 0.75rem !important;
+                vertical-align: text-top;
+                @include font-icon($icon-content-clean, $select-clear-size-small);
+              }
+            }
           }
         }
       }
@@ -308,11 +323,27 @@
           }
         }
 
+        &.fui-layout-small {
+          .ng-clear-wrapper {
+            margin-right: calc(#{$controls-padding} - 5px) !important;
+            &.has-fui-helper {
+              margin-right: $controls-icons-empty-width + 0.35rem !important;
+            }
+            &::after {
+              font-size: 0.75rem !important;
+              vertical-align: text-top;
+              @include font-icon($icon-content-clean, $select-clear-size-small);
+            }
+          }
+        }
         .ng-clear-wrapper {
           color: $gray-500;
           margin-right: calc(#{$select-arrow-size} + #{$controls-small-padding} + 5px);
           width: $select-clear-size !important;
           height: $select-clear-size !important;
+          &.has-fui-helper {
+            margin-right: $controls-icons-empty-width + 0.8125rem !important;
+          }
 
           &::after {
             @include font-icon($icon-content-clean, $select-clear-size);

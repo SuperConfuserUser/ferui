@@ -159,6 +159,7 @@ export class NgSelectComponent implements OnInit, OnDestroy, OnChanges, AfterVie
   dropdownId = newId();
   element: HTMLElement;
   focused: boolean;
+  hasFuiHelper: boolean;
   private _itemsAreUsed: boolean;
   private _defaultLabel = 'label';
   private _primitive;

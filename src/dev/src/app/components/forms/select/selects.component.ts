@@ -138,6 +138,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
               [(ngModel)]="models.selectedCountries"
               required>
             </fui-select>
+            <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
           </fui-select-container>`
     });
 
@@ -183,6 +184,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
               [layout]="params.fuiFormLayoutEnum.SMALL"
               [(ngModel)]="models.smallLayoutCountry">
             </fui-select>
+            <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
           </fui-select-container>`
     });
 

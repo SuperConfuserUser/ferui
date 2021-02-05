@@ -14,6 +14,7 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
             <demo-component [form]="demoForm" [componentData]="inputThree"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputSix"></demo-component>
             <div class="footer">
               <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
                 Submit
@@ -43,7 +44,8 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
     fourbis: true,
     fiveIndeterminate: null,
     five: false,
-    fivebis: false
+    fivebis: false,
+    six: false
   };
 
   inputOne: DemoComponentData;
@@ -51,6 +53,7 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
   inputThree: DemoComponentData;
   inputFour: DemoComponentData;
   inputFive: DemoComponentData;
+  inputSix: DemoComponentData;
 
   constructor() {
     super();
@@ -98,6 +101,7 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
           <fui-checkbox-wrapper>
             <input type="checkbox" fuiCheckbox name="threebis" required [(ngModel)]="models.threebis"/>
             <label fuiLabel>Option 2</label>
+            <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
           </fui-checkbox-wrapper>
           <fui-control-error>This field is required!</fui-control-error>
         </fui-checkbox-container>`
@@ -159,6 +163,17 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
             <label fuiLabel>Option 2</label>
           </fui-checkbox-wrapper>
         </fui-checkbox-container>`
+    });
+
+    this.inputSix = new DemoComponentData({
+      title: `<h5>Limited Space for Checkbox label</h5>`,
+      models: { six: this.model.six },
+      source: `
+        <fui-checkbox-wrapper [ngStyle]="{ 'width': '370px' }">
+          <input type="checkbox" fuiCheckbox name="six" [(ngModel)]="models.six"/>
+          <label fuiLabel>By checking this box I attest that section i of this i-9 was prepared by someone other than myself</label>
+          <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
+        </fui-checkbox-wrapper>`
     });
   }
 }
