@@ -30,3 +30,15 @@
   padding: $controls-padding 5rem $controls-padding $controls-padding !important;
   height: $default-control-height !important;
 }
+
+@mixin box-sizing() {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@mixin wrap-text() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

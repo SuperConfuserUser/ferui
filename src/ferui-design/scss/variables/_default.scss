@@ -709,11 +709,11 @@ $form-validation-states: map-merge(
 // of components dependent on the z-axis and are designed to all work together.
 
 $zindex-label: 990 !default;
-$zindex-dropdown: 1000 !default;
+$zindex-dropdown: 1020 !default; // The dropdown and the sticky values must be the same.
 // Form controls error icons need to be visible all the time and appearing above any dropdown.
-$zindex-controls-icons: $zindex-dropdown + 1;
+$zindex-controls-icons: $zindex-dropdown - 1;
 // Form select labels need to be visible all the time and appearing above any dropdown and error icons.
-$zindex-select-label: $zindex-controls-icons + 1;
+$zindex-select-label-icon: $zindex-dropdown + 1;
 $zindex-sticky: 1020 !default;
 $zindex-fixed: 1030 !default;
 $zindex-modal-backdrop: 1040 !default;

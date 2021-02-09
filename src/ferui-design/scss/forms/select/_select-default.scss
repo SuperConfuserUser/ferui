@@ -4,7 +4,7 @@
 @include exports('forms.selects-default') {
   .fui-select-container.fui-form-control {
     .fui-control-label:not(.fui-control-icons) {
-      z-index: $zindex-select-label !important;
+      z-index: $zindex-select-label-icon !important;
     }
 
     .fui-control-container {

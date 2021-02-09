@@ -34,18 +34,27 @@ export default function () {
 
         const localeHelperServ: LocaleHelperService = new LocaleHelperService('en-US');
         const datetimeIOServ: DatetimeIOService = new DatetimeIOService(localeHelperServ);
+        expect(localeHelperServ.locale).toBe('en-US');
         expect(datetimeIOServ.toLocaleDisplayFormatString(date)).toBe('2/1/2015, 4:20:30 PM');
 
         const localeHelperServFR: LocaleHelperService = new LocaleHelperService('fr-FR');
         const datetimeIOServFR: DatetimeIOService = new DatetimeIOService(localeHelperServFR);
-        expect(datetimeIOServFR.toLocaleDisplayFormatString(date)).toBe('01/02/2015 à 16:20:30');
+        expect(localeHelperServFR.locale).toBe('fr-FR');
+        // Depending on the browser installed on the machine, this value may return different values.
+        // For fr-FR locale on chrome v88+, this value returns '01/02/2015, 16:20:30'. But for previous versions, it returns
+        // '01/02/2015 à 16:20:30'. This is caused by the fact that we are using the `Date.prototype.toLocaleString()` method
+        // internally and it will use different versions of the INTL library depending on the browser version.
+        const formattedDate = datetimeIOServFR.toLocaleDisplayFormatString(date);
+        expect(formattedDate === '01/02/2015 à 16:20:30' || formattedDate === '01/02/2015, 16:20:30').toBeTruthy();
 
         const localeHelperServHR: LocaleHelperService = new LocaleHelperService('hr');
         const datetimeIOServHR: DatetimeIOService = new DatetimeIOService(localeHelperServHR);
+        expect(localeHelperServHR.locale).toBe('hr');
         expect(datetimeIOServHR.toLocaleDisplayFormatString(date)).toBe('01. 02. 2015. 16:20:30');
 
         const localeHelperServKKJ: LocaleHelperService = new LocaleHelperService('kkj');
         const datetimeIOServKKJ: DatetimeIOService = new DatetimeIOService(localeHelperServKKJ);
+        expect(localeHelperServKKJ.locale).toBe('kkj');
         expect(datetimeIOServKKJ.toLocaleDisplayFormatString(date)).toBe('2/1/2015, 4:20:30 PM');
       });
 

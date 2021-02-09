@@ -108,7 +108,12 @@
             "main": "tests/tests.entry.ts",
             "tsConfig": "./tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "codeCoverage": true
+            "codeCoverage": true,
+            "styles": ["tests/ferui-design-unit-test.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules", "src/ferui-design/scss", "tests"]
+            },
+            "scripts": ["node_modules/@webcomponents/custom-elements/custom-elements.min.js"]
           }
         },
         "lint": {
