@@ -1,6 +1,6 @@
 import { Injector, Type, ViewContainerRef } from '@angular/core';
 
-import { FuiModalHeadlessWindowComponent } from '../../components/modals-headless-window.component';
+import { FuiModalErrorWindowComponent } from '../../components/modals-error-window.component';
 import {
   FUI_MODAL_CTRL_TOKEN,
   FUI_MODAL_WINDOW_CTRL_TOKEN,
@@ -18,13 +18,13 @@ import { AbstractFuiModalWindowCtrlImpl } from './fui-modal-abstract-window-ctrl
 export class FuiModalErrorWindowCtrlImpl<I = any, CL = any>
   extends AbstractFuiModalWindowCtrlImpl<FuiModalErrorWindowScreen<I, CL>, I, CL>
   implements FuiModalErrorWindowCtrl<I, CL> {
-  component: Type<FuiModalErrorWindowScreen>;
+  component: Type<FuiModalErrorWindowScreen> | null;
 
   protected componentScreenInstance: FuiModalErrorWindowScreen<I, CL>;
 
   constructor(protected modalCtrl: FuiModalCtrl, public windowConfiguration: FuiModalWindowConfiguration) {
     super(modalCtrl, windowConfiguration);
-    this.component = this.windowConfiguration.component;
+    this.component = windowConfiguration.component || null;
   }
 
   /**
@@ -33,8 +33,13 @@ export class FuiModalErrorWindowCtrlImpl<I = any, CL = any>
    */
   render(viewContainerRef: ViewContainerRef): void {
     super.render(viewContainerRef);
-    // We create the FuiModalHeadlessWindowComponent component dynamically and we add it to the desired viewContainerRef.
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(FuiModalHeadlessWindowComponent);
+    if (this.component === null) {
+      this.error = `There is no screen instance set for the modal. <br />
+You must provide one screen (component) for the modal. <br />
+In case of wizard, you must provide at least one step to the modal configuration object.`;
+    }
+    // We create the FuiModalErrorWindowComponent component dynamically and we add it to the desired viewContainerRef.
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(FuiModalErrorWindowComponent);
     this.viewContainerRef.clear();
     this.windowComponentRef = this.viewContainerRef.createComponent(
       componentFactory,

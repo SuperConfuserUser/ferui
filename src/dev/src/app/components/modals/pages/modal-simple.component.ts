@@ -78,6 +78,17 @@ import { ModalExample3Component } from './modals/standard/modal-example-3.compon
               <pre><code [languages]="['typescript']" [highlight]="codeExample5"></code></pre>
             </fui-tab>
           </fui-tabs>
+
+          <fui-tabs>
+            <fui-tab [title]="'Error screen'" [active]="true">
+              <div class="bd-example">
+                <button class="btn btn-sm btn-info" (click)="openSimpleModalError()">Open modal without any component set</button>
+              </div>
+            </fui-tab>
+            <fui-tab [title]="'Code'">
+              <pre><code [languages]="['typescript']" [highlight]="codeExampleError"></code></pre>
+            </fui-tab>
+          </fui-tabs>
         </div>
       </div>
     </div>
@@ -277,6 +288,18 @@ export class ModalSimpleComponent {
     }
   );
 
+  codeExampleError = `openSimpleModalError() {
+  this.modalService
+    .openModal<string>({
+      id: 'simpleModal3',
+      title: 'Simple modal 3',
+      subtitle: 'With resolve & params'
+    })
+    .then(() => {
+      console.log('[modalService.openModal] openSimpleModalError ::: closed');
+    });
+}`;
+
   constructor(private modalService: FuiModalService) {}
 
   openSimpleModal() {
@@ -377,6 +400,18 @@ export class ModalSimpleComponent {
       )
       .then((args: string) => {
         console.log('[modalService.openModal] openSimpleModal3 ::: submitted ::: ', args);
+      });
+  }
+
+  openSimpleModalError() {
+    this.modalService
+      .openModal<string>({
+        id: 'simpleModal3',
+        title: 'Simple modal 3',
+        subtitle: 'With resolve & params'
+      })
+      .then(() => {
+        console.log('[modalService.openModal] openSimpleModalError ::: closed');
       });
   }
 }

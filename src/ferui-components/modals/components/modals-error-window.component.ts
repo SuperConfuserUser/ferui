@@ -13,11 +13,19 @@ import { FuiModalAbstractWindowComponent } from './modals-abstract-window.compon
  * Modal window component class for Error type window.
  */
 @Component({
-  template: `<div class="fui-modal-container fui-modal-headless-window">
+  template: ` <div
+    class="fui-modal-container fui-modal-headless-window"
+    [style.width.px]="windowCtrl.width"
+    [ngClass]="windowCtrl.cssClass"
+  >
     <button class="fui-modal-close-btn" (click)="close($event)">
       <clr-icon class="fui-modal-close-icon" shape="fui-close"></clr-icon>
     </button>
     <div class="fui-modal-body">
+      <fui-alert *ngIf="!windowCtrl.component && windowCtrl.error" class="mb-0" [alertType]="'alert-danger'" [closable]="false">
+        <clr-icon fuiAlertsIcon shape="fui-error"></clr-icon>
+        <span [innerHTML]="windowCtrl.error"></span>
+      </fui-alert>
       <ng-template #componentHost></ng-template>
     </div>
   </div>`

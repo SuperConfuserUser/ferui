@@ -31,7 +31,7 @@ export interface FuiModalWindowTemplateContext {
   windowCtrl: FuiModalWindowCtrl<FuiModalWindowScreen>;
 }
 
-export interface FuiWizardStepConfiguration {
+export interface FuiWizardStepConfiguration extends FuiBaseModalWindowConfiguration {
   stepId: string;
   label: string;
   component: Type<FuiModalWizardWindowScreen>;
@@ -53,20 +53,11 @@ export interface FuiModalWindowResolved {
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-export interface FuiModalWindowConfiguration {
+export interface FuiBaseModalWindowConfiguration {
   // Default config
-  component?: Type<any>; // can be either FuiModalStandardWindowScreen or FuiModalWizardWindowScreen or FuiModalHeadlessWindowScreen component.
-  id?: string; // If not set, a random unique ID will be generated but it is highly recommended to set your own ID specially for child windows.
   title?: string; // If you want to set a title for your window
   subtitle?: string; // If you want to set a sub-title for your window
   titleTemplate?: TemplateRef<any>; // If you want something more complex, like adding an icon or whatever else just provide a titleTemplate.
-  // But be careful to ONLY use either `title` + `subtitle` OR `titleTemplate` because `titleTemplate` have the highest priority.
-  cssClass?: string; // Extra classes (space separated strings) you want to add to the window (if you want to use a special design for a specific window for instance)
-  // Value in px of the window width. This will be a fixed width.
-  width?: number; // Default to 600px for Standard and Headless windows and 770px for wizards.
-  closeButton?: boolean; // Default to true.
-  childWindows?: FuiModalWindowConfiguration[];
-  closeConfirm?: boolean; // Whether the window need a confirmation before being closed. Default to false.
 
   // Standard config
   withSubmitBtn?: boolean; // Default to true.
@@ -77,8 +68,24 @@ export interface FuiModalWindowConfiguration {
   // Wizard config
   withNextBtn?: boolean; // Default to true (appear only if there is more steps after current one).
   withBackBtn?: boolean; // Default to true. (appear only if there is steps behind current one).
+  disableStepsClick?: boolean; // Default to false. Allow the dev to disable the steps click event.
   nextButton?: FuiModalButtonInterface; // Default label is 'Next'.
   backButton?: FuiModalButtonInterface; // Default label is 'Back'.
+}
+
+export interface FuiModalWindowConfiguration extends FuiBaseModalWindowConfiguration {
+  // Default config
+  component?: Type<any>; // can be either FuiModalStandardWindowScreen or FuiModalWizardWindowScreen or FuiModalHeadlessWindowScreen component.
+  id?: string; // If not set, a random unique ID will be generated but it is highly recommended to set your own ID specially for child windows.
+  // But be careful to ONLY use either `title` + `subtitle` OR `titleTemplate` because `titleTemplate` have the highest priority.
+  cssClass?: string; // Extra classes (space separated strings) you want to add to the window (if you want to use a special design for a specific window for instance)
+  // Value in px of the window width. This will be a fixed width.
+  width?: number; // Default to 600px for Standard and Headless windows and 770px for wizards.
+  closeButton?: boolean; // Default to true.
+  childWindows?: FuiModalWindowConfiguration[];
+  closeConfirm?: boolean; // Whether the window need a confirmation before being closed. Default to false.
+
+  // Wizard config
   wizardSteps?: FuiWizardStepConfiguration[];
 }
 
@@ -241,6 +248,8 @@ export interface FuiModalWizardWindowCtrl<
   nextButton?: FuiModalButtonInterface; // Custom design for the nextButton. Default label to 'Next'
   withNextBtn?: boolean; // True by default. Whether or not we want to display the next button.
   withBackBtn?: boolean; // True by default. Whether or not we want to display the back button.
+  disableStepsClick?: boolean; // False by default. Allow the dev to disable the steps click event.
+  canGoBack?(step: FuiWizardStepConfiguration): boolean; // Whether or not we can go back to this step.
   $submit?(event: MouseEvent): Promise<S | CL>; // Submit the window workflow.
   $cancel?(event: MouseEvent): Promise<C | CL>; // Cancel the window workflow.
   $back?(event: MouseEvent, stepIndex?: number): Promise<B>; // Go to previous step.

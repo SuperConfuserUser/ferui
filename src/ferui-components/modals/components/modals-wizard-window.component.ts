@@ -44,10 +44,10 @@ import { FuiModalAbstractWindowComponent } from './modals-abstract-window.compon
       >
         <ul>
           <li
-            [class.clickable]="i < windowCtrl.currentStepIndex - 1"
-            (click)="i < windowCtrl.currentStepIndex - 1 && windowCtrl.$back($event, i)"
             *ngFor="let step of windowCtrl.wizardSteps; let i = index"
-            [class.selected]="i === windowCtrl.currentStepIndex - 1"
+            [class.clickable]="windowCtrl.canGoBack(step) && i < windowCtrl.currentStepIndex"
+            (click)="windowCtrl.canGoBack(step) && i < windowCtrl.currentStepIndex && windowCtrl.$back($event, i)"
+            [class.selected]="i === windowCtrl.currentStepIndex"
           >
             <span class="fui-modal-wizard-step-bullet"><span></span></span>
             <span class="fui-modal-wizard-step-text">{{ step.label }}</span>
@@ -87,7 +87,7 @@ export class FuiModalWizardWindowComponent
     const ulElement: HTMLElement = this.wizardStepsContainer.nativeElement.children[0].cloneNode(true) as HTMLElement;
     this.windowCtrl.wizardSteps.forEach((step, i) => {
       const liElement = document.createElement('li');
-      if (i === this.windowCtrl.currentStepIndex - 1) {
+      if (i === this.windowCtrl.currentStepIndex) {
         liElement.classList.add('selected');
       } else {
         liElement.classList.remove('selected');
@@ -107,13 +107,16 @@ export class FuiModalWizardWindowComponent
     this.wizardStepsWidth = preferredWidth > this.wizardStepWrapperWidth ? this.wizardStepWrapperWidth : preferredWidth;
 
     // We render the first step at initialisation.
-    this.renderStep(this.windowCtrl.currentStepIndex - 1);
+    this.renderStep(this.windowCtrl.currentStepIndex);
     this.subscriptions.push(
       this.modalCtrl.onWindowInteractionObservable(this.windowCtrl.id).subscribe(windowInteraction => {
-        if (windowInteraction && windowInteraction.type === ModalWindowInteractionEnum.NEXT) {
-          this.renderStep(this.windowCtrl.currentStepIndex - 1, windowInteraction.args);
-        } else if (windowInteraction && windowInteraction.type === ModalWindowInteractionEnum.BACK) {
-          this.renderStep(this.windowCtrl.currentStepIndex - 1, windowInteraction.args);
+        if (
+          windowInteraction &&
+          (windowInteraction.type === ModalWindowInteractionEnum.NEXT ||
+            windowInteraction.type === ModalWindowInteractionEnum.BACK)
+        ) {
+          // The windowCtrl current step index is updated before this observable is triggered so it will be at the correct value.
+          this.renderStep(this.windowCtrl.currentStepIndex, windowInteraction.args);
         }
       })
     );
@@ -128,16 +131,16 @@ export class FuiModalWizardWindowComponent
    * Render the step using its index in the list.
    * Unlike Standard or Headless window types, the wizard doesn't need to have a component attribute on the main window
    * configuration, instead we have a list of steps who have each their own component.
-   * @param stepIndex The index of the step we try to render.
+   * @param stepIndex The index of the step we try to render (0 based).
    * @param args
    */
   renderStep(stepIndex: number, args?: any): void {
     if (!this.windowCtrl.wizardSteps && this.windowCtrl.wizardSteps.length === 0 && !this.viewContainerRef) {
       return;
     }
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      this.windowCtrl.wizardSteps[stepIndex].component
-    );
+    const currentWizardStep = this.windowCtrl.wizardSteps[stepIndex];
+    // If there is specific configuration for the
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(currentWizardStep.component);
     this.viewContainerRef.clear();
     this.componentRef = this.viewContainerRef.createComponent(
       componentFactory,

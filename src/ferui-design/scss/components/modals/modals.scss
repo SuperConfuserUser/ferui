@@ -269,29 +269,29 @@
           align-items: center;
           align-content: center;
 
-        .fui-modal-header-title {
-          line-height: 20px;
-          color: inherit;
-          font-weight: $font-weight-bold;
-          font-size: $font-size-lg;
-          max-width: calc(100% - 54px);
-          margin-right: -54px;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
+          .fui-modal-header-title {
+            line-height: normal;
+            color: inherit;
+            font-weight: $font-weight-bold;
+            font-size: $font-size-lg;
+            max-width: calc(100% - 54px);
+            margin-right: -54px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
 
-        .fui-modal-header-subtitle {
-          line-height: 14px;
-          color: $gray-450;
-          font-size: $font-size-base;
-          max-width: calc(100% - 54px);
-          margin-right: -54px;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
+          .fui-modal-header-subtitle {
+            line-height: normal;
+            color: $gray-450;
+            font-size: $font-size-base;
+            max-width: calc(100% - 54px);
+            margin-right: -54px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
         }
-      }
 
         .fui-modal-header-close {
           position: relative;
@@ -369,6 +369,13 @@
             width: 12px;
             height: 12px;
             fill: $white;
+          }
+
+          &.fui-modal-back-btn {
+            max-width: 250px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
       }
