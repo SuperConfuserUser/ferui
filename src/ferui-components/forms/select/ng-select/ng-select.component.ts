@@ -803,27 +803,30 @@ export class NgSelectComponent implements OnInit, OnDestroy, OnChanges, AfterVie
   }
 
   private _handleEnter($event: KeyboardEvent) {
-    if (this.isOpen || this._manualOpen) {
-      if (this.itemsList.markedItem) {
-        this.toggleItem(this.itemsList.markedItem);
-      } else if (this.showAddTag) {
-        this.selectTag();
+    if (!this._handleClearKeypress($event)) {
+      if (this.isOpen || this._manualOpen) {
+        if (this.itemsList.markedItem) {
+          this.toggleItem(this.itemsList.markedItem);
+        } else if (this.showAddTag) {
+          this.selectTag();
+        }
+      } else if (this.openOnEnter) {
+        this.open();
+      } else {
+        return;
       }
-    } else if (this.openOnEnter) {
-      this.open();
-    } else {
-      return;
+      $event.preventDefault();
     }
-
-    $event.preventDefault();
   }
 
   private _handleSpace($event: KeyboardEvent) {
-    if (this.isOpen || this._manualOpen) {
-      return;
+    if (!this._handleClearKeypress($event)) {
+      if (this.isOpen || this._manualOpen) {
+        return;
+      }
+      this.open();
+      $event.preventDefault();
     }
-    this.open();
-    $event.preventDefault();
   }
 
   private _handleArrowDown($event: KeyboardEvent) {
@@ -851,6 +854,16 @@ export class NgSelectComponent implements OnInit, OnDestroy, OnChanges, AfterVie
       this._scrollToMarked();
     }
     $event.preventDefault();
+  }
+
+  private _handleClearKeypress($event: KeyboardEvent): boolean {
+    const target = ($event.target as HTMLElement) || null;
+    if (target && target.classList.contains('ng-clear-wrapper')) {
+      this.handleClearClick();
+      $event.preventDefault();
+      return true;
+    }
+    return false;
   }
 
   private _nextItemIsTag(nextStep: number): boolean {

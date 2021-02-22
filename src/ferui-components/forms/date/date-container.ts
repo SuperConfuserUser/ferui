@@ -29,15 +29,16 @@ import { DateNavigationService } from './providers/date-navigation.service';
         <clr-icon
           *ngIf="!invalid"
           class="fui-calendar-icon-wrapper"
+          tabindex="-1"
           (click)="toggleDatepicker($event)"
           shape="fui-calendar"
           aria-hidden="true"
           [ngClass]="{ 'has-fui-helper': !!fuiHelper }"
         ></clr-icon>
-        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
+        <div class="fui-control-icons" [class.invalid]="invalid">
           <ng-content *ngIf="!invalid" select="[fuiHelper]"></ng-content>
-          <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-        </label>
+          <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+        </div>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
         </fui-default-control-error>

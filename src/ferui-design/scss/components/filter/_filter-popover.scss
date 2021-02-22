@@ -95,17 +95,10 @@
             color: $red;
             padding: 0;
 
-            &:hover {
+            &:hover,
+            &:focus {
               background-color: transparent;
               color: $red-heavy;
-            }
-          }
-
-          &.btn-cancel {
-            color: $gray-500;
-
-            &:hover {
-              color: $gray-900;
             }
           }
         }

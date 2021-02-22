@@ -48,7 +48,7 @@ $grays: map-merge(
 $blue: #03a6ff !default;
 $red: #ed5151 !default;
 $light-red: #fdeded !default;
-$red-heavy: #df4242 !default;
+$red-heavy: darken(desaturate(#ed5151, 15.33), 6.08) !default; // #D94646
 $yellow: #fadd56 !default;
 $green: #13ce66 !default;
 $orange: #f89412 !default;
@@ -469,7 +469,7 @@ $btn-border-radius-lg: $border-radius !default;
 $btn-border-radius-sm: $border-radius !default;
 
 $btn-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-  box-shadow 0.15s ease-in-out !default;
+  box-shadow 50ms ease-in-out !default;
 
 // Forms
 

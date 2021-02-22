@@ -15,7 +15,7 @@ import { RequiredControlService } from '../common/providers/required-control.ser
     <div class="fui-control-container" [ngClass]="controlClass()">
       <ng-content select="fui-radio-wrapper"></ng-content>
       <div class="fui-radio-subtext-wrapper">
-        <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+        <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
         </fui-default-control-error>

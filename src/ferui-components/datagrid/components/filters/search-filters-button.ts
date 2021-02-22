@@ -20,6 +20,7 @@ import { FuiDatagridClientSideRowModel } from '../row-models/client-side-row-mod
 
       <button
         *ngIf="hasFilters()"
+        tabindex="1"
         class="fui-datagrid-filters-button"
         [class.has-active-filters]="hasActiveFilters()"
         [class.is-open]="isOpenPopup"

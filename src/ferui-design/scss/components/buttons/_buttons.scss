@@ -92,6 +92,72 @@
     // No need for an active state here
   }
 
+  // The .btn-icon class is made to contain an icon. This is useful for tab index to focus an icon like it is a button.
+  // It can be a picture (JPG, PNG... etc) or SVG icon. By default it support SVG natively, but if you want to use
+  // another kind of tag (like an img, span, div...) you can just add the .btn-icon-child class on those elements so
+  // they will be updated accordingly.
+  .btn-icon {
+    font-weight: normal; // This is important to remove any spaces inside the button when using a child item.
+    font-size: 0; // This is important to remove any spaces inside the button when using a child item.
+    text-decoration: none;
+    padding: 0 !important;
+    border: none !important;
+    margin: 0;
+    line-height: normal;
+
+    .btn-icon-child,
+    svg {
+      color: $gray-500;
+      fill: $gray-500;
+    }
+
+    @include hover() {
+      color: $gray-900;
+      svg {
+        color: $gray-900;
+        fill: $gray-900;
+      }
+      .btn-icon-child {
+        opacity: 0.8;
+      }
+    }
+
+    &:focus,
+    &.focus {
+      color: $gray-900;
+      svg {
+        color: $gray-900;
+        fill: $gray-900;
+      }
+      .btn-icon-child {
+        opacity: 0.8;
+      }
+    }
+
+    &:disabled,
+    &.disabled {
+      color: $gray-400;
+      pointer-events: none;
+      opacity: 1 !important;
+      svg {
+        pointer-events: none;
+        color: $gray-400;
+        fill: $gray-400;
+      }
+      .btn-icon-child {
+        opacity: 0.6;
+      }
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > &.dropdown-toggle {
+      &:focus {
+        transform: scale(1.2);
+      }
+    }
+  }
+
   //
   // Button Sizes
   //

@@ -24,21 +24,21 @@ import { NumberIoService } from './providers/number-io.service';
           <ng-content select="[fuiNumber]"></ng-content>
 
           <div class="fui-number-increment-wrapper">
-            <button class="fui-number-btn fui-number-increment" (click)="increment()">
+            <button [tabindex]="ngControl?.disabled ? -1 : 1" class="fui-number-btn fui-number-increment" (click)="increment()">
               <clr-icon class="fui-number-icon" shape="fui-solid-arrow" aria-hidden="true"></clr-icon>
             </button>
-            <button class="fui-number-btn fui-number-decrement" (click)="decrement()">
+            <button [tabindex]="ngControl?.disabled ? -1 : 1" class="fui-number-btn fui-number-decrement" (click)="decrement()">
               <clr-icon class="fui-number-icon" flip="vertical" shape="fui-solid-arrow" aria-hidden="true"></clr-icon>
             </button>
           </div>
         </div>
 
-        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
+        <div class="fui-control-icons" [class.invalid]="invalid">
           <div *ngIf="!invalid" [ngClass]="{ 'adjust-margin-right fui-input-group-icon-action': !!fuiHelper }">
             <ng-content select="[fuiHelper]"></ng-content>
           </div>
-          <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-        </label>
+          <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+        </div>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
         </fui-default-control-error>

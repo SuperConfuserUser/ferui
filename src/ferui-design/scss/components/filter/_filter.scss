@@ -67,14 +67,6 @@
             color: inherit;
           }
 
-          &:hover {
-            .fui-filter-label,
-            .fui-filter-icon {
-              color: $gray-900 !important;
-              fill: $gray-900 !important;
-            }
-          }
-
           &.has-active-filters {
             .fui-filter-label {
               color: $blue;
@@ -83,6 +75,28 @@
             .fui-filter-icon {
               .fui-filter-icon-circle {
                 color: $blue;
+              }
+            }
+          }
+
+          &:hover,
+          &:focus {
+            .fui-filter-label,
+            .fui-filter-icon {
+              color: $gray-900 !important;
+              fill: $gray-900 !important;
+            }
+
+            &.has-active-filters {
+              .fui-filter-label {
+                color: $blue-hover !important;
+              }
+
+              .fui-filter-icon {
+                .fui-filter-icon-circle {
+                  color: $blue;
+                  fill: $blue;
+                }
               }
             }
           }
@@ -158,13 +172,16 @@
                 }
 
                 &:hover,
+                &:focus,
                 &.is-open {
                   .fui-filter-label {
                     color: $blue-hover !important;
                   }
+
                   .fui-filter-icon {
                     color: $gray-500 !important;
                     fill: $gray-500 !important;
+
                     .fui-filter-icon-circle {
                       color: $blue;
                       fill: $blue;

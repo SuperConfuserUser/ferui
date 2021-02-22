@@ -56,7 +56,13 @@
     <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate || defautlLoadingSpinnerTemplate"></ng-template>
   </ng-container>
 
-  <span *ngIf="showClear()" class="ng-clear-wrapper" [class.has-fui-helper]="hasFuiHelper" title="{{ clearAllText }}">
+  <span
+    *ngIf="showClear()"
+    class="ng-clear-wrapper"
+    tabindex="1"
+    [class.has-fui-helper]="hasFuiHelper"
+    title="{{ clearAllText }}"
+  >
     <span aria-hidden="true" class="ng-clear">×</span>
   </span>
 

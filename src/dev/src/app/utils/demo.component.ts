@@ -79,7 +79,7 @@ import { DemoComponentData } from './demo-component-data';
         <h5 class="mt-3">
           <span [innerHTML]="title"></span>
           <span *ngIf="canDisable && models">
-            (<button class="btn btn-link p-0" (click)="disable(!this.params.disabled)">
+            (<button tabindex="1" class="btn btn-link p-0" (click)="disable(!this.params.disabled)">
               {{ this.params.disabled ? 'Enable' : 'Disable' }}</button
             >)
           </span>
@@ -89,7 +89,9 @@ import { DemoComponentData } from './demo-component-data';
       <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12" *ngIf="sourceCode && !models">
         <h5 class="mt-3">
           Code (
-          <button class="btn btn-link p-0" (click)="toggleCode()">{{ codeHidden ? 'View Code' : 'Hide Code' }}</button>
+          <button tabindex="1" class="btn btn-link p-0" (click)="toggleCode()">
+            {{ codeHidden ? 'View Code' : 'Hide Code' }}
+          </button>
           )
         </h5>
         <pre *ngIf="!codeHidden"><code [languages]="['xml']" [highlight]="codeBlock"></code></pre>
@@ -100,7 +102,9 @@ import { DemoComponentData } from './demo-component-data';
       <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12">
         <p>
           Data (
-          <button class="btn btn-link p-0" (click)="toggleResult()">{{ resultHidden ? 'View Data' : 'Hide Data' }}</button>
+          <button tabindex="1" class="btn btn-link p-0" (click)="toggleResult()">
+            {{ resultHidden ? 'View Data' : 'Hide Data' }}
+          </button>
           )
         </p>
         <pre *ngIf="!resultHidden"><code [languages]="['json']" [highlight]="resultsData() | json"></code></pre>
@@ -108,7 +112,9 @@ import { DemoComponentData } from './demo-component-data';
       <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12">
         <p>
           Code (
-          <button class="btn btn-link p-0" (click)="toggleCode()">{{ codeHidden ? 'View Code' : 'Hide Code' }}</button>
+          <button tabindex="1" class="btn btn-link p-0" (click)="toggleCode()">
+            {{ codeHidden ? 'View Code' : 'Hide Code' }}
+          </button>
           )
         </p>
         <pre *ngIf="!codeHidden"><code [languages]="['xml']" [highlight]="codeBlock"></code></pre>

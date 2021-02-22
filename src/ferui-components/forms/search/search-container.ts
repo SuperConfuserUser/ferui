@@ -37,18 +37,19 @@ import { FuiSearchService } from './providers/search.service';
     <div class="fui-input-wrapper">
       <ng-content select="[fuiLabel]"></ng-content>
       <ng-content select="[fuiSearch]"></ng-content>
-      <clr-icon class="fui-search-icon" shape="fui-search" aria-hidden="true"></clr-icon>
+      <clr-icon class="fui-search-icon" tabindex="-1" shape="fui-search" aria-hidden="true"></clr-icon>
       <button
         class="btn fui-search-clear-btn"
         [disabled]="ngControl?.disabled"
         *ngIf="ngControl?.valueChanges | async"
+        tabindex="1"
         (click)="clearSearch()"
       >
         <clr-icon class="fui-search-clear-icon" shape="fui-clear-field" aria-hidden="true"></clr-icon>
       </button>
-      <label class="fui-control-icons" tabindex="0">
-        <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-      </label>
+      <div class="fui-control-icons">
+        <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+      </div>
       <fui-default-control-error>
         <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
       </fui-default-control-error>

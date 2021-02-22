@@ -17,10 +17,10 @@ import { RequiredControlService } from '../common/providers/required-control.ser
       <div class="fui-input-wrapper">
         <ng-content select="[fuiLabel]"></ng-content>
         <ng-content select="[fuiInput]"></ng-content>
-        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
+        <div class="fui-control-icons" [class.invalid]="invalid">
           <ng-content *ngIf="!invalid" select="[fuiHelper]"></ng-content>
-          <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-        </label>
+          <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+        </div>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
         </fui-default-control-error>
