@@ -60,6 +60,9 @@ export class HilitorService {
 
   // remove highlighting
   remove() {
+    if (!this.targetNode) {
+      return;
+    }
     const arr: HTMLCollectionOf<Element> = this.targetNode.getElementsByClassName(this.hiliteClass);
     while (arr.length) {
       const el = arr[0];
@@ -102,7 +105,7 @@ export class HilitorService {
 
   // recursively apply word highlighting
   private hiliteWords(node) {
-    if (node === undefined || !node) {
+    if (!node) {
       return;
     }
     if (!this.matchRegExp) {
