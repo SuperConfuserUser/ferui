@@ -353,7 +353,8 @@
             display: none !important;
           }
 
-          &:hover {
+          &:hover,
+          &:focus {
             &::after {
               color: $gray-900;
             }

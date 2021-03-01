@@ -6,6 +6,10 @@
     width: auto !important;
     display: inline-block !important;
     cursor: pointer;
+    .fui-select-icon-handle {
+      color: $gray-500;
+      fill: $gray-500;
+    }
 
     .ng-select-container {
       display: none !important;
@@ -24,6 +28,15 @@
 
     .fui-control-icons {
       display: none !important;
+    }
+
+    .fui-select-icon-handle {
+      &:hover,
+      &:focus,
+      &.focused {
+        color: $gray-900;
+        fill: $gray-900;
+      }
     }
   }
 

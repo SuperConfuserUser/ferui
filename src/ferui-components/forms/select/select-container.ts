@@ -22,11 +22,11 @@ import { FuiSelectService } from './select.service';
         <ng-content select="[fuiSelectIcon]"></ng-content>
         <ng-content select="[fuiSelect]"></ng-content>
         <ng-content select="[fuiLabel]"></ng-content>
-        <div class="select-arrow"></div>
-        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
+        <div tabindex="-1" class="select-arrow"></div>
+        <div class="fui-control-icons" [class.invalid]="invalid">
           <ng-content *ngIf="!invalid" select="[fuiHelper]"></ng-content>
-          <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-        </label>
+          <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+        </div>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
         </fui-default-control-error>

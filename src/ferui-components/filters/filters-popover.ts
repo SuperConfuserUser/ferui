@@ -82,7 +82,8 @@ import { FuiFilterService } from './providers/filter.service';
         <div class="col-auto">
           <button
             class="btn btn-clear"
-            type="button"
+            type="reset"
+            tabindex="1"
             unselectable="on"
             [disabled]="filterService?.isDisabled$() | async"
             *ngIf="filterService?.hasActiveFilters(fuiFilterType.GLOBAL_SEARCH)"
@@ -92,12 +93,13 @@ import { FuiFilterService } from './providers/filter.service';
           </button>
         </div>
         <div class="col col-right">
-          <button class="btn btn-cancel" type="button" unselectable="on" (click)="cancelCallback($event)">
+          <button tabindex="1" class="btn btn-link" type="button" unselectable="on" (click)="cancelCallback($event)">
             {{ filterI18nService.keys.cancel }}
           </button>
           <button
             class="btn btn-primary btn-lg"
-            type="button"
+            tabindex="1"
+            type="submit"
             [disabled]="
               !filterService?.hasSelectedFilters() ||
               (filterService?.isDisabled$() | async) ||

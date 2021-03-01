@@ -80,6 +80,19 @@
         font-weight: $font-weight-base;
       }
 
+      &:not([disabled]):focus,
+      &:not([disabled]):hover {
+        ~ .checkbox-holder {
+          background-color: $gray-200 !important;
+
+          &.checked,
+          &.indeterminate {
+            background-color: $blue-hover !important;
+            border-color: $blue-hover !important;
+          }
+        }
+      }
+
       &[disabled] {
         cursor: default !important;
 
@@ -100,6 +113,7 @@
           &.checked,
           &.indeterminate {
             border-color: $gray-400 !important;
+            background-color: $gray-200 !important;
           }
         }
       }

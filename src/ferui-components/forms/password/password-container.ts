@@ -28,26 +28,26 @@ export function ToggleServiceProvider() {
       <div class="fui-input-wrapper">
         <ng-content select="[fuiLabel]"></ng-content>
         <ng-content select="[fuiPassword]"></ng-content>
-        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
-          <clr-icon
-            *ngIf="!show && fuiToggle"
-            shape="fui-eye"
-            class="fui-input-group-icon-action"
-            (click)="toggle()"
-            [class.has-fui-helper]="!!fuiHelper"
-          ></clr-icon>
-          <clr-icon
-            *ngIf="show && fuiToggle"
-            shape="fui-eye-off"
-            class="fui-input-group-icon-action"
-            (click)="toggle()"
-            [class.has-fui-helper]="!!fuiHelper"
-          ></clr-icon>
+        <div class="fui-control-icons" [class.invalid]="invalid">
+          <button [tabIndex]="ngControl?.disabled ? '-1' : '1'" (click)="toggle()" class="btn btn-icon">
+            <clr-icon
+              *ngIf="!show && fuiToggle"
+              class="fui-input-group-icon-action"
+              shape="fui-eye"
+              [class.has-fui-helper]="!!fuiHelper"
+            ></clr-icon>
+            <clr-icon
+              *ngIf="show && fuiToggle"
+              class="fui-input-group-icon-action"
+              shape="fui-eye-off"
+              [class.has-fui-helper]="!!fuiHelper"
+            ></clr-icon>
+          </button>
           <div *ngIf="!invalid" [ngClass]="{ 'fui-input-group-icon-action': !!fuiHelper }">
             <ng-content select="[fuiHelper]"></ng-content>
           </div>
-          <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-        </label>
+          <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+        </div>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
         </fui-default-control-error>
@@ -103,6 +103,9 @@ export class FuiPasswordContainerComponent extends FuiFormAbstractContainer {
     super(ifErrorService, controlClassService, ngControlService, focusService, formLayoutService, cd);
   }
 
+  /**
+   * Toggle eye on or eye off icon and update whether we want to display the field as password or text.
+   */
   toggle() {
     this.show = !this.show;
     this.toggleService.next(this.show);

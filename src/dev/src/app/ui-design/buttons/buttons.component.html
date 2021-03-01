@@ -8,8 +8,8 @@
   <h2 id="examples">
     <span class="bd-content-title"
       >Examples<a
-        class="anchorjs-link"
         aria-label="Anchor"
+        class="anchorjs-link"
         data-anchorjs-icon="#"
         href="#examples"
         style="padding-left: 0.375em"
@@ -23,18 +23,18 @@
   </p>
 
   <div class="bd-example">
-    <button type="button" class="btn btn-primary">Primary</button>
-    <button type="button" class="btn btn-secondary">Secondary</button>
-    <button type="button" class="btn btn-success">Success</button>
-    <button type="button" class="btn btn-danger">Danger</button>
-    <button type="button" class="btn btn-warning">Warning</button>
-    <button type="button" class="btn btn-info">Info</button>
-    <button type="button" class="btn btn-light">Light</button>
-    <button type="button" class="btn btn-dark">Dark</button>
-    <button type="button" class="btn btn-link">Link</button>
+    <button class="btn btn-primary" type="button">Primary</button>
+    <button class="btn btn-secondary" type="button">Secondary</button>
+    <button class="btn btn-success" type="button">Success</button>
+    <button class="btn btn-danger" type="button">Danger</button>
+    <button class="btn btn-warning" type="button">Warning</button>
+    <button class="btn btn-info" type="button">Info</button>
+    <button class="btn btn-light" type="button">Light</button>
+    <button class="btn btn-dark" type="button">Dark</button>
+    <button class="btn btn-link" type="button">Link</button>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode1"></code></pre>
+  <pre><code [highlight]="exampleCode1" [languages]="['html']"></code></pre>
 
   <div class="bd-callout bd-callout-warning">
     <h5 id="conveying-meaning-to-assistive-technologies">Conveying meaning to assistive technologies</h5>
@@ -50,8 +50,8 @@
   <h2 id="disable-text-wrapping">
     <span class="bd-content-title"
       >Disable text wrapping<a
-        class="anchorjs-link"
         aria-label="Anchor"
+        class="anchorjs-link"
         data-anchorjs-icon="#"
         href="#disable-text-wrapping"
         style="padding-left: 0.375em"
@@ -68,8 +68,8 @@
   <h2 id="button-tags">
     <span class="bd-content-title"
       >Button tags<a
-        class="anchorjs-link"
         aria-label="Anchor"
+        class="anchorjs-link"
         data-anchorjs-icon="#"
         href="#button-tags"
         style="padding-left: 0.375em"
@@ -99,13 +99,13 @@
     <input class="btn btn-primary" type="reset" value="Reset" />
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode2"></code></pre>
+  <pre><code [highlight]="exampleCode2" [languages]="['html']"></code></pre>
 
   <h2 id="outline-buttons">
     <span class="bd-content-title"
       >Outline buttons<a
-        class="anchorjs-link"
         aria-label="Anchor"
+        class="anchorjs-link"
         data-anchorjs-icon="#"
         href="#outline-buttons"
         style="padding-left: 0.375em"
@@ -118,22 +118,63 @@
     <code class="highlighter-rouge">.btn-outline-*</code> ones to remove all background images and colors on any button.
   </p>
 
-  <div class="bd-example">
-    <button type="button" class="btn btn-outline-primary">Primary</button>
-    <button type="button" class="btn btn-outline-secondary">Secondary</button>
-    <button type="button" class="btn btn-outline-success">Success</button>
-    <button type="button" class="btn btn-outline-danger">Danger</button>
-    <button type="button" class="btn btn-outline-warning">Warning</button>
-    <button type="button" class="btn btn-outline-info">Info</button>
-    <button type="button" class="btn btn-outline-light">Light</button>
-    <button type="button" class="btn btn-outline-dark">Dark</button>
+  <div class="bd-example" style="background: #fff">
+    <button class="btn btn-outline-primary" type="button">Primary</button>
+    <button class="btn btn-outline-secondary" type="button">Secondary</button>
+    <button class="btn btn-outline-success" type="button">Success</button>
+    <button class="btn btn-outline-danger" type="button">Danger</button>
+    <button class="btn btn-outline-warning" type="button">Warning</button>
+    <button class="btn btn-outline-info" type="button">Info</button>
+    <button class="btn btn-outline-light" type="button">Light</button>
+    <button class="btn btn-outline-dark" type="button">Dark</button>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode3"></code></pre>
+  <pre><code [highlight]="exampleCode3" [languages]="['html']"></code></pre>
+
+  <h2 class="mt-4 mb-4" id="button-icon">
+    Button Icon <a [fragment]="'buttonIcon'" [routerLink] class="anchor-link" id="buttonIcon">#</a>
+  </h2>
+
+  <p>
+    When you want to use an icon (either an SVG or image icon) as a button, you need to add the <code>.btn-icon</code> button
+    class.<br />
+    If you want to use a picture as a button (not an SVG), you'll need to add the <code>.btn-icon-child</code> to the button
+    child.
+  </p>
+
+  <p>
+    By default we natively support SVG icons (and of course the clarity icons <code>&lt;clr-icon&gt;</code>) color changing for
+    hover, disabled and focus states, but for any other kind of icon types (<code>.btn-icon-child</code>), we only set the opacity
+    to 60% for disabled state, and we set the opacity to 80% for hover and focus states.
+  </p>
+
+  <div class="bd-example" style="background: #fff">
+    <button class="btn btn-icon" type="button">
+      <clr-icon shape="fui-eye"></clr-icon>
+    </button>
+    <button class="btn btn-icon" disabled type="button">
+      <clr-icon shape="fui-chat"></clr-icon>
+    </button>
+    <button class="btn btn-icon" type="button">
+      <img alt="US flag" class="btn-icon-child" height="24" src="https://www.countryflags.io/US/shiny/24.png" width="24" />
+    </button>
+    <button class="btn btn-icon" disabled type="button">
+      <img
+        alt="US disabled flag"
+        class="btn-icon-child"
+        height="24"
+        src="https://www.countryflags.io/US/shiny/24.png"
+        width="24"
+      />
+    </button>
+  </div>
+
+  <br />
+  <pre><code [highlight]="exampleCode14" [languages]="['html']"></code></pre>
 
   <h2 id="sizes">
     <span class="bd-content-title"
-      >Sizes<a class="anchorjs-link" aria-label="Anchor" data-anchorjs-icon="#" href="#sizes" style="padding-left: 0.375em"></a
+      >Sizes<a aria-label="Anchor" class="anchorjs-link" data-anchorjs-icon="#" href="#sizes" style="padding-left: 0.375em"></a
     ></span>
   </h2>
 
@@ -143,25 +184,25 @@
   </p>
 
   <div class="bd-example">
-    <button type="button" class="btn btn-primary btn-lg">Large button</button>
-    <button type="button" class="btn btn-secondary btn-lg">Large button</button>
+    <button class="btn btn-primary btn-lg" type="button">Large button</button>
+    <button class="btn btn-secondary btn-lg" type="button">Large button</button>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode4"></code></pre>
+  <pre><code [highlight]="exampleCode4" [languages]="['html']"></code></pre>
 
   <div class="bd-example">
-    <button type="button" class="btn btn-primary">Regular button</button>
-    <button type="button" class="btn btn-secondary">Regular button</button>
+    <button class="btn btn-primary" type="button">Regular button</button>
+    <button class="btn btn-secondary" type="button">Regular button</button>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode13"></code></pre>
+  <pre><code [highlight]="exampleCode13" [languages]="['html']"></code></pre>
 
   <div class="bd-example">
-    <button type="button" class="btn btn-primary btn-sm">Small button</button>
-    <button type="button" class="btn btn-secondary btn-sm">Small button</button>
+    <button class="btn btn-primary btn-sm" type="button">Small button</button>
+    <button class="btn btn-secondary btn-sm" type="button">Small button</button>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode5"></code></pre>
+  <pre><code [highlight]="exampleCode5" [languages]="['html']"></code></pre>
 
   <p>
     Create block level buttons—those that span the full width of a parent—by adding
@@ -169,17 +210,17 @@
   </p>
 
   <div class="bd-example">
-    <button type="button" class="btn btn-primary btn-lg btn-block">Block level button</button>
-    <button type="button" class="btn btn-secondary btn-lg btn-block">Block level button</button>
+    <button class="btn btn-primary btn-lg btn-block" type="button">Block level button</button>
+    <button class="btn btn-secondary btn-lg btn-block" type="button">Block level button</button>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode6"></code></pre>
+  <pre><code [highlight]="exampleCode6" [languages]="['html']"></code></pre>
 
   <h2 id="active-state">
     <span class="bd-content-title"
       >Active state<a
-        class="anchorjs-link"
         aria-label="Anchor"
+        class="anchorjs-link"
         data-anchorjs-icon="#"
         href="#active-state"
         style="padding-left: 0.375em"
@@ -196,17 +237,17 @@
   </p>
 
   <div class="bd-example">
-    <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Primary link</a>
-    <a href="#" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Link</a>
+    <a aria-pressed="true" class="btn btn-primary btn-lg active" href="#" role="button">Primary link</a>
+    <a aria-pressed="true" class="btn btn-secondary btn-lg active" href="#" role="button">Link</a>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode7"></code></pre>
+  <pre><code [highlight]="exampleCode7" [languages]="['html']"></code></pre>
 
   <h2 id="disabled-state">
     <span class="bd-content-title"
       >Disabled state<a
-        class="anchorjs-link"
         aria-label="Anchor"
+        class="anchorjs-link"
         data-anchorjs-icon="#"
         href="#disabled-state"
         style="padding-left: 0.375em"
@@ -220,11 +261,11 @@
   </p>
 
   <div class="bd-example">
-    <button type="button" class="btn btn-lg btn-primary" disabled="">Primary button</button>
-    <button type="button" class="btn btn-secondary btn-lg" disabled="">Button</button>
+    <button class="btn btn-lg btn-primary" disabled="" type="button">Primary button</button>
+    <button class="btn btn-secondary btn-lg" disabled="" type="button">Button</button>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode8"></code></pre>
+  <pre><code [highlight]="exampleCode8" [languages]="['html']"></code></pre>
 
   <p>Disabled buttons using the <code class="highlighter-rouge">&lt;a&gt;</code> element behave a bit different:</p>
 
@@ -245,11 +286,11 @@
   </ul>
 
   <div class="bd-example">
-    <a href="#" class="btn btn-primary btn-lg disabled" tabindex="-1" role="button" aria-disabled="true">Primary link</a>
-    <a href="#" class="btn btn-secondary btn-lg disabled" tabindex="-1" role="button" aria-disabled="true">Link</a>
+    <a aria-disabled="true" class="btn btn-primary btn-lg disabled" href="#" role="button" tabindex="-1">Primary link</a>
+    <a aria-disabled="true" class="btn btn-secondary btn-lg disabled" href="#" role="button" tabindex="-1">Link</a>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode9"></code></pre>
+  <pre><code [highlight]="exampleCode9" [languages]="['html']"></code></pre>
 
   <div class="bd-callout bd-callout-warning">
     <h5 id="link-functionality-caveat">Link functionality caveat</h5>
@@ -268,8 +309,8 @@
   <h2 id="button-plugin">
     <span class="bd-content-title"
       >Button plugin<a
-        class="anchorjs-link"
         aria-label="Anchor"
+        class="anchorjs-link"
         data-anchorjs-icon="#"
         href="#button-plugin"
         style="padding-left: 0.375em"
@@ -282,8 +323,8 @@
   <h3 id="toggle-states">
     <span class="bd-content-title"
       >Toggle states<a
-        class="anchorjs-link"
         aria-label="Anchor"
+        class="anchorjs-link"
         data-anchorjs-icon="#"
         href="#toggle-states"
         style="padding-left: 0.375em"
@@ -299,16 +340,16 @@
   </p>
 
   <div class="bd-example">
-    <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false">Single toggle</button>
+    <button aria-pressed="false" class="btn btn-primary" data-toggle="button" type="button">Single toggle</button>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode10"></code></pre>
+  <pre><code [highlight]="exampleCode10" [languages]="['html']"></code></pre>
 
   <h3 id="checkbox-and-radio-buttons">
     <span class="bd-content-title"
       >Checkbox and radio buttons<a
-        class="anchorjs-link"
         aria-label="Anchor"
+        class="anchorjs-link"
         data-anchorjs-icon="#"
         href="#checkbox-and-radio-buttons"
         style="padding-left: 0.375em"
@@ -319,8 +360,8 @@
   <p>
     Bootstrap’s <code class="highlighter-rouge">.button</code> styles can be applied to other elements, such as
     <code class="highlighter-rouge">&lt;label&gt;</code>s, to provide checkbox or radio style button toggling. Add
-    <code class="highlighter-rouge">data-toggle="buttons"</code> to a <code class="highlighter-rouge">.btn-group</code> containing
-    those modified buttons to enable their toggling behavior via JavaScript and add
+    <code class="highlighter-rouge">data-toggle="buttons"</code> to a <code class="highlighter-rouge">.btn-group</code>
+    containing those modified buttons to enable their toggling behavior via JavaScript and add
     <code class="highlighter-rouge">.btn-group-toggle</code> to style the <code class="highlighter-rouge">&lt;input&gt;</code>s
     within your buttons. <strong>Note that you can create single input-powered buttons or groups of them.</strong>
   </p>
@@ -340,19 +381,19 @@
 
   <div class="bd-example">
     <div class="btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-secondary active"> <input type="checkbox" checked="" /> Checked </label>
+      <label class="btn btn-secondary active"> <input checked="" type="checkbox" /> Checked </label>
     </div>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode11"></code></pre>
+  <pre><code [highlight]="exampleCode11" [languages]="['html']"></code></pre>
 
   <div class="bd-example">
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn btn-secondary active"> <input type="radio" name="options" id="option1" checked="" /> Active </label>
-      <label class="btn btn-secondary"> <input type="radio" name="options" id="option2" /> Radio </label>
-      <label class="btn btn-secondary"> <input type="radio" name="options" id="option3" /> Radio </label>
+      <label class="btn btn-secondary active"> <input checked="" id="option1" name="options" type="radio" /> Active </label>
+      <label class="btn btn-secondary"> <input id="option2" name="options" type="radio" /> Radio </label>
+      <label class="btn btn-secondary"> <input id="option3" name="options" type="radio" /> Radio </label>
     </div>
   </div>
   <br />
-  <pre><code [languages]="['html']" [highlight]="exampleCode12"></code></pre>
+  <pre><code [highlight]="exampleCode12" [languages]="['html']"></code></pre>
 </main>

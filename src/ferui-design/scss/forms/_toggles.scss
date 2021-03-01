@@ -27,16 +27,16 @@
       }
 
       + label {
-        color: $gray-500;
+        color: $gray-900;
         font-size: $font-size-base;
         box-sizing: border-box;
         display: block;
         position: relative;
         user-select: none;
         min-height: $toggle-min-height;
-        line-height: $controls-icons-default-width;
-        padding-top: 2px;
-        padding-left: 50px;
+        line-height: normal;
+        padding-left: calc(#{$toggle-min-width} + #{$radio-checkbox-label-left-value});
+        padding-top: 5px;
 
         &::before {
           position: absolute;
@@ -67,13 +67,15 @@
         }
       }
 
-      &:hover {
+      &:hover,
+      &:focus {
         + label::before {
           background: $gray-200;
         }
       }
 
-      &:hover:checked {
+      &:hover:checked,
+      &:focus:checked {
         + label::before {
           background: $blue-hover;
         }
@@ -93,10 +95,11 @@
       }
 
       &[disabled] {
-        cursor: default;
+        cursor: default !important;
 
         + label {
-          cursor: default;
+          cursor: default !important;
+          color: $gray-500 !important;
 
           &::before {
             background: $gray-200;
@@ -109,7 +112,8 @@
           }
         }
 
-        &:hover {
+        &:hover,
+        &:focus {
           + label::before {
             background: $gray-200;
           }
@@ -133,13 +137,13 @@
   .fui-control-container {
     .fui-toggle-subtext-wrapper {
       display: none;
-      padding: 5px 0 0 2px;
+      padding: 0 0 0 2px;
 
       .fui-subtext {
         color: $red;
         display: inline-block;
         vertical-align: middle;
-        padding: 0 0 0 12px;
+        padding: 0 0 0 7px;
 
         visibility: hidden;
         opacity: 0;

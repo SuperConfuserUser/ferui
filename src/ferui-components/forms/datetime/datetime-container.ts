@@ -59,9 +59,9 @@ export interface DatetimeInterface {
           />
         </fui-time-container>
 
-        <label class="fui-control-icons" tabindex="0">
-          <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-        </label>
+        <div class="fui-control-icons">
+          <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+        </div>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
         </fui-default-control-error>

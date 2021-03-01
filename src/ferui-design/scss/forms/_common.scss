@@ -30,6 +30,7 @@
         .fui-input-group-icon-action {
           display: inline-block;
           position: relative;
+          color: $gray-500;
           fill: $gray-500;
           line-height: $controls-icons-max-width;
 
@@ -49,6 +50,12 @@
           .fui-helper {
             margin-bottom: 3px;
           }
+
+          &:hover,
+          &:focus {
+            color: $gray-900;
+            fill: $gray-900;
+          }
         }
       }
 
@@ -62,19 +69,10 @@
         .fui-control-icons {
           color: $gray-500;
 
-          > .fui-validate-icon,
           > .fui-error-icon {
             display: inline-block;
             position: relative;
             margin-left: $controls-padding;
-          }
-
-          > .fui-validate-icon {
-            width: $controls-icons-min-width;
-            height: $controls-icons-min-width;
-          }
-
-          > .fui-error-icon {
             width: $controls-icons-max-width;
             height: $controls-icons-max-width;
             fill: $red;
@@ -201,6 +199,12 @@
           &.has-fui-helper {
             margin-right: 5px;
           }
+
+          &:hover,
+          &:focus {
+            color: $gray-900;
+            fill: $gray-900;
+          }
         }
         .fui-helper {
           width: 0.75rem;
@@ -217,20 +221,10 @@
 
       > *:not(.fui-checkbox-subtext-wrapper):not(.fui-radio-subtext-wrapper):not(.fui-toggle-subtext-wrapper) {
         .fui-control-icons {
-          > .fui-validate-icon,
           > .fui-error-icon {
             display: inline-block;
             position: relative;
-            fill: $gray-500;
             margin-left: $controls-small-padding;
-          }
-
-          > .fui-validate-icon {
-            width: $controls-small-icons-width;
-            height: $controls-small-icons-width;
-          }
-
-          > .fui-error-icon {
             width: $controls-small-icons-width;
             height: $controls-small-icons-width;
             fill: $red;

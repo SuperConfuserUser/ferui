@@ -91,6 +91,24 @@
         }
       }
 
+      &:focus,
+      &:hover {
+        + label {
+          &::before {
+            background-color: $gray-200 !important;
+          }
+        }
+
+        &:checked {
+          + label {
+            &::before {
+              background-color: $blue-hover !important;
+              border-color: $blue-hover !important;
+            }
+          }
+        }
+      }
+
       &[disabled] {
         cursor: default !important;
 
@@ -105,6 +123,25 @@
 
           &::after {
             background-color: $gray-500 !important;
+          }
+        }
+
+        &:focus,
+        &:hover {
+          + label {
+            &::before {
+              background-color: $gray-200 !important;
+              border-color: $gray-400 !important;
+            }
+          }
+
+          &:checked {
+            + label {
+              &::before {
+                background-color: $gray-200 !important;
+                border-color: $gray-400 !important;
+              }
+            }
           }
         }
       }

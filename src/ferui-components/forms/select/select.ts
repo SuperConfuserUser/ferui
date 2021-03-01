@@ -45,5 +45,9 @@ export class FuiSelectDirective extends WrappedFormControl<FuiSelectContainerCom
     if (this.selectService) {
       this.selectService.fuiSelect = this;
     }
+
+    if (this.ngSelect) {
+      this.ngSelect.tabIndex = this.tabindex;
+    }
   }
 }

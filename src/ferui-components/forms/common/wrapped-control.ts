@@ -40,6 +40,7 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
   protected _required: boolean;
   protected _placeholder: string;
   protected _layout: FuiFormLayoutEnum = FuiFormLayoutEnum.DEFAULT;
+  protected _tabIndex: string = '1';
 
   private _id: string;
   private controlIdService: ControlIdService;
@@ -76,17 +77,31 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
     this.init();
   }
 
-  @HostBinding()
+  get tabindex() {
+    return this._tabIndex;
+  }
+
+  @HostBinding('attr.tabindex')
   @Input()
+  set tabindex(value: string) {
+    this._tabIndex = value;
+  }
+
   get id() {
     return this._id;
   }
 
+  @HostBinding()
+  @Input()
   set id(value: string) {
     this._id = value;
     if (this.controlIdService) {
       this.controlIdService.id = value;
     }
+  }
+
+  get placeholderAttr(): string {
+    return this._placeholder;
   }
 
   @HostBinding('attr.placeholder')
@@ -96,10 +111,6 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
     if (this.placeholderService) {
       this.placeholderService.setPlaceholder(value);
     }
-  }
-
-  get placeholderAttr(): string {
-    return this._placeholder;
   }
 
   @HostBinding('attr.required')
@@ -161,14 +172,14 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  @HostListener('focus')
-  setFocusStates() {
-    this.setFocus(true);
+  @HostListener('focus', ['$event'])
+  setFocusStates(event: Event) {
+    this.setFocus(true, event);
   }
 
-  @HostListener('blur')
-  triggerValidation() {
-    this.setFocus(false);
+  @HostListener('blur', ['$event'])
+  triggerValidation(event: Event) {
+    this.setFocus(false, event);
     if (this.ifErrorService) {
       this.ifErrorService.triggerStatusChange();
     }
@@ -227,9 +238,15 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
     return !!this.ngControl;
   }
 
-  private setFocus(focus: boolean): void {
+  /**
+   * Handle the focus event.
+   * @param focus
+   * @param event
+   * @private
+   */
+  private setFocus(focus: boolean, event: Event): void {
     if (this.focusService) {
-      this.focusService.focused = focus;
+      this.focusService.toggleWithEvent(focus, event);
     }
   }
 }

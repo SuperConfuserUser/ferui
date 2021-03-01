@@ -10,7 +10,7 @@ import { FuiTabComponent } from './tab';
   template: `
     <ul class="nav nav-pills mb-3" role="tablist">
       <li class="nav-item" role="tab" *ngFor="let tab of tabs; let i = index">
-        <button (click)="selectTab(tab)" class="btn" [class.btn-link]="!tab.active" [class.btn-primary]="tab.active">
+        <button (click)="selectTab(tab)" class="btn" [class.btn-link]="!tab.active" tabindex="1" [class.btn-primary]="tab.active">
           <ng-container
             *ngIf="tab.titleTemplateOutletRef"
             [ngTemplateOutlet]="tab.titleTemplateOutletRef"

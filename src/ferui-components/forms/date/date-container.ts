@@ -29,15 +29,16 @@ import { DateNavigationService } from './providers/date-navigation.service';
         <clr-icon
           *ngIf="!invalid"
           class="fui-calendar-icon-wrapper"
+          tabindex="-1"
           (click)="toggleDatepicker($event)"
           shape="fui-calendar"
           aria-hidden="true"
           [ngClass]="{ 'has-fui-helper': !!fuiHelper }"
         ></clr-icon>
-        <label class="fui-control-icons" tabindex="0" [class.invalid]="invalid">
+        <div class="fui-control-icons" [class.invalid]="invalid">
           <ng-content *ngIf="!invalid" select="[fuiHelper]"></ng-content>
-          <clr-icon *ngIf="invalid" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
-        </label>
+          <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+        </div>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>
         </fui-default-control-error>
@@ -92,10 +93,14 @@ export class FuiDateContainerComponent extends FuiFormAbstractContainer {
         } else {
           this.focus = false;
         }
+        this.cd.markForCheck();
       })
     );
   }
 
+  /**
+   * Whether or not datepicker is enabled.
+   */
   isEnabled(): boolean {
     return this.datepickerEnabledService.isEnabled;
   }
@@ -103,17 +108,23 @@ export class FuiDateContainerComponent extends FuiFormAbstractContainer {
   /**
    * Toggles the Datepicker Popover.
    */
-  toggleDatepicker(event: MouseEvent) {
+  toggleDatepicker(event: Event) {
     if (this.isEnabled()) {
       this.ifOpenService.toggleWithEvent(event);
       this.dateFormControlService.markAsTouched();
     }
   }
 
+  /**
+   * Override the default method. This will be called whenever the focus state changes.
+   * @param state
+   * @protected
+   */
   protected onFocusChange(state: boolean) {
     if (this.ifOpenService && !this.ifOpenService.open) {
       this.focus = state;
-      this.toggleDatepicker(null);
+      this.toggleDatepicker(this.focusService.originalEvent);
+      this.cd.markForCheck();
     }
   }
 

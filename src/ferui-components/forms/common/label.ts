@@ -27,7 +27,7 @@ import { RequiredControlService } from './providers/required-control.service';
   }
 })
 export class FuiLabelDirective implements OnInit, OnDestroy {
-  @HostBinding('attr.tabindex') tabindex: number = 0;
+  @HostBinding('attr.tabindex') tabindex: number = -1;
   @HostBinding('attr.for')
   @Input('for')
   forAttr: string;

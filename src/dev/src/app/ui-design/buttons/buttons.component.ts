@@ -88,4 +88,17 @@ export class UiDesignButtonsComponent {
   exampleCode13: string = jsBeautify.html(`
     <button type="button" class="btn btn-primary">Regular button</button>
     <button type="button" class="btn btn-secondary">Regular button</button>`);
+
+  exampleCode14: string = jsBeautify.html(`<button class="btn btn-icon" type="button">
+      <clr-icon shape="fui-eye"></clr-icon>
+    </button>
+    <button class="btn btn-icon" disabled type="button">
+      <clr-icon shape="fui-chat"></clr-icon>
+    </button>
+    <button class="btn btn-icon" type="button">
+      <img alt="US flag" class="btn-icon-child" height="24" src="https://www.countryflags.io/US/shiny/24.png" width="24" />
+    </button>
+    <button class="btn btn-icon" disabled type="button">
+      <img alt="US disabled flag" class="btn-icon-child" height="24" src="https://www.countryflags.io/US/shiny/24.png" width="24" />
+    </button>`);
 }
