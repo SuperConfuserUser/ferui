@@ -7,6 +7,7 @@ import { FuiCheckboxModule } from '../forms/checkbox/checkbox.module';
 import { FuiCommonFormsModule } from '../forms/common/common.module';
 import { FuiDateModule } from '../forms/date/date.module';
 import { FuiInputModule } from '../forms/input/input.module';
+import { FuiNumberModule } from '../forms/number/number.module';
 import { FuiRadioModule } from '../forms/radio/radio.module';
 import { FuiSearchModule } from '../forms/search/search.module';
 import { FuiSelectModule } from '../forms/select/select.module';
@@ -50,6 +51,7 @@ export const FUI_FILTER_DIRECTIVES: Type<any>[] = [
     FuiRadioModule,
     FuiDateModule,
     FuiSelectModule,
+    FuiNumberModule,
     ClrIconModule,
     FuiConditionalModule,
     FuiDropdownModule,

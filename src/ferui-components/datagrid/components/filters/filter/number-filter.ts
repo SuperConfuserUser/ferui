@@ -36,32 +36,32 @@ export interface INumberFilterParams extends IScalarFilterParams {
         </fui-select-container>
       </div>
       <div [class.col-3]="isInRange()" [class.col-4]="!isInRange()">
-        <fui-input-container>
+        <fui-number-container>
           <label fuiLabel>{{ isInRange() ? translate('filterBetween') : translate('filterOoo') }}</label>
           <input
             [layout]="fuiFormLayoutEnum.SMALL"
             type="number"
             (ngModelChange)="onFilterInputChanged($event, 'search')"
-            fuiInput
+            fuiNumber
             name="fuiDatagridNumberFilterSearch"
             [required]="isInRange()"
             [(ngModel)]="selectedSearch"
           />
-        </fui-input-container>
+        </fui-number-container>
       </div>
       <div class="col-3" *ngIf="isInRange()">
-        <fui-input-container>
+        <fui-number-container>
           <label fuiLabel>{{ translate('filterAnd') }}</label>
           <input
             [layout]="fuiFormLayoutEnum.SMALL"
             type="number"
             (ngModelChange)="onFilterInputChanged($event, 'searchTo')"
-            fuiInput
+            fuiNumber
             name="fuiDatagridNumberFilterSearchTo"
             required
             [(ngModel)]="selectedSearchTo"
           />
-        </fui-input-container>
+        </fui-number-container>
       </div>
     </div>
   `,

@@ -17,6 +17,10 @@
           -moz-appearance: textfield !important;
         }
 
+        input:-webkit-autofill {
+          -webkit-box-shadow: none !important;
+        }
+
         /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -27,6 +31,9 @@
 
       &.fui-control-focus {
         .input-number-wrapper {
+          input.fui-number {
+            border-color: $gray-500;
+          }
           .fui-number-increment-wrapper {
             .fui-number-btn {
               border-color: $gray-500;
@@ -44,7 +51,9 @@
               cursor: default;
 
               &:hover,
-              &:focus {
+              &:focus,
+              &.fui-number-incrementing,
+              &.fui-number-decrementing {
                 .fui-number-icon {
                   fill: $gray-500;
                   color: $gray-500;
@@ -57,7 +66,7 @@
 
       &.fui-error {
         .fui-control-icons {
-          right: calc(#{$controls-padding} + 20px);
+          right: calc(#{$controls-padding} + #{map-get($spacers, 4)});
         }
       }
     }
@@ -65,7 +74,7 @@
     &:not(.fui-form-control-small) {
       .fui-control-container > *:not(.fui-checkbox-subtext-wrapper):not(.fui-radio-subtext-wrapper) {
         .fui-subtext {
-          right: 20px;
+          right: map-get($spacers, 4);
         }
       }
     }
@@ -103,7 +112,9 @@
           cursor: pointer;
 
           &:hover,
-          &:focus {
+          &:focus,
+          &.fui-number-incrementing,
+          &.fui-number-decrementing {
             .fui-number-icon {
               fill: $gray-900;
               color: $gray-900;
@@ -127,6 +138,40 @@
             fill: $gray-500;
             color: $gray-500;
           }
+        }
+      }
+    }
+
+    &.fui-form-control-small {
+      .fui-control-container > *:not(.fui-checkbox-subtext-wrapper):not(.fui-radio-subtext-wrapper) {
+        .fui-subtext {
+          right: 1.5625rem; // 25px
+        }
+      }
+
+      input.fui-layout-small {
+        border-right: none !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+
+        &:focus {
+          border-color: $gray-500;
+        }
+
+        &[disabled] {
+          background-color: $gray-200;
+          color: $gray-500;
+        }
+      }
+
+      .fui-number-increment-wrapper {
+        .fui-number-btn {
+          height: 1.09375rem !important; // 17.5px
+          display: flex;
+          justify-content: center;
+          flex-flow: column nowrap;
+          align-content: center;
+          align-items: center;
         }
       }
     }

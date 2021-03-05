@@ -7,6 +7,7 @@ import { FuiCheckboxModule } from '../forms/checkbox/checkbox.module';
 import { FuiCommonFormsModule } from '../forms/common/common.module';
 import { FuiDateModule } from '../forms/date/date.module';
 import { FuiInputModule } from '../forms/input/input.module';
+import { FuiNumberModule } from '../forms/number/number.module';
 import { FuiRadioModule } from '../forms/radio/radio.module';
 import { FuiSelectModule } from '../forms/select/select.module';
 import { FuiToggleModule } from '../forms/toggle/toggle.module';
@@ -76,7 +77,8 @@ export const FUI_DATAGRID_DIRECTIVES: Type<any>[] = [
     FuiUnselectableModule,
     FuiConditionalModule,
     FuiDropdownModule,
-    FuiToggleModule
+    FuiToggleModule,
+    FuiNumberModule
   ],
   declarations: [FUI_DATAGRID_DIRECTIVES],
   exports: [FUI_DATAGRID_DIRECTIVES],

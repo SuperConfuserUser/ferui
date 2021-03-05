@@ -1,9 +1,13 @@
+import { Subject } from 'rxjs';
+
 import { Injectable } from '@angular/core';
 
 import { FeruiUtils } from '../../../utils/ferui-utils';
 
 @Injectable()
 export class NumberIoService {
+  onKeyPressed: Subject<string> = new Subject<string>();
+
   private _min: number;
   private _max: number;
   private _step: number = 1;
@@ -41,8 +45,15 @@ export class NumberIoService {
     this._currentValue = value;
   }
 
-  increment(): number {
-    const initialValue: number = this.currentValue;
+  get onKeyPressed$() {
+    return this.onKeyPressed.asObservable();
+  }
+
+  increment(initialValue?: number): number {
+    initialValue = !FeruiUtils.isNullOrUndefined(initialValue) ? initialValue : this.currentValue;
+    if (isNaN(initialValue)) {
+      initialValue = !FeruiUtils.isNullOrUndefined(this.min) ? this.min : 0;
+    }
     if (
       (FeruiUtils.isNullOrUndefined(this.min) && FeruiUtils.isNullOrUndefined(this.max)) ||
       (!FeruiUtils.isNullOrUndefined(this.min) &&
@@ -55,8 +66,11 @@ export class NumberIoService {
     return this.currentValue;
   }
 
-  decrement(): number {
-    const initialValue: number = this.currentValue;
+  decrement(initialValue?: number): number {
+    initialValue = !FeruiUtils.isNullOrUndefined(initialValue) ? initialValue : this.currentValue;
+    if (isNaN(initialValue)) {
+      initialValue = !FeruiUtils.isNullOrUndefined(this.min) ? this.min : 0;
+    }
     if (
       (FeruiUtils.isNullOrUndefined(this.min) && FeruiUtils.isNullOrUndefined(this.max)) ||
       (!FeruiUtils.isNullOrUndefined(this.min) &&

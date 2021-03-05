@@ -15,6 +15,7 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
             <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputSix"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputSeven"></demo-component>
             <div class="footer">
               <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
                 Submit
@@ -40,7 +41,8 @@ export class NumberComponent extends AbstractControlDemoComponent implements OnI
     three: null,
     four: 10,
     five: 100,
-    six: null
+    six: null,
+    seven: null
   };
 
   inputOne: DemoComponentData;
@@ -49,6 +51,7 @@ export class NumberComponent extends AbstractControlDemoComponent implements OnI
   inputFour: DemoComponentData;
   inputFive: DemoComponentData;
   inputSix: DemoComponentData;
+  inputSeven: DemoComponentData;
 
   constructor() {
     super();
@@ -118,6 +121,19 @@ export class NumberComponent extends AbstractControlDemoComponent implements OnI
         <fui-number-container #code>
           <label fuiLabel>Full example (multiple validators)</label>
           <input fuiNumber name="six" [(ngModel)]="models.six" required [min]="1" [max]="20"/>
+          <!-- All the validator messages are default ones -->
+        </fui-number-container>`
+    });
+
+    this.inputSeven = new DemoComponentData({
+      title: `<h5 #title>Small number input</h5>`,
+      models: { seven: this.model.seven },
+      params: { disabled: this.disabled },
+      canDisable: true,
+      source: `
+        <fui-number-container #code>
+          <label fuiLabel>Small number input (multiple validators)</label>
+          <input fuiNumber name="seven" [layout]="'small'" [(ngModel)]="models.seven" required [disabled]="params.disabled" [min]="1" [max]="20"/>
           <!-- All the validator messages are default ones -->
         </fui-number-container>`
     });
