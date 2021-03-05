@@ -15,108 +15,120 @@ import {
 
 @Component({
   template: `
-    <h2 class="mb-4">Server Side Tree View</h2>
-    <div class="demo-tree-view">
-      <h1>Server Side Tree View With Borders</h1>
-      <h4>Select first node via Tree View auto selector interface</h4>
-      <div class="demo-component">
-        <fui-tree-view
-          [autoNodeSelector]="treeViewAutoNodeSelector"
-          [loading]="loading"
-          [treeNodeData]="serverSideTreeNodeData"
-          [dataRetriever]="serverDataRetriever"
-          [config]="{ width: '250px', height: '300px', hasBorders: true }"
-        ></fui-tree-view>
-      </div>
-      <div class="code-example">
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="dataExampleHtml2"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="dataExample2"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-      </div>
-    </div>
+    <div class="container-fluid">
+      <div class="row" style="max-width: 1200px">
+        <div class="col col-12 p-0">
+          <h2 class="mb-4">Server Side Tree View</h2>
+          <div class="demo-tree-view">
+            <h1>Server Side Tree View With Borders</h1>
+            <h4>Select first node via Tree View auto selector interface</h4>
+            <div class="demo-component">
+              <fui-tree-view
+                [autoNodeSelector]="treeViewAutoNodeSelector"
+                [loading]="loading"
+                [treeNodeData]="serverSideTreeNodeData"
+                [dataRetriever]="serverDataRetriever"
+                [config]="{ width: '250px', height: '300px', hasBorders: true }"
+              ></fui-tree-view>
+            </div>
+            <div class="code-example">
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="dataExampleHtml2"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="dataExample2"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
 
-    <div class="demo-tree-view">
-      <h2>Server Side Non Root Tree View with adjustable width and adjustable padding</h2>
-      <div class="demo-component expandable-width">
-        <fui-tree-view
-          [loading]="treeDataRetrieverNonRootLoading"
-          [treeNodeData]="nonRootServerSideTreeNodeData"
-          [dataRetriever]="treeDataRetrieverNonRoot"
-          [config]="{ height: '300px', limit: 10 }"
-        ></fui-tree-view>
-      </div>
-      <div class="code-example">
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExampleOneLevel"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="dataExampleOneLevel"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-      </div>
-    </div>
+          <div class="demo-tree-view">
+            <h2>Server Side Non Root Tree View with adjustable width and adjustable padding</h2>
+            <div class="demo-component expandable-width">
+              <fui-tree-view
+                [loading]="treeDataRetrieverNonRootLoading"
+                [treeNodeData]="nonRootServerSideTreeNodeData"
+                [dataRetriever]="treeDataRetrieverNonRoot"
+                [config]="{ height: '300px', limit: 10 }"
+              ></fui-tree-view>
+            </div>
+            <div class="code-example">
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExampleOneLevel"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="dataExampleOneLevel"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
 
-    <div class="demo-tree-view">
-      <h1>Tree View using public API to select, expand and collapse nodes</h1>
-      <h4>Open Root Note at beginning</h4>
-      <div class="demo-component">
-        <fui-tree-view
-          #publicApi
-          [treeNodeData]="treeNodeData"
-          [dataRetriever]="treeDataRetriever"
-          [config]="{ width: '250px', height: '300px' }"
-        ></fui-tree-view>
-        <div class="public-buttons">
-          <p><button class="btn btn-primary" (click)="expandVegetables()">Expand Vegetables Child</button></p>
-          <p><button class="btn btn-primary" (click)="closeVegetables()">Collapse Vegetables child</button></p>
-          <p><button class="btn btn-primary" (click)="selectFruits()">Select Fruits Child</button></p>
+          <div class="demo-tree-view">
+            <h1>Tree View using public API to select, expand and collapse nodes</h1>
+            <h4>Open Root Note at beginning</h4>
+            <div class="demo-component">
+              <fui-tree-view
+                #publicApi
+                [treeNodeData]="treeNodeData"
+                [dataRetriever]="treeDataRetriever"
+                [config]="{ width: '250px', height: '300px' }"
+              ></fui-tree-view>
+              <div class="public-buttons">
+                <p>
+                  <button class="btn btn-primary" (click)="expandVegetables()">Expand Vegetables Child</button>
+                </p>
+                <p>
+                  <button class="btn btn-primary" (click)="closeVegetables()">Collapse Vegetables child</button>
+                </p>
+                <p>
+                  <button class="btn btn-primary" (click)="selectFruits()">Select Fruits Child</button>
+                </p>
+              </div>
+            </div>
+            <div class="code-example">
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="dataExampleHtml4"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="dataExample4"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
+
+          <div class="demo-tree-view">
+            <h1>
+              Non Root Server Side Tree View
+              <button type="button" class="btn btn-primary" (click)="hiddenTreeview = !hiddenTreeview">
+                {{ hiddenTreeview ? 'Display treeView' : 'Hide Treeview' }}
+              </button>
+            </h1>
+            <div class="demo-component" [class.hidden-treeview]="hiddenTreeview">
+              <fui-tree-view
+                [loading]="loading"
+                [treeNodeData]="nonRootServerSideTreeNodeData"
+                [dataRetriever]="nonRootServerSideDataRetriever"
+                [config]="{ height: '300px', width: '250px' }"
+              ></fui-tree-view>
+              <ng-template #treeViewTemplate let-node="node">
+                <span class="directory-label">{{ node.data.nodeLabel }}</span>
+              </ng-template>
+            </div>
+            <div class="code-example">
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="dataExampleHtml3"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="dataExample3"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="code-example">
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="dataExampleHtml4"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="dataExample4"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-      </div>
-    </div>
-
-    <div class="demo-tree-view">
-      <h1>
-        Non Root Server Side Tree View
-        <button type="button" class="btn btn-primary" (click)="hiddenTreeview = !hiddenTreeview">
-          {{ hiddenTreeview ? 'Display treeView' : 'Hide Treeview' }}
-        </button>
-      </h1>
-      <div class="demo-component" [class.hidden-treeview]="hiddenTreeview">
-        <fui-tree-view
-          [loading]="loading"
-          [treeNodeData]="nonRootServerSideTreeNodeData"
-          [dataRetriever]="nonRootServerSideDataRetriever"
-          [config]="{ height: '300px', width: '250px' }"
-        ></fui-tree-view>
-        <ng-template #treeViewTemplate let-node="node">
-          <span class="directory-label">{{ node.data.nodeLabel }}</span>
-        </ng-template>
-      </div>
-      <div class="code-example">
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="dataExampleHtml3"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="dataExample3"></code></pre>
-          </fui-tab>
-        </fui-tabs>
       </div>
     </div>
   `,
@@ -132,7 +144,7 @@ import {
       }
       .code-example {
         display: inline-block;
-        height: 300px;
+        height: auto;
         margin-left: 20px;
         max-width: 550px;
       }

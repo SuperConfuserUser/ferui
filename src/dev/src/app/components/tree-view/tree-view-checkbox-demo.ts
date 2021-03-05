@@ -13,101 +13,110 @@ import {
 
 @Component({
   template: `
-    <div class="demo-tree-view">
-      <h2>Client Side Tree View Selection Feature (Checkboxes)</h2>
-      <div class="demo-component">
-        <fui-tree-view
-          #treeViewClientSideComponent
-          [treeNodeData]="treeNodeData"
-          [dataRetriever]="treeDataRetriever"
-          [config]="{ width: '250px', height: '300px', nodeSelection: 'MULTIPLE' }"
-        ></fui-tree-view>
-      </div>
-      <div class="code-example">
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample1"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="dataExample1"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'Checked Nodes List'">
-            <pre><code [languages]="['typescript']" [highlight]="checkedNodesPublicApiUsage"></code></pre>
-            <button class="btn btn-success" (click)="logCheckedNodesClientSide()">Log checked nodes</button>
-            <pre><code [languages]="['typescript']" [highlight]="checkedNodesExample1"></code></pre>
-            <button class="btn btn-success" (click)="logPartiallyCheckedNodesClientSide()">Log partially checked nodes</button>
-            <pre><code [languages]="['typescript']" [highlight]="partiallyCheckedNodesExample1"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-      </div>
-    </div>
+    <div class="container-fluid">
+      <div class="row" style="max-width: 1200px">
+        <div class="col col-12 p-0">
+          <div class="demo-tree-view">
+            <h2>Client Side Tree View Selection Feature (Checkboxes)</h2>
+            <div class="demo-component">
+              <fui-tree-view
+                #treeViewClientSideComponent
+                [treeNodeData]="treeNodeData"
+                [dataRetriever]="treeDataRetriever"
+                [config]="{ width: '250px', height: '300px', nodeSelection: 'MULTIPLE' }"
+              ></fui-tree-view>
+            </div>
+            <div class="code-example">
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample1"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="dataExample1"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'Checked Nodes List'">
+                  <pre><code [languages]="['typescript']" [highlight]="checkedNodesPublicApiUsage"></code></pre>
+                  <button class="btn btn-success" (click)="logCheckedNodesClientSide()">Log checked nodes</button>
+                  <pre><code [languages]="['typescript']" [highlight]="checkedNodesExample1"></code></pre>
+                  <button class="btn btn-success" (click)="logPartiallyCheckedNodesClientSide()">
+                    Log partially checked nodes
+                  </button>
+                  <pre><code [languages]="['typescript']" [highlight]="partiallyCheckedNodesExample1"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
 
-    <div class="demo-tree-view">
-      <h1>Server Side Tree View Selection Feature (Checkboxes)</h1>
-      <p>
-        On Server-Side we disable children when parent node is checked by default to show the upper most node in the hierarchy has
-        already been selected, to overwrite this developer may use the <b>serverSideDisableChildren</b> configuration value
-      </p>
-      <p>
-        For Server-Side selection the user will need to select each node manually. We may not have access to the entire node
-        hierarchy at the time of it being checked and therefore will only select the checked-on node and will not include its
-        child nodes or any descendants. This also means partial selection will not work on Server-Side and a parent node won't
-        reflect this state via its child selection.
-      </p>
-      <div class="demo-component">
-        <fui-tree-view
-          #treeViewServerSideComponent
-          [loading]="loading"
-          [treeNodeData]="serverSideTreeNodeData"
-          [dataRetriever]="serverDataRetriever"
-          [config]="{ width: '250px', height: '300px', nodeSelection: 'MULTIPLE' }"
-        ></fui-tree-view>
-      </div>
-      <div class="code-example">
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample2"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="dataExample2"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'Checked Nodes List'">
-            <pre><code [languages]="['typescript']" [highlight]="checkedNodesPublicApiUsage"></code></pre>
-            <button class="btn btn-success" (click)="logCheckedNodesServerSide()">Log checked nodes</button>
-            <pre><code [languages]="['typescript']" [highlight]="checkedNodesExample2"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-      </div>
-    </div>
+          <div class="demo-tree-view">
+            <h1>Server Side Tree View Selection Feature (Checkboxes)</h1>
+            <p>
+              On Server-Side we disable children when parent node is checked by default to show the upper most node in the
+              hierarchy has already been selected, to overwrite this developer may use the
+              <b>serverSideDisableChildren</b> configuration value
+            </p>
+            <p>
+              For Server-Side selection the user will need to select each node manually. We may not have access to the entire node
+              hierarchy at the time of it being checked and therefore will only select the checked-on node and will not include
+              its child nodes or any descendants. This also means partial selection will not work on Server-Side and a parent node
+              won't reflect this state via its child selection.
+            </p>
+            <div class="demo-component">
+              <fui-tree-view
+                #treeViewServerSideComponent
+                [loading]="loading"
+                [treeNodeData]="serverSideTreeNodeData"
+                [dataRetriever]="serverDataRetriever"
+                [config]="{ width: '250px', height: '300px', nodeSelection: 'MULTIPLE' }"
+              ></fui-tree-view>
+            </div>
+            <div class="code-example">
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample2"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="dataExample2"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'Checked Nodes List'">
+                  <pre><code [languages]="['typescript']" [highlight]="checkedNodesPublicApiUsage"></code></pre>
+                  <button class="btn btn-success" (click)="logCheckedNodesServerSide()">Log checked nodes</button>
+                  <pre><code [languages]="['typescript']" [highlight]="checkedNodesExample2"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
 
-    <div class="demo-tree-view">
-      <h2>Client Side NonRoot Tree View Single Selection Feature (Checkboxes)</h2>
-      <p>
-        Using the <b>'SINGLE'</b> option of <i>nodeSelection</i> feature to only ever check one node and using
-        <b>isNodeUnselectable</b> in data retriever to make a specific node unselectable
-      </p>
-      <div class="demo-component">
-        <fui-tree-view
-          #treeViewClientSideNonRootComponent
-          [treeNodeData]="nonRootTreeNodeData"
-          [dataRetriever]="nonRootTreeDataRetriever"
-          [config]="{ width: '250px', height: '300px', nodeSelection: 'SINGLE' }"
-        ></fui-tree-view>
-      </div>
-      <div class="code-example">
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample3"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="dataExample3"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'Checked Nodes List'">
-            <pre><code [languages]="['typescript']" [highlight]="checkedNodesPublicApiUsage"></code></pre>
-            <button class="btn btn-success" (click)="logCheckedNodesNonRootClientSide()">Log checked node</button>
-            <pre><code [languages]="['typescript']" [highlight]="checkedNodesExample3"></code></pre>
-          </fui-tab>
-        </fui-tabs>
+          <div class="demo-tree-view">
+            <h2>Client Side NonRoot Tree View Single Selection Feature (Checkboxes)</h2>
+            <p>
+              Using the <b>'SINGLE'</b> option of <i>nodeSelection</i> feature to only ever check one node and using
+              <b>isNodeUnselectable</b> in data retriever to make a specific node unselectable
+            </p>
+            <div class="demo-component">
+              <fui-tree-view
+                #treeViewClientSideNonRootComponent
+                [treeNodeData]="nonRootTreeNodeData"
+                [dataRetriever]="nonRootTreeDataRetriever"
+                [config]="{ width: '250px', height: '300px', nodeSelection: 'SINGLE' }"
+              ></fui-tree-view>
+            </div>
+            <div class="code-example">
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample3"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="dataExample3"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'Checked Nodes List'">
+                  <pre><code [languages]="['typescript']" [highlight]="checkedNodesPublicApiUsage"></code></pre>
+                  <button class="btn btn-success" (click)="logCheckedNodesNonRootClientSide()">Log checked node</button>
+                  <pre><code [languages]="['typescript']" [highlight]="checkedNodesExample3"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   `,
@@ -127,7 +136,7 @@ import {
       }
       .code-example {
         display: inline-block;
-        height: 300px;
+        height: auto;
         margin-left: 20px;
         max-width: 550px;
       }

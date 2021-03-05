@@ -40,7 +40,7 @@ export class WrappedFormControl<W extends DynamicWrapper> implements OnInit, OnD
   protected _required: boolean;
   protected _placeholder: string;
   protected _layout: FuiFormLayoutEnum = FuiFormLayoutEnum.DEFAULT;
-  protected _tabIndex: string = '1';
+  protected _tabIndex: string = '0';
 
   private _id: string;
   private controlIdService: ControlIdService;

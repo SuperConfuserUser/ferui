@@ -18,6 +18,7 @@ interface SharedTooltipConfig {
   tooltipStyle?: string; // additional styling to apply to the tooltip. HTML inline style format.
   arrow?: boolean | string; // boolean value for whether to show the default arrow or a string value for a custom svg arrow
   arrowSize?: TooltipArrowSize; // tooltip arrow size in px
+  closeOnOutsideClick?: boolean; // Allow to remove the tooltip on outside click.
 }
 
 /**

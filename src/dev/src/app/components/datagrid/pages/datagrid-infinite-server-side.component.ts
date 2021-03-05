@@ -26,103 +26,115 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
     <h1 class="mb-4">Infinite server-side datagrid</h1>
 
     <fui-tabs>
-      <fui-tab [title]="'Examples'" [active]="true">
-        <h3 class="mb-2">Datagrid with known total rows</h3>
-        <div class="mb-4">
-          <fui-demo-datagrid-option-menu
-            [bandwidthSpeed]="networkBandwith"
-            [datagridRowModel]="rowDataModel"
-            [datagrid]="datagrid1"
-            (bandwidthSpeedChange)="networkBandwithChange($event)"
-          >
-            <button class="btn btn-warning btn-sm" (click)="withHeader = !withHeader">
-              {{ withHeader ? 'Hide header' : 'Display header' }}
-            </button>
-            <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFooter = !withFooter">
-              {{ withFooter ? 'Hide footer' : 'Display footer' }}
-            </button>
-            <button
-              *ngIf="withFooter"
-              class="btn btn-warning ml-2 mr-2 btn-sm"
-              (click)="withFooterItemPerPage = !withFooterItemPerPage"
-            >
-              {{ withFooterItemPerPage ? 'Hide Item per page' : 'Display Item per page' }}
-            </button>
-            <button *ngIf="withFooter" class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFooterPager = !withFooterPager">
-              {{ withFooterPager ? 'Hide pager' : 'Display pager' }}
-            </button>
-            <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFixedHeight = !withFixedHeight">
-              {{ withFixedHeight ? 'Auto grid height' : 'Fixed grid height' }}
-            </button>
-            <button class="btn btn-sm btn-primary ml-2" (click)="storeSelection()">Store Selection</button>
-            <button
-              class="btn btn-sm btn-primary ml-2"
-              *ngIf="storedSelectionList && storedSelectionList.length > 0"
-              (click)="resetToInitialSelection()"
-            >
-              Use initial selection list
-            </button>
-          </fui-demo-datagrid-option-menu>
-        </div>
-        <div class="mb-4" style="width: 100%;">
-          <fui-datagrid
-            #datagrid1
-            [checkboxSelection]="true"
-            [initialSelectedRows]="initialSelectionList$"
-            [rowSelection]="rowSelectionEnum.MULTIPLE"
-            [fixedHeight]="withFixedHeight"
-            [withHeader]="withHeader"
-            [withFooter]="withFooter"
-            [withFooterItemPerPage]="withFooterItemPerPage"
-            [withFooterPager]="withFooterPager"
-            [maxDisplayedRows]="itemPerPage"
-            [rowDataModel]="rowDataModel"
-            [datasource]="dataSource"
-            [defaultColDefs]="defaultColumnDefs"
-            [columnDefs]="columnDefs"
-          ></fui-datagrid>
-        </div>
+      <fui-tab [label]="'Examples'">
+        <ng-template fui-tab-content>
+          <div class="container-fluid">
+            <div class="row" style="max-width: 1200px">
+              <div class="col col-12">
+                <h3 class="mb-2">Datagrid with known total rows</h3>
+                <div class="mb-4">
+                  <fui-demo-datagrid-option-menu
+                    [bandwidthSpeed]="networkBandwith"
+                    [datagridRowModel]="rowDataModel"
+                    [datagrid]="datagrid1"
+                    (bandwidthSpeedChange)="networkBandwithChange($event)"
+                  >
+                    <button class="btn btn-warning btn-sm" (click)="withHeader = !withHeader">
+                      {{ withHeader ? 'Hide header' : 'Display header' }}
+                    </button>
+                    <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFooter = !withFooter">
+                      {{ withFooter ? 'Hide footer' : 'Display footer' }}
+                    </button>
+                    <button
+                      *ngIf="withFooter"
+                      class="btn btn-warning ml-2 mr-2 btn-sm"
+                      (click)="withFooterItemPerPage = !withFooterItemPerPage"
+                    >
+                      {{ withFooterItemPerPage ? 'Hide Item per page' : 'Display Item per page' }}
+                    </button>
+                    <button
+                      *ngIf="withFooter"
+                      class="btn btn-warning ml-2 mr-2 btn-sm"
+                      (click)="withFooterPager = !withFooterPager"
+                    >
+                      {{ withFooterPager ? 'Hide pager' : 'Display pager' }}
+                    </button>
+                    <button class="btn btn-warning ml-2 mr-2 btn-sm" (click)="withFixedHeight = !withFixedHeight">
+                      {{ withFixedHeight ? 'Auto grid height' : 'Fixed grid height' }}
+                    </button>
+                    <button class="btn btn-sm btn-primary ml-2" (click)="storeSelection()">Store Selection</button>
+                    <button
+                      class="btn btn-sm btn-primary ml-2"
+                      *ngIf="storedSelectionList && storedSelectionList.length > 0"
+                      (click)="resetToInitialSelection()"
+                    >
+                      Use initial selection list
+                    </button>
+                  </fui-demo-datagrid-option-menu>
+                </div>
+                <div class="mb-4" style="width: 100%;">
+                  <fui-datagrid
+                    #datagrid1
+                    [checkboxSelection]="true"
+                    [initialSelectedRows]="initialSelectionList$"
+                    [rowSelection]="rowSelectionEnum.MULTIPLE"
+                    [fixedHeight]="withFixedHeight"
+                    [withHeader]="withHeader"
+                    [withFooter]="withFooter"
+                    [withFooterItemPerPage]="withFooterItemPerPage"
+                    [withFooterPager]="withFooterPager"
+                    [maxDisplayedRows]="itemPerPage"
+                    [rowDataModel]="rowDataModel"
+                    [datasource]="dataSource"
+                    [defaultColDefs]="defaultColumnDefs"
+                    [columnDefs]="columnDefs"
+                  ></fui-datagrid>
+                </div>
 
-        <h3 class="mb-2">Datagrid without known total rows</h3>
-        <div class="mb-4">
-          <fui-demo-datagrid-option-menu
-            [bandwidthSpeed]="networkBandwith"
-            [datagridRowModel]="rowDataModel"
-            [datagrid]="datagrid2"
-            (bandwidthSpeedChange)="networkBandwithChange($event)"
-          ></fui-demo-datagrid-option-menu>
-        </div>
-        <div class="mb-4" style="width: 100%;">
-          <fui-datagrid
-            #datagrid2
-            [checkboxSelection]="true"
-            [rowSelection]="rowSelectionEnum.SINGLE"
-            [rowDataModel]="rowDataModel"
-            [datasource]="dataSource2"
-            [defaultColDefs]="defaultColumnDefs"
-            [columnDefs]="columnDefs"
-          ></fui-datagrid>
-        </div>
+                <h3 class="mb-2">Datagrid without known total rows</h3>
+                <div class="mb-4">
+                  <fui-demo-datagrid-option-menu
+                    [bandwidthSpeed]="networkBandwith"
+                    [datagridRowModel]="rowDataModel"
+                    [datagrid]="datagrid2"
+                    (bandwidthSpeedChange)="networkBandwithChange($event)"
+                  ></fui-demo-datagrid-option-menu>
+                </div>
+                <div class="mb-4" style="width: 100%;">
+                  <fui-datagrid
+                    #datagrid2
+                    [checkboxSelection]="true"
+                    [rowSelection]="rowSelectionEnum.SINGLE"
+                    [rowDataModel]="rowDataModel"
+                    [datasource]="dataSource2"
+                    [defaultColDefs]="defaultColumnDefs"
+                    [columnDefs]="columnDefs"
+                  ></fui-datagrid>
+                </div>
 
-        <h3 class="mb-2">Datagrid error handling</h3>
-        <div class="mb-4">
-          <fui-demo-datagrid-option-menu
-            [bandwidthSpeed]="networkBandwith"
-            [datagridRowModel]="rowDataModel"
-            [datagrid]="datagrid3"
-            (bandwidthSpeedChange)="networkBandwithChange($event)"
-          ></fui-demo-datagrid-option-menu>
-        </div>
-        <div class="mb-4" style="width: 100%;">
-          <fui-datagrid
-            #datagrid3
-            [rowSelection]="rowSelectionEnum.MULTIPLE"
-            [rowDataModel]="rowDataModel"
-            [datasource]="dataSource3"
-            [defaultColDefs]="defaultColumnDefs"
-            [columnDefs]="columnDefs3"
-          ></fui-datagrid>
-        </div>
+                <h3 class="mb-2">Datagrid error handling</h3>
+                <div class="mb-4">
+                  <fui-demo-datagrid-option-menu
+                    [bandwidthSpeed]="networkBandwith"
+                    [datagridRowModel]="rowDataModel"
+                    [datagrid]="datagrid3"
+                    (bandwidthSpeedChange)="networkBandwithChange($event)"
+                  ></fui-demo-datagrid-option-menu>
+                </div>
+                <div class="mb-4" style="width: 100%;">
+                  <fui-datagrid
+                    #datagrid3
+                    [rowSelection]="rowSelectionEnum.MULTIPLE"
+                    [rowDataModel]="rowDataModel"
+                    [datasource]="dataSource3"
+                    [defaultColDefs]="defaultColumnDefs"
+                    [columnDefs]="columnDefs3"
+                  ></fui-datagrid>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
 
         <ng-template #avatarRenderer let-value="value">
           <img *ngIf="value" width="30" height="30" alt="" [src]="value" />
@@ -155,9 +167,15 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
           </span>
         </ng-template>
       </fui-tab>
-      <fui-tab [title]="'Documentation'">
-        <h3 class="mb-4">Overview</h3>
-        <p>The <b>Infinite server side</b> row model works exactly the same as server-side row model.</p>
+      <fui-tab [label]="'Documentation'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col col-12">
+              <h3 class="mb-4">Overview</h3>
+              <p>The <b>Infinite server side</b> row model works exactly the same as server-side row model.</p>
+            </div>
+          </div>
+        </div>
       </fui-tab>
     </fui-tabs>
   `,

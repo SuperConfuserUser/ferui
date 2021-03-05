@@ -27,7 +27,7 @@ export const FUI_NUMBER_INCREMENT_DECREMENT_DELAY = 150;
 
           <div class="fui-number-increment-wrapper">
             <button
-              [tabindex]="ngControl?.disabled ? -1 : 1"
+              [tabindex]="ngControl?.disabled ? -1 : 0"
               class="fui-number-btn fui-number-increment"
               [class.fui-number-incrementing]="isIncrementing"
               [disabled]="ngControl?.disabled"
@@ -38,7 +38,7 @@ export const FUI_NUMBER_INCREMENT_DECREMENT_DELAY = 150;
               <clr-icon class="fui-number-icon" shape="fui-solid-arrow" aria-hidden="true"></clr-icon>
             </button>
             <button
-              [tabindex]="ngControl?.disabled ? -1 : 1"
+              [tabindex]="ngControl?.disabled ? -1 : 0"
               class="fui-number-btn fui-number-decrement"
               [class.fui-number-decrementing]="isDecrementing"
               [disabled]="ngControl?.disabled"
@@ -55,7 +55,7 @@ export const FUI_NUMBER_INCREMENT_DECREMENT_DELAY = 150;
           <div *ngIf="!invalid" [ngClass]="{ 'adjust-margin-right fui-input-group-icon-action': !!fuiHelper }">
             <ng-content select="[fuiHelper]"></ng-content>
           </div>
-          <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+          <clr-icon *ngIf="invalid" tabindex="0" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </div>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>

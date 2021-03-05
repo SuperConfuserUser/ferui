@@ -25,49 +25,57 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
     <h1 class="mb-4">Server-side datagrid</h1>
 
     <fui-tabs>
-      <fui-tab [title]="'Examples'" [active]="true">
-        <h3 class="mb-4">Datagrid with known total rows</h3>
-        <div class="mb-4">
-          <fui-demo-datagrid-option-menu
-            [datagridRowModel]="getRowModel()"
-            [bandwidthSpeed]="networkBandwith"
-            [datagrid]="datagrid1"
-            (bandwidthSpeedChange)="networkBandwithChange($event)"
-          ></fui-demo-datagrid-option-menu>
-        </div>
-        <div class="mb-4" style="width: 100%;">
-          <fui-datagrid
-            #datagrid1
-            [checkboxSelection]="true"
-            [rowSelection]="rowSelectionEnum.MULTIPLE"
-            [maxDisplayedRows]="itemPerPage"
-            [datasource]="dataSource"
-            [defaultColDefs]="defaultColumnDefs"
-            [columnDefs]="columnDefs"
-          ></fui-datagrid>
-        </div>
-        <h3 class="mb-4">Datagrid without known total rows</h3>
-        <p>
-          If there is no way to know the total amount of rows the server would send you back, then the pager will adapt itself
-          automatically. You don't need to do anything else.
-        </p>
-        <div class="mb-4">
-          <fui-demo-datagrid-option-menu
-            [datagridRowModel]="getRowModel()"
-            [bandwidthSpeed]="networkBandwith"
-            [datagrid]="datagrid2"
-            (bandwidthSpeedChange)="networkBandwithChange($event)"
-          ></fui-demo-datagrid-option-menu>
-        </div>
-        <div class="mb-4" style="width: 100%;">
-          <fui-datagrid
-            #datagrid2
-            [rowSelection]="rowSelectionEnum.SINGLE"
-            [datasource]="dataSource2"
-            [defaultColDefs]="defaultColumnDefs"
-            [columnDefs]="columnDefs"
-          ></fui-datagrid>
-        </div>
+      <fui-tab [label]="'Examples'">
+        <ng-template fui-tab-content>
+          <div class="container-fluid">
+            <div class="row" style="max-width: 1200px">
+              <div class="col col-12">
+                <h3 class="mb-4">Datagrid with known total rows</h3>
+                <div class="mb-4">
+                  <fui-demo-datagrid-option-menu
+                    [datagridRowModel]="getRowModel()"
+                    [bandwidthSpeed]="networkBandwith"
+                    [datagrid]="datagrid1"
+                    (bandwidthSpeedChange)="networkBandwithChange($event)"
+                  ></fui-demo-datagrid-option-menu>
+                </div>
+                <div class="mb-4" style="width: 100%;">
+                  <fui-datagrid
+                    #datagrid1
+                    [checkboxSelection]="true"
+                    [rowSelection]="rowSelectionEnum.MULTIPLE"
+                    [maxDisplayedRows]="itemPerPage"
+                    [datasource]="dataSource"
+                    [defaultColDefs]="defaultColumnDefs"
+                    [columnDefs]="columnDefs"
+                  ></fui-datagrid>
+                </div>
+                <h3 class="mb-4">Datagrid without known total rows</h3>
+                <p>
+                  If there is no way to know the total amount of rows the server would send you back, then the pager will adapt
+                  itself automatically. You don't need to do anything else.
+                </p>
+                <div class="mb-4">
+                  <fui-demo-datagrid-option-menu
+                    [datagridRowModel]="getRowModel()"
+                    [bandwidthSpeed]="networkBandwith"
+                    [datagrid]="datagrid2"
+                    (bandwidthSpeedChange)="networkBandwithChange($event)"
+                  ></fui-demo-datagrid-option-menu>
+                </div>
+                <div class="mb-4" style="width: 100%;">
+                  <fui-datagrid
+                    #datagrid2
+                    [rowSelection]="rowSelectionEnum.SINGLE"
+                    [datasource]="dataSource2"
+                    [defaultColDefs]="defaultColumnDefs"
+                    [columnDefs]="columnDefs"
+                  ></fui-datagrid>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
 
         <ng-template #avatarRenderer let-value="value">
           <img *ngIf="value" width="30" height="30" alt="" [src]="value" />
@@ -93,48 +101,54 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
           <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | fuiSafeHtml"> </span>
         </ng-template>
       </fui-tab>
-      <fui-tab [title]="'Documentation'">
-        <h3 class="mb-4">Overview</h3>
-        <h5>Client-side Row Model</h5>
-        <p>
-          The simplest approach is to send all row data to the browser in response to a single request at initialisation. For this
-          use case the Client-side Row Model has been designed.
-        </p>
-        <p>
-          The Client-side Row Model only renders the rows currently visible, so the upper limit of rows is governed by the
-          browsers memory footprint and data transfer time, rather than any restrictions inside the grid.
-        </p>
-        <h5>Server-side Row Model</h5>
-        <p>
-          However many real world applications contain much larger data sets, often involving millions of records. In this case it
-          simply isn't feasible to load all the data into the browser in one go. Instead, data will somehow need to be lazy-loaded
-          as required and then purged to limit the memory footprint in the browser.
-        </p>
-        <p>
-          This is precisely the problem the Server-side Row Model addresses, along with delegating server-side operations such as
-          filtering and sorting.
-        </p>
+      <fui-tab [label]="'Documentation'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col col-12">
+              <h3 class="mb-4">Overview</h3>
+              <h5>Client-side Row Model</h5>
+              <p>
+                The simplest approach is to send all row data to the browser in response to a single request at initialisation.
+                For this use case the Client-side Row Model has been designed.
+              </p>
+              <p>
+                The Client-side Row Model only renders the rows currently visible, so the upper limit of rows is governed by the
+                browsers memory footprint and data transfer time, rather than any restrictions inside the grid.
+              </p>
+              <h5>Server-side Row Model</h5>
+              <p>
+                However many real world applications contain much larger data sets, often involving millions of records. In this
+                case it simply isn't feasible to load all the data into the browser in one go. Instead, data will somehow need to
+                be lazy-loaded as required and then purged to limit the memory footprint in the browser.
+              </p>
+              <p>
+                This is precisely the problem the Server-side Row Model addresses, along with delegating server-side operations
+                such as filtering and sorting.
+              </p>
 
-        <h3>Server-side Datasource</h3>
-        <p>In order to use the Server side Row Model, you need to register a datasource with the grid.</p>
-        <p>The interface for the datasource is as follows:</p>
-        <pre><code [languages]="restrictTypescriptLang" [highlight]="serverSideDatasourceCode"></code></pre>
+              <h3>Server-side Datasource</h3>
+              <p>In order to use the Server side Row Model, you need to register a datasource with the grid.</p>
+              <p>The interface for the datasource is as follows:</p>
+              <pre><code [languages]="restrictTypescriptLang" [highlight]="serverSideDatasourceCode"></code></pre>
 
-        <p>
-          Each time the grid requires more rows, it will call the <code>getRows()</code> method. The method is passed a
-          <code>params</code> object that contains a request object with details what row the grid is looking for. The interface
-          for the params is as follows:
-        </p>
-        <pre><code [languages]="restrictTypescriptLang" [highlight]="serverSideDatasourceParamsCode"></code></pre>
+              <p>
+                Each time the grid requires more rows, it will call the <code>getRows()</code> method. The method is passed a
+                <code>params</code> object that contains a request object with details what row the grid is looking for. The
+                interface for the params is as follows:
+              </p>
+              <pre><code [languages]="restrictTypescriptLang" [highlight]="serverSideDatasourceParamsCode"></code></pre>
 
-        <p>
-          The request gives details on what the grid is looking for. The request object can be serialised (eg via JSON) and sent
-          to your server. The request has the following interface:
-        </p>
-        <pre><code [languages]="restrictTypescriptLang" [highlight]="serverSideDatasourceRequestCode"></code></pre>
+              <p>
+                The request gives details on what the grid is looking for. The request object can be serialised (eg via JSON) and
+                sent to your server. The request has the following interface:
+              </p>
+              <pre><code [languages]="restrictTypescriptLang" [highlight]="serverSideDatasourceRequestCode"></code></pre>
 
-        <p>The server should return an <code>IDatagridResultObject</code> object.</p>
-        <pre><code [languages]="restrictTypescriptLang" [highlight]="datagridResultObjectCode"></code></pre>
+              <p>The server should return an <code>IDatagridResultObject</code> object.</p>
+              <pre><code [languages]="restrictTypescriptLang" [highlight]="datagridResultObjectCode"></code></pre>
+            </div>
+          </div>
+        </div>
       </fui-tab>
     </fui-tabs>
   `,

@@ -19,7 +19,7 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
     <h1 class="mt-4">FerUI Filter Component</h1>
     <hr />
     <fui-tabs>
-      <fui-tab [title]="'Documentation'" [active]="true">
+      <fui-tab [label]="'Documentation'">
         <div class="container-fluid">
           <div class="row" style="max-width: 1200px">
             <div class="col-12">
@@ -183,7 +183,8 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
 
               <h5 class="mt-2 mb-2">Applicable options for Comparable filter type</h5>
 
-              <pre><code [languages]="['typescript']" [highlight]="filterComparableApplicableOptionsInterface"></code></pre>
+              <pre><code [languages]="['typescript']"
+                         [highlight]="filterComparableApplicableOptionsInterface"></code></pre>
 
               <h5 class="mt-2 mb-2">Applicable options for Scalar filter type</h5>
 
@@ -191,7 +192,8 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
 
               <p>
                 But you can totally override those defaults by using the <code>filterApplicableOptions</code> attribute of
-                <a [routerLink] [fragment]="'FuiFilterParamsInterface'"><code>FuiFilterParamsInterface</code></a> interface.
+                <a [routerLink] [fragment]="'FuiFilterParamsInterface'"><code>FuiFilterParamsInterface</code></a>
+                interface.
               </p>
 
               <p>
@@ -242,7 +244,8 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
               <p>
                 The custom filter is the sixth type of filters. It allows you to create your own custom filter. That means, you'll
                 be creating the custom component to be displayed within the popover filter list. If you're filtering client-side
-                data, you may also want to create and use a new class to customize the <code>FuiFilterComparatorService</code>.
+                data, you may also want to create and use a new class to customize the
+                <code>FuiFilterComparatorService</code>.
               </p>
 
               <h5 class="mt-2 mb-2">Create the filter component</h5>
@@ -250,8 +253,8 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
               <p>
                 Every filters (built-in or custom) follows the same rules. They need to implement the
                 <a [routerLink] [fragment]="'FuiFilterComponentInterface'">FuiFilterComponentInterface</a> and they need to
-                implement the appropriate <a [routerLink] [fragment]="'FuiFilterInterface'">FuiFilterInterface</a> depending on
-                the type of filter and comparison you want to achieve.
+                implement the appropriate <a [routerLink] [fragment]="'FuiFilterInterface'">FuiFilterInterface</a>
+                depending on the type of filter and comparison you want to achieve.
               </p>
 
               <p>
@@ -269,7 +272,8 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
 
               <p class="alert alert-info">
                 When creating your own custom filter, you can, if you need to, override the default
-                <code>FuiFilterParamsInterface</code> params interface by extending it and adding more attributes to it. <br />
+                <code>FuiFilterParamsInterface</code> params interface by extending it and adding more attributes to it.
+                <br />
                 You can also extend <code>FuiComparableFilter</code> or <code>FuiScalarFilter</code> classes instead of
                 <code>FuiBaseFilter</code> class if you need to do a <b>Comparable</b> or <b>Scalar</b> like custom filter.<br />
                 <b>In any cases</b>, you need to implement the <code>FuiFilterComponentInterface</code> interface to be sur to
@@ -390,8 +394,8 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
                     <td>
                       <b>[Optional]</b> Whether or not we want to disable the components. By default it is set to
                       <code>false</code>.<br />
-                      Note that this is only an @input (setter). You won't be able to access the <code>disabled</code> variable
-                      from this component.
+                      Note that this is only an @input (setter). You won't be able to access the <code>disabled</code>
+                      variable from this component.
                     </td>
                   </tr>
                   <tr>
@@ -520,7 +524,8 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
               <p>
                 When you retrieve the filter, you might want to be able to stringify the filter object. To do it, you just need to
                 use the visual object representation (VO) of the filter. Note that its value won't change over time. It will
-                correspond to the filter object at the specific point in time when the user call the <code>toJson()</code> method.
+                correspond to the filter object at the specific point in time when the user call the
+                <code>toJson()</code> method.
               </p>
 
               <pre><code [languages]="['typescript']" [highlight]="filterVoInterface"></code></pre>
@@ -560,7 +565,7 @@ import { DemoBrowserCustomFilterComponent } from './custom-browser-filter';
           </div>
         </div>
       </fui-tab>
-      <fui-tab [title]="'Examples'">
+      <fui-tab [label]="'Examples'">
         <demo-page pageTitle="Filter component">
           <demo-component *ngFor="let example of examples" [componentData]="example"></demo-component>
         </demo-page>

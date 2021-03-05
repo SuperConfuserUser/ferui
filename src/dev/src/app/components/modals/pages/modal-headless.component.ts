@@ -32,12 +32,12 @@ import { ModalHeadlessExample1Component } from './modals/headless/modal-headless
           <p><strong>Note</strong>: To check the returns of every promise, be sure to have your browser console open.</p>
 
           <fui-tabs>
-            <fui-tab [title]="'Example'" [active]="true">
+            <fui-tab [label]="'Example'">
               <div class="bd-example">
                 <button class="btn btn-sm btn-primary mr-2" (click)="openModal1()">Open simple modal with child</button>
               </div>
             </fui-tab>
-            <fui-tab [title]="'Code'">
+            <fui-tab [label]="'Code'">
               <pre><code [languages]="['typescript']" [highlight]="codeExample3"></code></pre>
             </fui-tab>
           </fui-tabs>

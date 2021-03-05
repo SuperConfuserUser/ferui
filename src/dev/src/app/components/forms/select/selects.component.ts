@@ -7,29 +7,11 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
 
 @Component({
   template: `
-    <form fuiForm class="container-fluid" #demoForm="ngForm">
-      <fui-tabs>
-        <fui-tab [title]="'Examples'" [active]="true">
-          <demo-page [filtersDisplayed]="true" pageTitle="Input component">
-            <demo-component [form]="demoForm" [componentData]="inputOne"></demo-component>
-            <demo-component [form]="demoForm" [componentData]="inputTwo"></demo-component>
-            <demo-component [form]="demoForm" [componentData]="inputThree"></demo-component>
-            <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
-            <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
-            <demo-component [form]="demoForm" [componentData]="inputSix"></demo-component>
-            <demo-component [form]="demoForm" [componentData]="inputSeven"></demo-component>
-            <div class="footer">
-              <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
-                Submit
-              </button>
-              <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
-              <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
-            </div>
-          </demo-page>
-        </fui-tab>
-        <fui-tab [title]="'Documentation'">
-          <div class="row">
-            <div class="col-auto">
+    <fui-tabs>
+      <fui-tab [label]="'Documentation'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col col-12">
               <h5>Basic knowledge</h5>
               <br />
               <p>
@@ -47,9 +29,29 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
               </p>
             </div>
           </div>
-        </fui-tab>
-      </fui-tabs>
-    </form>
+        </div>
+      </fui-tab>
+      <fui-tab [label]="'Examples'">
+        <form fuiForm #demoForm="ngForm">
+          <demo-page [filtersDisplayed]="true" pageTitle="Input component">
+            <demo-component [form]="demoForm" [componentData]="inputOne"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputTwo"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputThree"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputSix"></demo-component>
+            <demo-component [form]="demoForm" [componentData]="inputSeven"></demo-component>
+            <div class="footer">
+              <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
+                Submit
+              </button>
+              <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
+              <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
+            </div>
+          </demo-page>
+        </form>
+      </fui-tab>
+    </fui-tabs>
   `
 })
 export class SelectsComponent extends AbstractControlDemoComponent implements OnInit {
@@ -96,7 +98,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       models: { selectedCity: this.model.selectedCity },
       params: { defaultBindingsList: this.defaultBindingsList },
       canDisable: false,
-      source: `<fui-select #code fuiSelect name="city" [items]="params.defaultBindingsList" [(ngModel)]="models.selectedCity"></fui-select>`
+      source: `<fui-select fuiSelect name="city" [items]="params.defaultBindingsList" [(ngModel)]="models.selectedCity"></fui-select>`
     });
 
     this.inputTwo = new DemoComponentData({
@@ -104,19 +106,18 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       models: { selectedCountryId: this.model.selectedCountryId },
       params: { countries: this.countries },
       canDisable: false,
-      source: `
-          <fui-select-container #code>
-            <label fuiLabel>Select value</label>
-            <fui-select
-              fuiSelect
-              name="country"
-              [items]="params.countries"
-              bindLabel="nested.name"
-              bindValue="nested.countryId"
-              [(ngModel)]="models.selectedCountryId"
-              required>
-            </fui-select>
-          </fui-select-container>`
+      source: `<fui-select-container>
+  <label fuiLabel>Select value</label>
+  <fui-select
+    fuiSelect
+    name="country"
+    [items]="params.countries"
+    bindLabel="nested.name"
+    bindValue="nested.countryId"
+    [(ngModel)]="models.selectedCountryId"
+    required>
+  </fui-select>
+</fui-select-container>`
     });
 
     this.inputThree = new DemoComponentData({
@@ -124,22 +125,21 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       models: { selectedCountries: this.model.selectedCountries },
       params: { countries: this.countries },
       canDisable: false,
-      source: `
-          <fui-select-container #code>
-            <label fuiLabel>Countries</label>
-            <fui-select
-              fuiSelect
-              name="countries"
-              [items]="params.countries"
-              bindLabel="nested.name"
-              bindValue="nested.countryId"
-              placeholder="Select countries"
-              [multiple]="true"
-              [(ngModel)]="models.selectedCountries"
-              required>
-            </fui-select>
-            <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
-          </fui-select-container>`
+      source: `<fui-select-container>
+  <label fuiLabel>Countries</label>
+  <fui-select
+    fuiSelect
+    name="countries"
+    [items]="params.countries"
+    bindLabel="nested.name"
+    bindValue="nested.countryId"
+    placeholder="Select countries"
+    [multiple]="true"
+    [(ngModel)]="models.selectedCountries"
+    required>
+  </fui-select>
+  <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
+</fui-select-container>`
     });
 
     this.inputFour = new DemoComponentData({
@@ -147,20 +147,19 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       models: { selectedMultipleCountry: this.model.selectedMultipleCountry },
       params: { countries: this.countries },
       canDisable: false,
-      source: `
-          <fui-select-container #code>
-            <clr-icon shape="fui-columns" fuiSelectIcon></clr-icon>
-            <fui-select
-              fuiSelect
-              name="countriesIcon"
-              [items]="params.countries"
-              bindLabel="nested.name"
-              bindValue="nested.countryId"
-              [multiple]="true"
-              [closeOnSelect]="false"
-              [(ngModel)]="models.selectedMultipleCountry">
-            </fui-select>
-          </fui-select-container>`
+      source: `<fui-select-container>
+  <clr-icon shape="fui-columns" fuiSelectIcon></clr-icon>
+  <fui-select
+    fuiSelect
+    name="countriesIcon"
+    [items]="params.countries"
+    bindLabel="nested.name"
+    bindValue="nested.countryId"
+    [multiple]="true"
+    [closeOnSelect]="false"
+    [(ngModel)]="models.selectedMultipleCountry">
+  </fui-select>
+</fui-select-container>`
     });
 
     this.inputFive = new DemoComponentData({
@@ -171,21 +170,20 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
         fuiFormLayoutEnum: this.fuiFormLayoutEnum
       },
       canDisable: false,
-      source: `
-          <fui-select-container #code>
-            <label fuiLabel>Countries</label>
-            <fui-select
-              fuiSelect
-              name="countriesSmall"
-              [items]="params.countries"
-              bindLabel="nested.name"
-              bindValue="nested.countryId"
-              placeholder="Select countries"
-              [layout]="params.fuiFormLayoutEnum.SMALL"
-              [(ngModel)]="models.smallLayoutCountry">
-            </fui-select>
-            <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
-          </fui-select-container>`
+      source: `<fui-select-container>
+  <label fuiLabel>Countries</label>
+  <fui-select
+    fuiSelect
+    name="countriesSmall"
+    [items]="params.countries"
+    bindLabel="nested.name"
+    bindValue="nested.countryId"
+    placeholder="Select countries"
+    [layout]="params.fuiFormLayoutEnum.SMALL"
+    [(ngModel)]="models.smallLayoutCountry">
+  </fui-select>
+  <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
+</fui-select-container>`
     });
 
     this.inputSix = new DemoComponentData({
@@ -196,20 +194,19 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
         fuiFormLayoutEnum: this.fuiFormLayoutEnum
       },
       canDisable: false,
-      source: `
-          <fui-select-container #code>
-            <label fuiLabel>Countries</label>
-            <fui-select fuiSelect
-              name="countriesSmallMultiple"
-              [items]="params.countries"
-              bindLabel="nested.name"
-              bindValue="nested.countryId"
-              placeholder="Select countries"
-              [layout]="params.fuiFormLayoutEnum.SMALL"
-              [multiple]="true"
-              [(ngModel)]="models.smallLayoutCountries">
-            </fui-select>
-          </fui-select-container>`
+      source: `<fui-select-container #code>
+  <label fuiLabel>Countries</label>
+  <fui-select fuiSelect
+    name="countriesSmallMultiple"
+    [items]="params.countries"
+    bindLabel="nested.name"
+    bindValue="nested.countryId"
+    placeholder="Select countries"
+    [layout]="params.fuiFormLayoutEnum.SMALL"
+    [multiple]="true"
+    [(ngModel)]="models.smallLayoutCountries">
+  </fui-select>
+</fui-select-container>`
     });
 
     this.inputSeven = new DemoComponentData({
@@ -217,21 +214,20 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
       models: { selectedCityNative: this.model.selectedCityNative },
       params: { defaultBindingsList: this.defaultBindingsList },
       canDisable: false,
-      source: `
-          <p>
-            If for any reason you want to use a native selector, you can ! But be aware that you will miss all the
-            awesomeness of ng-select though ;-)
-          </p>
-          <fui-select-container #code>
-            <label fuiLabel>City</label>
-            <select placeholder="Please select a city"
-              fuiSelect
-              required
-              name="cityNative"
-              [(ngModel)]="models.selectedCityNative">
-              <option *ngFor="let city of params.defaultBindingsList" [disabled]="city.disabled" [ngValue]="city">{{city.label}}</option>
-            </select>
-          </fui-select-container>`
+      source: `<p>
+  If for any reason you want to use a native selector, you can ! But be aware that you will miss all the
+  awesomeness of ng-select though ;-)
+</p>
+<fui-select-container>
+  <label fuiLabel>City</label>
+  <select placeholder="Please select a city"
+    fuiSelect
+    required
+    name="cityNative"
+    [(ngModel)]="models.selectedCityNative">
+    <option *ngFor="let city of params.defaultBindingsList" [disabled]="city.disabled" [ngValue]="city">{{city.label}}</option>
+  </select>
+</fui-select-container>`
     });
   }
 }

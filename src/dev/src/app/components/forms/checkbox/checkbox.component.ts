@@ -5,9 +5,9 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
 
 @Component({
   template: `
-    <form fuiForm class="container-fluid" #demoForm="ngForm">
-      <fui-tabs>
-        <fui-tab [title]="'Examples'" [active]="true">
+    <fui-tabs>
+      <fui-tab [label]="'Examples'">
+        <form fuiForm #demoForm="ngForm">
           <demo-page [filtersDisplayed]="true" pageTitle="Input component">
             <demo-component [form]="demoForm" [componentData]="inputOne"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputTwo"></demo-component>
@@ -23,14 +23,18 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
               <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
             </div>
           </demo-page>
-        </fui-tab>
-        <fui-tab [title]="'Documentation'">
-          <div class="row">
-            <p>In construction...</p>
+        </form>
+      </fui-tab>
+      <fui-tab [label]="'Documentation'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col col-12">
+              <p>In construction...</p>
+            </div>
           </div>
-        </fui-tab>
-      </fui-tabs>
-    </form>
+        </div>
+      </fui-tab>
+    </fui-tabs>
   `
 })
 export class CheckboxComponent extends AbstractControlDemoComponent implements OnInit {
@@ -74,15 +78,14 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
         twobis: this.model.twobis
       },
       canDisable: false,
-      source: `
-        <fui-checkbox-wrapper class="code">
-          <input type="checkbox" fuiCheckbox name="two" [(ngModel)]="models.two" />
-          <label fuiLabel>Option 1</label>
-        </fui-checkbox-wrapper>
-        <fui-checkbox-wrapper class="code">
-          <input type="checkbox" fuiCheckbox name="twobis" [(ngModel)]="models.twobis" />
-          <label fuiLabel>Option 2</label>
-        </fui-checkbox-wrapper>`
+      source: `<fui-checkbox-wrapper>
+  <input type="checkbox" fuiCheckbox name="two" [(ngModel)]="models.two" />
+  <label fuiLabel>Option 1</label>
+</fui-checkbox-wrapper>
+<fui-checkbox-wrapper>
+  <input type="checkbox" fuiCheckbox name="twobis" [(ngModel)]="models.twobis" />
+  <label fuiLabel>Option 2</label>
+</fui-checkbox-wrapper>`
     });
 
     this.inputThree = new DemoComponentData({
@@ -92,19 +95,18 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
         threebis: this.model.threebis
       },
       canDisable: false,
-      source: `
-        <fui-checkbox-wrapper class="code">
-          <input type="checkbox" fuiCheckbox name="three" [(ngModel)]="models.three"/>
-          <label fuiLabel>Option 1</label>
-        </fui-checkbox-wrapper>
-        <fui-checkbox-container class="code">
-          <fui-checkbox-wrapper>
-            <input type="checkbox" fuiCheckbox name="threebis" required [(ngModel)]="models.threebis"/>
-            <label fuiLabel>Option 2</label>
-            <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
-          </fui-checkbox-wrapper>
-          <fui-control-error>This field is required!</fui-control-error>
-        </fui-checkbox-container>`
+      source: `<fui-checkbox-wrapper>
+  <input type="checkbox" fuiCheckbox name="three" [(ngModel)]="models.three"/>
+  <label fuiLabel>Option 1</label>
+</fui-checkbox-wrapper>
+<fui-checkbox-container>
+  <fui-checkbox-wrapper>
+    <input type="checkbox" fuiCheckbox name="threebis" required [(ngModel)]="models.threebis"/>
+    <label fuiLabel>Option 2</label>
+    <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
+  </fui-checkbox-wrapper>
+  <fui-control-error>This field is required!</fui-control-error>
+</fui-checkbox-container>`
     });
 
     this.inputFour = new DemoComponentData({
@@ -115,17 +117,16 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
       },
       params: { disabled: this.disabled },
       canDisable: true,
-      source: `
-        <fui-checkbox-wrapper>
-          <input type="checkbox" [disabled]="params.disabled" fuiCheckbox name="four" [(ngModel)]="models.four"/>
-          <label fuiLabel>Option 1</label>
-        </fui-checkbox-wrapper>
-        <fui-checkbox-container>
-          <fui-checkbox-wrapper>
-            <input type="checkbox" [disabled]="params.disabled" fuiCheckbox name="fourbis" [(ngModel)]="models.fourbis"/>
-            <label fuiLabel>Option 2</label>
-          </fui-checkbox-wrapper>
-        </fui-checkbox-container>`
+      source: `<fui-checkbox-wrapper>
+  <input type="checkbox" [disabled]="params.disabled" fuiCheckbox name="four" [(ngModel)]="models.four"/>
+  <label fuiLabel>Option 1</label>
+</fui-checkbox-wrapper>
+<fui-checkbox-container>
+  <fui-checkbox-wrapper>
+    <input type="checkbox" [disabled]="params.disabled" fuiCheckbox name="fourbis" [(ngModel)]="models.fourbis"/>
+    <label fuiLabel>Option 2</label>
+  </fui-checkbox-wrapper>
+</fui-checkbox-container>`
     });
 
     this.inputFive = new DemoComponentData({
@@ -148,32 +149,30 @@ export class CheckboxComponent extends AbstractControlDemoComponent implements O
         five: this.model.five,
         fivebis: this.model.fivebis
       },
-      source: `
-        <fui-checkbox-wrapper>
-          <input type="checkbox" fuiCheckbox name="fiveIndeterminate" [(ngModel)]="models.fiveIndeterminate" [indeterminate]="models.indeterminate" (change)="models.toggleAll()"/>
-          <label fuiLabel>Indeterminate (can be partially checked)</label>
-        </fui-checkbox-wrapper>
-        <fui-checkbox-wrapper [ngStyle]="{ 'margin-left': '30px' }">
-          <input type="checkbox" fuiCheckbox name="five" [(ngModel)]="models.five" (change)="models.shouldBeIndeterminate()"/>
-          <label fuiLabel>Option 1</label>
-        </fui-checkbox-wrapper>
-        <fui-checkbox-container>
-          <fui-checkbox-wrapper [ngStyle]="{ 'margin-left': '30px' }">
-            <input type="checkbox" fuiCheckbox name="fivebis" [(ngModel)]="models.fivebis" (change)="models.shouldBeIndeterminate()"/>
-            <label fuiLabel>Option 2</label>
-          </fui-checkbox-wrapper>
-        </fui-checkbox-container>`
+      source: `<fui-checkbox-wrapper>
+  <input type="checkbox" fuiCheckbox name="fiveIndeterminate" [(ngModel)]="models.fiveIndeterminate" [indeterminate]="models.indeterminate" (change)="models.toggleAll()"/>
+  <label fuiLabel>Indeterminate (can be partially checked)</label>
+</fui-checkbox-wrapper>
+<fui-checkbox-wrapper [ngStyle]="{ 'margin-left': '30px' }">
+  <input type="checkbox" fuiCheckbox name="five" [(ngModel)]="models.five" (change)="models.shouldBeIndeterminate()"/>
+  <label fuiLabel>Option 1</label>
+</fui-checkbox-wrapper>
+<fui-checkbox-container>
+  <fui-checkbox-wrapper [ngStyle]="{ 'margin-left': '30px' }">
+    <input type="checkbox" fuiCheckbox name="fivebis" [(ngModel)]="models.fivebis" (change)="models.shouldBeIndeterminate()"/>
+    <label fuiLabel>Option 2</label>
+  </fui-checkbox-wrapper>
+</fui-checkbox-container>`
     });
 
     this.inputSix = new DemoComponentData({
       title: `<h5>Limited Space for Checkbox label</h5>`,
       models: { six: this.model.six },
-      source: `
-        <fui-checkbox-wrapper [ngStyle]="{ 'width': '370px' }">
-          <input type="checkbox" fuiCheckbox name="six" [(ngModel)]="models.six"/>
-          <label fuiLabel>By checking this box I attest that section i of this i-9 was prepared by someone other than myself</label>
-          <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
-        </fui-checkbox-wrapper>`
+      source: `<fui-checkbox-wrapper [ngStyle]="{ 'width': '370px' }">
+  <input type="checkbox" fuiCheckbox name="six" [(ngModel)]="models.six"/>
+  <label fuiLabel>By checking this box I attest that section i of this i-9 was prepared by someone other than myself</label>
+  <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
+</fui-checkbox-wrapper>`
     });
   }
 }

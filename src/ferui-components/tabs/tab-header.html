@@ -1,0 +1,7 @@
+<div class="fui-tab-label-container" #tabListContainer (keydown)="_handleKeydown($event)">
+  <div class="fui-tab-list" #tabList role="tablist" (cdkObserveContent)="_onContentChanges()">
+    <div class="fui-tab-labels">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

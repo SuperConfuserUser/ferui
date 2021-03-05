@@ -4,6 +4,15 @@
 @import 'scss/mixins';
 @import 'scss/variables';
 
+html {
+  // On really huge screens (like mine 3008x1600) the font-size of 16px is too small.
+  // I've added this rule only for giant screens (when the width is 2800px or above).
+  // On other screens, there shouldn't be any changes.
+  @include media-breakpoint-up(giant) {
+    font-size: 18px !important;
+  }
+}
+
 .fui-sidebar {
   position: -webkit-sticky;
   position: sticky;
@@ -66,12 +75,12 @@
       overflow: hidden;
       height: 0;
       list-style-type: none;
-      padding-left: 1rem;
+      padding-left: map-get($spacers, 3);
     }
 
     .nav-link.active + ul {
       height: auto;
-      padding-left: 20px;
+      padding-left: map-get($spacers, 4);
     }
   }
 }
@@ -85,25 +94,15 @@
 }
 
 .hljs {
-  padding: 10px;
-}
-
-.code-container {
-  @include media-breakpoint-up(md) {
-    margin-top: 3.4286rem;
-  }
-
-  @include media-breakpoint-down(sm) {
-    margin-top: 0;
-  }
+  padding: map-get($spacers, 2);
 }
 
 .footer {
-  padding: 20px 0;
+  padding: map-get($spacers, 4) 0;
   border-top: 1px solid $gray-300;
 
   .btn:not(:first-child) {
-    margin-left: 10px;
+    margin-left: map-get($spacers, 2);
   }
 }
 
@@ -173,8 +172,47 @@ pre {
   }
 }
 
+.demo-component {
+  display: block;
+  box-sizing: border-box;
+  padding: map-get($spacers, 3); // 15px
+  margin-bottom: map-get($spacers, 4); // 20px
+  border: 1px solid $gray-300;
+  @include border-radius(3px);
+
+  .row {
+    margin: 0 !important;
+  }
+
+  .demo-component-models {
+    pre {
+      margin: map-get($spacers, 3) 0 0 0 !important;
+    }
+  }
+
+  .demo-component-header {
+    padding: map-get($spacers, 2) 0 map-get($spacers, 4) 0;
+    border-bottom: 1px solid $gray-300;
+    margin-bottom: map-get($spacers, 3) !important;
+
+    .btn-icon {
+      clr-icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .actions-wrapper {
+      // We're using the flex row-reverse. So the last element is actually the first one
+      .btn:not(:first-of-type) {
+        margin-right: map-get($spacers, 2);
+      }
+    }
+  }
+}
+
 .bd-example {
-  padding: 20px;
+  padding: map-get($spacers, 4); // 20px
   border: 1px solid $gray-300;
   border-radius: $border-radius;
   background: $gray-100;
@@ -224,7 +262,7 @@ ol ol,
 ol ul,
 ul ol {
   list-style-type: lower-alpha;
-  padding-left: 1rem;
+  padding-left: map-get($spacers, 3);
 }
 
 .fui-datagrid {
