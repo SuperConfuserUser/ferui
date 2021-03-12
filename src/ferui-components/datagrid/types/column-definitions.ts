@@ -1,5 +1,6 @@
 import { TemplateRef } from '@angular/core';
 
+import { FuiDatagridRowNode } from '../components/entities/fui-datagrid-row-node';
 import { FuiDatagridBaseFilter } from '../components/filters/filter/base-filter';
 import { IFilterParams } from '../components/filters/interfaces/filter';
 import { FilterType } from '../components/filters/interfaces/filter.enum';
@@ -22,11 +23,11 @@ export interface FuiColumnDefinitions {
   field?: string;
 
   // Class to use for the header cell. Can be string, array of strings, or function.
-  headerClass?: Array<string> | string;
+  headerClass?: string | string[] | ((params: FuiDatagridCellClassParams) => string | string[]);
 
   // A comma separated string or array of strings containing ColumnType keys which can be used as a template for a column.
   // This helps to reduce duplication of properties when you have a lot of common column properties.
-  type?: Array<string> | string;
+  type?: string[] | string;
 
   // Set to true for this column to be hidden.
   // Naturally you might think, it would make more sense to call this field 'visible' and mark it false to hide,
@@ -54,7 +55,7 @@ export interface FuiColumnDefinitions {
   checkboxSelection?: boolean;
 
   // Class to use for the cell. Can be string, array of strings, or function.
-  cellClass?: Array<string> | string;
+  cellClass?: string | string[] | ((params: FuiDatagridCellClassParams) => string | string[]);
 
   // Boolean or Function. Set to true (or return true from function) to render a row drag area in the column.
   rowDrag?: boolean;
@@ -94,4 +95,17 @@ export interface FuiColumnDefinitions {
 
   // The cell value formatter used to export the Datagrid to CSV, XLSX etc...
   exportValueFormatter?: (value: string, data?: any) => string;
+}
+
+export interface FuiDatagridCellClassParams {
+  // The row (from the rowData array, where value was taken) been rendered.
+  data: any | null;
+  // The node associated to this row
+  node: FuiDatagridRowNode | null;
+  // The index of the row about to be rendered
+  rowIndex: number | null;
+  // The column definition been rendered
+  colDef: FuiColumnDefinitions;
+  // The value to be rendered.
+  value: any | null;
 }

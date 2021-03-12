@@ -20,6 +20,7 @@ import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-option
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
+import { FuiCssClassApplierService } from '../../services/rendering/css-class-applier.service';
 import { FuiDatagridRowSelectionService } from '../../services/selection/datagrid-row-selection.service';
 import { FuiDatagridBodyCellContext } from '../../types/body-cell-context';
 import { FuiRowSelectionEnum } from '../../types/row-selection.enum';
@@ -99,6 +100,7 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
   constructor(
     @Self() public elementRef: ElementRef,
     private cd: ChangeDetectorRef,
+    private cssClassApplier: FuiCssClassApplierService,
     private eventService: FuiDatagridEventService,
     private rowSelectionService: FuiDatagridRowSelectionService,
     private optionsWrapperService: FuiDatagridOptionsWrapperService,
@@ -183,6 +185,9 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
       column: this.column,
       row: this.rowNode
     };
+
+    // Apply custom cell classes if any.
+    this.cssClassApplier.addCellClassesFromColDef(this.elementRef.nativeElement, this.column, this.rowNode);
 
     // Selection feature only if we want the checkbox selection.
     if (this.optionsWrapperService.isCheckboxSelection() && this.column.isCheckboxSelection()) {

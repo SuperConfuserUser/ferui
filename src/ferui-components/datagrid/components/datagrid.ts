@@ -68,6 +68,7 @@ import { BaseExportParams } from '../services/exporter/export-params';
 import { GridSerializer } from '../services/exporter/grid-serializer';
 import { AutoWidthCalculator } from '../services/rendering/autoWidthCalculator';
 import { FuiColumnService } from '../services/rendering/column.service';
+import { FuiCssClassApplierService } from '../services/rendering/css-class-applier.service';
 import { HeaderRendererService } from '../services/rendering/header-renderer.service';
 import { RowRendererService } from '../services/rendering/row-renderer.service';
 import { DatagridRowNodeManagerService } from '../services/row/datagrid-row-node-manager.service';
@@ -275,7 +276,8 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
     HilitorService,
     FuiActionMenuService,
     Downloader,
-    FuiDatagridRowSelectionService
+    FuiDatagridRowSelectionService,
+    FuiCssClassApplierService
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

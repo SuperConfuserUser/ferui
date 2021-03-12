@@ -28,6 +28,7 @@ import { DatagridStateEnum, DatagridStateService } from '../../services/datagrid
 import { FuiDatagridService } from '../../services/datagrid.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
+import { FuiCssClassApplierService } from '../../services/rendering/css-class-applier.service';
 import { FuiDatagridRowSelectionService } from '../../services/selection/datagrid-row-selection.service';
 import { FuiColumnDefinitions } from '../../types/column-definitions';
 import { DragItem, DragSource, DragSourceType } from '../../types/drag-and-drop';
@@ -167,6 +168,7 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
   constructor(
     @Self() elementRef: ElementRef,
     private cd: ChangeDetectorRef,
+    private cssClassApplier: FuiCssClassApplierService,
     private sortService: FuiDatagridSortService,
     private resizeService: FuiDatagridResizeService,
     private eventService: FuiDatagridEventService,
@@ -323,6 +325,9 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
     if (this.rowHeight) {
       this.lineHeight = this.rowHeight - 1;
     }
+
+    // Apply custom header classes if any.
+    this.cssClassApplier.addHeaderClassesFromColDef(this.element, this.column);
 
     if (!FeruiUtils.isNullOrUndefined(this.optionsWrapperService.getRowSelection())) {
       this.rowSelection = this.optionsWrapperService.getRowSelection();
