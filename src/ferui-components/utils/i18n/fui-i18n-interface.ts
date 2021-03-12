@@ -27,8 +27,8 @@ export interface FuiI18nStrings {
   filterType: string;
   filterBetween: string;
   filterAnd: string;
-  truthy: string;
-  falsy: string;
+  true: string;
+  false: string;
   globalSearch: string;
   total: string;
   selected: string;
