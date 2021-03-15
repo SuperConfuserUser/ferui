@@ -30,7 +30,9 @@ const DEFAULT_TRANSLATIONS: { [name: string]: string } = {
   orCondition: 'OR',
   filterType: 'Type',
   filterBetween: 'Between',
-  filterAnd: 'And'
+  filterAnd: 'And',
+  true: 'True',
+  false: 'False'
 };
 
 export abstract class FuiDatagridBaseFilter<P extends IFilterParams> implements FuiDatagridIFilter, OnInit {

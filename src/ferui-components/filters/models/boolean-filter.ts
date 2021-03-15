@@ -25,7 +25,7 @@ import { FuiBaseFilter } from './abstracts/abstract-base-filter';
             (ngModelChange)="onChange($event)"
             [(ngModel)]="selectedSearch"
           />
-          <label fuiLabel>{{ translate('truthy') }}</label>
+          <label fuiLabel>{{ translate('true') }}</label>
         </fui-radio-wrapper>
       </div>
       <div class="col-3">
@@ -39,7 +39,7 @@ import { FuiBaseFilter } from './abstracts/abstract-base-filter';
             (ngModelChange)="onChange($event)"
             [(ngModel)]="selectedSearch"
           />
-          <label fuiLabel>{{ translate('falsy') }}</label>
+          <label fuiLabel>{{ translate('false') }}</label>
         </fui-radio-wrapper>
       </div>
       <div class="col-3"></div>
