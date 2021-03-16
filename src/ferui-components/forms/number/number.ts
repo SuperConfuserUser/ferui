@@ -1,7 +1,9 @@
 import {
+  ChangeDetectorRef,
   Directive,
   ElementRef,
   HostBinding,
+  HostListener,
   Injector,
   Input,
   OnInit,
@@ -25,6 +27,10 @@ import { NumberIoService } from './providers/number-io.service';
   }
 })
 export class FuiNumberDirective extends WrappedFormControl<FuiNumberContainerComponent> implements OnInit {
+  @Input()
+  @HostBinding('attr.autocomplete')
+  autocomplete: string = 'off';
+
   @Input('step')
   set step(value: number) {
     if (this.numberIOService) {
@@ -72,10 +78,6 @@ export class FuiNumberDirective extends WrappedFormControl<FuiNumberContainerCom
     return '';
   }
 
-  /**
-   * Sets the input type to text when the datepicker is enabled. Reverts back to the native date input
-   * when the datepicker is disabled. Datepicker is disabled on mobiles.
-   */
   @HostBinding('attr.type')
   get inputType(): string {
     return 'number';
@@ -87,8 +89,28 @@ export class FuiNumberDirective extends WrappedFormControl<FuiNumberContainerCom
     @Self() @Optional() control: NgControl,
     renderer: Renderer2,
     el: ElementRef,
-    @Optional() private numberIOService: NumberIoService
+    @Optional() private numberIOService: NumberIoService,
+    private cd: ChangeDetectorRef
   ) {
     super(vcr, FuiNumberContainerComponent, injector, control, renderer, el);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+    // If the service is not loaded we load it from the parent component
+    // It happens when you don't wrap the input manually with fui-number-container).
+    if (!this.numberIOService) {
+      this.numberIOService = this.loadServiceFromParent<NumberIoService>(null, NumberIoService);
+    }
+  }
+
+  @HostListener('keydown', ['$event'])
+  onKeyDown(e: KeyboardEvent) {
+    if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+      if (this.numberIOService) {
+        this.numberIOService.onKeyPressed.next(e.code);
+        e.preventDefault();
+      }
+    }
   }
 }

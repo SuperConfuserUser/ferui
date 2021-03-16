@@ -44,35 +44,35 @@ import { FuiScalarFilter } from './abstracts/abstract-scalar-filter';
         </fui-select-container>
       </div>
       <div [class.col-3]="isInRange()" [class.col-4]="!isInRange()">
-        <fui-input-container>
+        <fui-number-container>
           <label fuiLabel>{{ isInRange() ? translate('filterBetween') : translate('filterOoo') }}</label>
           <input
+            fuiNumber
             [disabled]="getFilterService()?.isDisabled$() | async"
             [layout]="fuiFormLayoutEnum.SMALL"
             type="number"
             (ngModelChange)="onFilterInputChanged($event, 'search')"
-            fuiInput
             [name]="filterDefaultName"
             [required]="isInRange()"
             [(ngModel)]="selectedSearch"
           />
-        </fui-input-container>
+        </fui-number-container>
       </div>
       <div class="col-3" *ngIf="isInRange()">
-        <fui-input-container>
+        <fui-number-container>
           <label fuiLabel>{{ translate('filterAnd') }}</label>
           <input
+            fuiNumber
             [layout]="fuiFormLayoutEnum.SMALL"
             type="number"
             [disabled]="getFilterService()?.isDisabled$() | async"
             (ngModelChange)="onFilterInputChanged($event, 'searchTo')"
-            fuiInput
             [name]="filterToDefaultName"
             [(ngModel)]="selectedSearchTo"
             [greaterThan]="selectedSearch"
             required
           />
-        </fui-input-container>
+        </fui-number-container>
       </div>
     </div>
   `,
@@ -112,7 +112,7 @@ export class FuiNumberFilterComponent<
    * Get filter value. Here the value can be either a number or an array of number if we select the Range option.
    */
   getFilterValue(): T | T[] {
-    if (!this.selectedSearch) {
+    if (FeruiUtils.isNullOrUndefined(this.selectedSearch)) {
       return null;
     }
     // We force the values to be numbers.
