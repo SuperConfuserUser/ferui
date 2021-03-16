@@ -256,6 +256,43 @@ import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datag
 
         <button class="btn btn-primary btn-lg" (click)="openTestModal()">Open testing modal</button>
         <button class="btn btn-primary btn-lg ml-2" (click)="openTestWizard()">Open Datagrid selection wizard</button>
+
+        <div id="testgrid" class="mb-4 mt-4" style="width: 100%;">
+          <div class="mb-2">
+            <h3>Setup custom classes to header/body cells</h3>
+          </div>
+          <p class="mb-2">
+            In some cases, you might want to add custom classes to your header or body cells. You can use the
+            <code>headerClass</code> and <code>cellClass</code> properties of your column definition object to add the classes
+            that you want.<br />
+            The value can either be <code>string</code>, <code>string[]</code> or
+            <code>(params: FuiDatagridCellClassParams) => string | string[]</code>.
+          </p>
+          <p class="mb-2">
+            <b>Note</b>: In this example we have assigned multiple classes to each column and just played with the background
+            colors a bit to illustrate that the classes are well assigned.
+          </p>
+          <fui-datagrid
+            [withHeader]="withHeader2"
+            [withFooter]="withFooter2"
+            [exportParams]="exportParams2"
+            [maxDisplayedRows]="itemPerPageSynchronous"
+            [defaultColDefs]="defaultColDefsSynchronousClasses"
+            [columnDefs]="columnDefsSynchronousClasses"
+            [rowData]="synchronousRowData"
+          >
+          </fui-datagrid>
+
+          <div class="mt-4">
+            <h4>HTML code</h4>
+
+            <pre><code [highlight]="datagridCustomClassesHTML"></code></pre>
+
+            <h4>Column definitions</h4>
+
+            <pre><code [highlight]="datagridCustomClassesTS"></code></pre>
+          </div>
+        </div>
       </fui-tab>
       <fui-tab [title]="'Documentation'">
         <p>
@@ -324,7 +361,9 @@ export class DatagridClientSideComponent implements OnInit {
   synchronousRowData: DemoDatagridSynchronousDataInterface[];
   columnDefs: FuiColumnDefinitions[];
   columnDefsSynchronous: FuiColumnDefinitions[];
+  columnDefsSynchronousClasses: FuiColumnDefinitions[];
   defaultColumnDefs: FuiColumnDefinitions;
+  defaultColDefsSynchronousClasses: FuiColumnDefinitions;
 
   itemPerPage: number = 10;
   itemPerPageSynchronous: number = 5;
@@ -352,6 +391,53 @@ export class DatagridClientSideComponent implements OnInit {
   exportParams2: CsvExportParams = {
     fileName: 'ferUI-export-test-2'
   };
+
+  datagridCustomClassesHTML = `<fui-datagrid
+  [withHeader]="withHeader2"
+  [withFooter]="withFooter2"
+  [exportParams]="exportParams2"
+  [maxDisplayedRows]="itemPerPageSynchronous"
+  [defaultColDefs]="defaultColDefsSynchronousClasses"
+  [columnDefs]="columnDefsSynchronousClasses"
+  [rowData]="synchronousRowData"></fui-datagrid>`;
+  datagridCustomClassesTS = `// This is the default column definition. It will be used if not overridden.
+this.defaultColDefsSynchronousClasses = {
+  sortable: true,
+  filter: true,
+  headerClass: 'test-default-header-class', // Yellowish color Darken
+  cellClass: 'test-default-cell-class' // Yellowish color
+};
+
+this.columnDefsSynchronousClasses = [
+  {
+    headerName: 'GUID',
+    headerClass: 'test-string-header', // Raffia color (sand color) Darken
+    cellClass: 'test-string-cell', // Raffia color (sand color)
+    field: 'id'
+  },
+  {
+    headerName: 'Name',
+    headerClass: ['test-array-header-1', 'test-array-header-2'], // Blueish color Darken
+    cellClass: ['test-array-cell-1', 'test-array-cell-2'], // Blueish color
+    field: 'name'
+  },
+  {
+    headerName: 'Email',
+    headerClass: params => {
+      return 'test-function-header'; // Brownish color Darken
+    },
+    cellClass: params => {
+      // We only add the background color when rowIndex is a prime number. 0, 1, 4, 6
+      if (this.isPrime(params.rowIndex)) {
+        return 'test-function-cell'; // Brownish color
+      } else {
+        return null;
+      }
+    },
+    field: 'email'
+  },
+  { headerName: 'Address', field: 'address' } // This column will inherit from default column def (yellowish BG)
+];`;
 
   @ViewChild('avatarRenderer') avatarRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('userAgentRenderer') userAgentRenderer: TemplateRef<FuiDatagridBodyCellContext>;
@@ -434,6 +520,39 @@ export class DatagridClientSideComponent implements OnInit {
       { headerName: 'GUID', field: 'id' },
       { headerName: 'Name', field: 'name' },
       { headerName: 'Email', field: 'email' },
+      { headerName: 'Address', field: 'address' }
+    ];
+
+    this.defaultColDefsSynchronousClasses = {
+      sortable: true,
+      filter: true,
+      headerClass: 'test-default-header-class',
+      cellClass: 'test-default-cell-class'
+    };
+
+    this.columnDefsSynchronousClasses = [
+      { headerName: 'GUID', headerClass: 'test-string-header', cellClass: 'test-string-cell', field: 'id' },
+      {
+        headerName: 'Name',
+        headerClass: ['test-array-header-1', 'test-array-header-2'],
+        cellClass: ['test-array-cell-1', 'test-array-cell-2'],
+        field: 'name'
+      },
+      {
+        headerName: 'Email',
+        headerClass: params => {
+          return 'test-function-header';
+        },
+        cellClass: params => {
+          // We only add the background color when rowIndex is a prime number. 0, 1, 4, 6
+          if (this.isPrime(params.rowIndex)) {
+            return 'test-function-cell';
+          } else {
+            return null;
+          }
+        },
+        field: 'email'
+      },
       { headerName: 'Address', field: 'address' }
     ];
 
@@ -589,5 +708,19 @@ export class DatagridClientSideComponent implements OnInit {
       .then(args => {
         console.log('[modalService.openModal] selectionModalTest ::: submitted ::: ', args);
       });
+  }
+
+  /**
+   * Check whether or not the 'num' is a prime number.
+   * @param num
+   * @private
+   */
+  private isPrime(num) {
+    for (let i = 2; i < num; i++) {
+      if (num % i === 0) {
+        return false;
+      }
+    }
+    return num > 1;
   }
 }

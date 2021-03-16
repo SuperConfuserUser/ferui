@@ -226,3 +226,46 @@ ul ol {
   list-style-type: lower-alpha;
   padding-left: 1rem;
 }
+
+.fui-datagrid {
+  .test-string-header {
+    background-color: darken(desaturate(#ebdab4, 15.33), 10.08);
+    color: $gray-900;
+  }
+  .test-array-header-1 {
+    background-color: darken(desaturate(#1979a9, 15.33), 10.08);
+  }
+  .test-array-header-2 {
+    color: $gray-200;
+    font-weight: $font-weight-bold;
+  }
+  .test-function-header {
+    background-color: darken(desaturate(#b97455, 15.33), 10.08);
+    color: $gray-100;
+  }
+  .test-default-header-class {
+    background-color: darken(desaturate(#d6d32c, 15.33), 10.08);
+    color: $gray-100;
+  }
+
+  .test-string-cell {
+    background-color: #ebdab4;
+    color: $gray-900;
+  }
+  .test-array-cell-1 {
+    background-color: #1979a9;
+  }
+  .test-array-cell-2 {
+    color: $gray-200;
+    font-weight: $font-weight-bold;
+  }
+  .test-function-cell {
+    background-color: #b97455;
+    color: $gray-100;
+    font-weight: $font-weight-bold;
+  }
+  .test-default-cell-class {
+    background-color: #d6d32c;
+    color: $gray-900;
+  }
+}
