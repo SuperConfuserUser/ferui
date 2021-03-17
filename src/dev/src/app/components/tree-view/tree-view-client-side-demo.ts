@@ -6,78 +6,84 @@ import { NonRootTreeNode, TreeNodeData, TreeNodeDataRetriever, TreeViewAutoNodeS
 
 @Component({
   template: `
-    <div class="demo-tree-view">
-      <h2>Client Side Tree View</h2>
-      <div class="demo-component">
-        <fui-tree-view
-          [treeNodeData]="treeNodeData"
-          [dataRetriever]="treeDataRetriever"
-          [config]="{ width: '230px', height: '300px' }"
-        ></fui-tree-view>
-      </div>
-      <div class="code-example">
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample1"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="dataExample1"></code></pre>
-          </fui-tab>
-        </fui-tabs>
+    <div class="container-fluid">
+      <div class="row" style="max-width: 1200px">
+        <div class="col col-12 p-0">
+          <div class="demo-tree-view">
+            <h2>Client Side Tree View</h2>
+            <div class="demo-component">
+              <fui-tree-view
+                [treeNodeData]="treeNodeData"
+                [dataRetriever]="treeDataRetriever"
+                [config]="{ width: '230px', height: '300px' }"
+              ></fui-tree-view>
+            </div>
+            <div class="code-example">
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample1"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="dataExample1"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
+
+          <div class="demo-tree-view">
+            <h2>Non Root Tree View with percentage width 20%</h2>
+            <div class="demo-component expandable-width">
+              <fui-tree-view
+                [treeNodeData]="noRoot"
+                [dataRetriever]="treeDataRetrieverNonRoot"
+                [config]="{ height: '300px' }"
+              ></fui-tree-view>
+            </div>
+            <div class="code-example">
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample2"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="dataExample2"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
+
+          <div class="demo-tree-view">
+            <h2>Non Root Tree View With Custom Icons and Node Templates</h2>
+            <div class="demo-component">
+              <fui-tree-view
+                [autoNodeSelector]="treeViewAutoNodeSelector"
+                [treeNodeData]="noRoot"
+                [dataRetriever]="treeDataArrayRetriever"
+                [config]="{ width: '250px', height: '300px' }"
+              ></fui-tree-view>
+            </div>
+            <div class="code-example">
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample3"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="dataExample3"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
+
+          <ng-template #iconTemplate let-node="node">
+            <clr-icon *ngIf="node.expanded" class="fui-less-icon" shape="fui-solid-arrow"></clr-icon>
+            <clr-icon *ngIf="!node.expanded" class="fui-add-icon" shape="fui-solid-arrow"></clr-icon>
+          </ng-template>
+
+          <ng-template #template let-node="node">
+            <span>{{ node.data.nodeLabel }} <clr-icon class="fui-add-icon" shape="fui-screenshot"></clr-icon></span>
+          </ng-template>
+        </div>
       </div>
     </div>
-
-    <div class="demo-tree-view">
-      <h2>Non Root Tree View with percentage width 20%</h2>
-      <div class="demo-component expandable-width">
-        <fui-tree-view
-          [treeNodeData]="noRoot"
-          [dataRetriever]="treeDataRetrieverNonRoot"
-          [config]="{ height: '300px' }"
-        ></fui-tree-view>
-      </div>
-      <div class="code-example">
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample2"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="dataExample2"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-      </div>
-    </div>
-
-    <div class="demo-tree-view">
-      <h2>Non Root Tree View With Custom Icons and Node Templates</h2>
-      <div class="demo-component">
-        <fui-tree-view
-          [autoNodeSelector]="treeViewAutoNodeSelector"
-          [treeNodeData]="noRoot"
-          [dataRetriever]="treeDataArrayRetriever"
-          [config]="{ width: '250px', height: '300px' }"
-        ></fui-tree-view>
-      </div>
-      <div class="code-example">
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample3"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="dataExample3"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-      </div>
-    </div>
-
-    <ng-template #iconTemplate let-node="node">
-      <clr-icon *ngIf="node.expanded" class="fui-less-icon" shape="fui-solid-arrow"></clr-icon>
-      <clr-icon *ngIf="!node.expanded" class="fui-add-icon" shape="fui-solid-arrow"></clr-icon>
-    </ng-template>
-
-    <ng-template #template let-node="node">
-      <span>{{ node.data.nodeLabel }}<clr-icon class="fui-add-icon" shape="fui-screenshot"></clr-icon></span>
-    </ng-template>
   `,
   styles: [
     `
@@ -96,7 +102,7 @@ import { NonRootTreeNode, TreeNodeData, TreeNodeDataRetriever, TreeViewAutoNodeS
       }
       .code-example {
         display: inline-block;
-        height: 300px;
+        height: auto;
         margin-left: 20px;
         max-width: 550px;
       }

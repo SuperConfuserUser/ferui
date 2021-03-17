@@ -37,7 +37,7 @@ import { DateNavigationService } from './providers/date-navigation.service';
         ></clr-icon>
         <div class="fui-control-icons" [class.invalid]="invalid">
           <ng-content *ngIf="!invalid" select="[fuiHelper]"></ng-content>
-          <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+          <clr-icon *ngIf="invalid" tabindex="0" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </div>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>

@@ -5,9 +5,9 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
 
 @Component({
   template: `
-    <form fuiForm class="container-fluid" #demoForm="ngForm">
-      <fui-tabs>
-        <fui-tab [title]="'Examples'" [active]="true">
+    <fui-tabs>
+      <fui-tab [label]="'Examples'">
+        <form fuiForm #demoForm="ngForm">
           <demo-page [filtersDisplayed]="true" pageTitle="Input Number component">
             <demo-component [form]="demoForm" [componentData]="inputOne"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputTwo"></demo-component>
@@ -24,14 +24,18 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
               <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
             </div>
           </demo-page>
-        </fui-tab>
-        <fui-tab [title]="'Documentation'">
-          <div class="row">
-            <p>In construction...</p>
+        </form>
+      </fui-tab>
+      <fui-tab [label]="'Documentation'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col col-12">
+              <p>In construction...</p>
+            </div>
           </div>
-        </fui-tab>
-      </fui-tabs>
-    </form>
+        </div>
+      </fui-tab>
+    </fui-tabs>
   `
 })
 export class NumberComponent extends AbstractControlDemoComponent implements OnInit {
@@ -69,22 +73,21 @@ export class NumberComponent extends AbstractControlDemoComponent implements OnI
       title: `<h5>No label, wrapper :</h5>`,
       models: { one: this.model.one },
       canDisable: false,
-      source: `<fui-number-container #code>
-          <input fuiNumber name="two" [(ngModel)]="models.two"/>
-        </fui-number-container>`
+      source: `<fui-number-container>
+  <input fuiNumber name="two" [(ngModel)]="models.two"/>
+</fui-number-container>`
     });
 
     this.inputThree = new DemoComponentData({
       title: `<h5>Label, wrapper and <span class="text-danger">required</span> validator :</h5>`,
       models: { three: this.model.three },
       canDisable: false,
-      source: `
-        <fui-number-container #code>
-          <label fuiLabel>Full example</label>
-          <input placeholder="With placeholder" type="number" [step]="10" [min]="0" [max]="100" fuiNumber name="three" [(ngModel)]="models.three" required/>
-          <fui-control-error *fuiIfError="'required'">This field is required (this message overwrite any other ones)</fui-control-error>
-          <clr-icon shape="fui-help" fuiHelper [fuiTooltip]="'A description of the number at hand'"></clr-icon>
-        </fui-number-container>`
+      source: `<fui-number-container>
+  <label fuiLabel>Full example</label>
+  <input placeholder="With placeholder" type="number" [step]="10" [min]="0" [max]="100" fuiNumber name="three" [(ngModel)]="models.three" required/>
+  <fui-control-error *fuiIfError="'required'">This field is required (this message overwrite any other ones)</fui-control-error>
+  <clr-icon shape="fui-help" fuiHelper [fuiTooltip]="'A description of the number at hand'"></clr-icon>
+</fui-number-container>`
     });
 
     this.inputFour = new DemoComponentData({
@@ -92,12 +95,11 @@ export class NumberComponent extends AbstractControlDemoComponent implements OnI
       models: { four: this.model.four },
       params: { disabled: this.disabled },
       canDisable: true,
-      source: `
-        <fui-number-container #code>
-          <label fuiLabel>Full example (disabled)</label>
-          <input fuiNumber name="four" [(ngModel)]="models.four" required [disabled]="params.disabled"/>
-          <fui-control-error *fuiIfError="'required'">This field is required (this message overwrite any other ones)</fui-control-error>
-        </fui-number-container>`
+      source: `<fui-number-container>
+  <label fuiLabel>Full example (disabled)</label>
+  <input fuiNumber name="four" [(ngModel)]="models.four" required [disabled]="params.disabled"/>
+  <fui-control-error *fuiIfError="'required'">This field is required (this message overwrite any other ones)</fui-control-error>
+</fui-number-container>`
     });
 
     this.inputFive = new DemoComponentData({
@@ -105,24 +107,22 @@ export class NumberComponent extends AbstractControlDemoComponent implements OnI
       models: { five: this.model.five },
       params: { disabled: this.disabled },
       canDisable: true,
-      source: `
-        <fui-number-container #code>
-          <label fuiLabel>Full example (disabled, filled)</label>
-          <input fuiNumber name="five" [(ngModel)]="models.five" required [disabled]="params.disabled"/>
-          <!-- All the validator messages are default ones -->
-        </fui-number-container>`
+      source: `<fui-number-container>
+  <label fuiLabel>Full example (disabled, filled)</label>
+  <input fuiNumber name="five" [(ngModel)]="models.five" required [disabled]="params.disabled"/>
+  <!-- All the validator messages are default ones -->
+</fui-number-container>`
     });
 
     this.inputSix = new DemoComponentData({
       title: `<h5 #title>Multiple validators</h5>`,
       models: { six: this.model.six },
       canDisable: false,
-      source: `
-        <fui-number-container #code>
-          <label fuiLabel>Full example (multiple validators)</label>
-          <input fuiNumber name="six" [(ngModel)]="models.six" required [min]="1" [max]="20"/>
-          <!-- All the validator messages are default ones -->
-        </fui-number-container>`
+      source: `<fui-number-container>
+  <label fuiLabel>Full example (multiple validators)</label>
+  <input fuiNumber name="six" [(ngModel)]="models.six" required [min]="1" [max]="20"/>
+  <!-- All the validator messages are default ones -->
+</fui-number-container>`
     });
 
     this.inputSeven = new DemoComponentData({

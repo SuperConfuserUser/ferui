@@ -6,9 +6,9 @@ import {
   FuiTooltipConfig,
   FuiTooltipPlacementEnum,
   FuiTooltipThemeEnum,
+  TOOLTIP_DEFAULT_CONFIG,
   TooltipComponentTypeContent
-} from '../../../../../ferui-components/tooltip/tooltip-interfaces';
-import { TOOLTIP_DEFAULT_CONFIG } from '../../../../../ferui-components/tooltip/tooltip.directive';
+} from '@ferui/components';
 
 import { TooltipContentExampleComponent } from './components/tooltip-content-example.component';
 
@@ -43,6 +43,7 @@ export class TooltipDemoComponent {
   arrowSize?: TooltipArrowSize; // tooltip arrow size in px
   isDisabled?: boolean; // whether the tooltip should be disabled
   fixedParent?: boolean; // whether the parent element is position: fixed
+  closeOnOutsideClick?: boolean; // Allow to remove the tooltip on outside click.
 }`;
 
   fuiTooltipConfigDefaultsExample = `const TOOLTIP_DEFAULT_CONFIG: FuiTooltipConfig = {
@@ -51,9 +52,11 @@ export class TooltipDemoComponent {
   cssClass: '${this.TOOLTIP_DEFAULT_CONFIG.cssClass}',
   tooltipStyle: ${this.TOOLTIP_DEFAULT_CONFIG.tooltipStyle},
   arrow: ${this.TOOLTIP_DEFAULT_CONFIG.arrow},
-  arrowSize: { width: ${this.TOOLTIP_DEFAULT_CONFIG.arrowSize.width}, height: ${this.TOOLTIP_DEFAULT_CONFIG.arrowSize.height} },
+  arrowSize: { width: ${this.TOOLTIP_DEFAULT_CONFIG.arrowSize.width},
+  height: ${this.TOOLTIP_DEFAULT_CONFIG.arrowSize.height} },
   isDisabled: ${this.TOOLTIP_DEFAULT_CONFIG.isDisabled},
-  fixedParent: ${this.TOOLTIP_DEFAULT_CONFIG.fixedParent}
+  fixedParent: ${this.TOOLTIP_DEFAULT_CONFIG.fixedParent},
+  closeOnOutsideClick: ${this.TOOLTIP_DEFAULT_CONFIG.closeOnOutsideClick}
 };`;
 
   tooltipPlacementTypeExample: string = `enum FuiTooltipPlacementEnum {

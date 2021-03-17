@@ -16,7 +16,7 @@ pre {
   border: 1px solid $gray-300;
 
   code {
-    padding: 10px;
+    padding: map-get($spacers, 2);
     border-radius: 3px;
   }
 }

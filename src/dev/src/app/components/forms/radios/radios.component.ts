@@ -5,31 +5,35 @@ import { AbstractControlDemoComponent } from '../abstract-control-demo.component
 
 @Component({
   template: `
-    <form fuiForm class="container-fluid" #demoForm="ngForm">
-      <fui-tabs>
-        <fui-tab [title]="'Examples'" [active]="true">
+    <fui-tabs>
+      <fui-tab [label]="'Examples'">
+        <form fuiForm #demoForm="ngForm">
           <demo-page [filtersDisplayed]="true" pageTitle="Input component">
             <demo-component [form]="demoForm" [componentData]="inputOne"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputTwo"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputThree"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputFour"></demo-component>
             <demo-component [form]="demoForm" [componentData]="inputFive"></demo-component>
+            <div class="footer">
+              <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
+                Submit
+              </button>
+              <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
+              <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
+            </div>
           </demo-page>
-        </fui-tab>
-        <fui-tab [title]="'Documentation'">
-          <div class="row">
-            <p>In construction...</p>
+        </form>
+      </fui-tab>
+      <fui-tab [label]="'Documentation'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col col-12">
+              <p>In construction...</p>
+            </div>
           </div>
-        </fui-tab>
-      </fui-tabs>
-      <div class="footer">
-        <button class="btn btn-primary" [disabled]="!demoForm.form.valid" (click)="promptSubmitInfos()" type="submit">
-          Submit
-        </button>
-        <button class="btn btn-success" type="button" (click)="validate()">Validate</button>
-        <button class="btn btn-light" type="button" (click)="demoForm.reset()">Reset</button>
-      </div>
-    </form>
+        </div>
+      </fui-tab>
+    </fui-tabs>
   `
 })
 export class RadiosComponent extends AbstractControlDemoComponent implements OnInit {
@@ -67,16 +71,15 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
         two: this.model.two
       },
       canDisable: false,
-      source: `
-        <fui-radio-wrapper class="code">
-          <input type="radio" fuiRadio name="two" value="yes" [(ngModel)]="models.two" />
-          <label fuiLabel>Option 1 (yes)</label>
-        </fui-radio-wrapper>
-        <fui-radio-wrapper class="code">
-          <input type="radio" fuiRadio name="two" value="no" [(ngModel)]="models.two" />
-          <label fuiLabel>Option 2 (no)</label>
-          <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
-        </fui-radio-wrapper>`
+      source: `<fui-radio-wrapper>
+  <input type="radio" fuiRadio name="two" value="yes" [(ngModel)]="models.two" />
+  <label fuiLabel>Option 1 (yes)</label>
+</fui-radio-wrapper>
+<fui-radio-wrapper>
+  <input type="radio" fuiRadio name="two" value="no" [(ngModel)]="models.two" />
+  <label fuiLabel>Option 2 (no)</label>
+  <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
+</fui-radio-wrapper>`
     });
 
     this.inputThree = new DemoComponentData({
@@ -85,18 +88,17 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
         three: this.model.three
       },
       canDisable: false,
-      source: `
-        <fui-radio-container class="code">
-          <fui-radio-wrapper>
-            <input type="radio" fuiRadio name="option" required value="option1" [(ngModel)]="models.three" />
-            <label fuiLabel>Option 1</label>
-          </fui-radio-wrapper>
-          <fui-radio-wrapper>
-            <input type="radio" fuiRadio name="option" required value="option2" [(ngModel)]="models.three" />
-            <label fuiLabel>Option 2</label>
-          </fui-radio-wrapper>
-          <fui-control-error>This field is required!</fui-control-error>
-        </fui-radio-container>`
+      source: `<fui-radio-container>
+  <fui-radio-wrapper>
+    <input type="radio" fuiRadio name="option" required value="option1" [(ngModel)]="models.three" />
+    <label fuiLabel>Option 1</label>
+  </fui-radio-wrapper>
+  <fui-radio-wrapper>
+    <input type="radio" fuiRadio name="option" required value="option2" [(ngModel)]="models.three" />
+    <label fuiLabel>Option 2</label>
+  </fui-radio-wrapper>
+  <fui-control-error>This field is required!</fui-control-error>
+</fui-radio-container>`
     });
 
     this.inputFour = new DemoComponentData({
@@ -106,15 +108,14 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
       },
       params: { disabled: this.disabled },
       canDisable: true,
-      source: `
-      <fui-radio-wrapper class="code">
-        <input type="radio" [disabled]="params.disabled" fuiRadio name="four" value="yes" [(ngModel)]="models.four" />
-        <label fuiLabel>Option 1</label>
-      </fui-radio-wrapper>
-      <fui-radio-wrapper class="code">
-        <input type="radio" [disabled]="params.disabled" fuiRadio name="four" value="no" [(ngModel)]="models.four" />
-        <label fuiLabel>Option 2</label>
-      </fui-radio-wrapper>`
+      source: `<fui-radio-wrapper>
+  <input type="radio" [disabled]="params.disabled" fuiRadio name="four" value="yes" [(ngModel)]="models.four" />
+  <label fuiLabel>Option 1</label>
+</fui-radio-wrapper>
+<fui-radio-wrapper>
+  <input type="radio" [disabled]="params.disabled" fuiRadio name="four" value="no" [(ngModel)]="models.four" />
+  <label fuiLabel>Option 2</label>
+</fui-radio-wrapper>`
     });
 
     this.inputFive = new DemoComponentData({
@@ -122,16 +123,15 @@ export class RadiosComponent extends AbstractControlDemoComponent implements OnI
       models: {
         five: this.model.five
       },
-      source: `
-      <fui-radio-wrapper class="code">
-        <input type="radio" fuiRadio name="five" value="yes" [(ngModel)]="models.five" />
-        <label fuiLabel>You can choose a small label</label>
-      </fui-radio-wrapper>
-      <fui-radio-wrapper class="code" [ngStyle]="{ 'width': '291px' }">
-        <input type="radio" fuiRadio name="five" value="no" [(ngModel)]="models.five" />
-        <label fuiLabel>You can choose a very long descriptive label with a helper icon</label>
-        <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
-      </fui-radio-wrapper>`
+      source: `<fui-radio-wrapper>
+  <input type="radio" fuiRadio name="five" value="yes" [(ngModel)]="models.five" />
+  <label fuiLabel>You can choose a small label</label>
+</fui-radio-wrapper>
+<fui-radio-wrapper [ngStyle]="{ 'width': '291px' }">
+  <input type="radio" fuiRadio name="five" value="no" [(ngModel)]="models.five" />
+  <label fuiLabel>You can choose a very long descriptive label with a helper icon</label>
+  <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
+</fui-radio-wrapper>`
     });
   }
 }

@@ -1,0 +1,100 @@
+// Mixin styles for labels that are contained within the tab header.
+@mixin tab-label {
+  // We emulate a button without using the button-variant to avoid the focus styling.
+  // This extra config will be removed when http://issues.iland.test/browse/FER-119 is done.
+  // TODO: Remove the button emulation when FER-119 is done.
+  $background: map-get($theme-colors, 'primary');
+  $border: map-get($theme-colors, 'primary');
+  $hover-background: darken(desaturate($background, 15.33), 6.08);
+  $hover-border: darken(desaturate($background, 15.33), 6.08);
+  $active-background: darken(desaturate($background, 15.33), 6.08);
+  $active-border: darken(desaturate($background, 15.33), 6.08);
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  font-weight: $font-weight-bold;
+  color: $gray-500;
+  text-decoration: none;
+
+  @include hover() {
+    color: $gray-900;
+  }
+
+  // We only want to have the focus state when focusing through keyboard.
+  &.cdk-keyboard-focused {
+    color: $gray-900;
+  }
+
+  &:disabled,
+  &.disabled {
+    color: $gray-300;
+    pointer-events: none;
+  }
+
+  &.fui-tab-active {
+    color: color-yiq($background);
+    @include gradient-bg($background);
+    border-color: $border;
+    @include box-shadow($btn-box-shadow);
+
+    @include hover() {
+      color: color-yiq($hover-background);
+      @include gradient-bg($hover-background);
+      border-color: $hover-border;
+    }
+
+    // We only want to have the focus state when focusing through keyboard.
+    &.cdk-keyboard-focused {
+      color: color-yiq($hover-background);
+      @include gradient-bg($hover-background);
+      border-color: $hover-border;
+    }
+
+    // Disabled comes first so active can properly restyle
+    &.disabled,
+    &:disabled {
+      color: color-yiq($background);
+      background-color: $background;
+      border-color: $border;
+      // Remove CSS gradients if they're enabled
+      @if $enable-gradients {
+        background-image: none;
+      }
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > &.dropdown-toggle {
+      color: color-yiq($active-background);
+      background-color: $active-background;
+      @if $enable-gradients {
+        background-image: none; // Remove the gradient for the pressed/active state
+      }
+      border-color: $active-border;
+
+      &:focus {
+        @if $enable-shadows and $btn-active-box-shadow != none {
+          @include box-shadow($btn-active-box-shadow, 0 0 0 $btn-focus-width rgba($background, 0.5));
+        } @else {
+          // Avoid using mixin so we can pass custom focus shadow properly
+          box-shadow: 0 0 0 $btn-focus-width rgba($background, 0.5);
+        }
+      }
+    }
+  }
+
+  .fui-tab-label-content {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+  }
+}
+
+// Mixin styles for the top section of the view; contains the tab labels.
+@mixin tab-header {
+  position: relative;
+  flex-shrink: 0;
+}

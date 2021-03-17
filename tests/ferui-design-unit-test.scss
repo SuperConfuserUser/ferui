@@ -5,7 +5,10 @@
 @import '../../ferui-design/scss/mixins';
 @import '../../ferui-design/scss/variables';
 
-// The ng-select component heavily depends on the style for its unit tests.
+// Components that heavily depends on the style for their unit tests.
 @import '../../ferui-design/scss/forms/select/ng-select.component';
+@import '../../ferui-design/scss/components/tabs/tab-header';
+@import '../../ferui-design/scss/components/tabs/tabs';
+@import '../../ferui-design/scss/components/tabs/tabs-nav';
 
 @import '../../ferui-design/scss/bootstrap-45/utilities';

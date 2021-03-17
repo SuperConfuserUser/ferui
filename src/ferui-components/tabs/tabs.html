@@ -1,0 +1,46 @@
+<fui-tab-header
+  #tabHeader
+  (indexFocused)="_focusChanged($event)"
+  (selectFocusedIndex)="selectedIndex = $event"
+  [selectedIndex]="selectedIndex"
+>
+  <button
+    (click)="_handleClick(tab, tabHeader, i)"
+    *ngFor="let tab of _tabs; let i = index"
+    [attr.aria-controls]="_getTabContentId(i)"
+    [attr.aria-label]="tab.ariaLabel || null"
+    [attr.aria-labelledby]="(!tab.ariaLabel && tab.ariaLabelledby) ? tab.ariaLabelledby : null"
+    [attr.aria-posinset]="i + 1"
+    [attr.aria-selected]="selectedIndex === i"
+    [attr.aria-setsize]="_tabs.length"
+    [attr.tabIndex]="_getTabIndex(tab, i)"
+    [class.fui-tab-active]="selectedIndex === i"
+    [class.fui-tab-label-active]="selectedIndex === i"
+    [disabled]="tab.disabled"
+    [id]="_getTabLabelId(i)"
+    cdkMonitorElementFocus
+    class="btn fui-tab-label"
+    fuiTabLabelWrapper
+    role="tab"
+  >
+    <span class="fui-tab-label-content">
+      <!-- If there is a label template, use it. -->
+      <ng-template [ngIf]="tab.templateLabel">
+        <ng-template [cdkPortalOutlet]="tab.templateLabel"></ng-template>
+      </ng-template>
+
+      <!-- If there is not a label template, fall back to the text label. -->
+      <ng-template [ngIf]="!tab.templateLabel">{{tab.textLabel}}</ng-template>
+    </span>
+  </button>
+</fui-tab-header>
+<div class="fui-tab-body-wrapper">
+  <fui-tab-body
+    *ngFor="let tab of _tabs; let i = index"
+    [attr.aria-labelledby]="_getTabLabelId(i)"
+    [contentActive]="selectedIndex === i"
+    [content]="tab.content"
+    [id]="_getTabContentId(i)"
+    role="tabpanel"
+  ></fui-tab-body>
+</div>

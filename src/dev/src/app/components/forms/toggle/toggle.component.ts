@@ -68,14 +68,13 @@ export class ToggleComponent extends AbstractControlDemoComponent implements OnI
   </fui-toggle-wrapper>
 </fui-toggle-container>`;
 
-  inputFiveSource = `
-  <fui-toggle-container>
-    <fui-toggle-wrapper [ngStyle]="{ width: '193px' }">
-      <input type="checkbox" fuiToggle name="five" [(ngModel)]="models.five">
-      <label fuiLabel>Add bacon, cilantro and cheese</label>
-      <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
-    </fui-toggle-wrapper>
-  </fui-toggle-container>`;
+  inputFiveSource = `<fui-toggle-container>
+  <fui-toggle-wrapper [ngStyle]="{ width: '193px' }">
+    <input type="checkbox" fuiToggle name="five" [(ngModel)]="models.five">
+    <label fuiLabel>Add bacon, cilantro and cheese</label>
+    <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
+  </fui-toggle-wrapper>
+</fui-toggle-container>`;
 
   constructor() {
     super();

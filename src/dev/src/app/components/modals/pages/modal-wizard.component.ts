@@ -69,7 +69,7 @@ import { ModalWizard5Component } from './modals/wizard/modal-wizard-5.component'
         </p>
 
         <fui-tabs>
-          <fui-tab [title]="'Example'" [active]="true">
+          <fui-tab [label]="'Example'">
             <div class="bd-example">
               <p class="mt-2">
                 Go to step 4 or 5, you'll see that the back button label gets changed and inform you that you'll be back to the
@@ -78,7 +78,7 @@ import { ModalWizard5Component } from './modals/wizard/modal-wizard-5.component'
               <button class="btn btn-sm btn-primary mr-2" (click)="openExample5Modal()">Open wizard modal</button>
             </div>
           </fui-tab>
-          <fui-tab [title]="'Code'">
+          <fui-tab [label]="'Code'">
             <pre><code [languages]="['typescript']" [highlight]="codeExample5"></code></pre>
           </fui-tab>
         </fui-tabs>
@@ -87,8 +87,8 @@ import { ModalWizard5Component } from './modals/wizard/modal-wizard-5.component'
 
         <p><strong>Note</strong>: To check the returns of every promise, be sure to have your browser console open.</p>
 
-        <fui-tabs>
-          <fui-tab [title]="'Example'" [active]="true">
+        <fui-tabs class="mt-4">
+          <fui-tab [label]="'Example'">
             <div class="bd-example">
               <button class="btn btn-sm btn-info" (click)="disableStepsClick = !disableStepsClick">
                 {{ disableStepsClick ? 'Enable all steps click' : 'Disable all steps click' }}
@@ -115,29 +115,29 @@ import { ModalWizard5Component } from './modals/wizard/modal-wizard-5.component'
               <button class="btn btn-sm btn-primary mr-2" (click)="openWizardModal()">Open wizard modal</button>
             </div>
           </fui-tab>
-          <fui-tab [title]="'Code'">
+          <fui-tab [label]="'Code'">
             <pre><code [languages]="['typescript']" [highlight]="codeExample3"></code></pre>
           </fui-tab>
         </fui-tabs>
 
-        <fui-tabs>
-          <fui-tab [title]="'Example'" [active]="true">
+        <fui-tabs class="mt-4">
+          <fui-tab [label]="'Example'">
             <div class="bd-example">
               <button class="btn btn-sm btn-primary mr-2" (click)="openErrorWizardModal()">Error wizard modal</button>
             </div>
           </fui-tab>
-          <fui-tab [title]="'Code'">
+          <fui-tab [label]="'Code'">
             <pre><code [languages]="['typescript']" [highlight]="codeExample4"></code></pre>
           </fui-tab>
         </fui-tabs>
 
-        <fui-tabs>
-          <fui-tab [title]="'Example'" [active]="true">
+        <fui-tabs class="mt-4">
+          <fui-tab [label]="'Example'">
             <div class="bd-example">
               <button class="btn btn-sm btn-primary mr-2" (click)="openWizardModalError()">Wizard without any steps</button>
             </div>
           </fui-tab>
-          <fui-tab [title]="'Code'">
+          <fui-tab [label]="'Code'">
             <pre><code [languages]="['typescript']" [highlight]="codeExampleError"></code></pre>
           </fui-tab>
         </fui-tabs>

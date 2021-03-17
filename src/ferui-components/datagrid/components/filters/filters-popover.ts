@@ -86,7 +86,7 @@ import { FilterType } from './interfaces/filter.enum';
             <button
               class="btn btn-clear"
               type="button"
-              tabindex="1"
+              tabindex="0"
               unselectable="on"
               *ngIf="hasActiveFilters()"
               (click)="clearCallback($event)"
@@ -95,10 +95,10 @@ import { FilterType } from './interfaces/filter.enum';
             </button>
           </div>
           <div class="col col-right">
-            <button class="btn btn-cancel" tabindex="1" type="button" unselectable="on" (click)="cancelCallback($event)">
+            <button class="btn btn-cancel" tabindex="0" type="button" unselectable="on" (click)="cancelCallback($event)">
               Cancel
             </button>
-            <button class="btn btn-primary" tabindex="1" type="button" unselectable="on" (click)="applyCallback($event)">
+            <button class="btn btn-primary" tabindex="0" type="button" unselectable="on" (click)="applyCallback($event)">
               Apply
             </button>
           </div>

@@ -10,7 +10,7 @@ import { Directive, HostBinding, Input } from '@angular/core';
   }
 })
 export class FuiHelperDirective {
-  private _tabIndex: string = '1';
+  private _tabIndex: string = '0';
 
   get tabindex() {
     return this._tabIndex;

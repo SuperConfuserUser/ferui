@@ -6,7 +6,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
   selector: 'dropdown-demo-example',
   template: `
     <fui-tabs>
-      <fui-tab [title]="'Examples'" [active]="true">
+      <fui-tab [label]="'Examples'">
         <demo-page [filtersDisplayed]="true" pageTitle="Dropdown examples">
           <h3>Behavior</h3>
           <ul>
@@ -32,11 +32,7 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
 
           <h3>Examples:</h3>
 
-          <h5>Position top-left:</h5>
-
           <demo-component [componentData]="dropdown1"></demo-component>
-
-          <h5>Position bottom-left</h5>
 
           <demo-component [componentData]="dropdown2"></demo-component>
 
@@ -67,13 +63,21 @@ import { DemoComponentData } from '../../../utils/demo-component-data';
 
           <p class="mt-3">
             This last dropdown will automatically open its menu at the top because there is not enough space bellow it to add the
-            menu. (Hide the code section to see this working)
+            menu.
           </p>
 
           <demo-component [componentData]="dropdown6"></demo-component>
         </demo-page>
       </fui-tab>
-      <fui-tab [title]="'Documentation'">...</fui-tab>
+      <fui-tab [label]="'Documentation'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col col-12">
+              <p>In construction</p>
+            </div>
+          </div>
+        </div>
+      </fui-tab>
     </fui-tabs>
   `
 })
@@ -87,196 +91,196 @@ export class DropdownExampleComponent implements OnInit {
 
   ngOnInit(): void {
     this.dropdown1 = new DemoComponentData({
-      title: ``,
+      title: `Basic dropdown example (position top-left)`,
       source: `<fui-dropdown>
-            <button class="btn btn-outline-primary" fuiDropdownTrigger>
-              Dropdown
-              <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
-            </button>
-            <fui-dropdown-menu fuiPosition="top-left" *fuiIfOpen>
-              <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
-              <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
-              <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>Disabled Action</div>
-              <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
-              <fui-dropdown>
-                <button fuiDropdownTrigger>Link 1</button>
-                <fui-dropdown-menu>
-                  <button fuiDropdownItem>Foo</button>
-                  <fui-dropdown>
-                    <button fuiDropdownTrigger>Bar</button>
-                    <fui-dropdown-menu fuiPosition="left-top">
-                      <button fuiDropdownItem>Baz</button>
-                    </fui-dropdown-menu>
-                  </fui-dropdown>
-                </fui-dropdown-menu>
-              </fui-dropdown>
-              <div fuiDropdownItem>Link 2</div>
-            </fui-dropdown-menu>
-          </fui-dropdown>`
+  <button class="btn btn-outline-primary" fuiDropdownTrigger>
+    Dropdown
+    <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
+  </button>
+  <fui-dropdown-menu fuiPosition="top-left" *fuiIfOpen>
+    <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
+    <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
+    <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>Disabled Action</div>
+    <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
+    <fui-dropdown>
+      <button fuiDropdownTrigger>Link 1</button>
+      <fui-dropdown-menu>
+        <button fuiDropdownItem>Foo</button>
+        <fui-dropdown>
+          <button fuiDropdownTrigger>Bar</button>
+          <fui-dropdown-menu fuiPosition="left-top">
+            <button fuiDropdownItem>Baz</button>
+          </fui-dropdown-menu>
+        </fui-dropdown>
+      </fui-dropdown-menu>
+    </fui-dropdown>
+    <div fuiDropdownItem>Link 2</div>
+  </fui-dropdown-menu>
+</fui-dropdown>`
     });
 
     this.dropdown2 = new DemoComponentData({
-      title: ``,
+      title: `Basic dropdown example (position bottom-left)`,
       source: `<fui-dropdown>
-            <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
-              Dropdown
-              <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
-            </span>
-            <fui-dropdown-menu fuiPosition="bottom-left" *fuiIfOpen>
-              <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
-              <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
-              <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>Disabled Action</div>
-              <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
-              <fui-dropdown>
-                <button fuiDropdownTrigger>Link 1</button>
-                <fui-dropdown-menu>
-                  <button fuiDropdownItem>Foo</button>
-                  <fui-dropdown>
-                    <button fuiDropdownTrigger>Bar</button>
-                    <fui-dropdown-menu fuiPosition="left-top">
-                      <button fuiDropdownItem>Baz</button>
-                    </fui-dropdown-menu>
-                  </fui-dropdown>
-                </fui-dropdown-menu>
-              </fui-dropdown>
-              <div fuiDropdownItem>Link 2</div>
-            </fui-dropdown-menu>
-          </fui-dropdown>`
+  <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
+    Dropdown
+    <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
+  </span>
+  <fui-dropdown-menu fuiPosition="bottom-left" *fuiIfOpen>
+    <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
+    <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
+    <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>Disabled Action</div>
+    <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
+    <fui-dropdown>
+      <button fuiDropdownTrigger>Link 1</button>
+      <fui-dropdown-menu>
+        <button fuiDropdownItem>Foo</button>
+        <fui-dropdown>
+          <button fuiDropdownTrigger>Bar</button>
+          <fui-dropdown-menu fuiPosition="left-top">
+            <button fuiDropdownItem>Baz</button>
+          </fui-dropdown-menu>
+        </fui-dropdown>
+      </fui-dropdown-menu>
+    </fui-dropdown>
+    <div fuiDropdownItem>Link 2</div>
+  </fui-dropdown-menu>
+</fui-dropdown>`
     });
 
     this.dropdown3 = new DemoComponentData({
-      title: ``,
+      title: `Dropdown within an overflow-box (position relative)`,
       source: `<div style="padding: 10px; width: 220px; height: 100px; border: 1px solid #87a1b5; overflow: hidden; border-radius: 3px;">
-            <p>My super overflow-box</p>
+  <p>My super overflow-box</p>
 
-            <fui-dropdown>
-              <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
-                Dropdown
-                <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
-              </span>
-              <fui-dropdown-menu *fuiIfOpen>
-                <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
-                <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
-                <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>
-                  Disabled Action
-                </div>
-                <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
-                <fui-dropdown>
-                  <button fuiDropdownTrigger>Link 1</button>
-                  <fui-dropdown-menu>
-                    <button fuiDropdownItem>Foo</button>
-                    <fui-dropdown>
-                      <button fuiDropdownTrigger>Bar</button>
-                      <fui-dropdown-menu>
-                        <button fuiDropdownItem>Baz</button>
-                      </fui-dropdown-menu>
-                    </fui-dropdown>
-                  </fui-dropdown-menu>
-                </fui-dropdown>
-                <div fuiDropdownItem>Link 2</div>
-              </fui-dropdown-menu>
-            </fui-dropdown>
-          </div>`
+  <fui-dropdown>
+    <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
+      Dropdown
+      <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
+    </span>
+    <fui-dropdown-menu *fuiIfOpen>
+      <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
+      <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
+      <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>
+        Disabled Action
+      </div>
+      <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
+      <fui-dropdown>
+        <button fuiDropdownTrigger>Link 1</button>
+        <fui-dropdown-menu>
+          <button fuiDropdownItem>Foo</button>
+          <fui-dropdown>
+            <button fuiDropdownTrigger>Bar</button>
+            <fui-dropdown-menu>
+              <button fuiDropdownItem>Baz</button>
+            </fui-dropdown-menu>
+          </fui-dropdown>
+        </fui-dropdown-menu>
+      </fui-dropdown>
+      <div fuiDropdownItem>Link 2</div>
+    </fui-dropdown-menu>
+  </fui-dropdown>
+</div>`
     });
 
     this.dropdown4 = new DemoComponentData({
-      title: ``,
-      source: `<div
-              style="position: absolute; padding: 10px; width: 220px; height: 100px; border: 1px solid #87a1b5; overflow: hidden; border-radius: 3px;"
-            >
-              <p>My super overflow-box</p>
-              <fui-dropdown>
-                <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
-                  Dropdown
-                  <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
-                </span>
-                <fui-dropdown-menu *fuiIfOpen>
-                  <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
-                  <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
-                  <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>
-                    Disabled Action
-                  </div>
-                  <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
-                  <fui-dropdown>
-                    <button fuiDropdownTrigger>Link 1</button>
-                    <fui-dropdown-menu>
-                      <button fuiDropdownItem>Foo</button>
-                      <fui-dropdown>
-                        <button fuiDropdownTrigger>Bar</button>
-                        <fui-dropdown-menu>
-                          <button fuiDropdownItem>Baz</button>
-                        </fui-dropdown-menu>
-                      </fui-dropdown>
-                    </fui-dropdown-menu>
-                  </fui-dropdown>
-                  <div fuiDropdownItem>Link 2</div>
-                </fui-dropdown-menu>
-              </fui-dropdown>
-            </div>`
+      title: `Dropdown within an overflow-box (position absolute)`,
+      source: `<div style="height: 100px; width: 100%; position: relative; overflow: hidden;">
+  <div style="position: absolute; padding: 10px; width: 220px; height: 100px; border: 1px solid #87a1b5; overflow: hidden; border-radius: 3px;">
+    <p>My super overflow-box</p>
+    <fui-dropdown>
+      <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
+        Dropdown
+        <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
+      </span>
+      <fui-dropdown-menu *fuiIfOpen>
+        <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
+        <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
+        <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>
+          Disabled Action
+        </div>
+        <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
+        <fui-dropdown>
+          <button fuiDropdownTrigger>Link 1</button>
+          <fui-dropdown-menu>
+            <button fuiDropdownItem>Foo</button>
+            <fui-dropdown>
+              <button fuiDropdownTrigger>Bar</button>
+              <fui-dropdown-menu>
+                <button fuiDropdownItem>Baz</button>
+              </fui-dropdown-menu>
+            </fui-dropdown>
+          </fui-dropdown-menu>
+        </fui-dropdown>
+        <div fuiDropdownItem>Link 2</div>
+      </fui-dropdown-menu>
+    </fui-dropdown>
+  </div>
+</div>`
     });
     this.dropdown5 = new DemoComponentData({
-      title: ``,
-      source: `<div
-              style="position: absolute; padding: 10px; width: 220px; height: 100px; border: 1px solid #87a1b5; overflow: hidden; border-radius: 3px;"
-            >
-              <p>My super overflow-box</p>
-              <fui-dropdown>
-                <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
-                  Dropdown
-                  <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
-                </span>
-                <fui-dropdown-menu [appendTo]="'body'" *fuiIfOpen>
-                  <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
-                  <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
-                  <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>
-                    Disabled Action
-                  </div>
-                  <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
-                  <fui-dropdown>
-                    <button fuiDropdownTrigger>Link 1</button>
-                    <fui-dropdown-menu>
-                      <button fuiDropdownItem>Foo</button>
-                      <fui-dropdown>
-                        <button fuiDropdownTrigger>Bar</button>
-                        <fui-dropdown-menu>
-                          <button fuiDropdownItem>Baz</button>
-                        </fui-dropdown-menu>
-                      </fui-dropdown>
-                    </fui-dropdown-menu>
-                  </fui-dropdown>
-                  <div fuiDropdownItem>Link 2</div>
-                </fui-dropdown-menu>
-              </fui-dropdown>
-            </div>`
+      title: `Dropdown within an overflow-box (position absolute) using <code>[appendTo]</code>`,
+      source: `<div style="height: 100px; width: 100%; position: relative; overflow: hidden;">
+  <div style="position: absolute; padding: 10px; width: 220px; height: 100px; border: 1px solid #87a1b5; overflow: hidden; border-radius: 3px;">
+    <p>My super overflow-box</p>
+    <fui-dropdown>
+      <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
+        Dropdown
+        <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
+      </span>
+      <fui-dropdown-menu [appendTo]="'body'" *fuiIfOpen>
+        <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
+        <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
+        <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>
+          Disabled Action
+        </div>
+        <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
+        <fui-dropdown>
+          <button fuiDropdownTrigger>Link 1</button>
+          <fui-dropdown-menu>
+            <button fuiDropdownItem>Foo</button>
+            <fui-dropdown>
+              <button fuiDropdownTrigger>Bar</button>
+              <fui-dropdown-menu>
+                <button fuiDropdownItem>Baz</button>
+              </fui-dropdown-menu>
+            </fui-dropdown>
+          </fui-dropdown-menu>
+        </fui-dropdown>
+        <div fuiDropdownItem>Link 2</div>
+      </fui-dropdown-menu>
+    </fui-dropdown>
+  </div>
+</div>`
     });
 
     this.dropdown6 = new DemoComponentData({
-      title: ``,
+      title: `Dropdown automatic positioning`,
       source: `<fui-dropdown>
-            <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
-              Dropdown
-              <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
-            </span>
-            <fui-dropdown-menu [parentContainer]="'#main-content'" *fuiIfOpen>
-              <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
-              <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
-              <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>Disabled Action</div>
-              <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
-              <fui-dropdown>
-                <button fuiDropdownTrigger>Link 1</button>
-                <fui-dropdown-menu>
-                  <button fuiDropdownItem>Foo</button>
-                  <fui-dropdown>
-                    <button fuiDropdownTrigger>Bar</button>
-                    <fui-dropdown-menu>
-                      <button fuiDropdownItem>Baz</button>
-                    </fui-dropdown-menu>
-                  </fui-dropdown>
-                </fui-dropdown-menu>
-              </fui-dropdown>
-              <div fuiDropdownItem>Link 2</div>
-            </fui-dropdown-menu>
-          </fui-dropdown>`
+  <span style="display: inline-block; color: #000000;" fuiDropdownTrigger>
+    Dropdown
+    <clr-icon style="width: 9px; height: 9px;" shape="fui-caret" dir="down"></clr-icon>
+  </span>
+  <fui-dropdown-menu [parentContainer]="'#main-content'" *fuiIfOpen>
+    <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
+    <div aria-label="Dropdown header Action 1" fuiDropdownItem>Action 1</div>
+    <div aria-label="Dropdown header Disabled Action" [class.disabled]="true" fuiDropdownItem>Disabled Action</div>
+    <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
+    <fui-dropdown>
+      <button fuiDropdownTrigger>Link 1</button>
+      <fui-dropdown-menu>
+        <button fuiDropdownItem>Foo</button>
+        <fui-dropdown>
+          <button fuiDropdownTrigger>Bar</button>
+          <fui-dropdown-menu>
+            <button fuiDropdownItem>Baz</button>
+          </fui-dropdown-menu>
+        </fui-dropdown>
+      </fui-dropdown-menu>
+    </fui-dropdown>
+    <div fuiDropdownItem>Link 2</div>
+  </fui-dropdown-menu>
+</fui-dropdown>`
     });
   }
 }

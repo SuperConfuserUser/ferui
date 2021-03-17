@@ -1,0 +1,154 @@
+<h1 class="mt-4">FerUI Tabs Component</h1>
+<hr />
+<fui-tabs>
+  <fui-tab [label]="'Documentation'">
+    <div class="container-fluid">
+      <div class="row" style="max-width: 1200px">
+        <div class="col-12">
+          <h2 class="mt-0 mb-4" id="overview">Overview <a [fragment]="'overview'" [routerLink] class="anchor-link">#</a></h2>
+          <div>
+            <p>
+              FerUI tabs organize content into separate views where only one view can be visible at a time. Each tab's label is
+              shown in the tab header and the active tab's label is designated with the active button style.
+            </p>
+            <p>
+              The active tab may be set using the <code>selectedIndex</code> input or when the user selects one of the tab labels
+              in the header.
+            </p>
+
+            <demo-component [componentData]="overviewExamples?.basicExample"></demo-component>
+
+            <h2 class="mt-4 mb-4" id="events">Events <a [fragment]="'events'" [routerLink] class="anchor-link">#</a></h2>
+
+            <p>The <code>selectedTabChange</code> output event is emitted when the active tab changes.</p>
+            <p>
+              The <code>focusChange</code> output event is emitted when the user puts focus on any of the tab labels in the
+              header, usually through keyboard navigation.
+            </p>
+
+            <h2 class="mt-4 mb-4" id="labels">Labels <a [fragment]="'labels'" [routerLink] class="anchor-link">#</a></h2>
+
+            <p>If a tab's label is only text then the simple fui-tabs API can be used.</p>
+
+            <demo-component [componentData]="overviewExamples?.basicExample"></demo-component>
+
+            <p>
+              For more complex labels, add a template with the <code>fui-tab-label</code> (or <code>fuiTabLabel</code>) directive
+              inside the <code>fui-tab</code>.
+            </p>
+
+            <demo-component [componentData]="overviewExamples?.complexLabels"></demo-component>
+
+            <h2 class="mt-4 mb-4" id="tabs-and-navigation">
+              Tabs and navigation <a [fragment]="'tabs-and-navigation'" [routerLink] class="anchor-link">#</a>
+            </h2>
+            <p>
+              While <code>&lt;fui-tabs&gt;</code> is used to switch between views within a single route,
+              <code>&lt;fui-tabs-nav&gt;</code> provides a tab-like UI for navigating between routes.
+            </p>
+
+            <demo-component [componentData]="overviewExamples?.tabsNav"></demo-component>
+
+            <p>
+              The <code>fui-tabs-nav</code> is not tied to any particular router; it works with normal
+              <code>&lt;a&gt;</code> elements and uses the <code>active</code> property to determine which tab is currently
+              active. The corresponding <code>&lt;router-outlet&gt;</code> can be placed anywhere in the view.
+            </p>
+
+            <h2 class="mt-4 mb-4" id="lazy-loading">
+              Lazy Loading <a [fragment]="'lazy-loading'" [routerLink] class="anchor-link">#</a>
+            </h2>
+
+            <p>
+              By default, the tab contents are eagerly loaded. Eagerly loaded tabs will initialize the child components but not
+              inject them into the DOM until the tab is activated.
+            </p>
+            <p>
+              If the tab contains several complex child components or the tab's contents rely on DOM calculations during
+              initialization, it is advised to lazy load the tab's content.
+            </p>
+            <p>
+              Tab contents can be lazy loaded by declaring the body in a <code>ng-template</code> with the
+              <code>fui-tab-content</code> (or <code>fuiTabContent</code>) attribute.
+            </p>
+
+            <demo-component [componentData]="overviewExamples?.lazyLoading"></demo-component>
+
+            <h2 class="mt-4 mb-4" id="label-alignment">
+              Label alignment <a [fragment]="'label-alignment'" [routerLink] class="anchor-link">#</a>
+            </h2>
+
+            <p>
+              If you want to align the tab labels in the center or towards the end of the container, you can do so using the
+              <code>[fui-align-tabs]</code> attribute.
+            </p>
+
+            <demo-component [componentData]="overviewExamples?.labelAlignment"></demo-component>
+
+            <h2 class="mt-4 mb-4" id="accessibility">
+              Accessibility <a [fragment]="'accessibility'" [routerLink] class="anchor-link">#</a>
+            </h2>
+            <p>
+              <code>&lt;fui-tabs&gt;</code> and <code>&lt;fui-tabs-nav&gt;</code> use different interaction patterns. The
+              <code>&lt;fui-tabs&gt;</code> component combines <code>tablist</code>, <code>tab</code>, and
+              <code>tabpanel</code> into a single component with the appropriate keyboard shortcuts. The
+              <code>&lt;fui-tabs-nav&gt;</code>, however, use a <em>navigation</em> interaction pattern by using a
+              <code>&lt;nav&gt;</code> element with anchor elements as the "tabs". The difference between these two patterns comes
+              from the fact that <code>fui-tabs-nav</code> updates the page URL while the <code>fui-tabs</code> does not.
+            </p>
+
+            <h4 class="mt-4 mb-4" id="accessibility-labels">
+              Labels <a [fragment]="'accessibility-labels'" [routerLink] class="anchor-link">#</a>
+            </h4>
+
+            <p>
+              Tabs without text or labels should be given a meaningful label via <code>aria-label</code> or
+              <code>aria-labelledby</code>. For <code>fui-tabs-nav</code>, the <code>&lt;nav&gt;</code> element should have a
+              label as well.
+            </p>
+
+            <h4 class="mt-4 mb-4" id="accessibility-keyboard-interaction">
+              Keyboard interaction <a [fragment]="'accessibility-keyboard-interaction'" [routerLink] class="anchor-link">#</a>
+            </h4>
+
+            <table class="fui-table mb-4">
+              <thead>
+                <tr>
+                  <th width="200">Shortcut</th>
+                  <th width="200">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>LEFT_ARROW</code></td>
+                  <td>Move focus to previous tab</td>
+                </tr>
+                <tr>
+                  <td><code>RIGHT_ARROW</code></td>
+                  <td>Move focus to next tab</td>
+                </tr>
+                <tr>
+                  <td><code>HOME</code></td>
+                  <td>Move focus to first tab</td>
+                </tr>
+                <tr>
+                  <td><code>END</code></td>
+                  <td>Move focus to last tab</td>
+                </tr>
+                <tr>
+                  <td><code>SPACE</code> or <code>ENTER</code></td>
+                  <td>Switch to focused tab</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fui-tab>
+  <fui-tab [label]="'Examples'">
+    <demo-page pageTitle="Tabs component">
+      <demo-component *ngFor="let example of examples" [componentData]="example" [codeHidden]="false"></demo-component>
+    </demo-page>
+  </fui-tab>
+</fui-tabs>

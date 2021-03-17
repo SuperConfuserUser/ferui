@@ -1,8 +1,8 @@
 <h1 class="mt-4">FerUI Tooltip Component</h1>
 <hr />
 <fui-tabs>
-  <fui-tab title="Documentation" [active]="true">
-    <div class="container-fluid tooltip-demo" title="">
+  <fui-tab [label]="'Documentation'">
+    <div class="container-fluid tooltip-demo">
       <div class="row" style="max-width: 1200px">
         <div class="col-12">
           <h2>Overview</h2>
@@ -86,7 +86,7 @@
           <h4 id="component-type" class="internal-anchor">TooltipComponentTypeContent</h4>
           <p>Object used to configure component type content for the tooltip.</p>
           <fui-tabs>
-            <fui-tab [title]="'Documentation'" [active]="true">
+            <fui-tab [label]="'Documentation'">
               <table class="fui-table mb-4">
                 <thead>
                   <tr>
@@ -115,7 +115,7 @@
                 </tbody>
               </table>
             </fui-tab>
-            <fui-tab [title]="'Interface'">
+            <fui-tab [label]="'Interface'">
               <pre><code [languages]="['typescript']" [highlight]="tooltipComponentTypeContentExample"></code></pre>
             </fui-tab>
           </fui-tabs>
@@ -134,7 +134,7 @@
             An optional configuration object for customizing the tooltip. The configured properties will override default values.
           </p>
           <fui-tabs>
-            <fui-tab [title]="'Documentation'" [active]="true">
+            <fui-tab [label]="'Documentation'">
               <table class="fui-table mb-4">
                 <thead>
                   <tr>
@@ -215,13 +215,22 @@
                     </td>
                     <td>{{ TOOLTIP_DEFAULT_CONFIG.fixedParent }}</td>
                   </tr>
+                  <tr>
+                    <td><code>closeOnOutsideClick</code></td>
+                    <td>boolean</td>
+                    <td>
+                      <strong>[Optional]</strong> Whether the tooltip gets removed when you click/focus multiple times on the
+                      directive host. If set to true, the tooltip will be remove when you click on the host.
+                    </td>
+                    <td>{{ TOOLTIP_DEFAULT_CONFIG.closeOnOutsideClick }}</td>
+                  </tr>
                 </tbody>
               </table>
             </fui-tab>
-            <fui-tab [title]="'Interface'">
+            <fui-tab [label]="'Interface'">
               <pre><code [languages]="['typescript']" [highlight]="fuiTooltipConfigInterfaceExample"></code></pre>
             </fui-tab>
-            <fui-tab [title]="'Default'">
+            <fui-tab [label]="'Default'">
               <pre><code [languages]="['typescript']" [highlight]="fuiTooltipConfigDefaultsExample"></code></pre>
             </fui-tab>
           </fui-tabs>
@@ -249,7 +258,7 @@
             >.
           </p>
           <fui-tabs>
-            <fui-tab [title]="'Documentation'" [active]="true">
+            <fui-tab [label]="'Documentation'">
               <table class="fui-table mb-4">
                 <thead>
                   <tr></tr>
@@ -276,7 +285,7 @@
                 </tbody>
               </table>
             </fui-tab>
-            <fui-tab [title]="'Interface'">
+            <fui-tab [label]="'Interface'">
               <pre><code [languages]="['typescript']" [highlight]="arrowSizeInterfaceExample"></code></pre>
             </fui-tab>
 
@@ -365,8 +374,8 @@
     </div>
   </fui-tab>
 
-  <fui-tab title="Examples">
-    <div class="container-fluid tooltip-demo" title="">
+  <fui-tab [label]="'Examples'">
+    <div class="container-fluid tooltip-demo">
       <div class="row" style="max-width: 1200px">
         <div class="col-12">
           <h2>Table of Contents</h2>
@@ -397,10 +406,10 @@
             </ng-template>
           </div>
           <fui-tabs>
-            <fui-tab [title]="'HTML'" [active]="true">
+            <fui-tab [label]="'HTML'">
               <pre><code [languages]="['html']" [highlight]="contentHtmlExample"></code></pre>
             </fui-tab>
-            <fui-tab [title]="'Typescript'">
+            <fui-tab [label]="'Typescript'">
               <pre><code [languages]="['typescript']" [highlight]="contentTypescriptExample"></code></pre>
             </fui-tab>
           </fui-tabs>
@@ -664,13 +673,13 @@
             </button>
           </div>
           <fui-tabs>
-            <fui-tab [title]="'HTML'" [active]="true">
+            <fui-tab [label]="'HTML'">
               <pre><code [languages]="['html']" [highlight]="customStyleHtmlExample"></code></pre>
             </fui-tab>
-            <fui-tab [title]="'CSS'">
+            <fui-tab [label]="'CSS'">
               <pre><code [languages]="['typescript']" [highlight]="customStyleCssExample"></code></pre>
             </fui-tab>
-            <fui-tab [title]="'Typescript'">
+            <fui-tab [label]="'Typescript'">
               <pre><code [languages]="['typescript']" [highlight]="customStyleTypescriptExample"></code></pre>
             </fui-tab>
           </fui-tabs>
@@ -720,13 +729,13 @@
             </button>
           </div>
           <fui-tabs>
-            <fui-tab [title]="'HTML'" [active]="true">
+            <fui-tab [label]="'HTML'">
               <pre><code [languages]="['html']" [highlight]="arrowHtmlExample"></code></pre>
             </fui-tab>
-            <fui-tab [title]="'CSS'">
+            <fui-tab [label]="'CSS'">
               <pre><code [languages]="['typescript']" [highlight]="arrowCssExample"></code></pre>
             </fui-tab>
-            <fui-tab [title]="'Typescript'">
+            <fui-tab [label]="'Typescript'">
               <pre><code [languages]="['typescript']" [highlight]="arrowTypescriptExample"></code></pre>
             </fui-tab>
           </fui-tabs>
@@ -749,10 +758,10 @@
             </button>
           </div>
           <fui-tabs>
-            <fui-tab [title]="'HTML'" [active]="true">
+            <fui-tab [label]="'HTML'">
               <pre><code [languages]="['html']" [highlight]="disableHtmlExample"></code></pre>
             </fui-tab>
-            <fui-tab [title]="'Typescript'">
+            <fui-tab [label]="'Typescript'">
               <pre><code [languages]="['typescript']" [highlight]="disableTypescriptExample()"></code></pre>
             </fui-tab>
           </fui-tabs>

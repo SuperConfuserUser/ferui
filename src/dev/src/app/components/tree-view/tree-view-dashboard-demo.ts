@@ -4,117 +4,124 @@ import { Component } from '@angular/core';
 
 @Component({
   template: `
-    <h2>Overview and Tutorial</h2>
-    <p>
-      Just like any other FerUI component in <code>@ferui-components</code>, the Tree View will require adding the FerUI to your
-      project's main module to use this component like a regular Angular component.
-    </p>
-    <div>
-      <p>Import the FeruiModule in your app.module file and in your imports array module</p>
-      <pre><code [languages]="['typescript']" [highlight]="importModule"></code></pre>
-    </div>
-    <p>In order to use the Tree View Component you will need to review its API with required and optional params:</p>
-    <p>Ferui Tree View API</p>
-    <ul>
-      <li>
-        <b>Required: </b><code>TreeNodeData</code> interface consists of the initial tree node parent that will be the foundation
-        of starting the tree view hierarchy. A developer may pass in an instance of the <code>NonRootTreeNode</code> class to
-        start the tree view with no default parent and may load a set of parent nodes
-        <pre><code [languages]="['typescript']" [highlight]="treeNodeData"></code></pre>
-      </li>
-      <li>
-        <b>Required: </b>Data retriever object which implements a <code>TreeNodeDataRetriever</code> or
-        <code>PagedTreeNodeDataRetriever</code> interface
-        <pre><code [languages]="['typescript']" [highlight]="dataRetrievers"></code></pre>
-      </li>
-      <li>
-        <b>Required: </b>Configuration object which implements a <code>TreeViewConfiguration</code> interface
-        <pre><code [languages]="['typescript']" [highlight]="treeViewConfiguration"></code></pre>
-      </li>
-      <li>
-        <b>Optional: </b><code>TreeViewAutoNodeSelector</code> object with an autoSelectNode callback to be invoked on
-        initialization of Tree View if developer wishes to select a node at first load.
-        <pre><code [languages]="['typescript']" [highlight]="autoNodeSelector"></code></pre>
-      </li>
-      <li>
-        <p>
-          Ferui Tree View Component allows developer to subscribe to an event observable that triggers when a Tree Node is
-          expanded, collapsed, or selected. Expects to receive a TreeViewEvent.
-        </p>
-        <b>Optional: </b><code>onNodeEvent</code> binding allows developer to subscribe to an event observable that triggers when
-        a Tree Node is expanded, collapsed, or selected. The observable will emit a <code>TreeViewEvent</code> interface that will
-        show the <code>TreeNodeData</code> and the <code>TreeViewEventType</code>.
-        <pre><code [languages]="['html']" [highlight]="onNodeEvent"></code></pre>
-        <pre><code [languages]="['typescript']" [highlight]="onNodeEventHandler"></code></pre>
-      </li>
-      <li>
-        The Tree View Public API also allows a developer to select/expand/collapse nodes from outside sources as they wish
-        <ul>
-          <li>
-            A developer must first get the Tree View component binding to access the public methods. Each method takes in the
-            desired <code>TreeNodeData</code> object developer wishes to interact with
-            <pre><code [languages]="['typescript']" [highlight]="getTreeView"></code></pre>
-          </li>
-          <li>
-            <pre><code [languages]="['typescript']" [highlight]="selectNode"></code></pre>
-          </li>
-          <li>
-            <pre><code [languages]="['typescript']" [highlight]="expandNode"></code></pre>
-          </li>
-          <li>
-            <pre><code [languages]="['typescript']" [highlight]="collapseNode"></code></pre>
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <div class="container-fluid">
+      <div class="row" style="max-width: 1200px">
+        <div class="col col-12 p-0">
+          <h2>Overview and Tutorial</h2>
+          <p>
+            Just like any other FerUI component in <code>@ferui-components</code>, the Tree View will require adding the FerUI to
+            your project's main module to use this component like a regular Angular component.
+          </p>
+          <div>
+            <p>Import the FeruiModule in your app.module file and in your imports array module</p>
+            <pre><code [languages]="['typescript']" [highlight]="importModule"></code></pre>
+          </div>
+          <p>In order to use the Tree View Component you will need to review its API with required and optional params:</p>
+          <p>Ferui Tree View API</p>
+          <ul>
+            <li>
+              <b>Required: </b><code>TreeNodeData</code> interface consists of the initial tree node parent that will be the
+              foundation of starting the tree view hierarchy. A developer may pass in an instance of the
+              <code>NonRootTreeNode</code> class to start the tree view with no default parent and may load a set of parent nodes
+              <pre><code [languages]="['typescript']" [highlight]="treeNodeData"></code></pre>
+            </li>
+            <li>
+              <b>Required: </b>Data retriever object which implements a <code>TreeNodeDataRetriever</code> or
+              <code>PagedTreeNodeDataRetriever</code> interface
+              <pre><code [languages]="['typescript']" [highlight]="dataRetrievers"></code></pre>
+            </li>
+            <li>
+              <b>Required: </b>Configuration object which implements a <code>TreeViewConfiguration</code> interface
+              <pre><code [languages]="['typescript']" [highlight]="treeViewConfiguration"></code></pre>
+            </li>
+            <li>
+              <b>Optional: </b><code>TreeViewAutoNodeSelector</code> object with an autoSelectNode callback to be invoked on
+              initialization of Tree View if developer wishes to select a node at first load.
+              <pre><code [languages]="['typescript']" [highlight]="autoNodeSelector"></code></pre>
+            </li>
+            <li>
+              <p>
+                Ferui Tree View Component allows developer to subscribe to an event observable that triggers when a Tree Node is
+                expanded, collapsed, or selected. Expects to receive a TreeViewEvent.
+              </p>
+              <b>Optional: </b><code>onNodeEvent</code> binding allows developer to subscribe to an event observable that triggers
+              when a Tree Node is expanded, collapsed, or selected. The observable will emit a
+              <code>TreeViewEvent</code> interface that will show the <code>TreeNodeData</code> and the
+              <code>TreeViewEventType</code>.
+              <pre><code [languages]="['html']" [highlight]="onNodeEvent"></code></pre>
+              <pre><code [languages]="['typescript']" [highlight]="onNodeEventHandler"></code></pre>
+            </li>
+            <li>
+              The Tree View Public API also allows a developer to select/expand/collapse nodes from outside sources as they wish
+              <ul>
+                <li>
+                  A developer must first get the Tree View component binding to access the public methods. Each method takes in
+                  the desired <code>TreeNodeData</code> object developer wishes to interact with
+                  <pre><code [languages]="['typescript']" [highlight]="getTreeView"></code></pre>
+                </li>
+                <li>
+                  <pre><code [languages]="['typescript']" [highlight]="selectNode"></code></pre>
+                </li>
+                <li>
+                  <pre><code [languages]="['typescript']" [highlight]="expandNode"></code></pre>
+                </li>
+                <li>
+                  <pre><code [languages]="['typescript']" [highlight]="collapseNode"></code></pre>
+                </li>
+              </ul>
+            </li>
+          </ul>
 
-    <p>Full list of <code>fui-tree-view</code> attributes and what they do.</p>
-    <table class="fui-table">
-      <thead>
-        <tr>
-          <th width="200">Property</th>
-          <th width="295">Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>[treeNodeData]</code></td>
-          <td>TreeNodeData</td>
-          <td>Tree node data to being tree view with, also NonRootTreeNode available. Example above</td>
-        </tr>
-        <tr>
-          <td><code>[dataRetriever]</code></td>
-          <td>TreeNodeDataRetriever | PagedTreeNodeDataRetriever</td>
-          <td>Data retriever for Client-Side or Server-Side to retrieve the hierarchy of tree nodes. Example above</td>
-        </tr>
-        <tr>
-          <td><code>[config]</code></td>
-          <td>TreeViewConfiguration</td>
-          <td>Configuration to meet developer needs. Example above</td>
-        </tr>
-        <tr>
-          <td><code>[loading]</code></td>
-          <td>boolean</td>
-          <td>Tree view loading initial state handled by developer</td>
-        </tr>
-        <tr>
-          <td><code>[error]</code></td>
-          <td>boolean</td>
-          <td>Initial error state handled by developer</td>
-        </tr>
-        <tr>
-          <td><code>[autoNodeSelector]</code></td>
-          <td>TreeViewAutoNodeSelector</td>
-          <td>Holds callback method to select tree node on initialization of Tree View</td>
-        </tr>
-        <tr>
-          <td><code>(onNodeEvent)</code></td>
-          <td>EventEmitter: TreeViewEvent</td>
-          <td>Event emitter developer can subscribe to. Example above</td>
-        </tr>
-      </tbody>
-    </table>
+          <p>Full list of <code>fui-tree-view</code> attributes and what they do.</p>
+          <table class="fui-table">
+            <thead>
+              <tr>
+                <th width="200">Property</th>
+                <th width="295">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>[treeNodeData]</code></td>
+                <td>TreeNodeData</td>
+                <td>Tree node data to being tree view with, also NonRootTreeNode available. Example above</td>
+              </tr>
+              <tr>
+                <td><code>[dataRetriever]</code></td>
+                <td>TreeNodeDataRetriever | PagedTreeNodeDataRetriever</td>
+                <td>Data retriever for Client-Side or Server-Side to retrieve the hierarchy of tree nodes. Example above</td>
+              </tr>
+              <tr>
+                <td><code>[config]</code></td>
+                <td>TreeViewConfiguration</td>
+                <td>Configuration to meet developer needs. Example above</td>
+              </tr>
+              <tr>
+                <td><code>[loading]</code></td>
+                <td>boolean</td>
+                <td>Tree view loading initial state handled by developer</td>
+              </tr>
+              <tr>
+                <td><code>[error]</code></td>
+                <td>boolean</td>
+                <td>Initial error state handled by developer</td>
+              </tr>
+              <tr>
+                <td><code>[autoNodeSelector]</code></td>
+                <td>TreeViewAutoNodeSelector</td>
+                <td>Holds callback method to select tree node on initialization of Tree View</td>
+              </tr>
+              <tr>
+                <td><code>(onNodeEvent)</code></td>
+                <td>EventEmitter: TreeViewEvent</td>
+                <td>Event emitter developer can subscribe to. Example above</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   `
 })
 export class TreeViewDashboardDemoComponent {

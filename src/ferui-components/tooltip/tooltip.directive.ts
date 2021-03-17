@@ -39,7 +39,8 @@ export const TOOLTIP_DEFAULT_CONFIG: FuiTooltipConfig = {
   arrow: true,
   arrowSize: { width: 13, height: 6 },
   isDisabled: false,
-  fixedParent: false
+  fixedParent: false,
+  closeOnOutsideClick: false
 };
 
 @Directive({
@@ -47,7 +48,11 @@ export const TOOLTIP_DEFAULT_CONFIG: FuiTooltipConfig = {
   providers: [IfOpenService, { provide: POPOVER_HOST_ANCHOR, useExisting: ElementRef }]
 })
 export class FuiTooltipDirective implements OnInit, OnDestroy {
-  @HostBinding('attr.tabindex') tabIndex: number;
+  // We set the host tabindex to 0 by default. It will then be tab-able by default.
+  // But that can be updated by the dev if needed and even can be disabled if tabindex=-1.
+  @HostBinding('attr.tabindex')
+  @Input('tabindex')
+  tabIndex: number = 0;
 
   // content can be string, template or component
   @Input('fuiTooltip') content: string | TemplateRef<any> | TooltipComponentTypeContent;
@@ -77,8 +82,7 @@ export class FuiTooltipDirective implements OnInit, OnDestroy {
     private componentFactoryResolver: ComponentFactoryResolver,
     private injector: Injector,
     private appRef: ApplicationRef,
-    private renderer: Renderer2,
-    private parentHost: ElementRef
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
@@ -87,10 +91,6 @@ export class FuiTooltipDirective implements OnInit, OnDestroy {
       throw new Error(
         'fuiTooltip directive requires an input value. (e.g. fuiTooltip="my content" or [fuiTooltip]="myContentExpression")'
       );
-    }
-    // set a tabindex index value if needed, so host can be tabbed for focus events. preserves tab order otherwise
-    if (this.parentHost.nativeElement.tabIndex < 0) {
-      this.tabIndex = 0;
     }
   }
 

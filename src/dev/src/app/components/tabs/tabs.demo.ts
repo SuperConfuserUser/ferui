@@ -1,143 +1,204 @@
+import { BehaviorSubject } from 'rxjs';
+
 import { Component, OnInit } from '@angular/core';
 
 import { DemoComponentData } from '../../utils/demo-component-data';
 
+interface DemoComponentsList {
+  [key: string]: DemoComponentData;
+}
+
 @Component({
   selector: 'tabs-demo-example',
-  template: `
-    <h1 class="mt-4">FerUI Tabs Component</h1>
-    <hr />
-    <fui-tabs>
-      <fui-tab [title]="'Documentation'">
-        <h2 class="mt-4">Overview</h2>
-        <p>
-          The tabs component is fairly simple, it just allow you to create tabs that transclude your content.
-          <br />
-          You just need to create your <code>&lt;fui-tab&gt;</code> element that contains your content (using
-          <code>[templateOutletRef]</code> attribute or just by transcluding your content within this element) and wrap them
-          within a <code>&lt;fui-tabs&gt;&lt;/fui-tabs&gt;</code> element.
-          <br />
-          <demo-component [componentData]="examples[0]"></demo-component>
-          <br />
-          We are using angular <code>*ngIf</code> internally to display/hide the tab content, and you can customise the tab title
-          by using the <code>[titleTemplateOutletRef]</code> attribute or just by setting a simple string title by using the
-          <code>[title]</code> attribute.
-          <br />
-          By default, if you don't specify any [title] nor [titleTemplateOutletRef], the component will uses "Tab n" (where n
-          correspond to the tab index).
-          <br /><br />
-          NOTE: At the moment, we only have one style of tabs but we have plans to add more features like vertical tabs or tabs
-          offset.
-        </p>
-
-        <h2 class="mt-4"><code>&lt;fui-tab&gt;</code> public API</h2>
-
-        <table class="fui-table">
-          <thead>
-            <tr>
-              <th width="200">Property</th>
-              <th width="295">Type</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>[title]</code></td>
-              <td>string</td>
-              <td>This is the title for the current tab.</td>
-            </tr>
-            <tr>
-              <td><code>[active]</code></td>
-              <td>boolean</td>
-              <td>
-                You can activate the tab by setting this attribute to true. By default it will activate the first tab. Note that
-                if you activate multiple tabs, only the last one will be selected.
-              </td>
-            </tr>
-            <tr>
-              <td><code>[templateOutletRef]</code></td>
-              <td>TemplateRef&lt;any&gt;</td>
-              <td>You can specify the template for the tab programmatically instead of using content transclude.</td>
-            </tr>
-            <tr>
-              <td><code>[templateOutletContext]</code></td>
-              <td>Object</td>
-              <td>The context object to use along with <code>[templateOutletRef]</code> to generate the template.</td>
-            </tr>
-            <tr>
-              <td><code>[titleTemplateOutletRef]</code></td>
-              <td>TemplateRef&lt;any&gt;</td>
-              <td>
-                You can specify the template for the tab title programmatically instead of using the <code>[title]</code> simple
-                string. This is useful if you've planed to use custom title containing icons or custom styles etc...
-              </td>
-            </tr>
-            <tr>
-              <td><code>[titleTemplateOutletContext]</code></td>
-              <td>Object</td>
-              <td>The context object to use along with <code>[titleTemplateOutletRef]</code> to generate the template.</td>
-            </tr>
-          </tbody>
-        </table>
-      </fui-tab>
-      <fui-tab [title]="'Examples'">
-        <demo-page pageTitle="Tabs component">
-          <demo-component *ngFor="let example of examples" [componentData]="example"></demo-component>
-        </demo-page>
-      </fui-tab>
-    </fui-tabs>
-  `
+  templateUrl: './tabs.demo.html'
 })
 export class TabsDemoComponent implements OnInit {
+  overviewExamples: DemoComponentsList = {};
   examples: Array<DemoComponentData> = [];
 
   ngOnInit(): void {
-    this.examples.push(
-      new DemoComponentData({
-        title: 'Simple tabs implementation',
-        source: `
-        <fui-tabs>
-          <fui-tab [title]="'Tab 1'">Tab 1 content</fui-tab>
-          <fui-tab [title]="'Tab 2'" [active]="true">Tab 2 content</fui-tab>
-        </fui-tabs>
-      `
+    this.overviewExamples = {
+      basicExample: new DemoComponentData({
+        title: 'Basic use of the fui-tabs',
+        htmlSource: `<fui-tabs>
+  <fui-tab label="First tab">First tab content</fui-tab>
+  <fui-tab label="Second tab">Second tab content</fui-tab>
+  <!-- Label can also be a binding -->
+  <fui-tab [label]="'Third tab'">Third tab content</fui-tab>
+</fui-tabs>`
       }),
 
-      new DemoComponentData({
-        title: 'Tabs without using active attribute',
-        source: `
-        <fui-tabs>
-          <fui-tab [title]="'Tab 1'">Tab 1 content</fui-tab>
-          <fui-tab [title]="'Tab 2'">Tab 2 content</fui-tab>
-        </fui-tabs>
-      `
+      complexLabels: new DemoComponentData({
+        title: 'Using tabs with a custom label template',
+        htmlSource: `<fui-tabs>
+  <fui-tab>
+    <ng-template fui-tab-label>
+      <clr-icon class="mr-2" shape="fui-document-library"></clr-icon>
+      Library
+    </ng-template>
+    Library content
+  </fui-tab>
+  <fui-tab>
+    <ng-template fuiTabLabel>
+      <clr-icon class="mr-2" shape="fui-disk"></clr-icon>
+      Disk
+    </ng-template>
+    Disk content
+  </fui-tab>
+  <fui-tab>
+    <ng-template fui-tab-label>
+      <clr-icon class="mr-2" shape="fui-phone"></clr-icon>
+      Phone
+    </ng-template>
+    Phone content
+  </fui-tab>
+</fui-tabs>`
       }),
 
-      new DemoComponentData({
-        title: 'Tabs using templates for both title and content',
+      tabsNav: new DemoComponentData({
+        title: 'Basic use of the tab nav bar',
+        params: { links: ['First', 'Second', 'Third'], activeLink: 'First' },
+        htmlSource: `<nav fui-tabs-nav>
+  <a fui-tabs-link *ngFor="let link of params.links"
+     (click)="params.activeLink = link"
+     [active]="params.activeLink === link"> {{link}} </a>
+  <a fui-tabs-link disabled>Disabled Link</a>
+</nav>
+<!-- <div class="route-wrapper">-->
+<!--   You can add your router outlet wherever you want and just add the [routerLink] to the links above like you would do usually -->
+<!--   <router-outlet></router-outlet>-->
+<!-- </div>-->
+`
+      }),
+
+      lazyLoading: new DemoComponentData({
+        title: 'Tab group where the tab content is loaded lazily (when activated)',
         params: {
-          tabExamples: [
-            { title: 'Message', icon: 'message', content: 'Tab message content' },
-            { title: 'Screenshot', icon: 'screenshot', content: 'Tab screenshot content' }
-          ]
+          tabLoadTimes: [],
+          getTimeLoaded: function (index: number) {
+            if (!this.tabLoadTimes[index]) {
+              this.tabLoadTimes[index] = new Date();
+            }
+            return this.tabLoadTimes[index];
+          }
         },
-        source: `
-        <ng-template #titleTplt let-title="title" let-icon="icon">
-            <clr-icon *ngIf="icon === 'message'" shape="fui-message" style="width: 10px; height: 10px"></clr-icon>
-            <clr-icon *ngIf="icon === 'screenshot'" shape="fui-screenshot" style="width: 10px; height: 10px"></clr-icon>
-            {{title}}
-        </ng-template>
-        <ng-template #contentTplt let-item>
-            This is the content for item :
-            <pre><code>{{item | json}}</code></pre>
-        </ng-template>
-        <fui-tabs>
-          <fui-tab *ngFor="let tab of params.tabExamples"
-          [titleTemplateOutletRef]="titleTplt" [titleTemplateOutletContext]="tab"
-          [templateOutletRef]="contentTplt" [templateOutletContext]="{$implicit: tab}"></fui-tab>
-        </fui-tabs>
-      `
+        htmlSource: `<fui-tabs>
+  <fui-tab label="First">
+    <ng-template fuiTabContent>
+      Content 1 - Loaded: {{params.getTimeLoaded(1) | date:'medium'}}
+    </ng-template>
+  </fui-tab>
+  <fui-tab label="Second">
+    <ng-template fui-tab-content>
+      Content 2 - Loaded: {{params.getTimeLoaded(2) | date:'medium'}}
+    </ng-template>
+  </fui-tab>
+  <fui-tab label="Third">
+    <ng-template fuiTabContent>
+      Content 3 - Loaded: {{params.getTimeLoaded(3) | date:'medium'}}
+    </ng-template>
+  </fui-tab>
+</fui-tabs>`
+      }),
+
+      labelAlignment: new DemoComponentData({
+        title: 'Tabs with aligned labels',
+        htmlSource: `<fui-tabs fui-align-tabs="start">
+  <fui-tab label="First">Content 1</fui-tab>
+  <fui-tab label="Second">Content 2</fui-tab>
+  <fui-tab label="Third">Content 3</fui-tab>
+</fui-tabs>
+
+<fui-tabs fui-align-tabs="center">
+  <fui-tab label="First">Content 1</fui-tab>
+  <fui-tab label="Second">Content 2</fui-tab>
+  <fui-tab label="Third">Content 3</fui-tab>
+</fui-tabs>
+
+<fui-tabs fui-align-tabs="end">
+  <fui-tab label="First">Content 1</fui-tab>
+  <fui-tab label="Second">Content 2</fui-tab>
+  <fui-tab label="Third">Content 3</fui-tab>
+</fui-tabs>`
+      })
+    };
+
+    const examples = [];
+    for (const overviewExamplesKey in this.overviewExamples) {
+      if (this.overviewExamples.hasOwnProperty(overviewExamplesKey)) {
+        examples.push(this.overviewExamples[overviewExamplesKey]);
+      }
+    }
+    examples.push(
+      new DemoComponentData({
+        title: 'Tabs with asynchronously loading tab contents',
+        params: {
+          loading: false,
+          asyncTabsSubject: new BehaviorSubject<any>([]),
+          asyncTabs: function () {
+            return this.asyncTabsSubject.asObservable();
+          },
+          loadTabs: function () {
+            this.loading = true;
+            this.asyncTabsSubject.next([]);
+            setTimeout(() => {
+              this.asyncTabsSubject.next([
+                { label: 'First', content: 'Content 1' },
+                { label: 'Second', content: 'Content 2' },
+                { label: 'Third', content: 'Content 3' }
+              ]);
+              this.loading = false;
+            }, 1000);
+          }
+        },
+        htmlSource: `<button class="btn btn-secondary" (click)="params.loadTabs()">Load tabs</button><br />
+<ng-container *ngIf="(params.asyncTabs() | async).length === 0 && params.loading">
+  Loading tabs...
+</ng-container>
+
+<fui-tabs>
+  <fui-tab *ngFor="let tab of params.asyncTabs() | async">
+    <ng-template fui-tab-label>{{tab.label}}</ng-template>
+    <ng-template fui-tab-content>{{tab.content}}</ng-template>
+  </fui-tab>
+</fui-tabs>`,
+        tsSource: `import {Component} from '@angular/core';
+import {Observable,  Observer} from 'rxjs';
+
+export interface ExampleTab {
+  label: string;
+  content: string;
+}
+
+/**
+ * Tabs with asynchronously loading tab contents
+ */
+@Component({
+  selector: 'tabs-async-example',
+  templateUrl: 'tabs-async-example.html'
+})
+export class TabsAsyncExample {
+
+  private asyncTabsSubject: BehaviorSubject<ExampleTab[]> = new BehaviorSubject<ExampleTab[]>()
+
+  asyncTabs(): Observable<ExampleTab[]> {
+    return this.asyncTabsSubject.asObservable();
+  }
+
+  loadTabs() {
+    this.asyncTabsSubject.next([]);
+    setTimeout(() => {
+      this.asyncTabsSubject.next([
+        { label: 'First', content: 'Content 1' },
+        { label: 'Second', content: 'Content 2' },
+        { label: 'Third', content: 'Content 3' }
+      ]);
+    }, 1000);
+  }
+}
+`
       })
     );
+    this.examples = examples;
   }
 }

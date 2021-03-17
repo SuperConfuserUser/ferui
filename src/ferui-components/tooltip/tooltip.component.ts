@@ -64,6 +64,8 @@ export class TooltipComponent extends AbstractPopover implements OnInit, AfterVi
     }
 
     this.offset = this.config.arrow ? this.config.offset + this.config.arrowSize.height : this.config.offset;
+
+    this.closeOnOutsideClick = this.config.closeOnOutsideClick;
   }
 
   /**

@@ -36,7 +36,7 @@ import { FuiFilterService } from './providers/filter.service';
         <fui-global-search-filter class="fui-filter-search" *ngIf="withGlobalSearch"></fui-global-search-filter>
         <button
           *ngIf="withFilters && filterService.hasFilters()"
-          tabindex="1"
+          tabindex="0"
           class="btn fui-filter-trigger"
           [class.has-active-filters]="filterService.hasActiveFilters(fuiFilterType.GLOBAL_SEARCH)"
           [class.is-open]="isPopupOpen"

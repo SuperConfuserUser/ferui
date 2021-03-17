@@ -29,7 +29,7 @@ export function ToggleServiceProvider() {
         <ng-content select="[fuiLabel]"></ng-content>
         <ng-content select="[fuiPassword]"></ng-content>
         <div class="fui-control-icons" [class.invalid]="invalid">
-          <button [tabIndex]="ngControl?.disabled ? '-1' : '1'" (click)="toggle()" class="btn btn-icon">
+          <button [tabIndex]="ngControl?.disabled ? '-1' : '0'" (click)="toggle()" class="btn btn-icon">
             <clr-icon
               *ngIf="!show && fuiToggle"
               class="fui-input-group-icon-action"
@@ -46,7 +46,7 @@ export function ToggleServiceProvider() {
           <div *ngIf="!invalid" [ngClass]="{ 'fui-input-group-icon-action': !!fuiHelper }">
             <ng-content select="[fuiHelper]"></ng-content>
           </div>
-          <clr-icon *ngIf="invalid" tabindex="1" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
+          <clr-icon *ngIf="invalid" tabindex="0" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </div>
         <fui-default-control-error>
           <ng-content select="fui-control-error" *ngIf="invalid"></ng-content>

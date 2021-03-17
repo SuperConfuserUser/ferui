@@ -45,47 +45,47 @@ import { ModalExample3Component } from './modals/standard/modal-example-3.compon
           <p><strong>Note</strong>: To check the returns of every promise, be sure to have your browser console open.</p>
 
           <fui-tabs>
-            <fui-tab [title]="'Example 1'" [active]="true">
+            <fui-tab [label]="'Example 1'">
               <div class="bd-example">
                 <button class="btn btn-sm btn-primary mr-2" (click)="openSimpleModal()">Open simple modal with children</button>
               </div>
             </fui-tab>
-            <fui-tab [title]="'Code'">
+            <fui-tab [label]="'Code'">
               <pre><code [languages]="['typescript']" [highlight]="codeExample3"></code></pre>
             </fui-tab>
           </fui-tabs>
 
-          <fui-tabs>
-            <fui-tab [title]="'Example 2'" [active]="true">
+          <fui-tabs class="mt-4">
+            <fui-tab [label]="'Example 2'">
               <div class="bd-example">
                 <button class="btn btn-sm btn-secondary mr-2" (click)="openSimpleModal2()">
                   Open modal with resolve & close confirmation
                 </button>
               </div>
             </fui-tab>
-            <fui-tab [title]="'Code'">
+            <fui-tab [label]="'Code'">
               <pre><code [languages]="['typescript']" [highlight]="codeExample4"></code></pre>
             </fui-tab>
           </fui-tabs>
 
-          <fui-tabs>
-            <fui-tab [title]="'Example 3'" [active]="true">
+          <fui-tabs class="mt-4">
+            <fui-tab [label]="'Example 3'">
               <div class="bd-example">
                 <button class="btn btn-sm btn-info" (click)="openSimpleModal3()">Open modal with resolve & params</button>
               </div>
             </fui-tab>
-            <fui-tab [title]="'Code'">
+            <fui-tab [label]="'Code'">
               <pre><code [languages]="['typescript']" [highlight]="codeExample5"></code></pre>
             </fui-tab>
           </fui-tabs>
 
-          <fui-tabs>
-            <fui-tab [title]="'Error screen'" [active]="true">
+          <fui-tabs class="mt-4">
+            <fui-tab [label]="'Error screen'">
               <div class="bd-example">
                 <button class="btn btn-sm btn-info" (click)="openSimpleModalError()">Open modal without any component set</button>
               </div>
             </fui-tab>
-            <fui-tab [title]="'Code'">
+            <fui-tab [label]="'Code'">
               <pre><code [languages]="['typescript']" [highlight]="codeExampleError"></code></pre>
             </fui-tab>
           </fui-tabs>

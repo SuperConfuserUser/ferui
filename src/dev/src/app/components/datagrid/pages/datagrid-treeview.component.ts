@@ -34,61 +34,53 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
     <h1 class="mb-4">Infinite server-side datagrid</h1>
 
     <fui-tabs>
-      <div class="mb-4">
-        <fui-demo-datagrid-option-menu
-          [bandwidthSpeed]="networkBandwith"
-          [datagridRowModel]="rowDataModel"
-          [datagrid]="datagrid"
-          (bandwidthSpeedChange)="networkBandwithChange($event)"
-        ></fui-demo-datagrid-option-menu>
-      </div>
-      <fui-tab [title]="'Examples'" [active]="true">
-        <fui-widget>
-          <fui-widget-header></fui-widget-header>
-          <fui-widget-body>
-            <div class="fui-demo-wrapper" [style.height.px]="datagridHeight">
-              <div class="fui-demo-treeview-datagrid-flex-container left-side">
-                <fui-tree-view
-                  #treeView
-                  [config]="treeViewConfiguration"
-                  [dataRetriever]="treeDataArrayRetriever"
-                  [treeNodeData]="treeNodeData"
-                  (onNodeEvent)="handleNodeEvent($event)"
-                ></fui-tree-view>
-              </div>
-              <div class="fui-demo-treeview-datagrid-flex-container right-side">
-                <fui-datagrid
-                  #datagrid
-                  [withHeader]="false"
-                  [fixedHeight]="true"
-                  [rowDataModel]="rowDataModel"
-                  [datasource]="dataSource"
-                  [maxDisplayedRows]="itemPerPage"
-                  [defaultColDefs]="defaultColumnDefs"
-                  [columnDefs]="columnDefs"
-                  [actionMenuTemplate]="actionMenu"
-                  (onDatagridResized)="onGridResized($event)"
-                ></fui-datagrid>
-                <br /><br />
+      <fui-tab [label]="'Examples'">
+        <ng-template fui-tab-content>
+          <div class="container-fluid">
+            <div class="row" style="max-width: 1200px">
+              <div class="col col-12">
+                <div class="mb-4">
+                  <fui-demo-datagrid-option-menu
+                    [bandwidthSpeed]="networkBandwith"
+                    [datagridRowModel]="rowDataModel"
+                    [datagrid]="datagrid"
+                    (bandwidthSpeedChange)="networkBandwithChange($event)"
+                  ></fui-demo-datagrid-option-menu>
+                </div>
+                <fui-widget>
+                  <fui-widget-header></fui-widget-header>
+                  <fui-widget-body>
+                    <div class="fui-demo-wrapper" [style.height.px]="datagridHeight">
+                      <div class="fui-demo-treeview-datagrid-flex-container left-side">
+                        <fui-tree-view
+                          #treeView
+                          [config]="treeViewConfiguration"
+                          [dataRetriever]="treeDataArrayRetriever"
+                          [treeNodeData]="treeNodeData"
+                          (onNodeEvent)="handleNodeEvent($event)"
+                        ></fui-tree-view>
+                      </div>
+                      <div class="fui-demo-treeview-datagrid-flex-container right-side">
+                        <fui-datagrid
+                          #datagrid
+                          [withHeader]="false"
+                          [fixedHeight]="true"
+                          [rowDataModel]="rowDataModel"
+                          [datasource]="dataSource"
+                          [maxDisplayedRows]="itemPerPage"
+                          [defaultColDefs]="defaultColumnDefs"
+                          [columnDefs]="columnDefs"
+                          [actionMenuTemplate]="actionMenu"
+                          (onDatagridResized)="onGridResized($event)"
+                        ></fui-datagrid>
+                        <br /><br />
+                      </div>
+                    </div>
+                  </fui-widget-body>
+                </fui-widget>
               </div>
             </div>
-          </fui-widget-body>
-        </fui-widget>
-
-        <ng-template #treeViewIconTemplate let-node="node">
-          <clr-icon *ngIf="node.expanded" class="fui-less-icon" shape="fui-solid-arrow"></clr-icon>
-          <clr-icon *ngIf="!node.expanded" class="fui-add-icon" shape="fui-solid-arrow"></clr-icon>
-        </ng-template>
-
-        <ng-template #treeViewTemplate let-node="node">
-          <img
-            width="24"
-            height="24"
-            [attr.alt]="node.data.nodeLabel"
-            [title]="node.data.nodeLabel"
-            [attr.src]="'https://www.countryflags.io/' + node.data.data.country_code + '/shiny/24.png'"
-          />
-          {{ node.data.nodeLabel }}
+          </div>
         </ng-template>
 
         <ng-template
@@ -111,6 +103,22 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
               <div fuiDropdownItem>action 5 for row {{ rowIndex }} (ID: {{ rowData.id }})</div>
             </fui-dropdown-menu>
           </fui-dropdown>
+        </ng-template>
+
+        <ng-template #treeViewIconTemplate let-node="node">
+          <clr-icon *ngIf="node.expanded" class="fui-less-icon" shape="fui-solid-arrow"></clr-icon>
+          <clr-icon *ngIf="!node.expanded" class="fui-add-icon" shape="fui-solid-arrow"></clr-icon>
+        </ng-template>
+
+        <ng-template #treeViewTemplate let-node="node">
+          <img
+            width="24"
+            height="24"
+            [attr.alt]="node.data.nodeLabel"
+            [title]="node.data.nodeLabel"
+            [attr.src]="'https://www.countryflags.io/' + node.data.data.country_code + '/shiny/24.png'"
+          />
+          {{ node.data.nodeLabel }}
         </ng-template>
 
         <ng-template #avatarRenderer let-value="value">
@@ -144,9 +152,15 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
           </span>
         </ng-template>
       </fui-tab>
-      <fui-tab [title]="'Documentation'">
-        <h3 class="mb-4">Overview</h3>
-        <p>in construction</p>
+      <fui-tab [label]="'Documentation'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col col-12">
+              <h3 class="mb-4">Overview</h3>
+              <p>in construction</p>
+            </div>
+          </div>
+        </div>
       </fui-tab>
     </fui-tabs>
   `,

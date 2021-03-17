@@ -10,100 +10,106 @@ import { DemoComponentData } from '../../utils/demo-component-data';
   template: `
     <h1 class="mt-4">FerUI Widget Component</h1>
     <hr />
-    <form fuiForm class="container-fluid" #demoForm="ngForm">
-      <fui-tabs>
-        <fui-tab [active]="selectedTab === 'doc'" [title]="'Documentation'">
-          <h2 class="mt-3">Overview</h2>
-          <p>In FerUI, a widget is a component composed of 3 parts</p>
-          <ul>
-            <li>The Header (where you can place the title and possible actions)</li>
-            <li>The Body (where you place your content)</li>
-            <li>The Footer</li>
-          </ul>
-          <br />
-          <h2>How to use it ?</h2>
+    <fui-tabs>
+      <fui-tab [label]="'Documentation'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col col-12">
+              <h2 class="mt-3">Overview</h2>
+              <p>In FerUI, a widget is a component composed of 3 parts</p>
+              <ul>
+                <li>The Header (where you can place the title and possible actions)</li>
+                <li>The Body (where you place your content)</li>
+                <li>The Footer</li>
+              </ul>
+              <br />
+              <h2>How to use it ?</h2>
 
-          <p>
-            This is pretty simple, you just need to transclude your content into each specific sub-components
-            (<code>&lt;fui-widget-header&gt;</code>, <code>&lt;fui-widget-header&gt;</code>,
-            <code>&lt;fui-widget-title&gt;</code>, <code>&lt;fui-widget-subtitle&gt;</code>,
-            <code>&lt;fui-widget-action&gt;</code>, <code>&lt;fui-widget-body&gt;</code>, <code>&lt;fui-widget-footer&gt;</code>)
-            in order to generate a well formatted widget. (see the
-            <a class="text-primary" (click)="selectedTab = 'examples'">Example section</a> for more info).
-          </p>
-          <h2 class="mt-4">Public API</h2>
+              <p>
+                This is pretty simple, you just need to transclude your content into each specific sub-components
+                (<code>&lt;fui-widget-header&gt;</code>, <code>&lt;fui-widget-header&gt;</code>,
+                <code>&lt;fui-widget-title&gt;</code>, <code>&lt;fui-widget-subtitle&gt;</code>,
+                <code>&lt;fui-widget-action&gt;</code>, <code>&lt;fui-widget-body&gt;</code>,
+                <code>&lt;fui-widget-footer&gt;</code>) in order to generate a well formatted widget. (see the
+                <a class="text-primary" (click)="selectedTab = 'examples'">Example section</a> for more info).
+              </p>
+              <h2 class="mt-4">Public API</h2>
 
-          <table class="fui-table">
-            <thead>
-              <tr>
-                <th width="200">Tag</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>&lt;fui-widget&gt;</code></td>
-                <td>
-                  <b>(Mandatory)</b> This is the global wrapper for the widget component. Every other tags must be declared
-                  withing this one.
-                </td>
-              </tr>
-              <tr>
-                <td><code>&lt;fui-widget-header&gt;</code></td>
-                <td>
-                  <b>(optional)</b> This is the header container. It allows you to add content in the header section of a widget.
-                  This must be placed within an <code>&lt;fui-widget&gt;</code> tag.<br />
-                  Note: If you want, you can add the <code>border-bottom-0</code> class to this element to remove the border
-                  bottom for this element.
-                </td>
-              </tr>
-              <tr>
-                <td><code>&lt;fui-widget-title&gt;</code></td>
-                <td>
-                  <b>(optional)</b> This tag must be declared within a <code>&lt;fui-widget-header&gt;</code> tag. It allows you
-                  to set a title for your widget.
-                </td>
-              </tr>
-              <tr>
-                <td><code>&lt;fui-widget-subtitle&gt;</code></td>
-                <td>
-                  <b>(Optional)</b> This tag must be declared within a <code>&lt;fui-widget-header&gt;</code> tag. It allows you
-                  to set a sub-title for your widget.
-                </td>
-              </tr>
-              <tr>
-                <td><code>&lt;fui-widget-action&gt;</code></td>
-                <td>
-                  <b>(Optional)</b> This tag must be declared within a <code>&lt;fui-widget-header&gt;</code> tag. It allows you
-                  to set an action section for your widget header.<br />
-                  Note: Multiple tags may be used to set more than one action in the widget header. By default, using many actions
-                  at very narrow widths can cause display issues. Customize overflow or other styling as needed.
-                </td>
-              </tr>
-              <tr>
-                <td><code>&lt;fui-widget-body&gt;</code></td>
-                <td>
-                  <b>(Optional)</b> This tag must be declared within a <code>&lt;fui-widget&gt;</code> tag. It allows you to set
-                  the content for your widget.
-                </td>
-              </tr>
-              <tr>
-                <td><code>&lt;fui-widget-footer&gt;</code></td>
-                <td>
-                  <b>(Optional)</b> This tag must be declared within a <code>&lt;fui-widget&gt;</code> tag. It allows you to set a
-                  footer for your widget.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </fui-tab>
-        <fui-tab [active]="selectedTab === 'examples'" [title]="'Examples'">
+              <table class="fui-table">
+                <thead>
+                  <tr>
+                    <th width="200">Tag</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>&lt;fui-widget&gt;</code></td>
+                    <td>
+                      <b>(Mandatory)</b> This is the global wrapper for the widget component. Every other tags must be declared
+                      withing this one.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>&lt;fui-widget-header&gt;</code></td>
+                    <td>
+                      <b>(optional)</b> This is the header container. It allows you to add content in the header section of a
+                      widget. This must be placed within an <code>&lt;fui-widget&gt;</code> tag.<br />
+                      Note: If you want, you can add the <code>border-bottom-0</code> class to this element to remove the border
+                      bottom for this element.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>&lt;fui-widget-title&gt;</code></td>
+                    <td>
+                      <b>(optional)</b> This tag must be declared within a <code>&lt;fui-widget-header&gt;</code> tag. It allows
+                      you to set a title for your widget.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>&lt;fui-widget-subtitle&gt;</code></td>
+                    <td>
+                      <b>(Optional)</b> This tag must be declared within a <code>&lt;fui-widget-header&gt;</code> tag. It allows
+                      you to set a sub-title for your widget.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>&lt;fui-widget-action&gt;</code></td>
+                    <td>
+                      <b>(Optional)</b> This tag must be declared within a <code>&lt;fui-widget-header&gt;</code> tag. It allows
+                      you to set an action section for your widget header.<br />
+                      Note: Multiple tags may be used to set more than one action in the widget header. By default, using many
+                      actions at very narrow widths can cause display issues. Customize overflow or other styling as needed.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>&lt;fui-widget-body&gt;</code></td>
+                    <td>
+                      <b>(Optional)</b> This tag must be declared within a <code>&lt;fui-widget&gt;</code> tag. It allows you to
+                      set the content for your widget.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>&lt;fui-widget-footer&gt;</code></td>
+                    <td>
+                      <b>(Optional)</b> This tag must be declared within a <code>&lt;fui-widget&gt;</code> tag. It allows you to
+                      set a footer for your widget.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </fui-tab>
+      <fui-tab [label]="'Examples'">
+        <form fuiForm #demoForm="ngForm">
           <demo-page pageTitle="Widget component">
             <demo-component *ngFor="let example of examples" [form]="demoForm" [componentData]="example"></demo-component>
           </demo-page>
-        </fui-tab>
-      </fui-tabs>
-    </form>
+        </form>
+      </fui-tab>
+    </fui-tabs>
   `
 })
 export class WidgetDemoComponent implements OnInit {

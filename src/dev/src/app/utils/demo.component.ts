@@ -1,5 +1,3 @@
-import * as jsBeautify from 'js-beautify';
-
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -24,7 +22,7 @@ import { FeruiModule } from '@ferui/components';
 import { IconsModule } from '../icons/icons.module';
 import { WINDOW_PROVIDERS } from '../services/window.service';
 
-import { DemoComponentData } from './demo-component-data';
+import { DemoComponentCodeSource, DemoComponentData } from './demo-component-data';
 
 /**
  * Class:  Demo.component.ts
@@ -41,110 +39,113 @@ import { DemoComponentData } from './demo-component-data';
  *  models: {one: 'one'},
  *  params: {value: 'value'},
  *  canDisable: true,
- *  source: `<fui-widget>
- *             <fui-widget-title>My title</fui-widget-title>
- *             <fui-widget-subtitle>Widget subtitle</fui-widget-subtitle>
- *             <input fuiInput name="myField" [(ngModel)]="models.one" required />
- *             My value: {{params.value}}
- *           </fui-widget>`
- *  }));
- *
- *
- * The "#code" attribute:
- * ----------------------------------
- * If you want to only include a specific part of the source code in the source code preview area,
- * you can  use the "#code" attribute on one or multiple specific elements of your source code.
- * Only elements having this attribute will be displayed in Code section.
- * If this attribute is not used, the entire code will be displayed.
- *
- * new DemoComponentData({
- *  title: 'Simple Widget',
- *  ...
- *  source: `<fui-widget>
- *             <fui-widget-title>My title</fui-widget-title>
- *             <fui-widget-subtitle>Widget subtitle</fui-widget-subtitle>
- *
- *             <div #code>  <!-- Only this element and his content will be displayed in code preview area -->
- *               <input fuiInput name="myField" [(ngModel)]="models.one" required />
- *               My value: {{params.value}}
- *             </div>
- *           </fui-widget>`
+ *  htmlSource: `<fui-widget>
+ *    <fui-widget-title>My title</fui-widget-title>
+ *    <fui-widget-subtitle>Widget subtitle</fui-widget-subtitle>
+ *    <input fuiInput name="myField" [(ngModel)]="models.one" required />
+ *    My value: {{params.value}}
+ *  </fui-widget>`
  *  }));
  */
 @Component({
   selector: 'demo-component',
-  template: `
-    <div class="row">
-      <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12">
-        <h5 class="mt-3">
-          <span [innerHTML]="title"></span>
-          <span *ngIf="canDisable && models">
-            (<button tabindex="1" class="btn btn-link p-0" (click)="disable(!this.params.disabled)">
-              {{ this.params.disabled ? 'Enable' : 'Disable' }}</button
-            >)
-          </span>
-        </h5>
+  template: `<div class="row demo-component-header">
+      <div class="col-md-10 col-sm-12 p-0">
+        <h5 class="mb-0 mt-0 ml-0" [innerHTML]="title"></h5>
+      </div>
+      <div class="col-md-2 col-sm-12 p-0 d-flex flex-row-reverse align-items-center actions-wrapper">
+        <button
+          tabindex="-1"
+          class="btn btn-icon"
+          [fuiTooltip]="codeHidden ? 'View code' : 'Hide code'"
+          [fuiTooltipConfig]="{ closeOnOutsideClick: true }"
+          (click)="toggleCode()"
+        >
+          <clr-icon shape="fui-code"></clr-icon>
+        </button>
+        <button
+          *ngIf="canDisable && models"
+          tabindex="-1"
+          class="btn btn-icon"
+          [fuiTooltip]="params.disabled ? 'Enable form control' : 'Disable form control'"
+          [fuiTooltipConfig]="{ closeOnOutsideClick: true }"
+          (click)="disable(!params.disabled)"
+        >
+          <clr-icon *ngIf="!params.disabled" shape="fui-eye-off"></clr-icon>
+          <clr-icon *ngIf="params.disabled" shape="fui-eye"></clr-icon>
+        </button>
+        <button
+          *ngIf="models"
+          tabindex="-1"
+          class="btn btn-icon"
+          [fuiTooltip]="resultHidden ? 'View extra data' : 'Hide extra data'"
+          [fuiTooltipConfig]="{ closeOnOutsideClick: true }"
+          (click)="toggleResult()"
+        >
+          <clr-icon *ngIf="!resultHidden" shape="fui-document-file"></clr-icon>
+          <clr-icon *ngIf="resultHidden" shape="fui-document"></clr-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="row demo-component-code" *ngIf="codeSources.length > 0 && !codeHidden">
+      <div class="col p-0">
+        <fui-tabs>
+          <fui-tab *ngFor="let codeBlock of codeSources" [label]="codeBlock.label">
+            <pre><code [highlight]="codeBlock.code"></code></pre>
+          </fui-tab>
+        </fui-tabs>
+      </div>
+    </div>
+
+    <div class="row demo-component-runtime">
+      <div class="col bd-example">
         <div #container></div>
       </div>
-      <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12" *ngIf="sourceCode && !models">
-        <h5 class="mt-3">
-          Code (
-          <button tabindex="1" class="btn btn-link p-0" (click)="toggleCode()">
-            {{ codeHidden ? 'View Code' : 'Hide Code' }}
-          </button>
-          )
-        </h5>
-        <pre *ngIf="!codeHidden"><code [languages]="['xml']" [highlight]="codeBlock"></code></pre>
-      </div>
     </div>
-    <!--Second row if models are provided and results are available-->
-    <div class="row pt-3" *ngIf="sourceCode && models">
-      <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12">
-        <p>
-          Data (
-          <button tabindex="1" class="btn btn-link p-0" (click)="toggleResult()">
-            {{ resultHidden ? 'View Data' : 'Hide Data' }}
-          </button>
-          )
-        </p>
-        <pre *ngIf="!resultHidden"><code [languages]="['json']" [highlight]="resultsData() | json"></code></pre>
+
+    <div class="row demo-component-models" *ngIf="models && !resultHidden">
+      <div class="col p-0">
+        <pre><code [languages]="['json']" [highlight]="resultsData() | json"></code></pre>
       </div>
-      <div class="col-md-6 col-lg-6 col-xl-6 col-sm-12">
-        <p>
-          Code (
-          <button tabindex="1" class="btn btn-link p-0" (click)="toggleCode()">
-            {{ codeHidden ? 'View Code' : 'Hide Code' }}
-          </button>
-          )
-        </p>
-        <pre *ngIf="!codeHidden"><code [languages]="['xml']" [highlight]="codeBlock"></code></pre>
-      </div>
-    </div>
-  `
+    </div>`,
+  host: {
+    '[class.demo-component]': 'true',
+    '[class.container-fluid]': 'true'
+  }
 })
 export class DemoComponent implements OnInit {
   @Input() componentData: DemoComponentData;
   @Input() disabled: boolean = false;
-  @Input() codeHidden: boolean = false;
-  @Input() resultHidden: boolean = false;
+  @Input() codeHidden: boolean = true;
+  @Input() resultHidden: boolean = true;
   @Input() form: NgForm;
 
   @ViewChild('container', { read: ViewContainerRef }) _vcr: ViewContainerRef;
 
+  codeSources: DemoComponentCodeSource[] = [];
   title: string;
-  sourceCode: string;
   models: object;
   params: any;
   canDisable: boolean;
-  codeBlock: string;
 
   private _componentRef: ComponentRef<any>;
 
   constructor(private _compiler: Compiler) {}
 
   ngOnInit(): void {
+    const codeSources = [
+      { label: 'HTML', code: this.componentData.htmlSource || null },
+      { label: 'TS', code: this.componentData.tsSource || null },
+      { label: 'JS', code: this.componentData.jsSource || null },
+      { label: 'SCSS', code: this.componentData.scssSource || null },
+      { label: 'CSS', code: this.componentData.cssSource || null }
+    ];
+
+    // We create an array of codeBlocks that have code assigned.
+    this.codeSources = codeSources.filter(codeBlock => !!codeBlock.code);
+
     this.title = this.componentData.title;
-    this.sourceCode = this.componentData.source;
     this.models = this.componentData.models;
     this.params = this.componentData.params;
     this.canDisable = this.componentData.canDisable;
@@ -153,13 +154,11 @@ export class DemoComponent implements OnInit {
       this.params.disabled = this.disabled;
     }
 
-    const codeBlocks = this.extractCodeBlocks(this.sourceCode);
-    this.codeBlock = jsBeautify.html(codeBlocks.length > 0 ? codeBlocks.join('') : this.sourceCode);
-
     const _params: any = this.params;
     const _models: any = this.models;
     const _form: NgForm = this.form;
 
+    // We compile and attach the sub component that contains the desired example to the view.
     class DemoSubComponent implements AfterViewInit {
       params: any = _params;
       models: any = _models;
@@ -177,7 +176,9 @@ export class DemoComponent implements OnInit {
         }
       }
     }
-    this.compileTemplate(this.sourceCode, DemoSubComponent);
+
+    const codeSourceToRender: DemoComponentCodeSource = this.codeSources.find(code => code.label === 'HTML');
+    this.compileTemplate(codeSourceToRender.code, DemoSubComponent);
   }
 
   resultsData() {
@@ -187,24 +188,11 @@ export class DemoComponent implements OnInit {
     }
     data.models = {};
     for (const modelName in this.models) {
-      if (modelName) {
+      if (this.models.hasOwnProperty(modelName)) {
         data.models[modelName] = this.models[modelName];
       }
     }
     return data;
-  }
-
-  concatResultModels(models: any): Array<any> {
-    const results: Array<any> = [];
-    for (const modelName in models) {
-      if (modelName) {
-        results.push({
-          'field-name': modelName,
-          value: models[modelName]
-        });
-      }
-    }
-    return results;
   }
 
   toggleCode() {
@@ -247,47 +235,5 @@ export class DemoComponent implements OnInit {
 
     const module: ModuleWithComponentFactories<any> = compiler.compileModuleAndAllComponentsSync(RuntimeComponentModule);
     return module.componentFactories.find(f => f.componentType === decoratedCmp);
-  }
-
-  /**
-   * Extract from source code elements that have the #code attribute.
-   * @param code Source code
-   */
-  private extractCodeBlocks(code: string) {
-    const el = document.createElement('div');
-    el.innerHTML = code;
-    let codeBlocks = this.getAllElementsWithAttributeOrClass('#code', 'code', el);
-    if (codeBlocks.length > 0) {
-      codeBlocks = codeBlocks.map(block => block.outerHTML);
-    }
-    el.remove();
-    return codeBlocks;
-  }
-
-  /**
-   * Get HTML elements that have the specified attribute
-   * @param attribute
-   * @param klass
-   * @param html
-   * @return Array[HtmlElement] Array of matching HTML elements
-   */
-  private getAllElementsWithAttributeOrClass(attribute: string, klass: string, html: HTMLElement) {
-    const matchingElements = [];
-    const allElements = html.getElementsByTagName('*');
-    for (let i = 0, n = allElements.length; i < n; i++) {
-      const element = allElements[i];
-      if (element.getAttribute(attribute) !== null) {
-        // Element exists with attribute. Add to array.
-        element.removeAttribute(attribute);
-        matchingElements.push(element);
-      } else if (element.classList.contains(klass)) {
-        // Element exists with attribute. Add to array.
-        const classList = element.classList;
-        classList.remove(klass);
-        matchingElements.push(element);
-      }
-    }
-
-    return matchingElements;
   }
 }

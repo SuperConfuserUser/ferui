@@ -421,7 +421,7 @@ import { Component } from '@angular/core';
           <h5 class="mt-4 mb-4">Modal controller</h5>
 
           <fui-tabs>
-            <fui-tab [title]="'Documentation'" [active]="true">
+            <fui-tab [label]="'Documentation'">
               <table class="fui-table mt-4 mb-4">
                 <thead>
                   <tr>
@@ -458,7 +458,7 @@ import { Component } from '@angular/core';
                 </tbody>
               </table>
             </fui-tab>
-            <fui-tab [title]="'Interface'">
+            <fui-tab [label]="'Interface'">
               <pre><code [languages]="['typescript']" [highlight]="modalExample9"></code></pre>
             </fui-tab>
           </fui-tabs>
@@ -468,7 +468,7 @@ import { Component } from '@angular/core';
           <h5 class="mt-4 mb-4">Common to every Window controller</h5>
 
           <fui-tabs>
-            <fui-tab [title]="'Documentation'" [active]="true">
+            <fui-tab [label]="'Documentation'">
               <table class="fui-table mt-4 mb-4">
                 <thead>
                   <tr>
@@ -556,7 +556,7 @@ import { Component } from '@angular/core';
                 </tbody>
               </table>
             </fui-tab>
-            <fui-tab [title]="'Interface'">
+            <fui-tab [label]="'Interface'">
               <pre><code [languages]="['typescript']" [highlight]="modalExample10"></code></pre>
             </fui-tab>
           </fui-tabs>
@@ -564,10 +564,8 @@ import { Component } from '@angular/core';
           <h5 class="mt-4 mb-4">Headless Window controller (<code>FuiModalHeadlessWindowCtrl</code>)</h5>
 
           <fui-tabs>
-            <fui-tab [title]="'Documentation'" [active]="true">
-              The <strong>Headless</strong> window type uses the common API.
-            </fui-tab>
-            <fui-tab [title]="'Interface'">
+            <fui-tab [label]="'Documentation'"> The <strong>Headless</strong> window type uses the common API. </fui-tab>
+            <fui-tab [label]="'Interface'">
               <pre><code [languages]="['typescript']" [highlight]="modalExample11"></code></pre>
             </fui-tab>
           </fui-tabs>
@@ -575,7 +573,7 @@ import { Component } from '@angular/core';
           <h5 class="mt-4 mb-4">Standard Window controller (<code>FuiModalStandardWindowCtrl</code>)</h5>
 
           <fui-tabs>
-            <fui-tab [title]="'Documentation'" [active]="true">
+            <fui-tab [label]="'Documentation'">
               <table class="fui-table mt-4 mb-4">
                 <thead>
                   <tr>
@@ -634,7 +632,7 @@ import { Component } from '@angular/core';
                 </tbody>
               </table>
             </fui-tab>
-            <fui-tab [title]="'Interface'">
+            <fui-tab [label]="'Interface'">
               <pre><code [languages]="['typescript']" [highlight]="modalExample12"></code></pre>
             </fui-tab>
           </fui-tabs>
@@ -651,7 +649,7 @@ import { Component } from '@angular/core';
           <h5 class="mt-4 mb-4">Wizard Window controller (<code>FuiModalWizardWindowCtrl</code>)</h5>
 
           <fui-tabs>
-            <fui-tab [title]="'Documentation'" [active]="true">
+            <fui-tab [label]="'Documentation'">
               <table class="fui-table mt-4 mb-4">
                 <thead>
                   <tr>
@@ -735,7 +733,7 @@ import { Component } from '@angular/core';
                 </tbody>
               </table>
             </fui-tab>
-            <fui-tab [title]="'Interface'">
+            <fui-tab [label]="'Interface'">
               <pre><code [languages]="['typescript']" [highlight]="modalExample13"></code></pre>
             </fui-tab>
           </fui-tabs>
@@ -785,8 +783,8 @@ import { Component } from '@angular/core';
 
           <p>
             A good example for testing error handling is the
-            <a [fragment]="'standard-window-examples'" [routerLink]="['/components/modals/standard']">"Example 2"</a> modal from
-            the standard section (Just try to submit an empty form).
+            <a [fragment]="'standard-window-examples'" [routerLink]="['/components/modals/standard']">"Example 2"</a>
+            modal from the standard section (Just try to submit an empty form).
           </p>
 
           <h4 class="mt-4 mb-4">9. Close confirmation</h4>
@@ -806,8 +804,8 @@ import { Component } from '@angular/core';
 
           <p class="mt-4">
             A good example for testing close confirmation is the
-            <a [fragment]="'standard-window-examples'" [routerLink]="['/components/modals/standard']">"Example 2"</a> modal from
-            the standard section
+            <a [fragment]="'standard-window-examples'" [routerLink]="['/components/modals/standard']">"Example 2"</a>
+            modal from the standard section
           </p>
         </div>
       </div>

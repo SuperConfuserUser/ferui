@@ -31,326 +31,352 @@ import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datag
     <h1 class="mt-4 mb-4">Client-side datagrid</h1>
 
     <fui-tabs>
-      <fui-tab [title]="'Examples'" [active]="true">
-        <div class="mb-2">
-          <fui-demo-datagrid-option-menu [datagridRowModel]="rowDataModel" [datagrid]="datagrid">
-            <button class="btn btn-warning btn-sm" (click)="withHeader = !withHeader">
-              {{ withHeader ? 'Hide header' : 'Display header' }}
-            </button>
-            <button class="btn btn-warning ml-2 btn-sm" (click)="withFooter = !withFooter">
-              {{ withFooter ? 'Hide footer' : 'Display footer' }}
-            </button>
-            <button
-              *ngIf="withFooter"
-              class="btn btn-warning ml-2 btn-sm"
-              (click)="withFooterItemPerPage = !withFooterItemPerPage"
-            >
-              {{ withFooterItemPerPage ? 'Hide Item per page' : 'Display Item per page' }}
-            </button>
-            <button *ngIf="withFooter" class="btn btn-warning ml-2 btn-sm" (click)="withFooterPager = !withFooterPager">
-              {{ withFooterPager ? 'Hide pager' : 'Display pager' }}
-            </button>
-            <button class="btn btn-warning ml-2 btn-sm" (click)="withFixedHeight = !withFixedHeight">
-              {{ withFixedHeight ? 'Auto grid height' : 'Fixed grid height' }}
-            </button>
+      <fui-tab [label]="'Examples'">
+        <ng-template fui-tab-content>
+          <div class="container-fluid">
+            <div class="row" style="max-width: 1200px">
+              <div class="col col-12">
+                <div class="mb-2">
+                  <fui-demo-datagrid-option-menu [datagridRowModel]="rowDataModel" [datagrid]="datagrid">
+                    <button class="btn btn-warning btn-sm" (click)="withHeader = !withHeader">
+                      {{ withHeader ? 'Hide header' : 'Display header' }}
+                    </button>
+                    <button class="btn btn-warning ml-2 btn-sm" (click)="withFooter = !withFooter">
+                      {{ withFooter ? 'Hide footer' : 'Display footer' }}
+                    </button>
+                    <button
+                      *ngIf="withFooter"
+                      class="btn btn-warning ml-2 btn-sm"
+                      (click)="withFooterItemPerPage = !withFooterItemPerPage"
+                    >
+                      {{ withFooterItemPerPage ? 'Hide Item per page' : 'Display Item per page' }}
+                    </button>
+                    <button *ngIf="withFooter" class="btn btn-warning ml-2 btn-sm" (click)="withFooterPager = !withFooterPager">
+                      {{ withFooterPager ? 'Hide pager' : 'Display pager' }}
+                    </button>
+                    <button class="btn btn-warning ml-2 btn-sm" (click)="withFixedHeight = !withFixedHeight">
+                      {{ withFixedHeight ? 'Auto grid height' : 'Fixed grid height' }}
+                    </button>
 
-            <br />
-            <div style="display: block; width: 100%; height: 1px;" class="mt-2"></div>
+                    <br />
+                    <div style="display: block; width: 100%; height: 1px;" class="mt-2"></div>
 
-            <button class="btn btn-primary ml-0 btn-sm" (click)="logRowDataSelection()">
-              Display rowData selection in browser console
-            </button>
-            <button class="btn btn-primary ml-2 btn-sm" (click)="logRowsSelection()">
-              Display rowNode selection in browser console
-            </button>
-            <button class="btn btn-primary ml-2 btn-sm" (click)="suppressRowClickSelection1 = !suppressRowClickSelection1">
-              {{ suppressRowClickSelection1 ? 'Enable row click selection' : 'Suppress row click selection' }}
-            </button>
-            <button class="btn btn-sm btn-primary ml-2" (click)="storeSelection()">Store Selection</button>
-            <button
-              class="btn btn-sm btn-primary ml-2"
-              *ngIf="storedSelectionList && storedSelectionList.length > 0"
-              (click)="resetToInitialSelection()"
-            >
-              Use initial selection list
-            </button>
+                    <button class="btn btn-primary ml-0 btn-sm" (click)="logRowDataSelection()">
+                      Display rowData selection in browser console
+                    </button>
+                    <button class="btn btn-primary ml-2 btn-sm" (click)="logRowsSelection()">
+                      Display rowNode selection in browser console
+                    </button>
+                    <button
+                      class="btn btn-primary ml-2 btn-sm"
+                      (click)="suppressRowClickSelection1 = !suppressRowClickSelection1"
+                    >
+                      {{ suppressRowClickSelection1 ? 'Enable row click selection' : 'Suppress row click selection' }}
+                    </button>
+                    <button class="btn btn-sm btn-primary ml-2" (click)="storeSelection()">Store Selection</button>
+                    <button
+                      class="btn btn-sm btn-primary ml-2"
+                      *ngIf="storedSelectionList && storedSelectionList.length > 0"
+                      (click)="resetToInitialSelection()"
+                    >
+                      Use initial selection list
+                    </button>
 
-            <br />
-            <div style="display: block; width: 100%; height: 1px;" class="mt-2"></div>
+                    <br />
+                    <div style="display: block; width: 100%; height: 1px;" class="mt-2"></div>
 
-            <button class="btn btn-info mr-2 btn-sm" (click)="logRowData()">Display rowNode data in browser console</button>
-          </fui-demo-datagrid-option-menu>
+                    <button class="btn btn-info mr-2 btn-sm" (click)="logRowData()">
+                      Display rowNode data in browser console
+                    </button>
+                  </fui-demo-datagrid-option-menu>
 
-          <div class="container-fluid mt-2">
-            <div class="row">
-              <div class="col-auto pt-2">Displayed rows count</div>
-              <div class="col-auto">
-                <fui-select
-                  [layout]="'small'"
-                  fuiSelect
-                  name="itemPerPage"
-                  [addTag]="true"
-                  [items]="[5, 10, 20]"
-                  [clearable]="false"
-                  placeholder="Items per page"
-                  (ngModelChange)="itemPerPageChange($event)"
-                  [(ngModel)]="itemPerPage"
-                >
-                  <ng-template ng-label-tmp let-item="item"> {{ item }} items per page</ng-template>
-                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                    {{ item || search }} items per page
-                  </ng-template>
-                  <ng-template ng-tag-tmp let-search="searchTerm"> {{ search }} items per page</ng-template>
-                </fui-select>
-              </div>
-              <div class="col-auto pt-1">
-                (You can automatically add a new value within this select. Just type a number an it will be added as a new option)
+                  <div class="container-fluid mt-2">
+                    <div class="row">
+                      <div class="col-auto pt-2">Displayed rows count</div>
+                      <div class="col-auto">
+                        <fui-select
+                          [layout]="'small'"
+                          fuiSelect
+                          name="itemPerPage"
+                          [addTag]="true"
+                          [items]="[5, 10, 20]"
+                          [clearable]="false"
+                          placeholder="Items per page"
+                          (ngModelChange)="itemPerPageChange($event)"
+                          [(ngModel)]="itemPerPage"
+                        >
+                          <ng-template ng-label-tmp let-item="item"> {{ item }} items per page</ng-template>
+                          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                            {{ item || search }} items per page
+                          </ng-template>
+                          <ng-template ng-tag-tmp let-search="searchTerm"> {{ search }} items per page</ng-template>
+                        </fui-select>
+                      </div>
+                      <div class="col-auto pt-1">
+                        (You can automatically add a new value within this select. Just type a number an it will be added as a new
+                        option)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="testgrid" class="mb-4" style="width: 100%;">
+                  <fui-datagrid
+                    #datagrid
+                    [initialSelectedRows]="initialSelectionList$"
+                    [checkboxSelection]="true"
+                    [suppressRowClickSelection]="suppressRowClickSelection1"
+                    [rowSelection]="rowSelectionEnum.MULTIPLE"
+                    [fixedHeight]="withFixedHeight"
+                    [exportParams]="exportParams"
+                    [withHeader]="withHeader"
+                    [withFooter]="withFooter"
+                    [withFooterItemPerPage]="withFooterItemPerPage"
+                    [withFooterPager]="withFooterPager"
+                    [maxDisplayedRows]="itemPerPage"
+                    [defaultColDefs]="defaultColumnDefs"
+                    [columnDefs]="columnDefs"
+                    [rowData]="rowData"
+                    [actionMenuTemplate]="actionMenu"
+                  >
+                    <fui-dropdown [fuiCloseMenuOnItemClick]="false">
+                      <span fuiDropdownTrigger>
+                        <clr-icon class="dropdown-icon" shape="fui-dots"></clr-icon>
+                      </span>
+                      <fui-dropdown-menu fuiPosition="bottom-right" *fuiIfOpen>
+                        <label class="dropdown-header" aria-hidden="true">Export the grid</label>
+                        <div fuiDropdownItem (click)="exportGrid()">Export to CSV</div>
+                        <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
+                        <label class="dropdown-header" aria-hidden="true">Actions</label>
+                        <button fuiDropdownItem (click)="sizeColumnsToFit()">Size columns to fit the grid</button>
+                        <button fuiDropdownItem (click)="autoWidthColumns()">Auto width all columns</button>
+                        <button fuiDropdownItem (click)="refreshGrid()">Refresh grid</button>
+                        <button fuiDropdownItem (click)="resetGrid()">Reset grid</button>
+                        <label class="dropdown-header" aria-hidden="true">Visual actions</label>
+                        <button fuiDropdownItem (click)="withHeader = !withHeader">
+                          {{ withHeader ? 'Hide header' : 'Display header' }}
+                        </button>
+                        <button fuiDropdownItem (click)="withFooter = !withFooter">
+                          {{ withFooter ? 'Hide footer' : 'Display footer' }}
+                        </button>
+                        <button fuiDropdownItem *ngIf="withFooter" (click)="withFooterItemPerPage = !withFooterItemPerPage">
+                          {{ withFooterItemPerPage ? 'Hide Item per page' : 'Display Item per page' }}
+                        </button>
+                        <button fuiDropdownItem *ngIf="withFooter" (click)="withFooterPager = !withFooterPager">
+                          {{ withFooterPager ? 'Hide pager' : 'Display pager' }}
+                        </button>
+                        <label class="dropdown-header" aria-hidden="true">Displayed rows count</label>
+                        <span>
+                          <fui-select
+                            [layout]="'small'"
+                            fuiSelect
+                            name="itemPerPage"
+                            [addTag]="true"
+                            [items]="[5, 10, 20]"
+                            [clearable]="false"
+                            [appendTo]="'body'"
+                            placeholder="Items per page"
+                            (ngModelChange)="itemPerPageChange($event)"
+                            [(ngModel)]="itemPerPage"
+                          >
+                            <ng-template ng-label-tmp let-item="item"> {{ item }} items per page</ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                              {{ item || search }} items per page
+                            </ng-template>
+                            <ng-template ng-tag-tmp let-search="searchTerm"> {{ search }} items per page</ng-template>
+                          </fui-select>
+                        </span>
+                      </fui-dropdown-menu>
+                    </fui-dropdown>
+                  </fui-datagrid>
+                </div>
+
+                <div id="testgrid" class="mb-4" style="width: 100%;">
+                  <div class="mb-2">
+                    <h3>Synchronous row data</h3>
+                  </div>
+
+                  <div class="mb-2">
+                    <button
+                      class="btn btn-primary ml-2 mr-2 btn-sm"
+                      (click)="suppressRowClickSelection2 = !suppressRowClickSelection2"
+                    >
+                      {{ suppressRowClickSelection2 ? 'Enable row click selection' : 'Suppress row click selection' }}
+                    </button>
+                  </div>
+                  <fui-datagrid
+                    #datagrid2
+                    [checkboxSelection]="true"
+                    [suppressRowClickSelection]="suppressRowClickSelection2"
+                    [rowSelection]="rowSelectionEnum.SINGLE"
+                    [withHeader]="withHeader2"
+                    [withFooter]="withFooter2"
+                    [exportParams]="exportParams2"
+                    [maxDisplayedRows]="itemPerPageSynchronous"
+                    [defaultColDefs]="defaultColumnDefs"
+                    [columnDefs]="columnDefsSynchronous"
+                    [rowData]="synchronousRowData"
+                  >
+                  </fui-datagrid>
+                </div>
+
+                <h4 class="mt-4 mb-4">Datagrid within a modal</h4>
+
+                <button class="btn btn-primary btn-lg" (click)="openTestModal()">Open testing modal</button>
+                <button class="btn btn-primary btn-lg ml-2" (click)="openTestWizard()">Open Datagrid selection wizard</button>
+
+                <div id="testgrid" class="mb-4 mt-4" style="width: 100%;">
+                  <div class="mb-2">
+                    <h3>Setup custom classes to header/body cells</h3>
+                  </div>
+                  <p class="mb-2">
+                    In some cases, you might want to add custom classes to your header or body cells. You can use the
+                    <code>headerClass</code> and <code>cellClass</code> properties of your column definition object to add the
+                    classes that you want.<br />
+                    The value can either be <code>string</code>, <code>string[]</code> or
+                    <code>(params: FuiDatagridCellClassParams) => string | string[]</code>.
+                  </p>
+                  <p class="mb-2">
+                    <b>Note</b>: In this example we have assigned multiple classes to each column and just played with the
+                    background colors a bit to illustrate that the classes are well assigned.
+                  </p>
+                  <fui-datagrid
+                    [withHeader]="withHeader2"
+                    [withFooter]="withFooter2"
+                    [exportParams]="exportParams2"
+                    [maxDisplayedRows]="itemPerPageSynchronous"
+                    [defaultColDefs]="defaultColDefsSynchronousClasses"
+                    [columnDefs]="columnDefsSynchronousClasses"
+                    [rowData]="synchronousRowData"
+                  >
+                  </fui-datagrid>
+
+                  <div class="mt-4">
+                    <h4>HTML code</h4>
+
+                    <pre><code [highlight]="datagridCustomClassesHTML"></code></pre>
+
+                    <h4>Column definitions</h4>
+
+                    <pre><code [highlight]="datagridCustomClassesTS"></code></pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div id="testgrid" class="mb-4" style="width: 100%;">
-          <fui-datagrid
-            #datagrid
-            [initialSelectedRows]="initialSelectionList$"
-            [checkboxSelection]="true"
-            [suppressRowClickSelection]="suppressRowClickSelection1"
-            [rowSelection]="rowSelectionEnum.MULTIPLE"
-            [fixedHeight]="withFixedHeight"
-            [exportParams]="exportParams"
-            [withHeader]="withHeader"
-            [withFooter]="withFooter"
-            [withFooterItemPerPage]="withFooterItemPerPage"
-            [withFooterPager]="withFooterPager"
-            [maxDisplayedRows]="itemPerPage"
-            [defaultColDefs]="defaultColumnDefs"
-            [columnDefs]="columnDefs"
-            [rowData]="rowData"
-            [actionMenuTemplate]="actionMenu"
-          >
-            <fui-dropdown [fuiCloseMenuOnItemClick]="false">
-              <span fuiDropdownTrigger>
-                <clr-icon class="dropdown-icon" shape="fui-dots"></clr-icon>
-              </span>
-              <fui-dropdown-menu fuiPosition="bottom-right" *fuiIfOpen>
-                <label class="dropdown-header" aria-hidden="true">Export the grid</label>
-                <div fuiDropdownItem (click)="exportGrid()">Export to CSV</div>
-                <div class="fui-dropdown-divider" role="separator" aria-hidden="true"></div>
-                <label class="dropdown-header" aria-hidden="true">Actions</label>
-                <button fuiDropdownItem (click)="sizeColumnsToFit()">Size columns to fit the grid</button>
-                <button fuiDropdownItem (click)="autoWidthColumns()">Auto width all columns</button>
-                <button fuiDropdownItem (click)="refreshGrid()">Refresh grid</button>
-                <button fuiDropdownItem (click)="resetGrid()">Reset grid</button>
-                <label class="dropdown-header" aria-hidden="true">Visual actions</label>
-                <button fuiDropdownItem (click)="withHeader = !withHeader">
-                  {{ withHeader ? 'Hide header' : 'Display header' }}
-                </button>
-                <button fuiDropdownItem (click)="withFooter = !withFooter">
-                  {{ withFooter ? 'Hide footer' : 'Display footer' }}
-                </button>
-                <button fuiDropdownItem *ngIf="withFooter" (click)="withFooterItemPerPage = !withFooterItemPerPage">
-                  {{ withFooterItemPerPage ? 'Hide Item per page' : 'Display Item per page' }}
-                </button>
-                <button fuiDropdownItem *ngIf="withFooter" (click)="withFooterPager = !withFooterPager">
-                  {{ withFooterPager ? 'Hide pager' : 'Display pager' }}
-                </button>
-                <label class="dropdown-header" aria-hidden="true">Displayed rows count</label>
-                <span>
-                  <fui-select
-                    [layout]="'small'"
-                    fuiSelect
-                    name="itemPerPage"
-                    [addTag]="true"
-                    [items]="[5, 10, 20]"
-                    [clearable]="false"
-                    [appendTo]="'body'"
-                    placeholder="Items per page"
-                    (ngModelChange)="itemPerPageChange($event)"
-                    [(ngModel)]="itemPerPage"
-                  >
-                    <ng-template ng-label-tmp let-item="item"> {{ item }} items per page</ng-template>
-                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                      {{ item || search }} items per page
-                    </ng-template>
-                    <ng-template ng-tag-tmp let-search="searchTerm"> {{ search }} items per page</ng-template>
-                  </fui-select>
-                </span>
-              </fui-dropdown-menu>
-            </fui-dropdown>
-          </fui-datagrid>
+        </ng-template>
 
-          <ng-template
-            #actionMenu
-            let-rowIndex="rowNode.rowIndex"
-            let-onDropdownOpen="onDropdownOpen"
-            let-forceClose="forceClose"
-            let-appendTo="appendTo"
-          >
-            <fui-dropdown (dropdownOpenChange)="onDropdownOpen($event)" [forceClose]="forceClose">
-              <button class="fui-datagrid-demo-action-btn btn" fuiDropdownTrigger>
-                ACTIONS
-                <clr-icon class="dropdown-icon" dir="down" shape="fui-caret"></clr-icon>
-              </button>
-              <fui-dropdown-menu [appendTo]="appendTo" *fuiIfOpen>
-                <div fuiDropdownItem>action 1 for row {{ rowIndex }}</div>
-                <div fuiDropdownItem>action 2 for row {{ rowIndex }}</div>
-                <div fuiDropdownItem>action 3 for row {{ rowIndex }}</div>
-                <div fuiDropdownItem>action 4 for row {{ rowIndex }}</div>
-                <div fuiDropdownItem>action 5 for row {{ rowIndex }}</div>
-              </fui-dropdown-menu>
-            </fui-dropdown>
-          </ng-template>
-
-          <ng-template #avatarRenderer let-value="value">
-            <img *ngIf="value" width="30" height="30" alt="" [src]="value" />
-          </ng-template>
-
-          <ng-template #browserFilter let-column="column" let-filterParams="column.filterParams">
-            <fui-datagrid-browser-filter [column]="column" [filterParams]="filterParams"></fui-datagrid-browser-filter>
-          </ng-template>
-
-          <ng-template #countryRenderer let-value="value" let-row="row">
-            <img
-              *ngIf="value"
-              width="24"
-              height="24"
-              [attr.alt]="value"
-              [title]="value"
-              [attr.src]="'https://www.countryflags.io/' + row.data.country_code + '/shiny/24.png'"
-            />
-            {{ value }}
-          </ng-template>
-
-          <ng-template #userAgentRenderer let-value="value">
-            <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | fuiSafeHtml"> </span>
-          </ng-template>
-        </div>
-
-        <div id="testgrid" class="mb-4" style="width: 100%;">
-          <div class="mb-2">
-            <h3>Synchronous row data</h3>
-          </div>
-
-          <div class="mb-2">
-            <button class="btn btn-primary ml-2 mr-2 btn-sm" (click)="suppressRowClickSelection2 = !suppressRowClickSelection2">
-              {{ suppressRowClickSelection2 ? 'Enable row click selection' : 'Suppress row click selection' }}
+        <ng-template
+          #actionMenu
+          let-rowIndex="rowNode.rowIndex"
+          let-onDropdownOpen="onDropdownOpen"
+          let-forceClose="forceClose"
+          let-appendTo="appendTo"
+        >
+          <fui-dropdown (dropdownOpenChange)="onDropdownOpen($event)" [forceClose]="forceClose">
+            <button class="fui-datagrid-demo-action-btn btn" fuiDropdownTrigger>
+              ACTIONS
+              <clr-icon class="dropdown-icon" dir="down" shape="fui-caret"></clr-icon>
             </button>
-          </div>
-          <fui-datagrid
-            #datagrid2
-            [checkboxSelection]="true"
-            [suppressRowClickSelection]="suppressRowClickSelection2"
-            [rowSelection]="rowSelectionEnum.SINGLE"
-            [withHeader]="withHeader2"
-            [withFooter]="withFooter2"
-            [exportParams]="exportParams2"
-            [maxDisplayedRows]="itemPerPageSynchronous"
-            [defaultColDefs]="defaultColumnDefs"
-            [columnDefs]="columnDefsSynchronous"
-            [rowData]="synchronousRowData"
-          >
-          </fui-datagrid>
-        </div>
+            <fui-dropdown-menu [appendTo]="appendTo" *fuiIfOpen>
+              <div fuiDropdownItem>action 1 for row {{ rowIndex }}</div>
+              <div fuiDropdownItem>action 2 for row {{ rowIndex }}</div>
+              <div fuiDropdownItem>action 3 for row {{ rowIndex }}</div>
+              <div fuiDropdownItem>action 4 for row {{ rowIndex }}</div>
+              <div fuiDropdownItem>action 5 for row {{ rowIndex }}</div>
+            </fui-dropdown-menu>
+          </fui-dropdown>
+        </ng-template>
 
-        <h4 class="mt-4 mb-4">Datagrid within a modal</h4>
+        <ng-template #avatarRenderer let-value="value">
+          <img *ngIf="value" width="30" height="30" alt="" [src]="value" />
+        </ng-template>
 
-        <button class="btn btn-primary btn-lg" (click)="openTestModal()">Open testing modal</button>
-        <button class="btn btn-primary btn-lg ml-2" (click)="openTestWizard()">Open Datagrid selection wizard</button>
+        <ng-template #browserFilter let-column="column" let-filterParams="column.filterParams">
+          <fui-datagrid-browser-filter [column]="column" [filterParams]="filterParams"></fui-datagrid-browser-filter>
+        </ng-template>
 
-        <div id="testgrid" class="mb-4 mt-4" style="width: 100%;">
-          <div class="mb-2">
-            <h3>Setup custom classes to header/body cells</h3>
-          </div>
-          <p class="mb-2">
-            In some cases, you might want to add custom classes to your header or body cells. You can use the
-            <code>headerClass</code> and <code>cellClass</code> properties of your column definition object to add the classes
-            that you want.<br />
-            The value can either be <code>string</code>, <code>string[]</code> or
-            <code>(params: FuiDatagridCellClassParams) => string | string[]</code>.
-          </p>
-          <p class="mb-2">
-            <b>Note</b>: In this example we have assigned multiple classes to each column and just played with the background
-            colors a bit to illustrate that the classes are well assigned.
-          </p>
-          <fui-datagrid
-            [withHeader]="withHeader2"
-            [withFooter]="withFooter2"
-            [exportParams]="exportParams2"
-            [maxDisplayedRows]="itemPerPageSynchronous"
-            [defaultColDefs]="defaultColDefsSynchronousClasses"
-            [columnDefs]="columnDefsSynchronousClasses"
-            [rowData]="synchronousRowData"
-          >
-          </fui-datagrid>
+        <ng-template #countryRenderer let-value="value" let-row="row">
+          <img
+            *ngIf="value"
+            width="24"
+            height="24"
+            [attr.alt]="value"
+            [title]="value"
+            [attr.src]="'https://www.countryflags.io/' + row.data.country_code + '/shiny/24.png'"
+          />
+          {{ value }}
+        </ng-template>
 
-          <div class="mt-4">
-            <h4>HTML code</h4>
-
-            <pre><code [highlight]="datagridCustomClassesHTML"></code></pre>
-
-            <h4>Column definitions</h4>
-
-            <pre><code [highlight]="datagridCustomClassesTS"></code></pre>
-          </div>
-        </div>
+        <ng-template #userAgentRenderer let-value="value">
+          <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | fuiSafeHtml"> </span>
+        </ng-template>
       </fui-tab>
-      <fui-tab [title]="'Documentation'">
-        <p>
-          The simplest row model to use is the Client-side Row Model. This row model takes all of the data to be displayed and
-          provides the following features inside the grid:
-        </p>
+      <fui-tab [label]="'Documentation'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col col-12">
+              <p>
+                The simplest row model to use is the Client-side Row Model. This row model takes all of the data to be displayed
+                and provides the following features inside the grid:
+              </p>
 
-        <ul>
-          <li>Filtering</li>
-          <li>Sorting</li>
-        </ul>
+              <ul>
+                <li>Filtering</li>
+                <li>Sorting</li>
+              </ul>
 
-        <p>The Client-side Row Model is the default row model for datagrid.</p>
+              <p>The Client-side Row Model is the default row model for datagrid.</p>
 
-        <h3>How It Works</h3>
+              <h3>How It Works</h3>
 
-        <p>
-          You do not need to know how the Client-side Row Model works, however it can be helpful for those who are interested.
-        </p>
+              <p>
+                You do not need to know how the Client-side Row Model works, however it can be helpful for those who are
+                interested.
+              </p>
 
-        <p>
-          The Client-side Row Model is responsible for working out how to display the rows inside the grid. It has a complex data
-          structure, representing the data in different states. The states are as follows:
-        </p>
+              <p>
+                The Client-side Row Model is responsible for working out how to display the rows inside the grid. It has a complex
+                data structure, representing the data in different states. The states are as follows:
+              </p>
 
-        <p>The following is an example to help explain each of these steps.</p>
+              <p>The following is an example to help explain each of these steps.</p>
 
-        <h3>State 1: Row Data</h3>
+              <h3>State 1: Row Data</h3>
 
-        <p>
-          The data as provided by the application. The grid never modifies this array. It just takes the rowData items from it.
-          The examples is of three data items.
-        </p>
+              <p>
+                The data as provided by the application. The grid never modifies this array. It just takes the rowData items from
+                it. The examples is of three data items.
+              </p>
 
-        <p>API: There is no API to get this data. However it was provided by the application so you should already have it.</p>
+              <p>
+                API: There is no API to get this data. However it was provided by the application so you should already have it.
+              </p>
 
-        <h3>State 2: All Rows</h3>
+              <h3>State 2: All Rows</h3>
 
-        <p>
-          allRows is similar to rowData except a new array is created which contains row nodes, each row node pointing to exactly
-          one data item. The length of the allRows array is the same as the rowData array.
-        </p>
+              <p>
+                allRows is similar to rowData except a new array is created which contains row nodes, each row node pointing to
+                exactly one data item. The length of the allRows array is the same as the rowData array.
+              </p>
 
-        <p>API: There is no API to get this data. However there is no benefit over the rowsAfterGroup data.</p>
+              <p>API: There is no API to get this data. However there is no benefit over the rowsAfterGroup data.</p>
 
-        <h3>State 3: Rows After Filter</h3>
+              <h3>State 3: Rows After Filter</h3>
 
-        <p>
-          rowsAfterFilter goes through rowsAfterGroup and filters the data. The example shows filtering on the color black (thus
-          removing the second group).
-        </p>
+              <p>
+                rowsAfterFilter goes through rowsAfterGroup and filters the data. The example shows filtering on the color black
+                (thus removing the second group).
+              </p>
 
-        <p>API: Use api.forEachNodeAfterFilter() to access this structure.</p>
+              <p>API: Use api.forEachNodeAfterFilter() to access this structure.</p>
 
-        <h3>State 4: Rows After Sort</h3>
-        <p>rowsAfterSort goes through rowsAfterFilter and sorts the data. The example shows sorting on car make.</p>
+              <h3>State 4: Rows After Sort</h3>
+              <p>rowsAfterSort goes through rowsAfterFilter and sorts the data. The example shows sorting on car make.</p>
 
-        <p>API: Use api.forEachNodeAfterFilterAndSort() to access this structure.</p>
+              <p>API: Use api.forEachNodeAfterFilterAndSort() to access this structure.</p>
+            </div>
+          </div>
+        </div>
       </fui-tab>
     </fui-tabs>
   `,
@@ -544,7 +570,7 @@ this.columnDefsSynchronousClasses = [
           return 'test-function-header';
         },
         cellClass: params => {
-          // We only add the background color when rowIndex is a prime number. 0, 1, 4, 6
+          // We only add the background color when rowIndex is a prime number. 2, 3, 5, 7, 11, 13...
           if (this.isPrime(params.rowIndex)) {
             return 'test-function-cell';
           } else {

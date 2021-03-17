@@ -16,21 +16,28 @@ import { DemoComponent } from './demo.component';
  *   <demo-component [componentData]="examples[0]"></demo-component>
  *   <demo-component [componentData]="examples[1]"></demo-component>
  * </demo-page>
- *
  */
 @Component({
   selector: 'demo-page',
   template: `
-    <h2 class="mt-2 mb-2">{{ pageTitle }}</h2>
-    <p class="mt-4" *ngIf="filtersDisplayed">
-      Filters :
-      <button class="btn btn-sm btn-info" *ngIf="canDisable" (click)="setDisable()">
-        Toggle Disabled ({{ disabled ? 'true' : 'false' }})
-      </button>
-      <button class="btn btn-sm btn-info ml-2" (click)="toggleAllCodes()">Toggle all code</button>
-      <button class="btn btn-sm btn-info ml-2" *ngIf="canToggleResults" (click)="toggleAllResults()">Toggle all results</button>
-    </p>
-    <ng-content></ng-content>
+    <div class="container-fluid">
+      <div class="row" style="max-width: 1200px">
+        <div class="col col-12">
+          <h2 class="mt-0 mb-4">{{ pageTitle }}</h2>
+          <p class="mb-4" *ngIf="filtersDisplayed">
+            Filters :
+            <button class="btn btn-sm btn-info" *ngIf="canDisable" (click)="setDisable()">
+              Toggle Disabled ({{ disabled ? 'true' : 'false' }})
+            </button>
+            <button class="btn btn-sm btn-info ml-2" (click)="toggleAllCodes()">Toggle all code</button>
+            <button class="btn btn-sm btn-info ml-2" *ngIf="canToggleResults" (click)="toggleAllResults()">
+              Toggle all results
+            </button>
+          </p>
+          <ng-content></ng-content>
+        </div>
+      </div>
+    </div>
   `
 })
 export class DemoPageComponent implements AfterContentInit {

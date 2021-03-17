@@ -8,115 +8,132 @@ import { FuiToastNotificationService } from '@ferui/components';
   template: `
     <div id="holder"></div>
     <fui-tabs>
-      <fui-tab [title]="'Overview'" [active]="true">
-        <h2 class="mt-3">Overview</h2>
-        <p>
-          In FerUI, a Toast Notification is a component displayed from the top of the screen. It comes down from the top of the
-          screen and sets at 20px from the top. It is always centered on the width of the screen.
-        </p>
-        <p>Things to know:</p>
-        <ul>
-          <li>SlideIn duration is 700ms (the duration for the animation when the toast slides onto the screen)</li>
-          <li>SlideOut duration is 400ms (the duration for the animation when the toast is removed from screen)</li>
-          <li>
-            Auto SlideOut Delay is 10s (the duration of the toast on screen) The timer is stopped when a user hovers over the
-            toast with their mouse and restarts once mouse is removed
-          </li>
-        </ul>
-        <br />
-        <h2>How to use it?</h2>
-        <div>
-          You will need to inject the <b>FuiToastNotificationService</b> to your application's components wanting to call on the
-          Fui Toast Notification. Inject into component like this:
-          <pre><code [languages]="['typescript']" [highlight]="'constructor(private fuiToastNotificationService: FuiToastNotificationService) {}'"></code></pre>
-        </div>
-        <div>
-          Once injected, you can use the <b>FuiToastNotificationService</b> to call on the Fui Toast Notification Component from
-          anywhere in your app using its <i>createFuiToastNotification</i> method:
-          <pre><code [languages]="['typescript']" [highlight]="overViewExample"></code></pre>
-          <br />
-          Simply pass in an object implementing the <b>FuiToastNotificationInterface</b> interface
-          <pre><code [languages]="['typescript']" [highlight]="fuiToastNotificationInterface"></code></pre>
-        </div>
-        <div>
-          <p>Attributes explanation:</p>
-          <ul>
-            <li>
-              Action (*FuiToastNotificationActionInterface) - sending in an HTMLElement value for template will ignore any href &
-              callback values also used and will allow the developer to fully control the action item on the Toast Notification,
-              they must handle any click events and/or href wanted. Sending in a simple string value will create a wrapper element
-              with the template value as its inner html and attach any href/callback values to the wrapper element for the Toast
-              Notification to handle directly
-            </li>
-            <li>
-              Icon (*FuiToastNotificationIconInterface) - using an HTMLElement value for the icon template will allow the
-              developer to use any icon of their choosing and will place it vertically aligned to the left of the Toast
-              Notification message.
-            </li>
-            <li>
-              Anchor - the HTML element the Toast Notification will append to, default will be the document's body. We give the
-              developer the ability to change it in case they want to be able to use it even within an iframe.
-            </li>
-          </ul>
+      <fui-tab [label]="'Overview'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col-12">
+              <h2 class="mt-3">Overview</h2>
+              <p>
+                In FerUI, a Toast Notification is a component displayed from the top of the screen. It comes down from the top of
+                the screen and sets at 20px from the top. It is always centered on the width of the screen.
+              </p>
+              <p>Things to know:</p>
+              <ul>
+                <li>SlideIn duration is 700ms (the duration for the animation when the toast slides onto the screen)</li>
+                <li>SlideOut duration is 400ms (the duration for the animation when the toast is removed from screen)</li>
+                <li>
+                  Auto SlideOut Delay is 10s (the duration of the toast on screen) The timer is stopped when a user hovers over
+                  the toast with their mouse and restarts once mouse is removed
+                </li>
+              </ul>
+              <br />
+              <h2>How to use it?</h2>
+              <div>
+                You will need to inject the <b>FuiToastNotificationService</b> to your application's components wanting to call on
+                the Fui Toast Notification. Inject into component like this:
+                <pre><code [languages]="['typescript']"
+                     [highlight]="'constructor(private fuiToastNotificationService: FuiToastNotificationService) {}'"></code></pre>
+              </div>
+              <div>
+                Once injected, you can use the <b>FuiToastNotificationService</b> to call on the Fui Toast Notification Component
+                from anywhere in your app using its <i>createFuiToastNotification</i> method:
+                <pre><code [languages]="['typescript']" [highlight]="overViewExample"></code></pre>
+                <br />
+                Simply pass in an object implementing the <b>FuiToastNotificationInterface</b> interface
+                <pre><code [languages]="['typescript']" [highlight]="fuiToastNotificationInterface"></code></pre>
+              </div>
+              <div>
+                <p>Attributes explanation:</p>
+                <ul>
+                  <li>
+                    Action (*FuiToastNotificationActionInterface) - sending in an HTMLElement value for template will ignore any
+                    href & callback values also used and will allow the developer to fully control the action item on the Toast
+                    Notification, they must handle any click events and/or href wanted. Sending in a simple string value will
+                    create a wrapper element with the template value as its inner html and attach any href/callback values to the
+                    wrapper element for the Toast Notification to handle directly
+                  </li>
+                  <li>
+                    Icon (*FuiToastNotificationIconInterface) - using an HTMLElement value for the icon template will allow the
+                    developer to use any icon of their choosing and will place it vertically aligned to the left of the Toast
+                    Notification message.
+                  </li>
+                  <li>
+                    Anchor - the HTML element the Toast Notification will append to, default will be the document's body. We give
+                    the developer the ability to change it in case they want to be able to use it even within an iframe.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </fui-tab>
-      <fui-tab [title]="'Examples'">
-        <div class="btn btn-light" (click)="simpleToastNotification()">Simple Toast Notification</div>
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample1"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="jsExample1"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-        <div class="btn btn-light" (click)="maxWidthWithLinkToastNotification()">Max Width With Link Toast Notification</div>
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample2"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="jsExample2"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-        <div class="btn btn-light" (click)="withCallbackActionButton()">Toast Notification With Callback Action Button</div>
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample3"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="jsExample3"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-        <div class="btn btn-light" (click)="withIcon()">Toast Notification With Clr Icon</div>
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample4"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="jsExample4"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-        <div class="btn btn-light" (click)="withActionIconAndModifiedTime()">
-          Toast Notification With Icon, Action and Modified Time
+      <fui-tab [label]="'Examples'">
+        <div class="container-fluid">
+          <div class="row" style="max-width: 1200px">
+            <div class="col-12">
+              <div class="btn btn-light" (click)="simpleToastNotification()">Simple Toast Notification</div>
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample1"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="jsExample1"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+              <div class="btn btn-light" (click)="maxWidthWithLinkToastNotification()">
+                Max Width With Link Toast Notification
+              </div>
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample2"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="jsExample2"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+              <div class="btn btn-light" (click)="withCallbackActionButton()">Toast Notification With Callback Action Button</div>
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample3"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="jsExample3"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+              <div class="btn btn-light" (click)="withIcon()">Toast Notification With Clr Icon</div>
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample4"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="jsExample4"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+              <div class="btn btn-light" (click)="withActionIconAndModifiedTime()">
+                Toast Notification With Icon, Action and Modified Time
+              </div>
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample5"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="jsExample5"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+              <div class="btn btn-light" (click)="withElementAction()">
+                Toast Notification With Custom Action and No Anchor Point
+              </div>
+              <fui-tabs>
+                <fui-tab [label]="'HTML'">
+                  <pre><code [languages]="['html']" [highlight]="htmlExample6"></code></pre>
+                </fui-tab>
+                <fui-tab [label]="'TypeScript'">
+                  <pre><code [languages]="['typescript']" [highlight]="jsExample6"></code></pre>
+                </fui-tab>
+              </fui-tabs>
+            </div>
+          </div>
         </div>
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample5"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="jsExample5"></code></pre>
-          </fui-tab>
-        </fui-tabs>
-        <div class="btn btn-light" (click)="withElementAction()">Toast Notification With Custom Action and No Anchor Point</div>
-        <fui-tabs>
-          <fui-tab [title]="'HTML'" [active]="true">
-            <pre><code [languages]="['html']" [highlight]="htmlExample6"></code></pre>
-          </fui-tab>
-          <fui-tab [title]="'TypeScript'">
-            <pre><code [languages]="['typescript']" [highlight]="jsExample6"></code></pre>
-          </fui-tab>
-        </fui-tabs>
       </fui-tab>
     </fui-tabs>
   `,
