@@ -55,7 +55,6 @@ import { FuiDatagridRowNode } from '../entities/fui-datagrid-row-node';
         [value]="rowNode.id"
         [(ngModel)]="rowSelected"
         [disabled]="!rowNode.selectable"
-        (ngModelChange)="rowSelectionSingleChange($event)"
         (click)="rowSelectionSingleClicked()"
       />
     </fui-radio-wrapper>
@@ -231,26 +230,7 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
    * @param checked
    */
   rowSelectionMultipleChange(checked: boolean): void {
-    // If we can select a row by clicking on it, we do not need to mark the row as selected since it will be handle by the parent
-    // row selection and we will get the event to update the this.rowSelected value. No need to send the event twice.
-    if (!this.optionsWrapperService.suppressRowClickSelection()) {
-      return;
-    }
     this.rowNode.setSelected(checked === true);
-    this.cd.markForCheck();
-  }
-
-  /**
-   * Select the row and replace what is in the rowNode selection list. In this case, it can be only one selected item.
-   * @param rowId
-   */
-  rowSelectionSingleChange(rowId: string): void {
-    // If we can select a row by clicking on it, we do not need to mark the row as selected since it will be handle by the parent
-    // row selection and we will get the event to update the this.rowSelected value. No need to send the event twice.
-    if (!this.optionsWrapperService.suppressRowClickSelection()) {
-      return;
-    }
-    this.rowNode.setSelected(!(this.rowSelectionService.isNodeSelected(rowId) === true));
     this.cd.markForCheck();
   }
 
@@ -259,16 +239,8 @@ export class FuiBodyCellComponent extends FuiDatagridBodyDropTarget implements O
    * we need to force the de-selection when clicking on a selected radio.
    */
   rowSelectionSingleClicked(): void {
-    // If we can select a row by clicking on it, we do not need to mark the row as selected since it will be handle by the parent
-    // row selection and we will get the event to update the this.rowSelected value. No need to send the event twice.
-    if (!this.optionsWrapperService.suppressRowClickSelection()) {
-      return;
-    }
-    if (this.rowSelectionService.isNodeSelected(this.rowNode.id)) {
-      this.rowNode.setSelected(false);
-      this.rowSelected = null;
-      this.cd.markForCheck();
-    }
+    this.rowNode.setSelected(!this.rowSelectionService.isNodeSelected(this.rowNode.id));
+    this.cd.markForCheck();
   }
 
   /**

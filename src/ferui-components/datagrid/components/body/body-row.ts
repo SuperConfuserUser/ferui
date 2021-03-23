@@ -103,20 +103,21 @@ export class FuiBodyRowComponent implements OnInit, OnDestroy {
     return this._rowIndex;
   }
 
-  @HostListener('click')
-  onRowClick() {
+  @HostListener('click', ['$event.target'])
+  onRowClick(target) {
     const evt: RowClickedEvent = {
       rowNode: this.rowNode,
       type: FuiDatagridEvents.EVENT_ROW_CLICKED
     };
     this.eventService.dispatchEvent(evt);
 
+    // If we click on a checkbox/radio, we don't want to handle the row selection here.
+    // Instead, we defer row selection to the form controls.
+    if (FeruiUtils.getClosestDomElement(target, 'fui-datagrid-selection-box')) {
+      return;
+    }
     if (this.rowNode.rowSelection && this.rowNode.selectable && !this.optionsWrapperService.suppressRowClickSelection()) {
-      if (this.rowNode.selected) {
-        this.rowNode.setSelected(false);
-      } else {
-        this.rowNode.setSelected(true);
-      }
+      this.rowNode.setSelected(!this.rowNode.selected);
     }
   }
 
