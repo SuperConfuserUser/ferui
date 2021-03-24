@@ -39,8 +39,18 @@ import { FuiDatagridBodyDropTarget } from '../entities/body-drop-target';
 import { Column } from '../entities/column';
 import { RowModel } from '../row-models/row-model';
 
+export enum FuiDgOptionsActionEnum {
+  SELECT_ALL = 'selectAll',
+  SELECT_PAGE = 'selectPage',
+  SELECT_VISIBLE = 'selectVisible',
+  SELECT_NONE = 'selectNone',
+  SELECT_FILTERED = 'selectFiltered',
+  DESELECT_PAGE = 'deselectPage',
+  DESELECT_FILTERED = 'deselectFiltered'
+}
+
 export interface FuiDatagridSelectAllOption {
-  action: string;
+  action: FuiDgOptionsActionEnum;
   label: string;
 }
 
@@ -334,15 +344,15 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
       if (this.rowSelection === FuiRowSelectionEnum.MULTIPLE) {
         const options: FuiDatagridSelectAllOption[] = [];
         if (this.isClientSideRowModel()) {
-          options.push({ action: 'selectAll', label: 'All' });
+          options.push({ action: FuiDgOptionsActionEnum.SELECT_ALL, label: 'All' });
         } else if (this.rowModel.isServerSideRowModel()) {
-          options.push({ action: 'selectPage', label: 'Current page' });
-          options.push({ action: 'deselectPage', label: 'Deselect current page' });
+          options.push({ action: FuiDgOptionsActionEnum.SELECT_PAGE, label: 'Select current page' });
+          options.push({ action: FuiDgOptionsActionEnum.DESELECT_PAGE, label: 'Deselect current page' });
         } else {
-          options.push({ action: 'selectVisible', label: 'Loaded pages' });
-          options.push({ action: 'deselectPage', label: 'Deselect loaded pages' });
+          options.push({ action: FuiDgOptionsActionEnum.SELECT_VISIBLE, label: 'Loaded pages' });
+          options.push({ action: FuiDgOptionsActionEnum.DESELECT_PAGE, label: 'Deselect loaded pages' });
         }
-        options.push({ action: 'selectNone', label: 'None' });
+        options.push({ action: FuiDgOptionsActionEnum.SELECT_NONE, label: 'None' });
 
         this.selectAllOptions = options;
         this.cd.markForCheck();
@@ -355,14 +365,18 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
           this.eventService.listenToEvent(FuiDatagridEvents.EVENT_FILTER_CHANGED).subscribe(() => {
             this.handleCheckboxSelection();
             if (this.rowModel.hasFilters()) {
-              options.splice(
-                2,
-                0,
-                { action: 'selectFiltered', label: 'Select filtered' },
-                { action: 'deselectFiltered', label: 'Deselect filtered' }
-              );
+              // Do nothing if there is filters but selectAllOptions already has the options.
+              // We need to separate the two 'if' conditions here.
+              if (!this.optionsHasFilters()) {
+                this.selectAllOptions.splice(
+                  2,
+                  0,
+                  { action: FuiDgOptionsActionEnum.SELECT_FILTERED, label: 'Select filtered' },
+                  { action: FuiDgOptionsActionEnum.DESELECT_FILTERED, label: 'Deselect filtered' }
+                );
+              }
             } else {
-              options.splice(2, 2);
+              this.selectAllOptions.splice(2, 2);
             }
             this.cd.markForCheck();
           })
@@ -440,14 +454,22 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
    * @param option
    */
   getDisableStateFor(option: FuiDatagridSelectAllOption): boolean {
-    const isNoneSelectable: boolean = (option.action === 'selectNone' || option.action === 'deselectPage') && !this.selectAll;
+    const isNoneSelectable: boolean =
+      (option.action === FuiDgOptionsActionEnum.SELECT_NONE || option.action === FuiDgOptionsActionEnum.DESELECT_PAGE) &&
+      !this.selectAll;
     const isAllSelectable: boolean =
-      (option.action === 'selectAll' || option.action === 'selectPage' || option.action === 'selectVisible') &&
+      (option.action === FuiDgOptionsActionEnum.SELECT_ALL ||
+        option.action === FuiDgOptionsActionEnum.SELECT_PAGE ||
+        option.action === FuiDgOptionsActionEnum.SELECT_VISIBLE) &&
       this.selectAll &&
       !this.partialSelection;
     const isSelectFilteredSelectable: boolean =
-      option.action === 'selectFiltered' && this.hasFilters() && this.selectAll && !this.partialSelection;
-    const isDeselectFilteredSelectable: boolean = option.action === 'deselectFiltered' && this.hasFilters() && !this.selectAll;
+      option.action === FuiDgOptionsActionEnum.SELECT_FILTERED &&
+      this.hasFilters() &&
+      this.selectAll &&
+      this.rowSelectionService.isAllFilteredSelected();
+    const isDeselectFilteredSelectable: boolean =
+      option.action === FuiDgOptionsActionEnum.DESELECT_FILTERED && this.hasFilters() && !this.selectAll;
     return isNoneSelectable || isAllSelectable || isSelectFilteredSelectable || isDeselectFilteredSelectable;
   }
 
@@ -474,42 +496,42 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
       option = this.hasFilters()
         ? this.selectAll
           ? this.selectAllOptions.find(op => {
-              return op.action === 'selectFiltered';
+              return op.action === FuiDgOptionsActionEnum.SELECT_FILTERED;
             })
           : this.selectAllOptions.find(op => {
-              return op.action === 'deselectFiltered';
+              return op.action === FuiDgOptionsActionEnum.DESELECT_FILTERED;
             })
         : this.selectAll
         ? this.isClientSideRowModel()
           ? this.selectAllOptions.find(op => {
-              return op.action === 'selectAll';
+              return op.action === FuiDgOptionsActionEnum.SELECT_ALL;
             })
           : this.selectAllOptions.find(op => {
-              return op.action === 'selectPage' || op.action === 'selectVisible';
+              return op.action === FuiDgOptionsActionEnum.SELECT_PAGE || op.action === FuiDgOptionsActionEnum.SELECT_VISIBLE;
             })
         : this.isClientSideRowModel()
         ? this.selectAllOptions.find(op => {
-            return op.action === 'selectNone';
+            return op.action === FuiDgOptionsActionEnum.SELECT_NONE;
           })
         : this.selectAllOptions.find(op => {
-            return op.action === 'deselectPage';
+            return op.action === FuiDgOptionsActionEnum.DESELECT_PAGE;
           });
     }
 
     switch (option.action) {
-      case 'selectNone':
+      case FuiDgOptionsActionEnum.SELECT_NONE:
         this.rowSelectionService.deselectAll();
         break;
-      case 'selectAll':
-      case 'selectPage':
-      case 'selectVisible':
+      case FuiDgOptionsActionEnum.SELECT_ALL:
+      case FuiDgOptionsActionEnum.SELECT_PAGE:
+      case FuiDgOptionsActionEnum.SELECT_VISIBLE:
         this.rowSelectionService.selectAll();
         break;
-      case 'deselectFiltered':
-      case 'deselectPage':
+      case FuiDgOptionsActionEnum.DESELECT_FILTERED:
+      case FuiDgOptionsActionEnum.DESELECT_PAGE:
         this.rowSelectionService.deselectFiltered();
         break;
-      case 'selectFiltered':
+      case FuiDgOptionsActionEnum.SELECT_FILTERED:
         this.rowSelectionService.selectFiltered();
         break;
       default:
@@ -701,5 +723,17 @@ export class FuiHeaderCellComponent extends FuiDatagridBodyDropTarget implements
 
   private addDestroyFunc(func: () => void): void {
     this.destroyFunctions.push(func);
+  }
+
+  /**
+   * Check whether the current options already has filters.
+   * @private
+   */
+  private optionsHasFilters(): boolean {
+    return (
+      this.selectAllOptions.findIndex(option => {
+        return option.action === FuiDgOptionsActionEnum.SELECT_FILTERED;
+      }) >= 0
+    );
   }
 }

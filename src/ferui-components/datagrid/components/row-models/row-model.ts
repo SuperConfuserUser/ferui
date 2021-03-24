@@ -36,7 +36,7 @@ export class RowModel {
   }
 
   /**
-   * Get the currently used RowModel.L
+   * Get the currently used RowModel.
    */
   getRowModel(): FuiDatagridClientSideRowModel | FuiDatagridServerSideRowModel | FuiDatagridInfinteRowModel {
     switch (this.rowModel) {
@@ -62,6 +62,22 @@ export class RowModel {
         return this.infiniteRowModel.getCurrentlyLoadedRows();
       case FuiRowModel.SERVER_SIDE:
         return this.serverSideRowModel.currentlyLoadedRows;
+      default:
+        throw new Error(`There is no such ${this.rowModel} row model. Please use a valid row model.`);
+    }
+  }
+
+  /**
+   * Get the amount of rows to be displayed. This count take the filters into account.
+   */
+  getRowCount(): number {
+    switch (this.rowModel) {
+      case FuiRowModel.CLIENT_SIDE:
+        return this.clientSideRowModel.getRowCount();
+      case FuiRowModel.INFINITE:
+        return this.infiniteRowModel.getRowCount();
+      case FuiRowModel.SERVER_SIDE:
+        return this.serverSideRowModel.getRowCount();
       default:
         throw new Error(`There is no such ${this.rowModel} row model. Please use a valid row model.`);
     }
