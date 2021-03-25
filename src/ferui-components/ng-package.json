@@ -9,6 +9,7 @@
     }
   },
   "whitelistedNonPeerDependencies": [
+    "@angular/cdk",
     "@angular-devkit/core",
     "@angular-devkit/schematics",
     "@tweenjs/tween.js",

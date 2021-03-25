@@ -87,13 +87,16 @@
     "publish:alpha": "npm publish dist/ferui-design --tag alpha --access public; npm publish dist/ferui-icons --tag alpha --access public; npm publish dist/ferui-components --tag alpha --access public",
     "publish:beta": "npm publish dist/ferui-design --tag beta --access public; npm publish dist/ferui-icons --tag beta --access public; npm publish dist/ferui-components --tag beta --access public",
     "publish:rc": "npm publish dist/ferui-design --tag rc --access public; npm publish dist/ferui-icons --tag rc --access public; npm publish dist/ferui-components --tag rc --access public",
-    "publish:prod": "npm-run-all test build netlify:deploy:prod publish:latest"
+    "publish:dev": "npm publish dist/ferui-design --tag dev --access public; npm publish dist/ferui-icons --tag dev --access public; npm publish dist/ferui-components --tag dev --access public",
+    "publish:prod": "npm-run-all test build netlify:deploy:prod publish:latest",
+    "publish:prod:dev": "npm-run-all build publish:dev"
   },
   "dependencies": {
     "@angular/animations": "^7.2.16",
     "@angular/common": "^7.2.16",
     "@angular/compiler": "^7.2.16",
     "@angular/core": "^7.2.16",
+    "@angular/cdk": "^7.3.7",
     "@angular/forms": "^7.2.16",
     "@angular/platform-browser": "^7.2.16",
     "@angular/platform-browser-dynamic": "^7.2.16",
@@ -115,7 +118,6 @@
     "@angular-devkit/build-ng-packagr": "^0.13.9",
     "@angular-devkit/build-optimizer": "^0.13.9",
     "@angular-devkit/core": "^7.2.16",
-    "@angular/cdk": "^7.3.7",
     "@angular/cli": "^7.2.16",
     "@angular/compiler-cli": "^7.2.16",
     "@angular/language-service": "^7.2.16",
