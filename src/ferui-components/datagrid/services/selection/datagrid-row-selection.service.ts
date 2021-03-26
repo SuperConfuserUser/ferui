@@ -19,6 +19,8 @@ export class FuiDatagridRowSelectionService {
   private selectedNodes: { [key: string]: FuiDatagridRowNode } = {};
   private subscriptions: Subscription[] = [];
   private partialSelection: boolean = true;
+  private allFilteredSelected: boolean | null = null;
+  private runningInBackground;
 
   constructor(
     private eventService: FuiDatagridEventService,
@@ -49,7 +51,8 @@ export class FuiDatagridRowSelectionService {
     this.rowSelection = rowSelection;
     this.initialized = true;
     this.subscriptions.push(
-      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_SELECTED).subscribe(this.onRowSelected.bind(this))
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_ROW_SELECTED).subscribe(this.onRowSelected.bind(this)),
+      this.eventService.listenToEvent(FuiDatagridEvents.EVENT_FILTER_CHANGED).subscribe(this.updateSelectedFiltered.bind(this))
     );
   }
 
@@ -75,7 +78,7 @@ export class FuiDatagridRowSelectionService {
    * Select all possible rows.
    */
   selectAll(): void {
-    if (this.rowModel.isClientSideRowModel() && this.rowModel.getRowModel().getRowCount() === 0) {
+    if (this.rowModel.isClientSideRowModel() && this.rowModel.getRowCount() === 0) {
       return;
     }
     let totalRows: FuiDatagridRowNode[] = [];
@@ -97,7 +100,7 @@ export class FuiDatagridRowSelectionService {
       this.selectedNodes[row.id] = row;
     });
     this.partialSelection = false;
-    this.dispatchRowSelectionChanged();
+    this.dispatchRowSelectionChanged(true);
   }
 
   /**
@@ -106,7 +109,7 @@ export class FuiDatagridRowSelectionService {
   deselectAll(): void {
     this.partialSelection = true;
     this.deselectRows();
-    this.dispatchRowSelectionChanged();
+    this.dispatchRowSelectionChanged(true);
   }
 
   /**
@@ -161,7 +164,7 @@ export class FuiDatagridRowSelectionService {
     // We check if the count of selected items is equal to the count of totalRows we have in datagrid.
     const totalRows: number | null = this.rowModel.isClientSideRowModel()
       ? this.rowModel.getClientSideRowModel().getTotalRowCount()
-      : this.rowModel.getRowModel().getRowCount();
+      : this.rowModel.getRowCount();
     return !FeruiUtils.isNullOrUndefined(totalRows) ? !(totalRows <= this.getSelectionCount()) : this.partialSelection;
   }
 
@@ -192,6 +195,13 @@ export class FuiDatagridRowSelectionService {
   }
 
   /**
+   * Whether or not all filtered items are selected.
+   */
+  isAllFilteredSelected(): boolean {
+    return !!this.allFilteredSelected;
+  }
+
+  /**
    * Deselect all rows.
    * @private
    */
@@ -216,10 +226,7 @@ export class FuiDatagridRowSelectionService {
       this.deselectRows();
     }
     this.selectedNodes[rowNode.id] = rowNode;
-    if (
-      this.rowModel.isClientSideRowModel() &&
-      Object.keys(this.selectedNodes).length === this.rowModel.getRowModel().getRowCount()
-    ) {
+    if (this.rowModel.isClientSideRowModel() && Object.keys(this.selectedNodes).length === this.rowModel.getRowCount()) {
       this.partialSelection = false;
     }
   }
@@ -258,11 +265,41 @@ export class FuiDatagridRowSelectionService {
    * Dispatch the EVENT_SELECTION_CHANGED event.
    * @private
    */
-  private dispatchRowSelectionChanged() {
+  private dispatchRowSelectionChanged(selectAll: boolean = false): void {
     const evt: SelectionChangedEvent = {
       type: FuiDatagridEvents.EVENT_SELECTION_CHANGED,
       selectedItems: this.selectedNodes
     };
     this.eventService.dispatchEvent(evt);
+    // If we select (or deselect) everything, there is no need to call the updateSelectedFiltered function.
+    // Instead, we just reset allFilteredSelected variable to null (default value).
+    if (!selectAll) {
+      // Run this in the background.
+      this.updateSelectedFiltered();
+    } else {
+      this.allFilteredSelected = null;
+    }
+  }
+
+  /**
+   * Update the allFilteredSelected variable and set it to true if all filtered rows are selected.
+   * NOTE: Because of its purpose, this method can take some time to run. You should call this function only once after the
+   * filters has changed.
+   * @private
+   */
+  private updateSelectedFiltered(): void {
+    if (this.runningInBackground) {
+      clearTimeout(this.runningInBackground);
+    }
+    this.runningInBackground = setTimeout(() => {
+      let allFilteredSelected = true;
+      for (const rowNode of this.rowModel.getDisplayedRows()) {
+        if (rowNode.selectable && this.getSelectedNodes().indexOf(rowNode) === -1) {
+          allFilteredSelected = false;
+          break;
+        }
+      }
+      this.allFilteredSelected = allFilteredSelected;
+    }, 0);
   }
 }
