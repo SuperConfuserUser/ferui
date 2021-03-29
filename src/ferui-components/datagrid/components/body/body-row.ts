@@ -30,13 +30,11 @@ import { FuiBodyCellComponent } from './body-cell';
 
 @Component({
   selector: 'fui-datagrid-body-row',
-  template: `
-    <ng-content *ngIf="!isRowError()" select="fui-datagrid-body-cell"></ng-content>
+  template: `<ng-content></ng-content>
     <div *ngIf="isRowError()" class="fui-datagrid-row-error" [style.height.px]="rowHeight" [style.line-height.px]="rowHeight - 2">
       <clr-icon shape="fui-error" class="fui-datagrid-row-error-icon"></clr-icon>
       <span class="fui-error-message">{{ rowNode.error }}</span>
-    </div>
-  `,
+    </div>`,
   host: {
     '[class.fui-datagrid-body-row]': 'true',
     '[class.selectable]': 'rowNode.selectable',
@@ -113,7 +111,8 @@ export class FuiBodyRowComponent implements OnInit, OnDestroy {
 
     // If we click on a checkbox/radio, we don't want to handle the row selection here.
     // Instead, we defer row selection to the form controls.
-    if (FeruiUtils.getClosestDomElement(target, 'fui-datagrid-selection-box')) {
+    // Also, if there is an error with the row, we disable the row selection feature for this row.
+    if (FeruiUtils.getClosestDomElement(target, 'fui-datagrid-selection-box') || this.isRowError()) {
       return;
     }
     if (this.rowNode.rowSelection && this.rowNode.selectable && !this.optionsWrapperService.suppressRowClickSelection()) {

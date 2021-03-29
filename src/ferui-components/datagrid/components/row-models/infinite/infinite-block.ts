@@ -50,7 +50,7 @@ export class InfiniteBlock {
     this.params = params;
     this.state = InfiniteBlockState.STATE_LOADING;
     this.loadFromDatasource().catch(error => {
-      console.warn(error);
+      console.warn('[FuiDatagrid] An error occurred when loading a page: ', error);
     });
   }
 
@@ -96,7 +96,7 @@ export class InfiniteBlock {
           }
           this.dispatchEvent(resultObject);
           this.infiniteBlockSub.next(this);
-          return this.rowNodes;
+          return Promise.resolve(this.rowNodes);
         })
         .catch(error => {
           this.state = InfiniteBlockState.STATE_FAILED;
@@ -104,10 +104,10 @@ export class InfiniteBlock {
             this.stateService.setLoaded();
             this.stateService.setRefreshed();
           }
-          this.dispatchEvent(null);
+          this.dispatchEvent(null, error);
           this.error = error;
           this.infiniteBlockSub.next(this);
-          return error;
+          return Promise.reject(error);
         });
     }
     return Promise.resolve([]);
@@ -116,9 +116,10 @@ export class InfiniteBlock {
   /**
    * Dispatch the EVENT_SERVER_ROW_DATA_CHANGED event when we've loaded all rows.
    * @param resultObject
+   * @param error (optional)
    * @private
    */
-  private dispatchEvent(resultObject: IDatagridResultObject | null) {
+  private dispatchEvent(resultObject: IDatagridResultObject | null, error?: string | Error) {
     const event: ServerSideRowDataChanged = {
       type: FuiDatagridEvents.EVENT_SERVER_ROW_DATA_CHANGED,
       rowNodes: this.rowNodes,
@@ -127,6 +128,10 @@ export class InfiniteBlock {
       columnApi: null,
       pageIndex: this.blockNumber
     };
+    // We only add the error attribute if there is an error. It is not needed otherwise.
+    if (error) {
+      event.error = error;
+    }
     this.eventService.dispatchEvent(event);
   }
 

@@ -109,6 +109,7 @@ export interface RowDataChanged extends FuiDatagridEvent {}
 
 export interface ServerSideRowDataChanged extends FuiDatagridEvent {
   rowNodes: FuiDatagridRowNode[];
+  error?: string | Error;
   total?: number;
   pageIndex?: number;
 }

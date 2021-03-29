@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
@@ -14,7 +14,9 @@ export class FuiActionMenuService {
   private _isActionMenuHovered: boolean = false;
   private _currentlySelectedRowContext: FuiDatagridBodyRowContext = null;
 
-  private _currentlySelectedRowContext$: Subject<FuiDatagridBodyRowContext> = new Subject<FuiDatagridBodyRowContext>();
+  private _currentlySelectedRowContext$: BehaviorSubject<FuiDatagridBodyRowContext> = new BehaviorSubject<
+    FuiDatagridBodyRowContext
+  >(null);
   private _actionMenuDropdownOpen$: Subject<boolean> = new Subject<boolean>();
   private _actionMenuVisible$: Subject<boolean> = new Subject<boolean>();
   private _actionMenuHovered$: Subject<boolean> = new Subject<boolean>();

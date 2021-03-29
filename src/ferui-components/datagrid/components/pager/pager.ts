@@ -524,9 +524,10 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
       this.numberOfRowsInViewport = this.totalRows;
       const startIdx: number = this.startIndex;
       const endIdx: number = this.endIndex;
+
       if (this.isInfiniteServerSideRowModel() && this.rowModel.getInfiniteServerSideRowModel()) {
         const numberOfRowsInViewport: number = this.getLimit();
-        const maxReachedRowIndex: number = this.rowModel.getInfiniteServerSideRowModel().infiniteCache.maxReachedRowIndex;
+        const maxReachedRowIndex: number = this.rowModel.getInfiniteServerSideRowModel().infiniteCache.getMaxReachedRowIndex();
         const totalPages: number = Math.ceil(maxReachedRowIndex / numberOfRowsInViewport) || 1;
 
         if (this.pages.length !== totalPages) {

@@ -15,6 +15,7 @@ export class FuiDatagridRowNode<D = any> implements FuiDatagridRowNodeInterface<
   private _rowSelection: FuiRowSelectionEnum;
   private _error: string | Error;
   private _isFirstRow: boolean;
+  private _hidden: boolean = false;
 
   constructor(private datagridOptionsWrapper: FuiDatagridOptionsWrapperService, private eventService: FuiDatagridEventService) {}
 
@@ -50,6 +51,10 @@ export class FuiDatagridRowNode<D = any> implements FuiDatagridRowNodeInterface<
     return this._error;
   }
 
+  get hidden(): boolean {
+    return this._hidden;
+  }
+
   get isFirstRow(): boolean {
     return this._isFirstRow;
   }
@@ -79,6 +84,10 @@ export class FuiDatagridRowNode<D = any> implements FuiDatagridRowNodeInterface<
     } else {
       this._id = id;
     }
+  }
+
+  setRowHidden(isHidden: boolean) {
+    this._hidden = isHidden;
   }
 
   setRowSelectable(newVal: boolean) {
