@@ -104,6 +104,11 @@ export class FuiActionMenuService {
     if (this.isActionMenuDropdownOpen) {
       return;
     }
+    // We remove the action menu if there is an error with the hovered row.
+    if (!context || (context.rowNode && context.rowNode.error)) {
+      this.currentlySelectedRowContext = null;
+      return;
+    }
     if (
       this.currentlySelectedRowContext === null ||
       (this.currentlySelectedRowContext &&
@@ -111,8 +116,6 @@ export class FuiActionMenuService {
         context.rowNode.rowIndex !== this.currentlySelectedRowContext.rowNode.rowIndex)
     ) {
       this.currentlySelectedRowContext = context;
-    } else if (!context) {
-      this.currentlySelectedRowContext = null;
     }
   }
 }

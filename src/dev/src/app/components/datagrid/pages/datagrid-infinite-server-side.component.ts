@@ -129,11 +129,34 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
                     [datasource]="dataSource3"
                     [defaultColDefs]="defaultColumnDefs"
                     [columnDefs]="columnDefs3"
+                    [actionMenuTemplate]="actionMenu"
                   ></fui-datagrid>
                 </div>
               </div>
             </div>
           </div>
+        </ng-template>
+
+        <ng-template
+          #actionMenu
+          let-rowIndex="rowNode.rowIndex"
+          let-onDropdownOpen="onDropdownOpen"
+          let-forceClose="forceClose"
+          let-appendTo="appendTo"
+        >
+          <fui-dropdown (dropdownOpenChange)="onDropdownOpen($event)" [forceClose]="forceClose">
+            <button class="fui-datagrid-demo-action-btn btn" fuiDropdownTrigger>
+              ACTIONS
+              <clr-icon class="dropdown-icon" shape="fui-caret down"></clr-icon>
+            </button>
+            <fui-dropdown-menu [appendTo]="appendTo" *fuiIfOpen>
+              <div fuiDropdownItem>action 1 for row {{ rowIndex }}</div>
+              <div fuiDropdownItem>action 2 for row {{ rowIndex }}</div>
+              <div fuiDropdownItem>action 3 for row {{ rowIndex }}</div>
+              <div fuiDropdownItem>action 4 for row {{ rowIndex }}</div>
+              <div fuiDropdownItem>action 5 for row {{ rowIndex }}</div>
+            </fui-dropdown-menu>
+          </fui-dropdown>
         </ng-template>
 
         <ng-template #avatarRenderer let-value="value">
