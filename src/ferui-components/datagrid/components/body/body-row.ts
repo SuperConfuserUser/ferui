@@ -136,7 +136,8 @@ export class FuiBodyRowComponent implements OnInit, OnDestroy {
       this.actionMenuService.setSelectedRowContext(
         FuiActionMenuUtils.getContextForActionMenu(this.rowNode, this.elementRef.nativeElement.offsetTop)
       );
-      this.actionMenuService.isActionMenuVisible = true;
+      // If there is an error with the row, we hide the action menu.
+      this.actionMenuService.isActionMenuVisible = !this.isRowError();
     }
   }
 
