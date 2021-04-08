@@ -21,7 +21,11 @@ import { FuiDatagridBodyRowContext } from '../../types/body-row-context';
 @Component({
   selector: 'fui-datagrid-action-menu',
   template: `
-    <ng-container [ngTemplateOutlet]="actionMenuTemplate" [ngTemplateOutletContext]="getContextForActionMenu()"></ng-container>
+    <ng-container
+      *ngIf="getContextForActionMenu().rowNode && getContextForActionMenu().rowNode.data"
+      [ngTemplateOutlet]="actionMenuTemplate"
+      [ngTemplateOutletContext]="getContextForActionMenu()"
+    ></ng-container>
   `,
   host: {
     '[class.fui-datagrid-body-row-action-menu]': 'true',

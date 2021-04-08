@@ -167,12 +167,16 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
                 [style.width.px]="totalWidth"
                 [hasActionMenu]="!!actionMenuTemplate"
               >
-                <fui-datagrid-body-cell
-                  *ngFor="let column of getVisibleColumns(); trackBy: columnTrackByIndexFn"
-                  unselectable="on"
-                  [column]="column"
-                  [rowNode]="row"
-                ></fui-datagrid-body-cell>
+                <!-- If the row is error-ing we do not compile the cells. The <fui-datagrid-row> will automatically display
+                the error row template -->
+                <ng-container *ngIf="!row.error">
+                  <fui-datagrid-body-cell
+                    *ngFor="let column of getVisibleColumns(); trackBy: columnTrackByIndexFn"
+                    unselectable="on"
+                    [column]="column"
+                    [rowNode]="row"
+                  ></fui-datagrid-body-cell>
+                </ng-container>
               </fui-datagrid-body-row>
             </fui-virtual-scroller>
 
@@ -833,7 +837,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.subscriptions.push(
               this.infiniteRowModel.getDisplayedRows().subscribe(displayedRows => {
-                this.displayedRows = displayedRows;
+                this.displayedRows = displayedRows.filter(rowNode => rowNode && !rowNode.hidden);
                 if (!this.isLoading && this.displayedRows.length === 0) {
                   this.isEmptyData = true;
                 } else if (!this.isLoading && this.displayedRows.length > 0) {
@@ -1116,7 +1120,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     } else if (this.isServerSideRowModel()) {
       if (event) {
-        this.displayedRows = event.rowNodes;
+        this.displayedRows = event.rowNodes.filter(rowNode => rowNode && !rowNode.hidden);
         this.totalRows = event.total;
         this.stateService.setRefreshed();
         this.isLoading = false;
@@ -1357,7 +1361,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
    * @private
    */
   private renderClientSideGridRows() {
-    this.displayedRows = this.clientSideRowModel.getRowNodesToDisplay();
+    this.displayedRows = this.clientSideRowModel.getRowNodesToDisplay().filter(rowNode => rowNode && !rowNode.hidden);
     this.totalRows = this.clientSideRowModel.getRowCount();
     if (!this.isLoading && this.totalRows === 0) {
       this.isEmptyData = true;

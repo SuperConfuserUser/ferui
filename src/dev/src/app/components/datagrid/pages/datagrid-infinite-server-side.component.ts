@@ -113,6 +113,20 @@ import { RowDataApiService } from '../server-side-api/datagrid-row.service';
                 </div>
 
                 <h3 class="mb-2">Datagrid error handling</h3>
+                <p>
+                  Errors can happen when trying to load a page (block). Each time we load a page, we do a request call. If that
+                  call is failing (i.e API returns 4xx or 5xx) and the Promise gets rejected, we display the error within the
+                  Datagrid at the position where the block should have been loaded. Because of that, we need to keep track of all
+                  rows in the datagrid, and we fill-in the Datagrid with the expected maximum amount of rows that this block could
+                  have returned if it was successful. But to avoid having multiple rows with the same error displayed, we only
+                  display one row and hide the others.
+                </p>
+                <p>
+                  <b>NOTE:</b> Here, we are mocking the API so that it always return an error (Promise rejection) if
+                  <b>20 <= offset < 30</b>. That represents the 3rd page if the item per page is set to 10. Because of that, no
+                  matter the sorting or filtering you do within the next Datagrid, you'll always get an error row for the 3rd
+                  page.
+                </p>
                 <div class="mb-4">
                   <fui-demo-datagrid-option-menu
                     [bandwidthSpeed]="networkBandwith"
@@ -400,7 +414,9 @@ export class DatagridInfiniteServerSideComponent implements OnInit {
           return new Promise((resolve, reject) => {
             // We're faking an error that comes from the API.
             if (params.request.offset >= 20 && params.request.offset < 30) {
-              reject('Unknown error occurs. Please contact your administrator.');
+              setTimeout(() => {
+                reject('Unknown error occurs. Please contact your administrator.');
+              }, 0);
             } else {
               server.rowDataService.getRows(params, 500, false).subscribe(
                 (results: IDatagridResultObject) => {
