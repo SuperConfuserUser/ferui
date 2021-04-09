@@ -27,7 +27,7 @@ import { RowModel } from '../row-models/row-model';
         <div class="col">
           <div class="fui-datagrid-pagination">
             <clr-icon
-              [hidden]="!withFooterPager"
+              [hidden]="!withNavigatorPager"
               class="fui-pagination-arrow"
               *ngIf="displayedPages().length > 0"
               (click)="toFirstPage()"
@@ -36,14 +36,14 @@ import { RowModel } from '../row-models/row-model';
               flip="horizontal"
             ></clr-icon>
             <clr-icon
-              [hidden]="!withFooterPager"
+              [hidden]="!withNavigatorPager"
               class="fui-pagination-arrow"
               *ngIf="displayedPages().length > 0"
               (click)="toPreviousPage()"
               [class.disabled]="isPageDisabled('previous')"
               shape="fui-caret left"
             ></clr-icon>
-            <div [hidden]="!withFooterPager" class="fui-datagrid-pagination-pages" *ngIf="displayedPages().length > 0">
+            <div [hidden]="!withNavigatorPager" class="fui-datagrid-pagination-pages" *ngIf="displayedPages().length > 0">
               <div
                 unselectable="on"
                 class="fui-datagrid-pagination-page"
@@ -55,7 +55,7 @@ import { RowModel } from '../row-models/row-model';
               </div>
             </div>
             <clr-icon
-              [hidden]="!withFooterPager"
+              [hidden]="!withNavigatorPager"
               class="fui-pagination-arrow"
               *ngIf="displayedPages().length > 0"
               (click)="toNextPage()"
@@ -63,7 +63,7 @@ import { RowModel } from '../row-models/row-model';
               shape="fui-caret right"
             ></clr-icon>
             <clr-icon
-              [hidden]="!withFooterPager"
+              [hidden]="!withNavigatorPager"
               class="fui-pagination-arrow"
               *ngIf="displayedPages().length > 0"
               (click)="toLastPage()"
@@ -72,7 +72,7 @@ import { RowModel } from '../row-models/row-model';
             ></clr-icon>
           </div>
         </div>
-        <div class="col-auto item-per-page-selector" *ngIf="withFooterItemPerPage">
+        <div class="col-auto item-per-page-selector" *ngIf="withNavigatorItemPerPage">
           <fui-select
             [layout]="layoutSmall"
             fuiSelect
@@ -115,8 +115,8 @@ export class FuiDatagridPagerComponent implements OnInit, OnDestroy {
   @Input() maximumNumberOfPages: number = 5;
   @Input() rowDataModel: FuiRowModel = FuiRowModel.CLIENT_SIDE;
 
-  @Input() withFooterItemPerPage: boolean = true;
-  @Input() withFooterPager: boolean = true;
+  @Input() withNavigatorItemPerPage: boolean = true;
+  @Input() withNavigatorPager: boolean = true;
 
   private _itemPerPage: number = this.itemPerPagesList[1];
   private _selectedPage: FuiPagerPage;

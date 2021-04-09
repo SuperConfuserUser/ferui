@@ -43,10 +43,12 @@ export interface FuiGridOptions {
 
   isRowSelectable?: IsRowSelectable;
 
-  // The height for the row containing the column label header. If not specified the default is 40px
+  // The height for the row containing the column label header. If not specified the default is 50px
   headerHeight?: number;
 
   rowHeight?: number;
+
+  footerHeight?: number;
 
   // Sets the Row Model type. Defaults to 'clientSide'. Valid options are [clientSide,infinite,serverSide].
   rowModelType?: FuiRowModel;

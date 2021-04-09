@@ -12,6 +12,7 @@ import { FuiRadioModule } from '../forms/radio/radio.module';
 import { FuiSelectModule } from '../forms/select/select.module';
 import { FuiToggleModule } from '../forms/toggle/toggle.module';
 import { ClrIconModule } from '../icon/icon.module';
+import { FuiPipesModule } from '../pipes/pipes.module';
 import { FuiUnselectableModule } from '../unselectable/unselectable.module';
 import { FuiConditionalModule } from '../utils/conditional/conditional.module';
 import { FuiVirtualScrollerModule } from '../virtual-scroller/virtual-scroller.module';
@@ -31,6 +32,9 @@ import { FuiDatagridTextFilterComponent } from './components/filters/filter/text
 import { FuiDatagridFiltersComponent } from './components/filters/filters';
 import { FuiDatagridFiltersPopoverComponent } from './components/filters/filters-popover';
 import { FuiDatagridSearchFilterButtonComponent } from './components/filters/search-filters-button';
+import { FuiDatagridFooterComponent } from './components/footer/footer';
+import { FuiFooterCellComponent } from './components/footer/footer-cell';
+import { FuiFooterRowComponent } from './components/footer/footer-row';
 import { FuiHeaderCellComponent } from './components/header/header-cell';
 import { FuiHeaderContainerComponent } from './components/header/header-container';
 import { FuiHeaderRootComponent } from './components/header/header-root';
@@ -59,6 +63,9 @@ export const FUI_DATAGRID_DIRECTIVES: Type<any>[] = [
   FuiBodyRowComponent,
   FuiBodyCellComponent,
   FuiBodyEmptyComponent,
+  FuiDatagridFooterComponent,
+  FuiFooterRowComponent,
+  FuiFooterCellComponent,
   FuiDatagridComponent
 ];
 
@@ -78,7 +85,8 @@ export const FUI_DATAGRID_DIRECTIVES: Type<any>[] = [
     FuiConditionalModule,
     FuiDropdownModule,
     FuiToggleModule,
-    FuiNumberModule
+    FuiNumberModule,
+    FuiPipesModule
   ],
   declarations: [FUI_DATAGRID_DIRECTIVES],
   exports: [FUI_DATAGRID_DIRECTIVES],

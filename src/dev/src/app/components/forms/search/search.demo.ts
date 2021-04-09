@@ -351,7 +351,7 @@ import { SearchApiPersonJson, SearchApiService } from './search-api/search-api.s
               </h4>
 
               <pre><code [languages]="['typescript']"
-                           [highlight]="searchFuiFilterGetDataInterfaceExample"></code></pre>
+                         [highlight]="searchFuiFilterGetDataInterfaceExample"></code></pre>
 
               <h4 class="mt-3 mb-3">
                 FuiFilterGetDataRequest&lt;T = any&gt;
@@ -393,7 +393,7 @@ import { SearchApiPersonJson, SearchApiService } from './search-api/search-api.s
                 <fui-datagrid
                   [rowData]="results"
                   [withHeader]="false"
-                  [withFooterItemPerPage]="false"
+                  [withNavigatorItemPerPage]="false"
                   [columnDefs]="datagridConfig"
                   (onRowDataChanged)="updateSearchHighlightFn()"
                   (onVerticalScrollChanged)="updateSearchHighlightFn()"
@@ -469,7 +469,8 @@ import { SearchApiPersonJson, SearchApiService } from './search-api/search-api.s
                 Then, use your new class in place of the <code>FuiFilterComparatorService</code> in the datasource's
                 <code>getResults</code> property.
               </p>
-              <pre><code [languages]="['typescript']" [highlight]="customFilterComparatorServiceUsageExample"></code></pre>
+              <pre><code [languages]="['typescript']"
+                         [highlight]="customFilterComparatorServiceUsageExample"></code></pre>
             </div>
           </div>
         </div>
@@ -555,7 +556,7 @@ export class SearchDemoComponent extends AbstractControlDemoComponent implements
 };`;
 
   searchResultTemplateExample = `<ng-template #resultsFormatterTplt let-results="resultsObject.results" let-updateSearchHighlightFn="updateSearchHighlight">
-  <fui-datagrid [rowData]="results" [withHeader]="false" [withFooterItemPerPage]="false" [columnDefs]="models.datagridConfig" (onRowDataChanged)="updateSearchHighlightFn()" (onVerticalScrollChanged)="updateSearchHighlightFn()"></fui-datagrid>
+  <fui-datagrid [rowData]="results" [withHeader]="false" [withNavigatorItemPerPage]="false" [columnDefs]="models.datagridConfig" (onRowDataChanged)="updateSearchHighlightFn()" (onVerticalScrollChanged)="updateSearchHighlightFn()"></fui-datagrid>
 </ng-template>
 
 <fui-search-container [searchDebounce]="300" [datasource]="models.dataSource" (searchChange)="models.logEvent($event)" [searchResultsTemplate]="resultsFormatterTplt">
@@ -606,7 +607,7 @@ export interface FuiSearchResultsObject<T = any> {
 
   searchFuiFiltersExample = `<ng-template #resultsFormatterTplt let-results="resultsObject.results"
 let-updateSearchHighlightFn="updateSearchHighlight">
-  <fui-datagrid [rowData]="results" [withHeader]="false" [withFooterItemPerPage]="false"
+  <fui-datagrid [rowData]="results" [withHeader]="false" [withNavigatorItemPerPage]="false"
   [columnDefs]="models.datagridConfig" (onRowDataChanged)="updateSearchHighlightFn()"
   (onVerticalScrollChanged)="updateSearchHighlightFn()"></fui-datagrid>
 </ng-template>
@@ -812,7 +813,7 @@ let-updateSearchHighlightFn="updateSearchHighlight">
       canDisable: false,
       source: `<ng-template #resultsFormatterTplt let-results="resultsObject.results"
 let-updateSearchHighlightFn="updateSearchHighlight">
-  <fui-datagrid [rowData]="results" [withHeader]="false" [withFooterItemPerPage]="false"
+  <fui-datagrid [rowData]="results" [withHeader]="false" [withNavigatorItemPerPage]="false"
   [columnDefs]="models.datagridConfig" (onRowDataChanged)="updateSearchHighlightFn()"
   (onVerticalScrollChanged)="updateSearchHighlightFn()"></fui-datagrid>
 </ng-template>
@@ -889,7 +890,7 @@ let-updateSearchHighlightFn="updateSearchHighlight">
       canDisable: true,
       source: `<ng-template #resultsFormatterTplt let-results="resultsObject.results"
 let-updateSearchHighlightFn="updateSearchHighlight">
-  <fui-datagrid [rowData]="results" [withHeader]="false" [withFooterItemPerPage]="false"
+  <fui-datagrid [rowData]="results" [withHeader]="false" [withNavigatorItemPerPage]="false"
   [columnDefs]="models.datagridConfig" (onRowDataChanged)="updateSearchHighlightFn()"
   (onVerticalScrollChanged)="updateSearchHighlightFn()"></fui-datagrid>
 </ng-template>
@@ -925,7 +926,7 @@ let-updateSearchHighlightFn="updateSearchHighlight">
       canDisable: true,
       source: `<ng-template #resultsFormatterTplt let-results="resultsObject.results"
 let-updateSearchHighlightFn="updateSearchHighlight">
-  <fui-datagrid [rowData]="results" [withHeader]="false" [withFooterItemPerPage]="false"
+  <fui-datagrid [rowData]="results" [withHeader]="false" [withNavigatorItemPerPage]="false"
   [columnDefs]="models.datagridConfig" (onRowDataChanged)="updateSearchHighlightFn()"
   (onVerticalScrollChanged)="updateSearchHighlightFn()"></fui-datagrid>
 </ng-template>
