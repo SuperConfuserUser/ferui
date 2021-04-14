@@ -86,7 +86,8 @@ export interface TimeInterface {
           <ng-template ng-option-tmp ng-label-tmp let-item="item"> {{ item }} s</ng-template>
         </fui-select>
 
-        <div class="fui-control-icons">
+        <div class="fui-control-icons" [class.invalid]="invalid">
+          <ng-content *ngIf="!invalid" select="[fuiHelper]"></ng-content>
           <clr-icon *ngIf="invalid" tabindex="0" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </div>
         <fui-default-control-error>

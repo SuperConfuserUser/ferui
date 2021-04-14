@@ -4,6 +4,7 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
+  HostBinding,
   HostListener,
   Injector,
   Input,
@@ -43,6 +44,15 @@ export class FuiDatetimeDirective
     if (this.datetimeFormControlService) {
       this.datetimeFormControlService.setModelType(modelType);
     }
+  }
+
+  /**
+   * Sets the input type to text when the datepicker is enabled. Reverts back to the native date input
+   * when the datepicker is disabled. Datepicker is disabled on mobiles.
+   */
+  @HostBinding('attr.type')
+  get inputType(): string {
+    return 'text';
   }
 
   constructor(

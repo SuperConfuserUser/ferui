@@ -12,6 +12,10 @@ export class TimeIOService implements DatetimeIoInterface {
     this.cldrLocaleTimeFormat = this.localeHelperService.localeTimeFormat;
   }
 
+  /**
+   * Return the date string to be displayed within the control. It will take the browser locale into account.
+   * @param date
+   */
   toLocaleDisplayFormatString(date: Date): string {
     if (date && !isNaN(date.getTime())) {
       return this.localeHelperService.toLocaleTimeString(date);
@@ -19,7 +23,13 @@ export class TimeIOService implements DatetimeIoInterface {
     return '';
   }
 
-  getDateValueFromDateOrString(date: string | Date): Date {
+  /**
+   * Get the date object from value.
+   * This function accepts a Date object or a date string as parameter and will always return either a Date object or
+   * null if the date is invalid.
+   * @param date The input date value.
+   */
+  getDateValueFromDateOrString(date: string | Date): Date | null {
     if (!date) {
       return null;
     }
@@ -55,7 +65,12 @@ export class TimeIOService implements DatetimeIoInterface {
     return null;
   }
 
-  private validateAndGetDate(hour: string, minute: string, second?: string, meridiem?: string): Date {
+  /**
+   * Validates the parameters provided and returns the date.
+   * If the parameters are not valid then return null.
+   * @private
+   */
+  private validateAndGetDate(hour: string, minute: string, second?: string, meridiem?: string): Date | null {
     let h: number = +hour;
     const m: number = +minute;
     const s: number = second ? +second : 0;
@@ -78,11 +93,8 @@ export class TimeIOService implements DatetimeIoInterface {
     }
     today.setHours(h);
     today.setMinutes(m);
-
-    if (second) {
-      today.setSeconds(s);
-      return today;
-    }
+    today.setSeconds(second ? s : 0);
+    today.setMilliseconds(0);
     return today;
   }
 }

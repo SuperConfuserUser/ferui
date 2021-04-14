@@ -19,10 +19,12 @@ import { FuiTimeDirective } from '../time/time';
 import { DatetimeFormControlService } from './providers/datetime-form-control.service';
 import { DatetimeIOService } from './providers/datetime-io.service';
 
-export interface DatetimeInterface {
-  date: Date;
-  time: Date;
+export interface FuiDatetimeModelInterface {
+  date: Date | null;
+  time: Date | null;
 }
+
+export type FuiDatetimeInputType = 'date' | 'time';
 
 @Component({
   selector: 'fui-datetime-container',
@@ -38,12 +40,7 @@ export interface DatetimeInterface {
         <ng-content select="[fuiDatetime]"></ng-content>
 
         <fui-date-container>
-          <input
-            type="date"
-            [fuiDate]="_dateModelType"
-            [(ngModel)]="model.date"
-            (fuiDateChange)="childModelChange('date', $event)"
-          />
+          <input [fuiDate]="_dateModelType" [(ngModel)]="model.date" (fuiDateChange)="childModelChange('date', $event)" />
         </fui-date-container>
         <fui-time-container
           [showHours]="showHours"
@@ -51,15 +48,11 @@ export interface DatetimeInterface {
           [showSeconds]="showSeconds"
           [twentyFourHourFormat]="twentyFourHourFormat"
         >
-          <input
-            type="time"
-            [fuiTime]="_dateModelType"
-            [(ngModel)]="model.time"
-            (fuiDateChange)="childModelChange('time', $event)"
-          />
+          <input [fuiTime]="_dateModelType" [(ngModel)]="model.time" (fuiDateChange)="childModelChange('time', $event)" />
         </fui-time-container>
 
-        <div class="fui-control-icons">
+        <div class="fui-control-icons" [class.invalid]="invalid">
+          <ng-content *ngIf="!invalid" select="[fuiHelper]"></ng-content>
           <clr-icon *ngIf="invalid" tabindex="0" class="fui-error-icon is-red" shape="fui-error" aria-hidden="true"></clr-icon>
         </div>
         <fui-default-control-error>
@@ -94,7 +87,7 @@ export class FuiDatetimeContainerComponent extends FuiFormAbstractContainer impl
   _numberOfControls: number = 4;
   _dateModelType: FuiDatetimeModelTypes = FuiDatetimeModelTypes.DATE;
   modelType: FuiDatetimeModelTypes;
-  model: DatetimeInterface = {
+  model: FuiDatetimeModelInterface = {
     date: null,
     time: null
   };
@@ -162,21 +155,31 @@ export class FuiDatetimeContainerComponent extends FuiFormAbstractContainer impl
     }
   }
 
-  childModelChange(type: string, value: Date): void {
+  /**
+   * Prepare the date value to be written to ngControl.
+   * @param type
+   * @param value
+   */
+  childModelChange(type: FuiDatetimeInputType, value: Date): void {
     if (!type || !value) {
-      return null;
+      return;
     }
-    const currentDate: Date | string = this.ngControl.control.value || '';
-    const datetime: Date = currentDate instanceof Date ? currentDate : new Date(currentDate);
-    if (type === 'date') {
-      datetime.setDate(value.getDate());
-      datetime.setMonth(value.getMonth());
-      datetime.setFullYear(value.getFullYear());
-    } else {
-      datetime.setHours(value.getHours());
-      datetime.setMinutes(value.getMinutes());
-      datetime.setSeconds(value.getSeconds());
-    }
+    const currentDate: Date | string | null = this.datetimeIOService.getDateValueFromDateOrString(this.ngControl.value);
+    // We create a default date object with the time section set to 12AM:00:00:0000 as a default value.
+    const defaultDate = new Date();
+    defaultDate.setHours(0);
+    defaultDate.setMinutes(0);
+    defaultDate.setSeconds(0);
+    defaultDate.setMilliseconds(0);
+
+    const datetime: Date = currentDate instanceof Date ? currentDate : currentDate ? new Date(currentDate) : defaultDate;
+    datetime.setDate(type === 'date' ? value.getDate() : datetime.getDate());
+    datetime.setMonth(type === 'date' ? value.getMonth() : datetime.getMonth());
+    datetime.setFullYear(type === 'date' ? value.getFullYear() : datetime.getFullYear());
+    datetime.setHours(this.showHours ? (type === 'time' ? value.getHours() : datetime.getHours()) : 0);
+    datetime.setMinutes(this.showMinutes ? (type === 'time' ? value.getMinutes() : datetime.getMinutes()) : 0);
+    datetime.setSeconds(this.showSeconds ? (type === 'time' ? value.getSeconds() : datetime.getSeconds()) : 0);
+    datetime.setMilliseconds(0); // Always set the milliseconds to 0 to keep seconds accurate values.
     this.writeControlValue(datetime);
   }
 
@@ -215,6 +218,11 @@ export class FuiDatetimeContainerComponent extends FuiFormAbstractContainer impl
     this.model.time = datetime;
   }
 
+  /**
+   * Write the value to ngControl. The value will either be a string or a Date object.
+   * @param value
+   * @private
+   */
   private writeControlValue(value: Date): void {
     if (this.ngControl) {
       this.dateFormControlService.markAsDirty();
@@ -226,6 +234,7 @@ export class FuiDatetimeContainerComponent extends FuiFormAbstractContainer impl
         this.ngControl.valueAccessor.writeValue(dateStr);
         this.ngControl.control.setValue(dateStr);
       }
+      this.cd.markForCheck();
     }
   }
 }

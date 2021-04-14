@@ -24,7 +24,20 @@ const date4: Date = new Date('2019-03-11 17:07:00');
           <code>{{ locale }}</code
           >.
         </p>
-        <br />
+        <p class="alert alert-primary mt-4">
+          NOTE: Be careful of the values displayed within the 'result' section because what you're seeing is in fact the string
+          representation of a Date object (equivalent of
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString"
+            target="_blank"
+            >dateObject.toISOString()</a
+          >). It will display the ISO string representation of this Date object. The timezone will always be UTC then. But
+          depending on your timezone, you might see different values, and this is normal. Use
+          <a href="https://dencode.com/date/iso8601" target="_blank">this tool</a>
+          to see the date under you timezone (select your timezone within the dropdown). You will see that the value will
+          correspond to what you expect.
+        </p>
+
         <h4>Input date (<code>&lt;input type=&quot;time&quot; fuiDate /&gt;</code>)</h4>
         <hr />
 
@@ -45,13 +58,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
           </p>
           <fui-date-container>
             <label fuiLabel>Start Date</label>
-            <input
-              name="one"
-              type="date"
-              placeholder="Choose a date from datepicker"
-              [fuiDate]="modelTypeDate"
-              [(ngModel)]="model.one"
-            />
+            <input name="one" placeholder="Choose a date from datepicker" [fuiDate]="modelTypeDate" [(ngModel)]="model.one" />
           </fui-date-container>
         </default-template-content>
 
@@ -88,13 +95,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
           <h5 #title>Default date input. <code>Without container</code>. Returning a <code>Date</code> object</h5>
           <fui-date-container>
             <label fuiLabel>Date</label>
-            <input
-              name="eight"
-              type="date"
-              placeholder="Choose a date from datepicker"
-              [fuiDate]="modelTypeDate"
-              [(ngModel)]="model.eight"
-            />
+            <input name="eight" placeholder="Choose a date from datepicker" [fuiDate]="modelTypeDate" [(ngModel)]="model.eight" />
           </fui-date-container>
         </default-template-content>
 
@@ -108,7 +109,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
           [resultModelNames]="'nine'"
         >
           <h5 #title>Default date input. <code>Without container</code>. Returning a <code>Date</code> object</h5>
-          <input name="nine" type="date" [fuiDate]="modelTypeDate" [(ngModel)]="model.nine" />
+          <input name="nine" [fuiDate]="modelTypeDate" [(ngModel)]="model.nine" />
         </default-template-content>
 
         <default-template-content
@@ -121,7 +122,7 @@ const date4: Date = new Date('2019-03-11 17:07:00');
           [resultModelNames]="'ten'"
         >
           <h5 #title>Default date input. <code>Without container nor wrapper</code>. This control has no ngControl bounding.</h5>
-          <input name="ten" type="date" (fuiDateChange)="dateChange($event, 'ten')" [fuiDate]="modelTypeDate" />
+          <input name="ten" (fuiDateChange)="dateChange($event, 'ten')" [fuiDate]="modelTypeDate" />
         </default-template-content>
 
         <default-template-content
@@ -138,7 +139,6 @@ const date4: Date = new Date('2019-03-11 17:07:00');
             <label fuiLabel>Date (required)</label>
             <input
               name="fourteen"
-              type="date"
               required
               placeholder="Choose a date from datepicker"
               [fuiDate]="modelTypeDate"
@@ -356,7 +356,6 @@ const date4: Date = new Date('2019-03-11 17:07:00');
             <label fuiLabel>My date input</label>
             <input
               [layout]="fuiFormLayoutEnum.SMALL"
-              type="date"
               placeholder="Small layout"
               name="sixteen"
               [fuiDate]="modelTypeDate"
@@ -405,7 +404,7 @@ export class DatetimeComponent extends AbstractControlDemoComponent implements O
   exampleCodes: Array<string> = [
     `<fui-date-container>
   <label fuiLabel>Start Date</label>
-  <input name="one" type="date" placeholder="Choose a date from datepicker" [fuiDate]="modelTypeDate"
+  <input name="one" placeholder="Choose a date from datepicker" [fuiDate]="modelTypeDate"
          [(ngModel)]="model.one"/>
 </fui-date-container>`,
     `<fui-date-container>
@@ -414,11 +413,11 @@ export class DatetimeComponent extends AbstractControlDemoComponent implements O
 </fui-date-container>`,
     `<fui-date-container>
   <label fuiLabel>Date</label>
-  <input name="eight" type="date" placeholder="Choose a date from datepicker" [fuiDate]="modelTypeDate"
+  <input name="eight" placeholder="Choose a date from datepicker" [fuiDate]="modelTypeDate"
          [(ngModel)]="model.eight"/>
 </fui-date-container>`,
-    `<input name="nine" type="date" [fuiDate]="modelTypeDate" [(ngModel)]="model.nine"/>`,
-    `<input name="ten" type="date" (fuiDateChange)="dateChange($event, 'ten')" [fuiDate]="modelTypeDate"/>`,
+    `<input name="nine" [fuiDate]="modelTypeDate" [(ngModel)]="model.nine"/>`,
+    `<input name="ten" (fuiDateChange)="dateChange($event, 'ten')" [fuiDate]="modelTypeDate"/>`,
     `<fui-time-container>
   <input type="time" step="1" name="three" fuiTime [(ngModel)]="model.three"/>
 </fui-time-container>`,
@@ -448,8 +447,14 @@ export class DatetimeComponent extends AbstractControlDemoComponent implements O
 </fui-datetime-container>`,
     `<fui-date-container>
   <label fuiLabel>Date (required)</label>
-  <input name="fourteen" type="date" required placeholder="Choose a date from datepicker" [fuiDate]="modelTypeDate"
-         [(ngModel)]="model.fourteen"/>
+  <input
+    name="fourteen"
+    required
+    placeholder="Choose a date from datepicker"
+    [fuiDate]="modelTypeDate"
+    [(ngModel)]="model.fourteen"
+  />
+  <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
 </fui-date-container>`,
     `<fui-time-container>
   <label fuiLabel>Date (required)</label>
@@ -458,8 +463,14 @@ export class DatetimeComponent extends AbstractControlDemoComponent implements O
 </fui-time-container>`,
     `<fui-date-container>
   <label fuiLabel>My date input</label>
-  <input [layout]="fuiFormLayoutEnum.SMALL" type="date" placeholder="Small layout" name="sixteen"
-         [fuiDatetime]="modelTypeDate" [(ngModel)]="model.sixteen"/>
+  <input
+    [layout]="fuiFormLayoutEnum.SMALL"
+    placeholder="Small layout"
+    name="sixteen"
+    [fuiDate]="modelTypeDate"
+    [(ngModel)]="model.sixteen"
+  />
+  <clr-icon fuiHelper shape="fui-help" [fuiTooltip]="'A detailed description of the element at hand'"></clr-icon>
 </fui-date-container>`
   ];
 

@@ -27,10 +27,18 @@ export class DateIOService implements DatetimeIoInterface {
     this.initializeLocaleDisplayFormat();
   }
 
+  get placeholderText(): string {
+    const format: [string, string, string] = this.localeDisplayFormat.format;
+    return format[0] + this.delimiters[0] + format[1] + this.delimiters[1] + format[2];
+  }
+
   /**
-   * Checks if the input provided by the user is valid.
+   * Get the date object from value.
+   * This function accepts a Date object or a date string as parameter and will always return either a Date object or
+   * null if the date is invalid.
+   * @param date The input date value.
    */
-  getDateValueFromDateOrString(date: string | Date): Date {
+  getDateValueFromDateOrString(date: string | Date): Date | null {
     if (!date) {
       return null;
     }
@@ -55,7 +63,13 @@ export class DateIOService implements DatetimeIoInterface {
     }
   }
 
-  getLocalDate(year: string, month: string, date: string) {
+  /**
+   * Get the date string taking the browser locale into account.
+   * @param year
+   * @param month
+   * @param date
+   */
+  getLocalDate(year: string, month: string, date: string): string {
     const format: string = this.cldrLocaleDateFormat.toLocaleLowerCase();
     if (LITTLE_ENDIAN_REGEX.test(format)) {
       return date + this.delimiters[0] + month + this.delimiters[1] + year;
@@ -66,6 +80,11 @@ export class DateIOService implements DatetimeIoInterface {
     }
   }
 
+  /**
+   * Convert any date string into a localized date string.
+   * @param dateString
+   * @param dateFormat
+   */
   convertDateStringToLocalString(dateString: string, dateFormat: string): string {
     const dateParts: string[] = dateString.match(USER_INPUT_REGEX);
     if (!dateParts || dateParts.length !== 3) {
@@ -84,6 +103,10 @@ export class DateIOService implements DatetimeIoInterface {
     }
   }
 
+  /**
+   * Return the date string to be displayed within the control. It will take the browser locale into account.
+   * @param date
+   */
   toLocaleDisplayFormatString(date: Date): string {
     if (date instanceof Date) {
       if (isNaN(date.getTime())) {
@@ -104,11 +127,10 @@ export class DateIOService implements DatetimeIoInterface {
     return '';
   }
 
-  get placeholderText(): string {
-    const format: [string, string, string] = this.localeDisplayFormat.format;
-    return format[0] + this.delimiters[0] + format[1] + this.delimiters[1] + format[2];
-  }
-
+  /**
+   * Determinate which date format to use depending on the browser locale.
+   * @private
+   */
   private initializeLocaleDisplayFormat(): void {
     const format: string = this.cldrLocaleDateFormat.toLocaleLowerCase();
     if (LITTLE_ENDIAN_REGEX.test(format)) {
@@ -122,6 +144,12 @@ export class DateIOService implements DatetimeIoInterface {
     this.extractDelimiters();
   }
 
+  /**
+   * Extract delimiters from date string. Depending on the format the date, month and year sections are not at the same location.
+   * fr_FR ==> dd/mm/yyyy or dd-mm-yyyy
+   * en_US ==> mm/dd/yyyy or yyyy/mm/dd
+   * @private
+   */
   private extractDelimiters(): void {
     if (this.cldrLocaleDateFormat) {
       // Sanitize Date Format. Remove RTL characters.
@@ -144,6 +172,7 @@ export class DateIOService implements DatetimeIoInterface {
   /**
    * Checks if the month entered by the user is valid or not.
    * Note: Month is 0 based.
+   * @private
    */
   private isValidMonth(month: number): boolean {
     return month > -1 && month < 12;
@@ -151,6 +180,7 @@ export class DateIOService implements DatetimeIoInterface {
 
   /**
    * Checks if the date is valid depending on the year and month provided.
+   * @private
    */
   private isValidDate(year: number, month: number, date: number): boolean {
     return date > 0 && date <= getNumberOfDaysInTheMonth(year, month);
@@ -161,8 +191,9 @@ export class DateIOService implements DatetimeIoInterface {
    * If the parameters are not
    * valid then return null.
    * NOTE: (Month here is 1 based since the user has provided that as an input)
+   * @private
    */
-  private validateAndGetDate(year: string, month: string, date: string): Date {
+  private validateAndGetDate(year: string, month: string, date: string): Date | null {
     const y: number = +year;
     const m: number = +month - 1; // month is 0 based
     const d: number = +date;
@@ -170,6 +201,6 @@ export class DateIOService implements DatetimeIoInterface {
       return null;
     }
     const result: number = parseToFourDigitYear(y);
-    return result !== -1 ? new Date(result, m, d) : null;
+    return result !== -1 ? new Date(result, m, d, 0, 0, 0, 0) : null;
   }
 }

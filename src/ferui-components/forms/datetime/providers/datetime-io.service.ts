@@ -19,6 +19,10 @@ export class DatetimeIOService implements DatetimeIoInterface {
     this.dateIOService = new DateIOService(localeHelperService);
   }
 
+  /**
+   * Return the date string to be displayed within the control. It will take the browser locale into account.
+   * @param date
+   */
   toLocaleDisplayFormatString(date: Date): string {
     if (date && !isNaN(date.getTime())) {
       return this.localeHelperService.toLocaleDatetimeString(date);
@@ -26,7 +30,13 @@ export class DatetimeIOService implements DatetimeIoInterface {
     return '';
   }
 
-  getDateValueFromDateOrString(date: string | Date): Date {
+  /**
+   * Get the date object from value.
+   * This function accepts a Date object or a date string as parameter and will always return either a Date object or
+   * null if the date is invalid.
+   * @param date The input date value.
+   */
+  getDateValueFromDateOrString(date: string | Date): Date | null {
     if (!date) {
       return null;
     }
@@ -52,6 +62,7 @@ export class DatetimeIOService implements DatetimeIoInterface {
       datetimeFirstPart.setHours(dateTimeSecondPart.getHours());
       datetimeFirstPart.setMinutes(dateTimeSecondPart.getMinutes());
       datetimeFirstPart.setSeconds(dateTimeSecondPart.getSeconds());
+      datetimeFirstPart.setMilliseconds(dateTimeSecondPart.getMilliseconds());
       return datetimeFirstPart;
     }
     return null;
