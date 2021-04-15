@@ -228,6 +228,33 @@ import { Component } from '@angular/core';
             have unique IDs. This is because the grid uses node IDs internally and requires them to be unique.
           </p>
 
+          <h2 id="datagrid-api" class="mt-4">Add a Footer</h2>
+
+          <p>
+            In some cases, you want to add a footer to your Datagrid for instance on huge Datagrid, you might want to duplicate
+            the header column names to the bottom of the grid to give that info to your user... But you can also want a footer to
+            calculate the sum of all elements in your column... The use cases are multiples.
+          </p>
+
+          <p>
+            You can add a footer <b>only</b> to a column and it will be hidden and showed along with this column. Also, if you
+            move the column to the left or right, the footer will follow.<br />
+            In order to add a footer cell to a column, you simply need two parameters:
+          </p>
+
+          <ul>
+            <li>
+              <code>footerCellRenderer</code>: You can bind either a <code>TemplateRef</code> or an HTML <code>string</code>.
+            </li>
+            <li>
+              <code>footerCellContext</code> (Optional): You can create a context object that will be used internally by the
+              ngContainer <code>ngTemplateOutletContext</code> attribute for the footer cell through the
+              <code>context</code> keyword.
+            </li>
+          </ul>
+
+          <pre><code [highlight]="footerImplementation"></code></pre>
+
           <h2 id="datagrid-api" class="mt-4">Datagrid API</h2>
 
           <p>There is the list of all <code>fui-datagrid</code> attributes and what they do.</p>
@@ -247,19 +274,19 @@ import { Component } from '@angular/core';
                 <td>Whether or not you want to display the whole datagrid header.</td>
               </tr>
               <tr>
-                <td><code>[withFooter]</code></td>
+                <td><code>[withNavigator]</code></td>
                 <td>boolean</td>
-                <td>Whether or not you want to display the whole datagrid footer.</td>
+                <td>Whether or not you want to display the whole Datagrid navigator section of the grid.</td>
               </tr>
               <tr>
-                <td><code>[withFooterItemPerPage]</code></td>
+                <td><code>[withNavigatorItemPerPage]</code></td>
                 <td>boolean</td>
-                <td>Whether or not you want to display the item per page selector in the footer.</td>
+                <td>Whether or not you want to display the item per page selector in the navigator section of the grid.</td>
               </tr>
               <tr>
-                <td><code>[withFooterPager]</code></td>
+                <td><code>[withNavigatorPager]</code></td>
                 <td>boolean</td>
-                <td>Whether or not you want to display the pager in the footer.</td>
+                <td>Whether or not you want to display the pager in the navigator section of the grid.</td>
               </tr>
               <tr>
                 <td><code>[fixedHeight]</code></td>
@@ -289,12 +316,17 @@ import { Component } from '@angular/core';
               <tr>
                 <td><code>[headerHeight]</code></td>
                 <td>number</td>
-                <td>The height of each header cells</td>
+                <td>The height of each header cells (Default to 50px)</td>
               </tr>
               <tr>
                 <td><code>[rowHeight]</code></td>
                 <td>number</td>
-                <td>The height of each row cells</td>
+                <td>The height of each row cells (Default to 50px)</td>
+              </tr>
+              <tr>
+                <td><code>[footerHeight]</code></td>
+                <td>number</td>
+                <td>The height of each footer row cells (Default to 50px)</td>
               </tr>
               <tr>
                 <td><code>[datasource]</code></td>
@@ -608,11 +640,20 @@ export interface FuiColumnDefinitions {
   // Class to use for the cell. Can be string, array of strings, or function.
   cellClass?: string | string[] | ((params: FuiDatagridCellClassParams) => string | string[]);
 
+  // Class to use for the footer cell. Can be string, array of strings, or function.
+  footerCellClass?: string | string[] | ((params: FuiDatagridCellClassParams) => string | string[]);
+
   // Boolean or Function. Set to true (or return true from function) to render a row drag area in the column.
   rowDrag?: boolean;
 
   // cellRenderer to use for this column.
   cellRenderer?: TemplateRef<any>;
+
+  // footerCellRenderer to use for this column footer cell.
+  footerCellRenderer?: TemplateRef<FuiDatagridFooterCellContext> | string;
+
+  // context object for footerCellRenderer template to use with this footer cell.
+  footerCellContext?: any;
 
   // Tooltip for the column header
   headerTooltip?: any;
@@ -660,6 +701,89 @@ export interface FuiDatagridCellClassParams {
   // The value to be rendered.
   value: any | null;
 }`;
+
+  footerImplementation: string = `export interface DemoFooterRendererContext {
+  getValue(column: Column): string;
+  getDynamicValue(): string;
+}
+
+@Component({
+  template: \`<fui-datagrid [defaultColDefs]="defaultColumnDefs"
+  [columnDefs]="columnDefs"
+  [rowData]="rowData"></fui-datagrid>
+
+<ng-template #footerRenderer let-context="context" let-column="column">
+  <b [innerHTML]="context?.getValue(column) | fuiSafeHtml"></b>
+</ng-template>
+<ng-template #footerDynamicRenderer let-context="context">
+  <b [innerHTML]="context?.getDynamicValue() | fuiSafeHtml"></b>
+</ng-template>\`
+})
+export class DatagridDemoFooter implements OnInit {
+
+  rowData: DemoDatagrid10KDataInterface[] = [];
+  columnDefs: FuiColumnDefinitions[];
+  defaultColumnDefs: FuiColumnDefinitions;
+  currentFooterDynamicValue: string = 'initial value';
+
+  @ViewChild('footerRenderer') footerRenderer: TemplateRef<FuiDatagridFooterCellContext<DemoFooterRendererContext>>;
+  @ViewChild('footerDynamicRenderer') footerDynamicRenderer: TemplateRef<FuiDatagridFooterCellContext<DemoFooterRendererContext>>;
+
+  ngOnInit(): void {
+    this.columnDefs = [
+      {
+        headerName: 'Username',
+        field: 'username',
+        minWidth: 150,
+        sortOrder: 1,
+        sort: FuiDatagridSortDirections.ASC,
+        footerCellRenderer: '<b>Pure HTML</b>' // You can pass any pure HTML elements here but not custom Angular ones.
+      },
+      {
+        headerName: 'Creation date',
+        field: 'creation_date',
+        minWidth: 150,
+        sortOrder: 0,
+        sortType: FuiFieldTypes.DATE,
+        sort: FuiDatagridSortDirections.DESC,
+        filter: FilterType.DATE,
+        filterParams: dateFilterParams,
+        footerCellRenderer: this.footerDynamicRenderer // Here we will override the default colDef footerCellRenderer but we'll
+                                                       // use the context that we've set there.
+      }
+    ];
+
+    this.defaultColumnDefs = {
+      sortable: true,
+      filter: true,
+      footerCellRenderer: this.footerRenderer, // All footer cells will use this template by default
+      footerCellContext: {
+        getValue: (column: Column) => {
+          // Just testing if we can call a private function of this class from the context object here.
+          return this.testFooterContextFunction(column); // And it works!
+        },
+        getDynamicValue: () => {
+          return this.currentFooterDynamicValue; // This variable is updated through an interval every 3sec.
+        }
+      }
+    };
+
+    // We are just updating the variable every 3sec to see it being dynamically updated.
+    let loop = 0;
+    setInterval(() => {
+      this.currentFooterDynamicValue = 'Dynamic: ' + loop++;
+    }, 3000);
+  }
+
+  /**
+   * Just a simple function to display the column name within the footer.
+   * @param column
+   * @private
+   */
+  private testFooterContextFunction(column: Column) {
+    return column.name;
+  }
+...`;
 
   datagridCode: string = `  // app.module.ts
   import { AppComponent } from './app.component';

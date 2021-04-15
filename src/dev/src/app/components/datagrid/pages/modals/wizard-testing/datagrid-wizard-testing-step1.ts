@@ -24,7 +24,7 @@ import { WizardSelectedNodes } from '../modals-interfaces';
     <p>Testing the datagrid selection feature.</p>
     <fui-datagrid
       #datagrid
-      [withFooterItemPerPage]="false"
+      [withNavigatorItemPerPage]="false"
       [initialSelectedRows]="initialSelectionList"
       [checkboxSelection]="true"
       [rowSelection]="rowSelectionEnum.MULTIPLE"

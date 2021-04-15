@@ -28,7 +28,7 @@ export interface SimpleModalRow {
       [checkboxSelection]="true"
       [rowSelection]="rowSelectionEnum.SINGLE"
       [withHeader]="true"
-      [withFooter]="true"
+      [withNavigator]="true"
       [exportParams]="exportParams"
       [maxDisplayedRows]="itemPerPageSynchronous"
       [defaultColDefs]="defaultColumnDefs"

@@ -32,6 +32,15 @@ export class FuiCssClassApplierService {
   }
 
   /**
+   * Add class(es) to datagrid footer cell.
+   * @param appliedTo
+   * @param column
+   */
+  addFooterClassesFromColDef(appliedTo: HTMLElement, column: Column): void {
+    this.addClassesToElement(column.getColumnDefinition().footerCellClass, appliedTo, column);
+  }
+
+  /**
    * Generic function that add class(es) coming from the columnDefinition to the desired html element.
    * @param colDefClass
    * @param appliedTo

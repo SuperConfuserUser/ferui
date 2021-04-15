@@ -188,7 +188,26 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
             ></div>
           </fui-datagrid-body>
 
-          <div class="fui-datagrid-footer" role="presentation"></div>
+          <fui-datagrid-footer
+            *ngIf="hasFooter()"
+            [style.width]="'calc(100% - ' + scrollSize + 'px)'"
+            [style.height]="footerHeight + 'px'"
+            [style.min-height]="footerHeight + 'px'"
+          >
+            <fui-datagrid-footer-row
+              (scroll)="onFooterViewportScroll()"
+              [clipperHeight]="footerHeight"
+              [clipperWidth]="totalWidth"
+              [scrollSize]="scrollSize"
+            >
+              <fui-datagrid-footer-cell
+                *ngFor="let fColumn of columns; index as i; trackBy: columnTrackByFn"
+                unselectable="on"
+                [columnDefinition]="fColumn"
+                [rowHeight]="footerHeight"
+              ></fui-datagrid-footer-cell>
+            </fui-datagrid-footer-row>
+          </fui-datagrid-footer>
 
           <div
             class="fui-datagrid-horizontal-scroll"
@@ -228,9 +247,9 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
       <div class="fui-datagrid-pager-wrapper"></div>
     </div>
     <fui-datagrid-pager
-      [withFooterPager]="withFooterPager"
-      [withFooterItemPerPage]="withFooterItemPerPage"
-      [hidden]="!withFooter"
+      [withNavigatorPager]="withNavigatorPager"
+      [withNavigatorItemPerPage]="withNavigatorItemPerPage"
+      [hidden]="!withNavigator"
       [rowDataModel]="rowDataModel"
       (pagerReset)="pagerReset($event)"
       (heightChange)="onFilterPagerHeightChange()"
@@ -248,9 +267,9 @@ export function VIRTUAL_SCROLLER_DATAGRID_OPTIONS_FACTORY(): VirtualScrollerDefa
     '[class.fui-datagrid]': 'true',
     '[class.fui-datagrid-has-vertical-scroll]': 'hasVerticallScroll',
     '[class.fui-datagrid-has-filter]': 'withHeader && datagridFilters !== undefined',
-    '[class.fui-datagrid-has-pager]': 'withFooter && datagridPager !== undefined',
+    '[class.fui-datagrid-has-pager]': 'withNavigator && datagridPager !== undefined',
     '[class.fui-datagrid-without-header]': '!withHeader',
-    '[class.fui-datagrid-without-footer]': '!withFooter',
+    '[class.fui-datagrid-without-navigator]': '!withNavigator',
     '[class.fui-datagrid-rounded-corners]': 'roundedCorners'
   },
   providers: [
@@ -306,9 +325,9 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() withHeader: boolean = true;
   @Input() withFilters: boolean = true;
   @Input() withColumnVisibility = true;
-  @Input() withFooter: boolean = true;
-  @Input() withFooterItemPerPage: boolean = true;
-  @Input() withFooterPager: boolean = true;
+  @Input() withNavigator: boolean = true;
+  @Input() withNavigatorItemPerPage: boolean = true;
+  @Input() withNavigatorPager: boolean = true;
   @Input() fixedHeight: boolean = false;
   @Input() roundedCorners: boolean = true;
   @Input('vsBufferAmount') virtualScrollBufferAmount: number = 10;
@@ -327,15 +346,23 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   @Input() set rowHeight(value: number) {
-    this.datagridOptionsWrapper.setGridOption('rowHeight', FeruiUtils.isNullOrUndefined(value) ? 50 : value); // In px.
+    this.datagridOptionsWrapper.setGridOption('rowHeight', value); // In px.
   }
 
   get rowHeight(): number {
     return this.datagridOptionsWrapper.getRowHeight();
   }
 
+  @Input() set footerHeight(value: number) {
+    this.datagridOptionsWrapper.setGridOption('footerHeight', value); // In px.
+  }
+
+  get footerHeight(): number {
+    return this.datagridOptionsWrapper.getFooterHeight();
+  }
+
   @Input() set headerHeight(value: number) {
-    this.datagridOptionsWrapper.setGridOption('headerHeight', FeruiUtils.isNullOrUndefined(value) ? 50 : value); // In px.
+    this.datagridOptionsWrapper.setGridOption('headerHeight', value); // In px.
   }
 
   get headerHeight() {
@@ -570,9 +597,10 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     if (value === 'auto' || value === 'refresh') {
-      // This value correspond to two rows of 50px. We will display the loading view.
-      const initialLoadHeight: number = this.isLoading && !this.stateService.hasState(DatagridStateEnum.REFRESHING) ? 100 : 0;
-      const emptyDataHeight: number = !this.isLoading && this.isEmptyData ? 100 : 0;
+      const defaultMinHeight = this.rowHeight * 2; // = 100px by default if the rows height are 50px.
+      const initialLoadHeight: number =
+        this.isLoading && !this.stateService.hasState(DatagridStateEnum.REFRESHING) ? defaultMinHeight : 0;
+      const emptyDataHeight: number = !this.isLoading && this.isEmptyData ? defaultMinHeight : 0;
       const maxDisplayedRows =
         this.maxDisplayedRows !== null ? this.maxDisplayedRows : this.datagridOptionsWrapper.getItemPerPage();
       const totalRows: number = this.totalRows ? this.totalRows : this.displayedRows.length;
@@ -586,7 +614,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
         : 0;
 
       const pagerComputedStyle: CSSStyleDeclaration =
-        this.withFooter && this.datagridPager ? getComputedStyle(this.datagridPager.elementRef.nativeElement, null) : null;
+        this.withNavigator && this.datagridPager ? getComputedStyle(this.datagridPager.elementRef.nativeElement, null) : null;
       const pagerBorderBottomSize: number = pagerComputedStyle
         ? parseInt(pagerComputedStyle.getPropertyValue('border-bottom-width'), 10)
         : 0;
@@ -615,14 +643,16 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
             : minRowCount;
 
         // When reseting the datagrid, we remove all data from the grid, and re-add them back after. So we might have 0 results
-        // at some points. We still want to display the loading though, but if initialLoadHeight === 0 and emptyDataHeight === 0
+        // at some point. We still want to display the loading though, but if initialLoadHeight === 0 and emptyDataHeight === 0
         // we need to add 100px extra in this situation. This is the meaning of this variable.
-        const conditionalHeight: number = initialLoadHeight === 0 && emptyDataHeight === 0 && fullRowsCount === 0 ? 100 : 0;
+        const conditionalHeight: number =
+          initialLoadHeight === 0 && emptyDataHeight === 0 && fullRowsCount === 0 ? defaultMinHeight : 0;
 
         gridHeight =
           conditionalHeight +
           fullRowsCount * this.rowHeight +
           this.headerHeight +
+          (this.hasFooter() ? this.footerHeight : 0) +
           emptyDataHeight +
           initialLoadHeight +
           this.getHeaderPagerHeight() +
@@ -632,6 +662,7 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
         gridHeight =
           maxDisplayedRows * this.rowHeight +
           this.headerHeight +
+          (this.hasFooter() ? this.footerHeight : 0) +
           this.getHeaderPagerHeight() +
           scrollSize +
           Math.max(datagridBorderTopSize, datagridBorderBottomSize);
@@ -993,6 +1024,15 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Whether or not we have a footer displayed.
+   */
+  hasFooter(): boolean {
+    const defaultColDefHasFooter: boolean = !!this.defaultColDefs.footerCellRenderer;
+    const colDefHasFooter: boolean = this.columnDefs.some(col => !!col.footerCellRenderer);
+    return defaultColDefHasFooter || colDefHasFooter;
+  }
+
+  /**
    * Return grid row data (not RowNodes). It will take the filter/sort into account.
    */
   getGridData<T = any>(): T[] {
@@ -1184,6 +1224,13 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   onCenterViewportScroll(): void {
     this.gridPanel.onCenterViewportScroll();
+  }
+
+  /**
+   * Callback called whenever we horizontally scroll the footer viewport.
+   */
+  onFooterViewportScroll(): void {
+    this.gridPanel.onFooterViewportScroll();
   }
 
   /**
@@ -1464,9 +1511,9 @@ export class FuiDatagridComponent implements OnInit, OnDestroy, AfterViewInit {
         ? 0
         : this.defaultFiltersHeight;
     const pagerHeight: number =
-      this.withFooter && !this.isLoading && this.datagridPager && this.datagridPager.getElementHeight()
+      this.withNavigator && !this.isLoading && this.datagridPager && this.datagridPager.getElementHeight()
         ? this.datagridPager.getElementHeight()
-        : !this.withFooter
+        : !this.withNavigator
         ? 0
         : this.defaultPagersHeight;
     return filterHeight + pagerHeight;

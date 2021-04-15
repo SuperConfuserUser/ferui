@@ -5,8 +5,10 @@ import { FuiDatagridBaseFilter } from '../components/filters/filter/base-filter'
 import { IFilterParams } from '../components/filters/interfaces/filter';
 import { FilterType } from '../components/filters/interfaces/filter.enum';
 
+import { FuiDatagridBodyCellContext } from './body-cell-context';
 import { FuiDatagridComparator } from './comparator';
 import { FuiFieldTypes } from './field-types.enum';
+import { FuiDatagridFooterCellContext } from './footer-cell-context';
 import { FuiDatagridSortDirections } from './sort-directions.enum';
 
 export interface FuiColumnDefinitions {
@@ -57,11 +59,20 @@ export interface FuiColumnDefinitions {
   // Class to use for the cell. Can be string, array of strings, or function.
   cellClass?: string | string[] | ((params: FuiDatagridCellClassParams) => string | string[]);
 
+  // Class to use for the footer cell. Can be string, array of strings, or function.
+  footerCellClass?: string | string[] | ((params: FuiDatagridCellClassParams) => string | string[]);
+
   // Boolean or Function. Set to true (or return true from function) to render a row drag area in the column.
   rowDrag?: boolean;
 
   // cellRenderer to use for this column.
-  cellRenderer?: TemplateRef<any>;
+  cellRenderer?: TemplateRef<FuiDatagridBodyCellContext>;
+
+  // footerCellRenderer to use for this column footer cell.
+  footerCellRenderer?: TemplateRef<FuiDatagridFooterCellContext> | string;
+
+  // context object for footerCellRenderer template to use with this footer cell.
+  footerCellContext?: any;
 
   // Tooltip for the column header
   headerTooltip?: any;

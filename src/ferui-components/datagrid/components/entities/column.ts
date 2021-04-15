@@ -8,9 +8,11 @@ import { FuiDatagridOptionsWrapperService } from '../../services/datagrid-option
 import { FuiDatagridSortService } from '../../services/datagrid-sort.service';
 import { FuiDatagridEventService } from '../../services/event.service';
 import { FuiColumnService } from '../../services/rendering/column.service';
+import { FuiDatagridBodyCellContext } from '../../types/body-cell-context';
 import { FuiColumnDefinitions } from '../../types/column-definitions';
 import { FuiDatagridComparator } from '../../types/comparator';
 import { FuiFieldTypes } from '../../types/field-types.enum';
+import { FuiDatagridFooterCellContext } from '../../types/footer-cell-context';
 import { FilterModel, SortModel } from '../../types/server-side-row-model';
 import { FuiDatagridSortDirections } from '../../types/sort-directions.enum';
 import { ColumnUtilsService } from '../../utils/column-utils.service';
@@ -276,8 +278,16 @@ export class Column {
     return this.getColId();
   }
 
-  getRendererTemplate(): TemplateRef<any> {
+  getRendererTemplate(): TemplateRef<FuiDatagridBodyCellContext> {
     return this.columnDefinition.cellRenderer;
+  }
+
+  getFooterTemplate(): TemplateRef<FuiDatagridFooterCellContext> | string {
+    return this.columnDefinition.footerCellRenderer;
+  }
+
+  getFooterTemplateContext(): any {
+    return this.columnDefinition.footerCellContext;
   }
 
   getMinWidth(): number {

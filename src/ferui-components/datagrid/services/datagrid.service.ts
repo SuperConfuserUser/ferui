@@ -23,6 +23,8 @@ export class FuiDatagridService {
   private _eHeaderViewport: HTMLElement;
   private _eHeaderContainer: HTMLElement;
 
+  private _eFooterViewport: HTMLElement;
+
   private _virtualScrollViewport: FuiVirtualScrollerComponent;
   private _eBodyViewport: HTMLElement;
   private _eCenterContainer: HTMLElement;
@@ -50,6 +52,14 @@ export class FuiDatagridService {
     private columnService: FuiColumnService
   ) {
     this.resetLastHorizontalScrollElementDebounce = DatagridUtils.debounce(this.resetLastHorizontalScrollElement.bind(this), 500);
+  }
+
+  get eFooterViewport(): HTMLElement {
+    return this._eFooterViewport;
+  }
+
+  set eFooterViewport(value: HTMLElement) {
+    this._eFooterViewport = value;
   }
 
   get eHeaderFilters(): HTMLElement {
@@ -279,7 +289,11 @@ export class FuiDatagridService {
         ? this.eBodyHorizontalScrollViewport
         : this.eCenterViewportVsClipper;
     DatagridUtils.setScrollLeft(partner, scrollLeft, false);
-    DatagridUtils.setScrollLeft(this._eHeaderViewport, scrollLeft, false);
+    DatagridUtils.setScrollLeft(this.eHeaderViewport, scrollLeft, false);
+    // Footer scroll (if any footer displayed)
+    if (this.eFooterViewport) {
+      DatagridUtils.setScrollLeft(this.eFooterViewport, scrollLeft, false);
+    }
   }
 
   onFakeHorizontalScroll(): void {
@@ -294,6 +308,13 @@ export class FuiDatagridService {
       return;
     }
     this.onBodyHorizontalScroll(this.eCenterViewportVsClipper);
+  }
+
+  onFooterViewportScroll(): void {
+    if (!this.isControllingScroll(this.eFooterViewport)) {
+      return;
+    }
+    this.onBodyHorizontalScroll(this.eFooterViewport);
   }
 
   onVerticalScroll(): void {

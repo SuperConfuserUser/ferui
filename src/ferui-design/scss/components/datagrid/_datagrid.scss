@@ -180,7 +180,7 @@
         }
       }
 
-      &:not(.fui-datagrid-without-footer).fui-datagrid-has-pager {
+      &:not(.fui-datagrid-without-navigator).fui-datagrid-has-pager {
         .fui-datagrid-root-wrapper {
           border-bottom-left-radius: 0 !important;
           border-bottom-right-radius: 0 !important;
@@ -446,12 +446,14 @@
 
                           .btn {
                             padding: 0 0 0 5px !important;
+
                             .fui-caret {
                               width: 9px;
                               height: 9px;
                               fill: $gray-500;
                               vertical-align: baseline !important;
                             }
+
                             &:hover {
                               .fui-caret {
                                 fill: $gray-900;
@@ -646,7 +648,72 @@
           }
 
           .fui-datagrid-footer {
-            display: none;
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-width: 0;
+            overflow: hidden;
+
+            .fui-datagrid-footer-row {
+              display: block;
+              position: relative;
+
+              width: 100%;
+
+              border-style: solid;
+              border-width: 1px 0 0;
+              border-color: $gray-300;
+
+              overflow-y: hidden;
+              overflow-x: auto;
+
+              .fui-datagrid-footer-row-clipper {
+                position: relative;
+                display: block;
+                height: 100%;
+                overflow: hidden;
+
+                .fui-datagrid-footer-cell {
+                  border: 1px solid transparent;
+                  border-right: none;
+                  border-left: none;
+
+                  padding-left: $col-padding-left;
+                  padding-right: $col-padding-right;
+                  position: absolute;
+
+                  &,
+                  .fui-datagrid-footer-cell-wrapper {
+                    display: inline-block;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    height: 100%;
+                    width: 100%;
+                    font-weight: $font-weight-bold;
+                  }
+
+                  visibility: hidden;
+                  opacity: 0;
+
+                  &.moving {
+                    &.with-animation {
+                      transition: left $animation-duration;
+                    }
+                  }
+
+                  &.fui-datagrid-column-visible {
+                    visibility: visible;
+                    opacity: 1;
+                  }
+
+                  .fui-datagrid-selection-box {
+                    margin-top: 0.8125rem !important;
+                  }
+                }
+              }
+            }
           }
         }
       }

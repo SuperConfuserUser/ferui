@@ -22,6 +22,7 @@ export class FuiDatagridOptionsWrapperService {
     // Grid defaults.
     headerHeight: 50,
     rowHeight: 50,
+    footerHeight: 50,
     minColWidth: FuiDatagridOptionsWrapperService.MIN_COLUMN_WIDTH,
     // Infinite scrolling defaults.
     infiniteMaxSurroundingBlocksInCache: this.infiniteMaxSurroundingBlocksInCache,
@@ -182,17 +183,24 @@ export class FuiDatagridOptionsWrapperService {
   }
 
   /**
-   * Get the row height.
+   * Get the row height. (in px)
    */
   getRowHeight(): number {
-    return this.gridOptions.rowHeight || 50;
+    return this.gridOptions.rowHeight || this.defaultGridOption.rowHeight;
   }
 
   /**
-   * Get the header row height.
+   * Get the footer height. (in px)
+   */
+  getFooterHeight(): number {
+    return this.gridOptions.footerHeight || this.defaultGridOption.footerHeight;
+  }
+
+  /**
+   * Get the header row height. (in px)
    */
   getHeaderHeight(): number {
-    return this.gridOptions.headerHeight || 50;
+    return this.gridOptions.headerHeight || this.defaultGridOption.headerHeight;
   }
 
   /**

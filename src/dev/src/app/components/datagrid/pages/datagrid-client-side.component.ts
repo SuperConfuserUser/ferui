@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import {
+  Column,
   CsvExportParams,
   FilterType,
   FuiColumnDefinitions,
@@ -18,6 +19,7 @@ import {
   IDateFilterParams
 } from '@ferui/components';
 
+import { FuiDatagridFooterCellContext } from '../../../../../../ferui-components/datagrid/types/footer-cell-context';
 import { DemoDatagrid10KDataInterface, DemoDatagridSynchronousDataInterface } from '../datagrid-data-interfaces';
 import { DatagridService } from '../datagrid.service';
 
@@ -25,6 +27,11 @@ import { DatagridModalTestingComponent, SimpleModalRow } from './modals/datagrid
 import { WizardSelectedNodes } from './modals/modals-interfaces';
 import { DatagridModalWizardStep1Component } from './modals/wizard-testing/datagrid-wizard-testing-step1';
 import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datagrid-wizard-testing-step2';
+
+export interface DemoFooterRendererContext {
+  getValue(column: Column): string;
+  getDynamicValue(): string;
+}
 
 @Component({
   template: `
@@ -129,9 +136,9 @@ import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datag
                     [fixedHeight]="withFixedHeight"
                     [exportParams]="exportParams"
                     [withHeader]="withHeader"
-                    [withFooter]="withFooter"
-                    [withFooterItemPerPage]="withFooterItemPerPage"
-                    [withFooterPager]="withFooterPager"
+                    [withNavigator]="withFooter"
+                    [withNavigatorItemPerPage]="withFooterItemPerPage"
+                    [withNavigatorPager]="withFooterPager"
                     [maxDisplayedRows]="itemPerPage"
                     [defaultColDefs]="defaultColumnDefs"
                     [columnDefs]="columnDefs"
@@ -190,6 +197,13 @@ import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datag
                   </fui-datagrid>
                 </div>
 
+                <p>
+                  <b>NOTE:</b> On the Datagrid above, the footer cells templates are custom. We either use a simple HTML string
+                  (for the 'Pure HTML' footer cell) or a dynamic cell using an
+                  <code>&lt;ng-template&gt;&lt;/ng-template&gt;</code> to render the other ones.<br />
+                  Also, we have disabled the footer cell for the Gender column. It will be blank.
+                </p>
+
                 <div id="testgrid" class="mb-4" style="width: 100%;">
                   <div class="mb-2">
                     <h3>Synchronous row data</h3>
@@ -209,15 +223,20 @@ import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datag
                     [suppressRowClickSelection]="suppressRowClickSelection2"
                     [rowSelection]="rowSelectionEnum.SINGLE"
                     [withHeader]="withHeader2"
-                    [withFooter]="withFooter2"
+                    [withNavigator]="withFooter2"
                     [exportParams]="exportParams2"
                     [maxDisplayedRows]="itemPerPageSynchronous"
-                    [defaultColDefs]="defaultColumnDefs"
+                    [defaultColDefs]="defaultColumnDefsSynchronous"
                     [columnDefs]="columnDefsSynchronous"
                     [rowData]="synchronousRowData"
                   >
                   </fui-datagrid>
                 </div>
+
+                <p>
+                  <b>NOTE:</b> On the Datagrid above, the footer cells templates are using the default design which is the same as
+                  the header cells without the background color.
+                </p>
 
                 <h4 class="mt-4 mb-4">Datagrid within a modal</h4>
 
@@ -226,12 +245,12 @@ import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datag
 
                 <div id="testgrid" class="mb-4 mt-4" style="width: 100%;">
                   <div class="mb-2">
-                    <h3>Setup custom classes to header/body cells</h3>
+                    <h3>Setup custom classes to header/body/footer cells</h3>
                   </div>
                   <p class="mb-2">
-                    In some cases, you might want to add custom classes to your header or body cells. You can use the
-                    <code>headerClass</code> and <code>cellClass</code> properties of your column definition object to add the
-                    classes that you want.<br />
+                    In some cases, you might want to add custom classes to your header, body or footer cells. You can use the
+                    <code>headerClass</code>, <code>cellClass</code> and <code>footerCellClass</code> properties of your column
+                    definition object to add the classes that you want.<br />
                     The value can either be <code>string</code>, <code>string[]</code> or
                     <code>(params: FuiDatagridCellClassParams) => string | string[]</code>.
                   </p>
@@ -241,7 +260,7 @@ import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datag
                   </p>
                   <fui-datagrid
                     [withHeader]="withHeader2"
-                    [withFooter]="withFooter2"
+                    [withNavigator]="withFooter2"
                     [exportParams]="exportParams2"
                     [maxDisplayedRows]="itemPerPageSynchronous"
                     [defaultColDefs]="defaultColDefsSynchronousClasses"
@@ -309,6 +328,16 @@ import { DatagridModalWizardStep2Component } from './modals/wizard-testing/datag
 
         <ng-template #userAgentRenderer let-value="value">
           <span [title]="value" [innerHTML]="datagridService.getIconFor(value) | fuiSafeHtml"> </span>
+        </ng-template>
+
+        <ng-template #footerRenderer let-context="context" let-column="column">
+          <b [innerHTML]="context?.getValue(column) | fuiSafeHtml"></b>
+        </ng-template>
+        <ng-template #footerDynamicRenderer let-context="context" let-column="column">
+          {{ context?.getDynamicValue() }}
+        </ng-template>
+        <ng-template #footerRendererSynchronous let-context="context" let-column="column">
+          <span [innerHTML]="context?.getValue(column) | fuiSafeHtml"></span>
         </ng-template>
       </fui-tab>
       <fui-tab [label]="'Documentation'">
@@ -389,6 +418,7 @@ export class DatagridClientSideComponent implements OnInit {
   columnDefsSynchronous: FuiColumnDefinitions[];
   columnDefsSynchronousClasses: FuiColumnDefinitions[];
   defaultColumnDefs: FuiColumnDefinitions;
+  defaultColumnDefsSynchronous: FuiColumnDefinitions;
   defaultColDefsSynchronousClasses: FuiColumnDefinitions;
 
   itemPerPage: number = 10;
@@ -420,7 +450,7 @@ export class DatagridClientSideComponent implements OnInit {
 
   datagridCustomClassesHTML = `<fui-datagrid
   [withHeader]="withHeader2"
-  [withFooter]="withFooter2"
+  [withNavigator]="withFooter2"
   [exportParams]="exportParams2"
   [maxDisplayedRows]="itemPerPageSynchronous"
   [defaultColDefs]="defaultColDefsSynchronousClasses"
@@ -431,6 +461,7 @@ this.defaultColDefsSynchronousClasses = {
   sortable: true,
   filter: true,
   headerClass: 'test-default-header-class', // Yellowish color Darken
+  footerCellClass: 'test-default-header-class', // Yellowish color Darken
   cellClass: 'test-default-cell-class' // Yellowish color
 };
 
@@ -438,18 +469,23 @@ this.columnDefsSynchronousClasses = [
   {
     headerName: 'GUID',
     headerClass: 'test-string-header', // Raffia color (sand color) Darken
+    footerCellClass: 'test-string-header', // Raffia color (sand color) Darken
     cellClass: 'test-string-cell', // Raffia color (sand color)
     field: 'id'
   },
   {
     headerName: 'Name',
     headerClass: ['test-array-header-1', 'test-array-header-2'], // Blueish color Darken
+    footerCellClass: ['test-array-header-1', 'test-array-header-2'], // Blueish color Darken
     cellClass: ['test-array-cell-1', 'test-array-cell-2'], // Blueish color
     field: 'name'
   },
   {
     headerName: 'Email',
     headerClass: params => {
+      return 'test-function-header'; // Brownish color Darken
+    },
+    footerCellClass: params => {
       return 'test-function-header'; // Brownish color Darken
     },
     cellClass: params => {
@@ -470,6 +506,13 @@ this.columnDefsSynchronousClasses = [
   @ViewChild('browserFilter') browserFilter: TemplateRef<any>;
   @ViewChild('countryRenderer') countryRenderer: TemplateRef<FuiDatagridBodyCellContext>;
   @ViewChild('datagrid') datagrid: FuiDatagridComponent;
+  @ViewChild('footerRenderer') footerRenderer: TemplateRef<FuiDatagridFooterCellContext<DemoFooterRendererContext>>;
+  @ViewChild('footerDynamicRenderer') footerDynamicRenderer: TemplateRef<FuiDatagridFooterCellContext<DemoFooterRendererContext>>;
+  @ViewChild('footerRendererSynchronous') footerRendererSynchronous: TemplateRef<
+    FuiDatagridFooterCellContext<DemoFooterRendererContext>
+  >;
+
+  currentFooterDynamicValue: string = 'initial value';
 
   // For this demo, we're using an observable to update the value to be sure to avoid natural change detection (aka CD).
   // With natural CD, if we mutate the array, it won't be detected (for instance when we update the 'selected' state of a
@@ -503,7 +546,14 @@ this.columnDefsSynchronousClasses = [
         cellRenderer: this.avatarRenderer,
         sortable: false
       },
-      { headerName: 'Username', field: 'username', minWidth: 150, sortOrder: 1, sort: FuiDatagridSortDirections.ASC },
+      {
+        headerName: 'Username',
+        field: 'username',
+        minWidth: 150,
+        sortOrder: 1,
+        sort: FuiDatagridSortDirections.ASC,
+        footerCellRenderer: '<b>Pure HTML</b>'
+      },
       {
         headerName: 'Creation date',
         field: 'creation_date',
@@ -512,9 +562,10 @@ this.columnDefsSynchronousClasses = [
         sortType: FuiFieldTypes.DATE,
         sort: FuiDatagridSortDirections.DESC,
         filter: FilterType.DATE,
-        filterParams: dateFilterParams
+        filterParams: dateFilterParams,
+        footerCellRenderer: this.footerDynamicRenderer
       },
-      { headerName: 'Gender', field: 'gender' },
+      { headerName: 'Gender', field: 'gender', footerCellRenderer: '' },
       { headerName: 'First name', field: 'first_name' },
       { headerName: 'Last name', field: 'last_name' },
       { headerName: 'Age', field: 'age', filter: FilterType.NUMBER },
@@ -549,24 +600,56 @@ this.columnDefsSynchronousClasses = [
       { headerName: 'Address', field: 'address' }
     ];
 
+    this.defaultColumnDefsSynchronous = {
+      sortable: true,
+      filter: true,
+      footerCellRenderer: this.footerRendererSynchronous,
+      footerCellContext: {
+        getValue: (column: Column) => {
+          // Just testing if we can call a private function of this class from the context object here.
+          return this.testFooterContextFunction(column);
+        },
+        getDynamicValue: () => {
+          return this.currentFooterDynamicValue;
+        }
+      }
+    };
+
     this.defaultColDefsSynchronousClasses = {
       sortable: true,
       filter: true,
       headerClass: 'test-default-header-class',
-      cellClass: 'test-default-cell-class'
+      footerCellClass: 'test-default-header-class',
+      cellClass: 'test-default-cell-class',
+      footerCellRenderer: this.footerRenderer,
+      footerCellContext: {
+        getValue: (column: Column) => {
+          return column && column.field === 'name' ? 'Total' : column.name;
+        }
+      }
     };
 
     this.columnDefsSynchronousClasses = [
-      { headerName: 'GUID', headerClass: 'test-string-header', cellClass: 'test-string-cell', field: 'id' },
+      {
+        headerName: 'GUID',
+        headerClass: 'test-string-header',
+        footerCellClass: 'test-string-header',
+        cellClass: 'test-string-cell',
+        field: 'id'
+      },
       {
         headerName: 'Name',
         headerClass: ['test-array-header-1', 'test-array-header-2'],
+        footerCellClass: ['test-array-header-1', 'test-array-header-2'],
         cellClass: ['test-array-cell-1', 'test-array-cell-2'],
         field: 'name'
       },
       {
         headerName: 'Email',
         headerClass: params => {
+          return 'test-function-header';
+        },
+        footerCellClass: params => {
           return 'test-function-header';
         },
         cellClass: params => {
@@ -635,7 +718,17 @@ this.columnDefsSynchronousClasses = [
 
     this.defaultColumnDefs = {
       sortable: true,
-      filter: true
+      filter: true,
+      footerCellRenderer: this.footerRenderer,
+      footerCellContext: {
+        getValue: (column: Column) => {
+          // Just testing if we can call a private function of this class from the context object here.
+          return this.testFooterContextFunction(column);
+        },
+        getDynamicValue: () => {
+          return this.currentFooterDynamicValue;
+        }
+      }
     };
 
     this.withHeader2 = false;
@@ -648,6 +741,12 @@ this.columnDefsSynchronousClasses = [
         // this.rowData = [];
       }, 2000);
     });
+
+    // We are just updating the variable every 3sec to see it being dynamically updated.
+    let loop = 0;
+    setInterval(() => {
+      this.currentFooterDynamicValue = 'Dynamic: ' + loop++;
+    }, 3000);
   }
 
   sizeColumnsToFit() {
@@ -734,6 +833,15 @@ this.columnDefsSynchronousClasses = [
       .then(args => {
         console.log('[modalService.openModal] selectionModalTest ::: submitted ::: ', args);
       });
+  }
+
+  /**
+   * Just a simple function to display the column name within the footer.
+   * @param column
+   * @private
+   */
+  private testFooterContextFunction(column: Column) {
+    return column.name;
   }
 
   /**
