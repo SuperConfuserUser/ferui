@@ -502,7 +502,9 @@ export class FuiTreeViewComponent<T> implements OnInit, OnDestroy, AfterViewInit
   private async handleScroll(lastIdxInView: number): Promise<void> {
     const numberNeeded = this.bufferAmount - (this.scrollViewArray.length - lastIdxInView);
     if (numberNeeded > 0 && !this.scrollPromise) {
-      const parentNode: TreeNode<T> | null = this.scrollViewArray[lastIdxInView].parent;
+      const parentNode: TreeNode<T> | null = this.scrollViewArray[lastIdxInView]
+        ? this.scrollViewArray[lastIdxInView].parent
+        : null;
       if ((parentNode === null && !this.nonRootArrayComplete) || this.getFirstNodeWithMoreChildrenToLoad(parentNode) != null) {
         this.scrollPromise = true;
         await this.loadMoreNodes(parentNode, numberNeeded, true);
