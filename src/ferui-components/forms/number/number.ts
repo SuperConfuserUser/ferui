@@ -106,11 +106,52 @@ export class FuiNumberDirective extends WrappedFormControl<FuiNumberContainerCom
 
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent) {
+    // Allow arrow up and arrow down for incrementing or decrementing the input value.
     if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
       if (this.numberIOService) {
         this.numberIOService.onKeyPressed.next(e.code);
         e.preventDefault();
+        return;
       }
+    }
+    // If the user type anything else but ArrowUp or ArrowDown, we need to be sure it is an actual number.
+    const authorizedCodes = [
+      'Delete',
+      'Backspace',
+      'Tab',
+      'Escape',
+      'Enter',
+      'Period',
+      'Comma',
+      'Home',
+      'End',
+      'ArrowLeft',
+      'ArrowRight',
+      'Minus',
+      'NumpadDecimal',
+      'NumpadSubtract',
+      'NumpadComma'
+    ];
+    if (
+      authorizedCodes.indexOf(e.code) !== -1 ||
+      // Allow: Ctrl+A OR Cmd+A
+      ((e.code === 'KeyA' || e.code === 'KeyQ') && (e.metaKey || e.ctrlKey)) ||
+      // Allow: Ctrl+C OR Cmd+C
+      (e.code === 'KeyC' && (e.metaKey || e.ctrlKey)) ||
+      // Allow: Ctrl+V OR Cmd+V
+      (e.code === 'KeyV' && (e.metaKey || e.ctrlKey)) ||
+      // Allow: Ctrl+X OR Cmd+X
+      (e.code === 'KeyX' && (e.metaKey || e.ctrlKey))
+    ) {
+      // let it happen, don't do anything
+      return;
+    }
+    const regEx = /^\d*[.,]?\d*$/; // Allow digits, ',' and '.' only, using a RegExp
+    if (regEx.test(e.key)) {
+      return;
+    } else {
+      // If not a digit or authorized key, we prevent the event from triggering.
+      e.preventDefault();
     }
   }
 }
