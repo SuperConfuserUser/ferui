@@ -45,7 +45,7 @@ const SCROLL_SCHEDULER = typeof requestAnimationFrame !== 'undefined' ? animatio
     </div>
     <div #scroll class="ng-dropdown-panel-items scroll-host">
       <div #padding [class.total-padding]="virtualScroll"></div>
-      <div #content [class.scrollable-content]="virtualScroll && items.length">
+      <div #content class="ng-dropdown-panel-padded" [class.scrollable-content]="virtualScroll && items.length">
         <ng-content></ng-content>
       </div>
     </div>

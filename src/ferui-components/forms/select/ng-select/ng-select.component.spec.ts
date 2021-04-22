@@ -1140,7 +1140,7 @@ export default function (): void {
         fixture.detectChanges();
 
         const buffer = 4;
-        const itemHeight = 18;
+        const itemHeight = 20.5;
         const options = fixture.debugElement.nativeElement.querySelectorAll('.ng-option');
         const marked = fixture.debugElement.nativeElement.querySelector('.ng-option-marked');
 
@@ -1192,7 +1192,7 @@ export default function (): void {
         tickAndDetectChanges(fixture);
 
         const panelItems = el.querySelector('.ng-dropdown-panel-items');
-        expect(panelItems.scrollTop).toBe(48);
+        expect(panelItems.scrollTop).toBe(58);
       }));
 
       it('should close on option select by default', fakeAsync(() => {

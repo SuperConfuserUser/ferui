@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { ClrIconModule } from '../../../icon/icon.module';
+
 import { NgDropdownPanelComponent } from './ng-dropdown-panel.component';
 import { NgOptionHighlightDirective } from './ng-option-highlight.directive';
 import { NgOptionComponent } from './ng-option.component';
@@ -38,7 +40,7 @@ import { DefaultSelectionModelFactory } from './selection-model';
     NgTagTemplateDirective,
     NgLoadingSpinnerTemplateDirective
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, ClrIconModule],
   exports: [
     NgSelectComponent,
     NgOptionComponent,

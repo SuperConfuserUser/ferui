@@ -109,12 +109,21 @@
       [attr.id]="item?.htmlId"
     >
       <ng-template #defaultOptionTemplate>
-        <span class="ng-option-label">{{ item.label }}</span>
+        <div class="ng-option-content-wrapper">
+          <span class="ng-option-label">{{ item.label }}</span>
+          <clr-icon *ngIf="multiple && item.selected" class="ng-option-checkmark" shape="fui-tick"></clr-icon>
+        </div>
       </ng-template>
 
       <ng-template
         [ngTemplateOutlet]="item.children ? optgroupTemplate || defaultOptionTemplate : optionTemplate || defaultOptionTemplate"
-        [ngTemplateOutletContext]="{ item: item.value, item$: item, index: item.index, searchTerm: filterValue }"
+        [ngTemplateOutletContext]="{
+          item: item.value,
+          item$: item,
+          index: item.index,
+          searchTerm: filterValue,
+          multiple: multiple
+        }"
       >
       </ng-template>
     </div>
