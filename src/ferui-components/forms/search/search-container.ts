@@ -137,6 +137,8 @@ export class FuiSearchContainerComponent<T = any> extends FuiFormAbstractContain
   @Input() searchResultsTemplate: TemplateRef<FuiSearchResultsContext<T>>; // The template to use to render the results.
   @Input() searchDebounce: number = null; // in ms. Search debounce.
   @Input() highlightDebounce: number = 150; // in ms. Debounce for highlighting the search words.
+  @Input() highlightSkipTags: string | null = null; // List of tags we want hilitor to avoid highlighting.
+  @Input() highlightSkipClasses: string | null = null; // List of classes we want hilitor to avoid highlighting.
   // By default searchResultsWrapperId is generated automatically, but if you're doing extra formatting to display your results
   // (like displaying them within a Datagrid) you might want hilitor to take only the content of a specific container to look
   // for words to highlight.
@@ -239,6 +241,18 @@ export class FuiSearchContainerComponent<T = any> extends FuiFormAbstractContain
           // By default, if there is no HTML element found for 'searchResultsWrapperId', hilitor will use the body.
           // That's the reason why we check if the element exist first.
           this.hilitor.setTargetNode(this.searchResultsWrapperId);
+          // If we want to remove some tags or classes to be highlight from hilitor.
+          // By default we natively support our Datagrid, so we'll always skip the header and the navigator from being highlighted.
+          let highlightSkipTags = 'fui-datagrid-header|fui-datagrid-pager';
+          let highlightSkipClasses = 'fui-datagrid-header|fui-datagrid-pager';
+          if (this.highlightSkipTags) {
+            highlightSkipTags = highlightSkipTags + '|' + this.highlightSkipTags;
+          }
+          if (this.highlightSkipClasses) {
+            highlightSkipClasses = highlightSkipClasses + '|' + this.highlightSkipClasses;
+          }
+          this.hilitor.setCustomTagsToSkip(highlightSkipTags);
+          this.hilitor.setCustomClassesToSkip(highlightSkipClasses);
           this.toggleSearchHighlight(this.ngControl.value);
         } else {
           this.hilitor.remove();
@@ -345,7 +359,7 @@ export class FuiSearchContainerComponent<T = any> extends FuiFormAbstractContain
    * @private
    */
   private toggleSearchHighlight(searchTerms: string): void {
-    if (searchTerms === '') {
+    if (!searchTerms) {
       this.hilitor.remove();
     } else {
       this.hilitor.apply(searchTerms);

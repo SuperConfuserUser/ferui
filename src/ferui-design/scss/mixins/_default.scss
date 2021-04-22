@@ -1,4 +1,4 @@
-@import '../_variables.scss';
+@import '../_variables';
 
 @mixin off-screen-styles() {
   position: fixed !important;
@@ -21,8 +21,8 @@
   top: $controls-padding;
   left: calc(#{$controls-padding} + 1px); // With the borders we need to add 1px.
   margin-bottom: 0;
-  height: 20px;
-  line-height: 20px;
+  height: 1.25rem; // 20px
+  line-height: 1.25rem; // 20px
   font-size: $font-size-base;
   color: $gray-500;
   font-weight: $font-weight-bold;
