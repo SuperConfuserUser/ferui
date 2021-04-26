@@ -111,7 +111,7 @@ export class FuiToastNotificationComponent implements OnDestroy {
   closeNotification(event: Event): void {
     if (this.slideOutDelayTimer) {
       // If notification action is a link we allow the link to be clicked on
-      if (FeruiUtils.getClosestDomElement(event.target as Element, 'toast-notification-action ')) {
+      if (FeruiUtils.getClosestDomElement(event.target as Element, 'toast-notification-action')) {
         event.preventDefault();
         event.stopPropagation();
       }
