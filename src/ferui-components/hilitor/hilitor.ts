@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 // Original JavaScript code by Chirp Internet: www.chirp.com.au
-// Please acknowledge use of this code by including this header.
 // Forked and adapted from https://www.the-art-of-web.com/javascript/search-highlight/
 @Injectable()
 export class HilitorService {
@@ -14,26 +13,50 @@ export class HilitorService {
   private matchRegExp: RegExp = null;
   private openLeft: boolean = false;
   private openRight: boolean = false;
+  private skipCustomTags: RegExp | null = null;
+  private skipCustomClasses: RegExp | null = null;
+
   // characters to strip from start and end of the input string
   private endRegExp = new RegExp('^[^\\w]+|[^\\w]+$', 'g');
   // characters used to break up the input string into words
   private breakRegExp = new RegExp("[^\\w'-]+", 'g');
 
-  setTargetNode(id: string) {
-    this.targetNode = document.getElementById(id) || document.body;
+  /**
+   * Set the targeted element where we want to apply our highlighting.
+   * It can either be an ID or an HTMLElement. By default, we'll use the 'body' element.
+   * @param target
+   */
+  setTargetNode(target: string | HTMLElement): void {
+    this.targetNode = target instanceof HTMLElement ? target : document.getElementById(target) || document.body;
   }
 
-  setEndRegExp(regex) {
+  /**
+   * Set characters to strip from start and end of the input string.
+   * @param regex
+   */
+  setEndRegExp(regex): RegExp {
     this.endRegExp = regex;
     return this.endRegExp;
   }
 
-  setBreakRegExp(regex) {
+  /**
+   * Set characters used to break up the input string into words.
+   * @param regex
+   */
+  setBreakRegExp(regex): RegExp {
     this.breakRegExp = regex;
     return this.breakRegExp;
   }
 
-  setMatchType(type) {
+  /**
+   * Set the match type for the final regex.
+   * If match type is set to 'left' the regex expression will be changed to /\b(input|text)/i
+   * If match type is set to 'right' the regex expression will be changed to /(input|text)\b/i
+   * If match type is set to 'open' the regex expression will be changed to /(input|text)/i
+   * By default the regex expression will be set to/\b(input|text)\b/i
+   * @param type
+   */
+  setMatchType(type): void {
     switch (type) {
       case 'left':
         this.openLeft = false;
@@ -51,15 +74,50 @@ export class HilitorService {
     }
   }
 
-  getRegex() {
+  /**
+   * Set the custom tags to skip.
+   * If multiple tags, then use one space ' ' or a pipe '|' as separator.
+   * i.e setCustomTagsToSkip('a i SVG') or setCustomTagsToSkip('a|i|SVG')
+   * @param tags The tags isn't case sensitive. It will be uppercase automatically.
+   */
+  setCustomTagsToSkip(tags: string | null): void {
+    // If the input is either '' or false or null or undefined we reset the variable and return.
+    if (!tags) {
+      this.skipCustomTags = null;
+      return;
+    }
+    this.skipCustomTags = new RegExp('^(?:' + tags.trim().replace(/\s\s*/g, '|').toUpperCase() + ')$');
+  }
+
+  /**
+   * Set the custom classes to skip.
+   * If multiple classes, then use one space ' ' or a pipe '|' as separator.
+   * i.e setCustomClassesToSkip('class1 class2') or setCustomClassesToSkip('class1|class2')
+   * @param classes Space separated list of classes.
+   */
+  setCustomClassesToSkip(classes: string | null): void {
+    // If the input is either '' or false or null or undefined we reset the variable and return.
+    if (!classes) {
+      this.skipCustomClasses = null;
+      return;
+    }
+    this.skipCustomClasses = new RegExp('(?:' + classes.trim().replace(/\s\s*/g, '|') + ')');
+  }
+
+  /**
+   * Get the searched regex.
+   */
+  getRegex(): string {
     let retval = this.matchRegExp.toString();
     retval = retval.replace(/(^\/(\\b)?|\(|\)|(\\b)?\/i$)/g, '');
     retval = retval.replace(/\|/g, ' ');
     return retval;
   }
 
-  // remove highlighting
-  remove() {
+  /**
+   * Remove highlighting
+   */
+  remove(): void {
     if (!this.targetNode) {
       return;
     }
@@ -72,8 +130,11 @@ export class HilitorService {
     }
   }
 
-  // start highlighting at target node
-  apply(input: string) {
+  /**
+   * Start and apply highlighting at targeted node
+   * @param input
+   */
+  apply(input: string): RegExp {
     this.remove();
     input = input ? input.replace(/(^\s+|\s+$)/g, '') : null;
     if (!input) {
@@ -85,7 +146,12 @@ export class HilitorService {
     return this.matchRegExp;
   }
 
-  private setRegex(input) {
+  /**
+   * Setup the regex depending on input.
+   * @param input
+   * @private
+   */
+  private setRegex(input): RegExp | boolean {
     input = input.replace(this.endRegExp, '');
     input = input.replace(this.breakRegExp, '|');
     input = input.replace(/^\||\|$/g, '');
@@ -103,25 +169,31 @@ export class HilitorService {
     return false;
   }
 
-  // recursively apply word highlighting
-  private hiliteWords(node) {
-    if (!node) {
+  /**
+   * Recursively apply word highlighting
+   * @param node
+   * @private
+   */
+  private hiliteWords(node): void {
+    if (
+      !node ||
+      !this.matchRegExp ||
+      this.skipTags.test(node.nodeName) ||
+      (this.skipCustomTags && this.skipCustomTags.test(node.nodeName)) ||
+      (this.skipCustomClasses && this.skipCustomClasses.test(node.className))
+    ) {
       return;
     }
-    if (!this.matchRegExp) {
-      return;
-    }
-    if (this.skipTags.test(node.nodeName)) {
-      return;
-    }
+
+    // If there is children inside, we recursively look for words to highlight within.
     if (node.hasChildNodes()) {
       node.childNodes.forEach(childNode => {
         this.hiliteWords(childNode);
       });
     }
 
+    // We only care about text nodes (NODE_TEXT) which correspond to nodeType 3.
     if (node.nodeType === 3) {
-      // NODE_TEXT
       const nv: string = node.nodeValue;
       const regs: RegExpExecArray | null = this.matchRegExp.exec(nv);
       if (nv && regs) {

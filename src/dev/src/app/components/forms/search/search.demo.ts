@@ -223,6 +223,12 @@ import { SearchApiPersonJson, SearchApiService } from './search-api/search-api.s
                 look for words to highlight.
               </p>
 
+              <p>
+                Lastly, you can set exclusions to avoid highlighting some specific <b>tags</b> and/or <b>classes</b> by using
+                respectively <code>[highlightSkipTags]</code> and <code>[highlightSkipClasses]</code> inputs. In both cases, you
+                can set a list of space separated or pipe separated tags or classes strings.
+              </p>
+
               <h2 class="mt-4 mb-4">Public API <a [routerLink] [fragment]="'api'" class="anchor-link" id="api">#</a></h2>
               <p>Selectors and input bindings directly available to the user on <code>FuiSearchContainerComponent</code>.</p>
               <table class="fui-table mb-4">
@@ -262,6 +268,26 @@ import { SearchApiPersonJson, SearchApiService } from './search-api/search-api.s
                         >Only if <code>[datasource]</code> is set to a valid <b>FuiSearchDatasource</b> object, otherwise this is
                         ignored.</b
                       >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>[highlightSkipTags]</code></td>
+                    <td>string | null</td>
+                    <td>
+                      <b>[Optional]</b> List of tags we want hilitor to avoid highlighting after search.<br />
+                      <b>Example</b>:<br />
+                      <code>&lt;fui-search-container [highlightSkipTags]=&quot;&#39;a|b|SVG&#39;&quot;&gt;</code><br />
+                      <code>&lt;fui-search-container [highlightSkipTags]=&quot;&#39;a b SVG&#39;&quot;&gt;</code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>[highlightSkipClasses]</code></td>
+                    <td>string | null</td>
+                    <td>
+                      <b>[Optional]</b> List of classes we want hilitor to avoid highlighting after search.<br />
+                      <b>Example</b>:<br />
+                      <code>&lt;fui-search-container [highlightSkipClasses]=&quot;&#39;class1 class2&#39;&quot;&gt;</code><br />
+                      <code>&lt;fui-search-container [highlightSkipClasses]=&quot;&#39;class1|class2&#39;&quot;&gt;</code>
                     </td>
                   </tr>
                   <tr>
