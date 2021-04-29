@@ -233,14 +233,13 @@
     position: absolute;
     opacity: 0;
     width: 100%;
+    min-width: 0;
     z-index: $zindex-dropdown;
     -webkit-overflow-scrolling: touch;
 
     .ng-dropdown-panel-items {
       display: block;
       height: auto;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
       box-sizing: border-box;
       max-height: 240px;
       overflow-y: auto;
@@ -249,26 +248,34 @@
         @include wrap-text();
       }
 
-      .ng-option {
-        box-sizing: border-box;
-        cursor: pointer;
-        display: block;
-        @include wrap-text();
+      .ng-dropdown-panel-padded {
+        padding: 0.625rem; // 10px
 
-        .highlighted {
-          font-weight: bold;
-          text-decoration: underline;
-        }
+        .ng-option {
+          position: relative;
+          box-sizing: border-box;
+          cursor: pointer;
+          display: block;
+          @include wrap-text();
 
-        &.disabled {
-          cursor: default;
+          .highlighted {
+            font-weight: bold;
+            text-decoration: underline;
+          }
+
+          &.disabled {
+            cursor: default;
+          }
         }
       }
     }
 
     .scroll-host {
-      overflow: hidden;
-      overflow-y: auto;
+      overflow-x: hidden;
+      // To make FF happy we need to use 'scroll' instead of 'auto'... There is no problems with other browsers.
+      // When using 'auto', FF won't take the scrollbar width into account for calculation. Which breaks the design.
+      // See https://css-tricks.com/eliminate-jumps-in-horizontal-centering-by-forcing-a-scroll-bar/ for more info.
+      overflow-y: scroll;
       position: relative;
       display: block;
       -webkit-overflow-scrolling: touch;

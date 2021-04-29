@@ -157,6 +157,7 @@ export class SelectsComponent extends AbstractControlDemoComponent implements On
     bindValue="nested.countryId"
     [multiple]="true"
     [closeOnSelect]="false"
+    appendTo="body"
     [(ngModel)]="models.selectedMultipleCountry">
   </fui-select>
 </fui-select-container>`
