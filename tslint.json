@@ -4,7 +4,7 @@
     "./node_modules/codelyzer",
     "./node_modules/tslint-defocus/dist",
     "./tests/tslint/dist",
-    "tslint-plugin-prettier"
+    "./node_modules/tslint-plugin-prettier"
   ],
   "rules": {
     // Activate prettier rules
